@@ -1,3 +1,3 @@
-# covןd19-sim
+# covid19-sim
 
-A simulator for covןd-19 spread
+A simulator for covid-19 spread
