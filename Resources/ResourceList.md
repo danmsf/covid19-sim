@@ -15,6 +15,7 @@
 * Aggregate by country - https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide
 * Government Response - https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
 ### China
+* Case data (updated - 13/3/20) - https://docs.google.com/spreadsheets/d/e/2PACX-1vQU0SIALScXx8VXDX7yKNKWWPKE1YjFlWc6VTEVSN45CklWWf-uWmprQIyLtoPDA18tX9cFDr-aQ9S6/pubhtml
 * Case data (not updated)- https://docs.google.com/spreadsheets/d/1Gb5cyg0fjUtsqh3hl_L-C5A23zIOXmWH5veBklfSHzg/edit#gid=447265963
 ### USA
 * Penn Uni Model - https://penn-chime.phl.io/
