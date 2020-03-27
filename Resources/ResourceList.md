@@ -18,6 +18,8 @@
 * Interactive Map - https://coronavirus.jhu.edu/map.html
    * Aggregate by area (underlying data for map) - https://github.com/CSSEGISandData/COVID-19
 * Government Response - https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
+* WHO - Situation Reports - Aggregate PDF format - https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports/
+
 ### China
 * Case data (not updated)- https://docs.google.com/spreadsheets/d/1Gb5cyg0fjUtsqh3hl_L-C5A23zIOXmWH5veBklfSHzg/edit#gid=447265963
 ### USA
