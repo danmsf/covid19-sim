@@ -13,6 +13,8 @@
 ### World
 * Aggregate by country - wt demographics - https://www.worldometers.info/coronavirus/
 * Aggregate by country - https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide
+* Kaggle datset (main is Johns Hopkins - see next) - https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset
+   * Includes links to country specific datasets in bottom
 * Interactive Map - https://coronavirus.jhu.edu/map.html
    * Aggregate by area (underlying data for map) - https://github.com/CSSEGISandData/COVID-19
 * Government Response - https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
