@@ -20,7 +20,8 @@
    * Aggregate by area (underlying data for map) - https://github.com/CSSEGISandData/COVID-19
 * Government Response - https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
 * WHO - Situation Reports - Aggregate PDF format - https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports/
-
+* Aggregate data by country (self-collection) - https://github.com/COVID-19-Israel/Covid-19-data
+* Strain Spread and map, aggregate (downliad link in bottom of page) - https://nextstrain.org/ncov
 ### China
 * Case data (not updated)- https://docs.google.com/spreadsheets/d/1Gb5cyg0fjUtsqh3hl_L-C5A23zIOXmWH5veBklfSHzg/edit#gid=447265963
 ### USA
