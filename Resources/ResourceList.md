@@ -25,5 +25,6 @@
 ### China
 * Case data (not updated)- https://docs.google.com/spreadsheets/d/1Gb5cyg0fjUtsqh3hl_L-C5A23zIOXmWH5veBklfSHzg/edit#gid=447265963
 ### USA
+* NY-Times -aggregate - https://github.com/nytimes/covid-19-data
 * Penn Uni Model - https://penn-chime.phl.io/
     * Model Explanation -  https://code-for-philly.gitbook.io/chime/what-is-chime/parameters
