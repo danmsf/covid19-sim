@@ -26,11 +26,15 @@ class Constants:
         doubling_time: int,
         known_infected: int,
         relative_contact_rate: int,
+
         region: Regions,
 
         hospitalized: RateLos,
         icu: RateLos,
         ventilated: RateLos,
+
+        tau: int = 8,
+        cases: int = 100,
 
         as_date: bool = False,
         market_share: float = 1.0,
@@ -43,6 +47,8 @@ class Constants:
         self.known_infected = known_infected
         self.doubling_time = doubling_time
         self.relative_contact_rate = relative_contact_rate
+        self.tau = tau
+        self.cases = cases
 
         self.hospitalized = hospitalized
         self.icu = icu

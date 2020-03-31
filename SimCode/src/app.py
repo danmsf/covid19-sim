@@ -1,4 +1,4 @@
-"""App."""
+# """App.C:\Users\User\git\covid19-sim>streamlit run Simcode\src\app.py"""
 
 import altair as alt  # type: ignore
 import streamlit as st  # type: ignore
@@ -17,7 +17,7 @@ from penn_chime.presentation import (
     write_footer,
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel
+from penn_chime.models import SimSirModel, OLG
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
@@ -33,6 +33,8 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 p = display_sidebar(st, DEFAULTS)
 m = SimSirModel(p)
+olg = OLG(p)
+
 
 display_header(st, m, p)
 

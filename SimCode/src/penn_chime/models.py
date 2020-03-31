@@ -174,3 +174,34 @@ def build_census_df(
 
 
 
+class OLG:
+    def __init__(self, p: Parameters):
+
+        self.RMA = self.fit_predict(daily_hospitalized=p.daily_hospitalized, tau=p.tau, cases=p.cases)
+
+    def movingaverage(self, r_values, tau):
+        weights = np.repeat(1.0, tau) / tau
+        sma = np.convolve(r_values, weights, 'valid')
+        RMA = np.append(np.zeros((tau - 1,), dtype='float'), sma)
+        return RMA
+
+    def fit_predict(self, daily_hospitalized, tau, cases):
+        periods_count = len(daily_hospitalized)
+        r_values = np.zeros((periods_count,), dtype='float')
+        b = np.zeros((periods_count,), dtype='int')
+        b[0] = daily_hospitalized[0]
+
+        for t in range(periods_count - 1):  # Increasing values only
+            b[t + 1] = daily_hospitalized[t + 1] if daily_hospitalized[t + 1] > daily_hospitalized[t] else daily_hospitalized[t]
+
+        first_case = np.argmax(b > cases)  # First case
+
+        for t in range(first_case + 1, first_case + tau + 1):
+            r_values[t] = (b[t] / b[t - 1] - 1) * tau
+
+        for t in range(first_case + tau + 1, periods_count):
+            r_values[t] = (b[t] / (b[t - 1] - b[t - tau] + b[t - tau - 1]) - 1) * tau
+
+        return self.movingaverage(r_values, tau)
+
+

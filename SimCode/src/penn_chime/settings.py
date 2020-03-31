@@ -23,7 +23,11 @@ DEFAULTS = Constants(
     n_days=60,
     market_share=0.15,
     relative_contact_rate=0.3,
+
     hospitalized=RateLos(0.025, 7),
     icu=RateLos(0.0075, 9),
     ventilated=RateLos(0.005, 10),
+
+    tau=8,
+    cases=100,
 )
