@@ -101,7 +101,7 @@ if st.checkbox("Show Additional Projections"):
 # write_definitions(st)
 # write_footer(st)
 
-
+# SEIAR - Model
 mseiar = Seiar(p)
 mseiar.run_simulation()
 mseiar_results = mseiar.results.copy()
