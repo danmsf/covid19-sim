@@ -6,7 +6,6 @@ Changes affecting results or their presentation should also update
 
 from .utils import RateLos
 
-
 class Parameters:
     """Parameters."""
 

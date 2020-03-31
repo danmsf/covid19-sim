@@ -12,15 +12,15 @@ import theano
 # os.environ["THEANO_FLAGS"] = "device=cuda"
 
 times = np.arange(0, 5, 0.05)
-# times = np.arange(0, 160, 1)
+times = np.arange(0, 160, 1)
 # times = np.linspace(0, 160, 160)
 # 1/gamma = time infectious ~ 14 ; or gamma = 1/D = 1/14
 # beta*Nt = number of people in contact with infected person at time t; S/N of them are susceptible to contagion
 # R0 = beta/gamma
 
-beta, gamma = 4, 1.0
-beta, gamma = 0.25, 1.0/14
-beta, gamma = 1./0.25, 1.14
+# beta, gamma = 4, 1.0
+# beta, gamma = 0.25, 1.0/14
+beta, gamma = 0.25, 1./14
 # Create true curves
 # y0 = [S/N, I]
 y = odeint(SIR, t=times, y0=[999.0/1000, 1.0/1000, 0.0], args=((beta, gamma),), rtol=1e-8)
@@ -42,7 +42,7 @@ plt.show()
 
 sir_model = DifferentialEquation(
     func=SIR,
-    times=np.arange(0.05, 5, 0.05),
+    times=np.arange(1, 160, 1),
     n_states=3,
     n_theta=2,
     t0=0,
@@ -61,18 +61,28 @@ with pm.Model() as model4:
     Y = pm.Lognormal('Y', mu=pm.math.log(sir_curves), sd=sigma, observed=yobs)
 
     prior = pm.sample_prior_predictive()
-    # step = pm.Metropolis()
+    step = pm.Metropolis()
     # trace = pm.sample(2000, tune=1000, target_accept=0.9, cores=1, step=step)
-    trace = pm.sample(500, tune=500, target_accept=0.9, cores=1, start={'lamda': 1.2, 'beta': 1./0.25})
+    # trace = pm.sample(500, tune=500, target_accept=0.9, cores=1, start={'lamda': 1.2, 'beta': 1./0.25})
+    trace = pm.sample(500, tune=50, cores=1, start={'lamda': 0.016, 'beta': 0.25}, step=step)
     posterior_predictive = pm.sample_posterior_predictive(trace)
 
     data = az.from_pymc3(trace=trace, prior=prior, posterior_predictive=posterior_predictive)
 
+# plots
 pm.traceplot(trace);
 pm.energyplot(trace);
 az.plot_posterior(data, round_to=2, credible_interval=0.95);
 pm.summary(trace, var_names=['R0']).round(0)
 pm.forestplot(trace, var_names=['R0'])
+
+
+# fig, ax = plt.subplots(figsize=(15, 8))
+# returns.plot(ax=ax)
+# ax.plot(returns.index, 1/np.exp(trace['s',::5].T), 'C3', alpha=.03);
+# ax.set(title='volatility_process', xlabel='time', ylabel='volatility');
+# ax.legend(['S&P500', 'stochastic volatility process']);
+
 
 y_n = data.observed_data['Y']
 plt.plot(times[1::], y_n[:, 0], color='C0', alpha=0.5, label=f'$S(t)$')
