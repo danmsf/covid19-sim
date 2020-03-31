@@ -32,26 +32,30 @@ def display_header(st, m, p):
         if m.detection_probability
         else "unknown"
     )
+    # Logo and Title:
     st.markdown(
         """
 <link rel="stylesheet" href="https://www1.pennmedicine.org/styles/shared/penn-medicine-header.css">
 
 <div class="penn-medicine-header__content">
-    <a href="https://www.pennmedicine.org" class="penn-medicine-header__logo"
-        title="Go to the Penn Medicine home page">Penn Medicine</a>
-    <a id="title" class="penn-medicine-header__title">Penn Medicine - COVID-19 Hospital Impact Model for Epidemics</a>
+    <a href="https://www.g-stat.com" class="penn-medicine-header__logo"
+        title="Go to GSTAT">Penn Medicine</a>
+    <a id="title" class="penn-medicine-header__title">GSTAT - COVID-19</a>
+    <p id="title" class="penn-medicine-header__title" style="text-align:center">Based on Penn Medicine - COVID-19 Hospital Impact Model for Epidemics</p>
 </div>
     """,
         unsafe_allow_html=True,
     )
-    st.markdown(
-        """**IMPORTANT NOTICE**: Admissions and Census calculations were previously **undercounting**. Please update your reports generated before """ + p.change_date() + """. See more about changes [here](https://github.com/CodeForPhilly/chime/labels/models)."""
-    )
-    st.markdown(
-        """*This tool was developed by the [Predictive Healthcare team](http://predictivehealthcare.pennmedicine.org/) at
-    Penn Medicine. For questions on how to use this tool see the [User docs](https://code-for-philly.gitbook.io/chime/). Code can be found on [Github](https://github.com/CodeForPhilly/chime).
-    Join our [Slack channel](https://codeforphilly.org/chat?channel=covid19-chime-penn) if you would like to get involved!*"""
-    )
+    # Notice:
+    # st.markdown(
+    #     """**IMPORTANT NOTICE**: Admissions and Census calculations were previously **undercounting**. Please update your reports generated before """ + p.change_date() + """. See more about changes [here](https://github.com/CodeForPhilly/chime/labels/models)."""
+    # )
+    # Penn links:
+    # st.markdown(
+    #     """*This tool was developed by the [Predictive Healthcare team](http://predictivehealthcare.pennmedicine.org/) at
+    # Penn Medicine. For questions on how to use this tool see the [User docs](https://code-for-philly.gitbook.io/chime/). Code can be found on [Github](https://github.com/CodeForPhilly/chime).
+    # Join our [Slack channel](https://codeforphilly.org/chat?channel=covid19-chime-penn) if you would like to get involved!*"""
+    # )
 
     st.markdown(
         """The estimated number of currently infected individuals is **{total_infections:.0f}**. The **{initial_infections}**
@@ -440,3 +444,4 @@ def build_download_link(st, filename: str, df: pd.DataFrame, parameters: Paramet
     st.markdown("""
         <a download="{filename}" href="data:file/csv;base64,{csv}">Download full table as CSV</a>
 """.format(csv=csv,filename=filename), unsafe_allow_html=True)
+

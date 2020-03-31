@@ -98,5 +98,5 @@ if st.checkbox("Show Additional Projections"):
     )
     if st.checkbox("Show Raw SIR Simulation Data"):
         draw_raw_sir_simulation_table(st, model=m, parameters=p)
-write_definitions(st)
-write_footer(st)
+# write_definitions(st)
+# write_footer(st)
