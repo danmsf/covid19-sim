@@ -173,28 +173,29 @@ def build_census_df(
     })
 
 class Seiar:
-    def __init__(self, N, S_0, E_0, I_0, A_0, R_0, alpha, beta_ill, beta_asy, gamma_ill, gamma_asy, rho,
-                 theta, start_date_simulation, number_of_days):
-        self.N = N
-        self.S_0 = S_0
-        self.E_0 = E_0
-        self.I_0 = I_0
-        self.A_0 = A_0
-        self.R_0 = R_0
-        self.alpha = alpha
-        self.beta_ill = beta_ill
-        self.beta_asy = beta_asy
-        self.gamma_ill = gamma_ill
-        self.gamma_asy = gamma_asy
-        self.rho = rho
-        self.theta = theta
-        self.start_date_simulation = start_date_simulation
-        self.number_of_days = number_of_days
+    def __init__(self, p: Parameters):
+
+        self.N = p.N
+        self.S_0 = p.S_0
+        self.E_0 = p.E_0
+        self.I_0 = p.I_0
+        self.A_0 = p.A_0
+        self.R_0 = p.R_0
+        self.alpha = p.alpha
+        self.beta_ill = p.beta_ill
+        self.beta_asy = p.beta_asy
+        self.gamma_ill = p.gamma_ill
+        self.gamma_asy = p.gamma_asy
+        self.rho = p.rho
+        self.theta = p.theta
+        self.start_date_simulation = p.start_date_simulation
+        self.number_of_days = p.number_of_days
+        self.run_simulation()
         self.results=[]
 
 
     def model(self,t):
-        S, E, I, A, R = [self.S_0], [self.E_0], [self.I_0], [self.A_0], [self.R_0]
+        S, E, I, A, R = [self.S_0/self.N], [self.E_0/self.N], [self.I_0/self.N], [self.A_0/self.N], [self.R_0/self.N]
 
         dt = t[1] - t[0]
         for _ in t[1:]:
@@ -234,17 +235,14 @@ class Seiar:
         exposed_df = df_I_E[['Exposed']] * self.N
 
         results = [
-                    infected_df[:self.number_of_days],
-                    asymptomatic_df[:self.number_of_days],
-                    recovered_df[:self.number_of_days],
-                    susceptible_df[:self.number_of_days],
-                    exposed_df[:self.number_of_days]
+                    infected_df.loc[:self.number_of_days],
+                    asymptomatic_df.loc[:self.number_of_days],
+                    recovered_df.loc[:self.number_of_days],
+                    susceptible_df.loc[:self.number_of_days],
+                    exposed_df.loc[:self.number_of_days]
                    ]
 
         self.results = pd.concat(results, axis = 1)
         return 0
-
-    def plot(self):
-        self.results.plot()
 
 
