@@ -27,6 +27,22 @@ class Parameters:
         max_y_axis: int = None,
         n_days: int = 60,
         recovery_days: int = 14,
+
+        N_0: int = 7000000,
+        S_0: float = 0,
+        E_0: float = 0,
+        I_0: float = 0,
+        A_0: float = 0,
+        R_0: float = 0,
+        seiar_alpha: float = 0.0,
+        seiar_beta_ill: float = 0.0,
+        seiar_beta_asy: float = 0.0,
+        seiar_gamma_ill: float = 0.0,
+        seiar_gamma_asy: float = 0.0,
+        seiar_rho: float = 0.0,
+        seiar_theta: float = 0.0,
+        seiar_start_date_simulation,
+        seiar_number_of_days: int,
     ):
         self.current_hospitalized = current_hospitalized
         self.doubling_time = doubling_time
@@ -43,6 +59,23 @@ class Parameters:
         self.max_y_axis = max_y_axis
         self.n_days = n_days
         self.recovery_days = recovery_days
+
+        # Seiar
+        self.N = N_0
+        self.S_0 = S_0
+        self.E_0 = E_0
+        self.I_0 = I_0
+        self.A_0 = A_0
+        self.R_0 = R_0
+        self.alpha = seiar_alpha
+        self.beta_ill = seiar_beta_ill
+        self.beta_asy = seiar_beta_asy
+        self.gamma_ill = seiar_gamma_ill
+        self.gamma_asy = seiar_gamma_asy
+        self.rho = seiar_rho
+        self.theta = seiar_theta
+        self.start_date_simulation = seiar_start_date_simulation
+        self.number_of_days = seiar_number_of_days
 
         self.labels = {
             "hospitalized": "Hospitalized",
