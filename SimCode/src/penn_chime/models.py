@@ -172,5 +172,79 @@ def build_census_df(
         }
     })
 
+class Seiar:
+    def __init__(self, N, S_0, E_0, I_0, A_0, R_0, alpha, beta_ill, beta_asy, gamma_ill, gamma_asy, rho,
+                 theta, start_date_simulation, number_of_days):
+        self.N = N
+        self.S_0 = S_0
+        self.E_0 = E_0
+        self.I_0 = I_0
+        self.A_0 = A_0
+        self.R_0 = R_0
+        self.alpha = alpha
+        self.beta_ill = beta_ill
+        self.beta_asy = beta_asy
+        self.gamma_ill = gamma_ill
+        self.gamma_asy = gamma_asy
+        self.rho = rho
+        self.theta = theta
+        self.start_date_simulation = start_date_simulation
+        self.number_of_days = number_of_days
+        self.results=[]
+
+
+    def model(self,t):
+        S, E, I, A, R = [self.S_0], [self.E_0], [self.I_0], [self.A_0], [self.R_0]
+
+        dt = t[1] - t[0]
+        for _ in t[1:]:
+            next_S = S[-1] - (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1]) * dt
+            next_E = E[-1] + (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1] - self.alpha * E[-1]) * dt
+            next_I = I[-1] + (self.theta * self.alpha * E[-1] - self.gamma_ill * I[-1]) * dt
+            next_A = A[-1] + ((1 - self.theta) * self.alpha * E[-1] - self.gamma_asy * A[-1]) * dt
+            next_R = R[-1] + (self.gamma_ill * I[-1] + self.gamma_asy * A[-1]) * dt
+
+            S.append(next_S)
+            E.append(next_E)
+            I.append(next_I)
+            A.append(next_A)
+            R.append(next_R)
+
+        return np.stack([S, E, I, A, R]).T
+
+
+    def run_simulation(self):
+        t_max = 600
+        dt = .01
+        t = np.linspace(0, t_max, int(t_max / dt) + 1)
+
+        results = self.model(t)
+
+        df = pd.DataFrame(results)
+        df = df.rename(columns={df.columns[0]: 'S', df.columns[1]: 'E', df.columns[2]: 'I', df.columns[3]: 'A', df.columns[4]: 'R'})
+        dates = pd.date_range(start=self.start_date_simulation, end='05/01/2030')
+        df_I_E = df[::100].reset_index(drop=True)
+        df_I_E.index = dates[:len(df_I_E)]
+
+        df_I_E = df_I_E.rename(columns={'S': 'Susceptible', 'E': 'Exposed', 'I': 'Infected', 'A': 'Asymptomatic', 'R': 'Recovered'})
+        infected_df = df_I_E[['Infected']] * self.N
+        asymptomatic_df = df_I_E[['Asymptomatic']] * self.N
+        recovered_df = df_I_E[['Recovered']] * self.N
+        susceptible_df = df_I_E[['Susceptible']] * self.N
+        exposed_df = df_I_E[['Exposed']] * self.N
+
+        results = [
+                    infected_df[:self.number_of_days],
+                    asymptomatic_df[:self.number_of_days],
+                    recovered_df[:self.number_of_days],
+                    susceptible_df[:self.number_of_days],
+                    exposed_df[:self.number_of_days]
+                   ]
+
+        self.results = pd.concat(results, axis = 1)
+        return 0
+
+    def plot(self):
+        self.results.plot()
 
 
