@@ -9,7 +9,7 @@ import arviz as az
 from models import SIR
 import os
 import theano
-os.environ["THEANO_FLAGS"] = "device=cuda"
+# os.environ["THEANO_FLAGS"] = "device=cuda"
 
 times = np.arange(0, 5, 0.05)
 # times = np.arange(0, 160, 1)
@@ -38,6 +38,7 @@ plt.show()
 
 
 
+#------------------------------------------------------------ MCMC --------------------------------------------------
 
 sir_model = DifferentialEquation(
     func=SIR,
@@ -83,7 +84,7 @@ plt.show()
 
 
 y_n = data.post ['Y']
-plt.plot(times[1::], y_n[:, 0], color='C0', alpha=0.5, label=f'$S(t)$')
+plt.plot(times[1::], y_n[:, 0], color='C0', alpha=0.5, label=f'$S(t)$')y
 plt.plot(times[1::], y_n[:, 1], color='C1', alpha=0.5, label=f'$I(t)$')
 plt.plot(times[1::], y_n[:, 2], color='C2', alpha=0.5, label=f'$R(t)$')
 plt.legend()
