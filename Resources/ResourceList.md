@@ -25,6 +25,7 @@
 * Tableau dashboard with social distance score - https://www.tableau.com/covid-19-coronavirus-data-resources?fbclid=IwAR35EOl7RvIa923r7Pljhim-C9FZyiZzvnphL-UaYNMWv1KmxVXt7m6TC6M
 * Aggregate, Corona Data Scraper - https://coronadatascraper.com/#home
 ### China
+* Case data (updated - 13/3/20) - https://docs.google.com/spreadsheets/d/e/2PACX-1vQU0SIALScXx8VXDX7yKNKWWPKE1YjFlWc6VTEVSN45CklWWf-uWmprQIyLtoPDA18tX9cFDr-aQ9S6/pubhtml
 * Case data (not updated)- https://docs.google.com/spreadsheets/d/1Gb5cyg0fjUtsqh3hl_L-C5A23zIOXmWH5veBklfSHzg/edit#gid=447265963
 ### USA
 * NY-Times -aggregate - https://github.com/nytimes/covid-19-data
