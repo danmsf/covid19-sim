@@ -7,3 +7,6 @@
 /.idea/misc.xml
 /.idea/.name
 /.idea/
+/streamlit
+
+/app.py/.idea/app.py.iml

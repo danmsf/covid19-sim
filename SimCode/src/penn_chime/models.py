@@ -173,11 +173,31 @@ def build_census_df(
     })
 
 
-
 class OLG:
     def __init__(self, p: Parameters):
+        self.periods_count = len(p.daily_hospitalized)
+        self.r_values = np.zeros(self.periods_count, dtype='float')
 
-        self.RMA = self.fit_predict(daily_hospitalized=p.daily_hospitalized, tau=p.tau, cases=p.cases)
+        self.procces(daily_hospitalized=p.daily_hospitalized, tau=p.tau, cases=p.cases)
+        self.RMA = self.movingaverage(r_values=self.r_values, tau=p.tau)
+        self.df = self.create_df()
+
+    def procces(self, daily_hospitalized, tau, cases):
+
+        b = np.zeros((self.periods_count,), dtype='int')
+        b[0] = daily_hospitalized[0]
+
+        for t in range(self.periods_count - 1):  # Increasing values only
+            b[t + 1] = daily_hospitalized[t + 1] if daily_hospitalized[t + 1] > daily_hospitalized[t] else \
+            daily_hospitalized[t]
+
+        first_case = np.argmax(b > cases)  # First case
+
+        for t in range(first_case + 1, first_case + tau + 1):
+            self.r_values[t] = (b[t] / b[t - 1] - 1) * tau
+
+        for t in range(first_case + tau + 1, self.periods_count):
+            self.r_values[t] = (b[t] / (b[t - 1] - b[t - tau] + b[t - tau - 1]) - 1) * tau
 
     def movingaverage(self, r_values, tau):
         weights = np.repeat(1.0, tau) / tau
@@ -185,23 +205,7 @@ class OLG:
         RMA = np.append(np.zeros((tau - 1,), dtype='float'), sma)
         return RMA
 
-    def fit_predict(self, daily_hospitalized, tau, cases):
-        periods_count = len(daily_hospitalized)
-        r_values = np.zeros((periods_count,), dtype='float')
-        b = np.zeros((periods_count,), dtype='int')
-        b[0] = daily_hospitalized[0]
-
-        for t in range(periods_count - 1):  # Increasing values only
-            b[t + 1] = daily_hospitalized[t + 1] if daily_hospitalized[t + 1] > daily_hospitalized[t] else daily_hospitalized[t]
-
-        first_case = np.argmax(b > cases)  # First case
-
-        for t in range(first_case + 1, first_case + tau + 1):
-            r_values[t] = (b[t] / b[t - 1] - 1) * tau
-
-        for t in range(first_case + tau + 1, periods_count):
-            r_values[t] = (b[t] / (b[t - 1] - b[t - tau] + b[t - tau - 1]) - 1) * tau
-
-        return self.movingaverage(r_values, tau)
-
-
+    def create_df(self):
+        return pd.DataFrame({'RMA': self.RMA},
+                            index=pd.date_range(end=pd.to_datetime('today'),
+                                                periods=self.periods_count)).reset_index()
