@@ -109,7 +109,7 @@ st.markdown("Projected number of **daily** COVID-19 admissions")
 # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
 st.altair_chart(
     admission_rma_chart(alt, olm.df),
-    #use_container_width=True,
+    use_container_width=True,
 )
 
 

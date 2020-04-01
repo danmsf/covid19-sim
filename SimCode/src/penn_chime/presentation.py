@@ -226,7 +226,7 @@ def display_sidebar(st, d: Constants) -> Parameters:
     )
 
     cases = st.sidebar.number_input(
-        "tau rate",
+        "Minimum cases for calculation",
         min_value=0,
         value=d.cases,
         step=5,
