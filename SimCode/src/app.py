@@ -32,16 +32,18 @@ from penn_chime.charts import (
 # In dev, this should be shown
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-penmodel = st.checkbox("Show Penn Dashboard", False)
+models_option = st.multiselect(
+    'Which models to show?',
+    ('Penn Dashboard', 'OLG Model', 'SEIAR Model'), )
 
-p = display_sidebar(st, DEFAULTS, penmodel)
+p = display_sidebar(st, DEFAULTS, models_option)
 m = SimSirModel(p)
 olg = OLG(p)
 
 
 
 
-if penmodel:
+if "Penn Dashboard" in models_option:
     display_header(st, m, p)
     if st.checkbox("Show more info about this tool"):
         notes = "The total size of the susceptible population will be the entire catchment area for Penn Medicine entities (HUP, PAH, PMC, CCH)"
@@ -107,44 +109,41 @@ if penmodel:
         if st.checkbox("Show Raw SIR Simulation Data"):
             draw_raw_sir_simulation_table(st, model=m, parameters=p)
 
+if "OLG Model" in models_option:
+    st.subheader("OLG Prediction")
+    st.markdown("Projected number of **daily** COVID-19 admissions")
 
-st.subheader("OLG Prediction")
-st.markdown("Projected number of **daily** COVID-19 admissions")
-
-# new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
-st.altair_chart(
-    admission_rma_chart(alt, olg.df),
-    use_container_width=True,
-)
+    # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
+    st.altair_chart(
+        admission_rma_chart(alt, olg.df),
+        use_container_width=True,
+    )
 
 
 # write_definitions(st)
 # write_footer(st)
 
 # SEIAR - Model
-st.subheader("SEIAR Model")
+if "SEIAR Model" in models_option:
+    st.subheader("SEIAR Model")
 
-mseiar = Seiar(p)
-mseiar.run_simulation()
-mseiar_results = mseiar.results.copy()
+    mseiar = Seiar(p)
+    mseiar.run_simulation()
+    mseiar_results = mseiar.results.copy()
 
-if st.checkbox(label="Plot as percentages", value=False):
-    mseiar_results = mseiar_results/mseiar.N
+    if st.sidebar.checkbox(label="Plot as percentages", value=False):
+        mseiar_results = mseiar_results/mseiar.N
 
-if st.checkbox(label="Present result as dates instead of days ", value=False):
-    mseiar_results = mseiar_results
-else:
-    mseiar_results = mseiar_results.reset_index(drop=True)
+    if st.sidebar.checkbox(label="Present result as dates instead of days ", value=False):
+        mseiar_results = mseiar_results
+    else:
+        mseiar_results = mseiar_results.reset_index(drop=True)
 
-if st.checkbox(label="Present result as table", value=False):
-    mseiar_results
-else:
-    st.line_chart(mseiar_results)
+    if st.checkbox(label="Present result as table", value=False):
+        mseiar_results
+    else:
+        st.line_chart(mseiar_results)
 
 
-option = st.sidebar.multiselect(
-    'Which number do you like best?',
-     ['a','b','c'], )
 
-'selected:', option
 

@@ -28,6 +28,5 @@ DEFAULTS = Constants(
     icu=RateLos(0.0075, 9),
     ventilated=RateLos(0.005, 10),
 
-    tau=8,
-    cases=100,
+    olg_params={'tau': 8, 'cases': 100},
 )

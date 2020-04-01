@@ -89,24 +89,22 @@ outbreak **{impact_statement:s} {doubling_time_t:.1f}** days, implying an effect
     return None
 
 
-def display_sidebar(st, d: Constants, cond=False) -> Parameters:
+def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
     # Initialize variables
     # these functions create input elements and bind the values they are set to
     # to the variables they are set equal to
     # it's kindof like ember or angular if you are familiar with those
 
     n_days, current_hospitalized, doubling_time, relative_contact_rate, hospitalized_rate, icu_rate, ventilated_rate,\
-    hospitalized_los, icu_los, ventilated_los, market_share, susceptible, known_infected, as_date, max_y_axis,\
-    tau = \
+    hospitalized_los, icu_los, ventilated_los, market_share, susceptible, known_infected, as_date, max_y_axis = \
         [d.n_days, d.current_hospitalized, d.doubling_time, d.relative_contact_rate, d.hospitalized.rate, d.icu.rate, d.ventilated.rate,
-         d.hospitalized.length_of_stay, d.icu.length_of_stay, d.ventilated.length_of_stay, d.market_share, d.region.susceptible, d.known_infected, True, None,
-         d.tau]
+         d.hospitalized.length_of_stay, d.icu.length_of_stay, d.ventilated.length_of_stay, d.market_share, d.region.susceptible, d.known_infected, True, None]
 
     st.sidebar.subheader("General parameters")
 
     if d.known_infected < 1:
             raise ValueError("Known cases must be larger than one to enable predictions.")
-    if cond:
+    if "Penn Dashboard" in models_option:
         n_days = st.sidebar.number_input(
             "Number of days to project",
             min_value=30,
@@ -234,156 +232,156 @@ def display_sidebar(st, d: Constants, cond=False) -> Parameters:
             max_y_axis = st.sidebar.number_input(
                 "Y-axis static value", value=500, format="%i", step=25,
             )
-    st.sidebar.subheader("OLG Model parameters")
-    tau = st.sidebar.number_input(
-        "tau rate",
-        min_value=1,
-        value=d.tau,
-        step=1,
-        format="%i",
-    )
+    if "OLG Model" in models_option:
+        st.sidebar.subheader("OLG Model parameters")
+        d.olg_params['tau'] = st.sidebar.number_input(
+            "tau rate",
+            min_value=1,
+            value=d.olg_params['tau'],
+            step=1,
+            format="%i",
+        )
 
-    cases = st.sidebar.number_input(
-        "Minimum cases for calculation",
-        min_value=0,
-        value=d.cases,
-        step=5,
-        format="%i",
-    )
+        d.olg_params['cases'] = st.sidebar.number_input(
+            "Minimum cases for calculation",
+            min_value=0,
+            value=d.olg_params['cases'],
+            step=5,
+            format="%i",
+        )
 
+    if "SEIAR Model" in models_option:
+        st.sidebar.subheader("SEAIR Model parameters")
+        d.seiar_params['N_0'] = st.sidebar.number_input(
+            "Population",
+            min_value=1.,
+            max_value=1000000000.0,
+            value=d.seiar_params['N_0'],
+            step=10.0,
+            format="%f",
+        )
 
-    st.sidebar.subheader("SEAIR Model parameters")
+        d.seiar_params['S_0'] = st.sidebar.number_input(
+            "Susceptible",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=d.seiar_params['S_0'],
+            step=10.,
+            format="%f",
+        )
 
-    N_0 = st.sidebar.number_input(
-        "Population",
-        min_value=1.,
-        max_value=1000000000.0,
-        value=8740000.0,
-        step=10.0,
-        format="%f",
-    )
+        d.seiar_params['E_0'] = st.sidebar.number_input(
+            "Exposed",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=d.seiar_params['E_0'],
+            step=10.,
+            format="%f",
+        )
 
-    S_0 = st.sidebar.number_input(
-        "Susceptible",
-        min_value=0.,
-        max_value=N_0,
-        value=(1.0-1./N_0)*N_0,
-        step=10.,
-        format="%f",
-    )
+        d.seiar_params['A_0'] = st.sidebar.number_input(
+            "Unknown Infected",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=d.seiar_params['A_0'],
+            step=10.,
+            format="%f",
+        )
 
-    E_0 = st.sidebar.number_input(
-        "Exposed",
-        min_value=0.,
-        max_value=N_0,
-        value=(1*9/N_0)*N_0,
-        step=10.,
-        format="%f",
-    )
+        d.seiar_params['I_0'] = st.sidebar.number_input(
+            "Currently Known Ill ",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=d.seiar_params['I_0'],
+            step=10.,
+            format="%f",
+        )
 
-    A_0 = st.sidebar.number_input(
-        "Unknown Infected",
-        min_value=0.,
-        max_value=N_0,
-        value=(1./N_0)*N_0,
-        step=10.,
-        format="%f",
-    )
+        d.seiar_params['R_0'] = st.sidebar.number_input(
+            "Recovered",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=0.0,
+            step=10.,
+            format="%f",
+        )
 
-    I_0 = st.sidebar.number_input(
-        "Currently Known Ill ",
-        min_value=0.,
-        max_value=N_0,
-        value=(1./N_0)*N_0,
-        step=10.,
-        format="%f",
-    )
+        d.seiar_params['seiar_alpha'] = st.sidebar.number_input(
+            "seiar_alpha",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_alpha'],
+            step=0.01,
+            format="%f",
+        )
 
-    R_0 = st.sidebar.number_input(
-        "Recovered",
-        min_value=0.,
-        max_value=N_0,
-        value=0.0,
-        step=10.,
-        format="%f",
-    )
+        d.seiar_params['seiar_beta_ill'] = st.sidebar.number_input(
+            "seiar_beta_ill",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_beta_ill'],
+            step=0.01,
+            format="%f",
+        )
 
-    seiar_alpha = st.sidebar.number_input(
-        "seiar_alpha",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.1,
-        step=0.01,
-        format="%f",
-    )
+        d.seiar_params['seiar_beta_asy'] = st.sidebar.number_input(
+            "seiar_beta_asy",
+            min_value=0.0,
+            max_value=100.0,
+            value=0.4,
+            step=0.01,
+            format="%f",
+        )
 
-    seiar_beta_ill = st.sidebar.number_input(
-        "seiar_beta_ill",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.8,
-        step=0.01,
-        format="%f",
-    )
+        d.seiar_params['seiar_gamma_ill'] = st.sidebar.number_input(
+            "seiar_gamma_ill",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_gamma_ill'],
+            step=0.01,
+            format="%f",
+        )
 
-    seiar_beta_asy = st.sidebar.number_input(
-        "seiar_beta_asy",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.4,
-        step=0.01,
-        format="%f",
-    )
+        d.seiar_params['seiar_gamma_asy'] = st.sidebar.number_input(
+            "seiar_gamma_asy",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_gamma_asy'],
+            step=0.01,
+            format="%f",
+        )
 
-    seiar_gamma_ill = st.sidebar.number_input(
-        "seiar_gamma_ill",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.05,
-        step=0.01,
-        format="%f",
-    )
+        d.seiar_params['seiar_rho'] = st.sidebar.number_input(
+            "seiar_rho",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_rho'],
+            step=0.01,
+            format="%f",
+        )
 
-    seiar_gamma_asy = st.sidebar.number_input(
-        "seiar_gamma_asy",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.12,
-        step=0.01,
-        format="%f",
-    )
+        d.seiar_params['seiar_theta'] = st.sidebar.number_input(
+            "seiar_theta",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_theta'],
+            step=0.01,
+            format="%f",
+        )
 
-    seiar_rho = st.sidebar.number_input(
-        "seiar_rho",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.5,
-        step=0.01,
-        format="%f",
-    )
+        d.seiar_params['seiar_start_date_simulation'] = st.sidebar.date_input(
+            "seiar_start_date_simulation",
+            value=d.seiar_params['seiar_start_date_simulation']
+        )
 
-    seiar_theta = st.sidebar.number_input(
-        "seiar_theta",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.5,
-        step=0.01,
-        format="%f",
-    )
-
-    seiar_start_date_simulation = st.sidebar.date_input(
-        "seiar_start_date_simulation",
-        value=datetime.date(2020, 3, 1)
-    )
-
-    seiar_number_of_days = st.sidebar.number_input(
-        "seiar_number_of_days",
-        min_value=0.0,
-        max_value=1000.0,
-        value=300.0,
-        step=1.0,
-        format="%s",
-    )
+        d.seiar_params['seiar_number_of_days'] = st.sidebar.number_input(
+            "seiar_number_of_days",
+            min_value=0.0,
+            max_value=1000.0,
+            value=d.seiar_params['seiar_number_of_days'],
+            step=1.0,
+            format="%s",
+        )
 
 
     return Parameters(
@@ -396,29 +394,29 @@ def display_sidebar(st, d: Constants, cond=False) -> Parameters:
         n_days=n_days,
         relative_contact_rate=relative_contact_rate,
         susceptible=susceptible,
-        tau=tau,
-        cases=cases,
+        tau=d.olg_params['tau'],
+        cases=d.olg_params['cases'],
 
         hospitalized=RateLos(hospitalized_rate, hospitalized_los),
         icu=RateLos(icu_rate, icu_los),
         ventilated=RateLos(ventilated_rate, ventilated_los),
 
         # Seiar
-        N_0 = N_0,
-        S_0 = S_0,
-        E_0 = E_0,
-        I_0 = I_0,
-        A_0 = A_0,
-        R_0 = R_0,
-        seiar_alpha = seiar_alpha,
-        seiar_beta_ill = seiar_beta_ill,
-        seiar_beta_asy = seiar_beta_asy,
-        seiar_gamma_ill = seiar_gamma_ill,
-        seiar_gamma_asy = seiar_gamma_asy,
-        seiar_rho = seiar_rho,
-        seiar_theta = seiar_theta,
-        seiar_start_date_simulation = seiar_start_date_simulation,
-        seiar_number_of_days = seiar_start_date_simulation + datetime.timedelta(seiar_number_of_days)
+        N_0 = d.seiar_params['N_0'],
+        S_0 = d.seiar_params['S_0'],
+        E_0 = d.seiar_params['E_0'],
+        I_0 = d.seiar_params['I_0'],
+        A_0 = d.seiar_params['A_0'],
+        R_0 = d.seiar_params['R_0'],
+        seiar_alpha = d.seiar_params['seiar_alpha'],
+        seiar_beta_ill = d.seiar_params['seiar_beta_ill'],
+        seiar_beta_asy = d.seiar_params['seiar_beta_asy'],
+        seiar_gamma_ill = d.seiar_params['seiar_gamma_ill'],
+        seiar_gamma_asy = d.seiar_params['seiar_gamma_asy'],
+        seiar_rho = d.seiar_params['seiar_rho'],
+        seiar_theta = d.seiar_params['seiar_theta'],
+        seiar_start_date_simulation = d.seiar_params['seiar_start_date_simulation'],
+        seiar_number_of_days = d.seiar_params['seiar_start_date_simulation'] + datetime.timedelta(d.seiar_params['seiar_number_of_days'])
         )
 
 
