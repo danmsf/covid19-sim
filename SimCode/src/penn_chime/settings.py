@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
 from .defaults import Constants, Regions, RateLos
+import os
+
+current_directory = os.path.abspath(os.getcwd())
+project_path = os.path.dirname(current_directory)
 
 delaware = 564696
 chester = 519293
@@ -29,4 +33,6 @@ DEFAULTS = Constants(
     ventilated=RateLos(0.005, 10),
 
     olg_params={'tau': 8, 'cases': 100},
+    country_file=os.path.join(project_path,"Resources/all_dates_n.csv")
+    # country_file=os.path.abspath(r"/../../Resources/all_dates_n.csv" + "/../../")
 )

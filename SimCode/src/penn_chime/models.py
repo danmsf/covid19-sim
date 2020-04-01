@@ -13,7 +13,7 @@ import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
 from .parameters import Parameters
-
+from dateutil.relativedelta import relativedelta
 
 class SimSirModel:
 
@@ -284,6 +284,15 @@ class OLG:
                                                   periods=self.periods_count)).reset_index()
 
 
-    # for t=tau:T
-    # RMA(t) = sum(R(t - tau + 1:t)) / tau;
-    # end
+class CountryData:
+    def __init__(self, p: Parameters):
+        self.filepath = p.country_file
+        self.df = self.build_country_data()
+
+    def build_country_data(self):
+        country_df = pd.read_csv(self.filepath)
+        # country_df = country_df.set_index('Country')
+        country_df = country_df.drop(columns="Unnamed: 0")
+        # country_df['date'] = country_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
+        country_df['date'] = pd.to_datetime(country_df['date'],format="%d/%m/%Y")
+        return country_df

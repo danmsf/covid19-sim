@@ -172,3 +172,4 @@ def chart_descriptions(chart: Chart, labels, suffix: str = ""):
     if asterisk:
         messages.append("_* The max is at the upper bound of the data, and therefore may not be the actual max_")
     return "\n\n".join(messages)
+

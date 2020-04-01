@@ -416,7 +416,8 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         seiar_rho = d.seiar_params['seiar_rho'],
         seiar_theta = d.seiar_params['seiar_theta'],
         seiar_start_date_simulation = d.seiar_params['seiar_start_date_simulation'],
-        seiar_number_of_days = d.seiar_params['seiar_start_date_simulation'] + datetime.timedelta(d.seiar_params['seiar_number_of_days'])
+        seiar_number_of_days = d.seiar_params['seiar_start_date_simulation'] + datetime.timedelta(d.seiar_params['seiar_number_of_days']),
+        country_file = d.country_file
         )
 
 
@@ -621,4 +622,7 @@ def build_download_link(st, filename: str, df: pd.DataFrame, parameters: Paramet
     st.markdown("""
         <a download="{filename}" href="data:file/csv;base64,{csv}">Download full table as CSV</a>
 """.format(csv=csv,filename=filename), unsafe_allow_html=True)
+
+
+
 

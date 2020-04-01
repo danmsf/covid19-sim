@@ -35,7 +35,6 @@ class Constants:
             hospitalized: RateLos,
             icu: RateLos,
             ventilated: RateLos,
-
             olg_params: Dict[str, int] = {'tau':8, 'cases': 100},
 
             as_date: bool = False,
@@ -43,6 +42,8 @@ class Constants:
             max_y_axis: int = None,
             n_days: int = 60,
             recovery_days: int = 14,
+
+            country_file: str
     ):
         self.region = region
         self.current_hospitalized = current_hospitalized
@@ -78,6 +79,7 @@ class Constants:
                              'seiar_start_date_simulation': datetime.date(2020, 3, 1),
                              'seiar_number_of_days': 300.00
                              }
+        self.country_file = country_file
 
     def __repr__(self) -> str:
         return f"Constants(susceptible_default: {self.region.susceptible}, known_infected: {self.known_infected})"

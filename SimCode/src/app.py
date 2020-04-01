@@ -17,7 +17,7 @@ from penn_chime.presentation import (
     write_footer,
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLG, Seiar
+from penn_chime.models import SimSirModel, OLG, Seiar, CountryData
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
@@ -144,6 +144,20 @@ if "SEIAR Model" in models_option:
     else:
         st.line_chart(mseiar_results)
 
+if st.checkbox(label="Show country data"):
 
+    countrydata = CountryData(p)
+    countrydata.build_country_data()
+    countryname = st.multiselect(label="Select Countries",options=countrydata.df['Country'].unique())
+    temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
+                                                                  'Serious_Critical', 'Total Cases', 'Total Recovered',
+                                                                  'Total Deaths']]
 
-
+    if st.checkbox(label="Show Totals", value=False):
+        temp = temp.set_index("date")[['Total Cases', 'Total Recovered', 'Total Deaths']]
+    else:
+        temp = temp.set_index("date")[['ActiveCases', 'New Cases', 'Serious_Critical']]
+    if st.checkbox(label="Show table", value=False):
+        temp
+    else:
+        st.line_chart(temp)

@@ -45,6 +45,8 @@ class Parameters:
         seiar_theta: float = 0.0,
         seiar_start_date_simulation,
         seiar_number_of_days: int,
+
+        country_file: str
     ):
         self.current_hospitalized = current_hospitalized
         self.doubling_time = doubling_time
@@ -82,6 +84,7 @@ class Parameters:
         self.start_date_simulation = seiar_start_date_simulation
         self.number_of_days = seiar_number_of_days
 
+        self.country_file = country_file
         self.labels = {
             "hospitalized": "Hospitalized",
             "icu": "ICU",
