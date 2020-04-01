@@ -17,7 +17,7 @@ from penn_chime.presentation import (
     write_footer,
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLM, Seiar
+from penn_chime.models import SimSirModel, OLG, Seiar
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
@@ -34,81 +34,84 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 p = display_sidebar(st, DEFAULTS)
 m = SimSirModel(p)
-olm = OLM(p)
+olg = OLG(p)
 
 
-display_header(st, m, p)
 
-if st.checkbox("Show more info about this tool"):
-    notes = "The total size of the susceptible population will be the entire catchment area for Penn Medicine entities (HUP, PAH, PMC, CCH)"
-    show_more_info_about_this_tool(st=st, model=m, parameters=p, defaults=DEFAULTS, notes=notes)
 
-st.subheader("New Admissions")
-st.markdown("Projected number of **daily** COVID-19 admissions at Penn hospitals")
-new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
-st.altair_chart(
-    new_admissions_chart(alt, m.admits_df, parameters=p),
-    use_container_width=True,
-)
+if st.checkbox("Show Penn Dashboard"):
+    display_header(st, m, p)
+    if st.checkbox("Show more info about this tool"):
+        notes = "The total size of the susceptible population will be the entire catchment area for Penn Medicine entities (HUP, PAH, PMC, CCH)"
+        show_more_info_about_this_tool(st=st, model=m, parameters=p, defaults=DEFAULTS, notes=notes)
 
-st.markdown(chart_descriptions(new_admit_chart, p.labels))
+    st.subheader("New Admissions")
+    st.markdown("Projected number of **daily** COVID-19 admissions at Penn hospitals")
+    new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
+    st.altair_chart(
+        new_admissions_chart(alt, m.admits_df, parameters=p),
+        use_container_width=True,
+    )
 
-if st.checkbox("Show Projected Admissions in tabular form"):
-    if st.checkbox("Show Daily Counts"):
-        draw_projected_admissions_table(st, m.admits_df, p.labels, 1, as_date=p.as_date)
-    else:
-        admissions_day_range = st.slider(
-            'Interval of Days for Projected Admissions',
-            1, 10, 7
+    st.markdown(chart_descriptions(new_admit_chart, p.labels))
+
+
+    if st.checkbox("Show Projected Admissions in tabular form"):
+        if st.checkbox("Show Daily Counts"):
+            draw_projected_admissions_table(st, m.admits_df, p.labels, 1, as_date=p.as_date)
+        else:
+            admissions_day_range = st.slider(
+                'Interval of Days for Projected Admissions',
+                1, 10, 7
+            )
+            draw_projected_admissions_table(st, m.admits_df, p.labels, admissions_day_range, as_date=p.as_date)
+        build_download_link(st,
+            filename="projected_admissions.csv",
+            df=m.admits_df,
+            parameters=p
         )
-        draw_projected_admissions_table(st, m.admits_df, p.labels, admissions_day_range, as_date=p.as_date)
-    build_download_link(st,
-        filename="projected_admissions.csv",
-        df=m.admits_df,
-        parameters=p
+    st.subheader("Admitted Patients (Census)")
+    st.markdown(
+        "Projected **census** of COVID-19 patients, accounting for arrivals and discharges at Penn hospitals"
     )
-st.subheader("Admitted Patients (Census)")
-st.markdown(
-    "Projected **census** of COVID-19 patients, accounting for arrivals and discharges at Penn hospitals"
-)
-census_chart = admitted_patients_chart(alt=alt, census=m.census_df, parameters=p)
-st.altair_chart(
-    admitted_patients_chart(alt=alt, census=m.census_df, parameters=p),
-    use_container_width=True,
-)
-st.markdown(chart_descriptions(census_chart, p.labels, suffix=" Census"))
-if st.checkbox("Show Projected Census in tabular form"):
-    if st.checkbox("Show Daily Census Counts"):
-        draw_census_table(st, m.census_df, p.labels, 1, as_date=p.as_date)
-    else:
-        census_day_range = st.slider(
-            'Interval of Days for Projected Census',
-            1, 10, 7
+    census_chart = admitted_patients_chart(alt=alt, census=m.census_df, parameters=p)
+    st.altair_chart(
+        admitted_patients_chart(alt=alt, census=m.census_df, parameters=p),
+        use_container_width=True,
+    )
+    st.markdown(chart_descriptions(census_chart, p.labels, suffix=" Census"))
+    if st.checkbox("Show Projected Census in tabular form"):
+        if st.checkbox("Show Daily Census Counts"):
+            draw_census_table(st, m.census_df, p.labels, 1, as_date=p.as_date)
+        else:
+            census_day_range = st.slider(
+                'Interval of Days for Projected Census',
+                1, 10, 7
+            )
+            draw_census_table(st, m.census_df, p.labels, census_day_range, as_date=p.as_date)
+        build_download_link(st,
+            filename="projected_census.csv",
+            df=m.census_df,
+            parameters=p
         )
-        draw_census_table(st, m.census_df, p.labels, census_day_range, as_date=p.as_date)
-    build_download_link(st,
-        filename="projected_census.csv",
-        df=m.census_df,
-        parameters=p
+
+    st.markdown(
+        """**Click the checkbox below to view additional data generated by this simulation**"""
     )
-
-st.markdown(
-    """**Click the checkbox below to view additional data generated by this simulation**"""
-)
-if st.checkbox("Show Additional Projections"):
-    show_additional_projections(
-        st, alt, additional_projections_chart, model=m, parameters=p
-    )
-    if st.checkbox("Show Raw SIR Simulation Data"):
-        draw_raw_sir_simulation_table(st, model=m, parameters=p)
+    if st.checkbox("Show Additional Projections"):
+        show_additional_projections(
+            st, alt, additional_projections_chart, model=m, parameters=p
+        )
+        if st.checkbox("Show Raw SIR Simulation Data"):
+            draw_raw_sir_simulation_table(st, model=m, parameters=p)
 
 
-st.subheader("OLM Prediction")
+st.subheader("OLG Prediction")
 st.markdown("Projected number of **daily** COVID-19 admissions")
 
 # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
 st.altair_chart(
-    admission_rma_chart(alt, olm.df),
+    admission_rma_chart(alt, olg.df),
     use_container_width=True,
 )
 
@@ -117,14 +120,22 @@ st.altair_chart(
 # write_footer(st)
 
 # SEIAR - Model
+st.subheader("SEIAR Model")
+
 mseiar = Seiar(p)
 mseiar.run_simulation()
 mseiar_results = mseiar.results.copy()
 
-if st.sidebar.checkbox(label="Plot as percentages", value=False):
+if st.checkbox(label="Plot as percentages", value=False):
     mseiar_results = mseiar_results/mseiar.N
 
-if st.sidebar.checkbox(label="Present result as days instead of dates", value=True):
-    st.line_chart(mseiar_results)
+if st.checkbox(label="Present result as dates instead of days ", value=False):
+    mseiar_results = mseiar_results
 else:
-    st.line_chart(mseiar_results.reset_index(drop=True))
+    mseiar_results = mseiar_results.reset_index(drop=True)
+
+if st.checkbox(label="Present result as table", value=False):
+    mseiar_results
+else:
+    st.line_chart(mseiar_results)
+
