@@ -17,12 +17,13 @@ from penn_chime.presentation import (
     write_footer,
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLG
+from penn_chime.models import SimSirModel, OLM
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
     new_admissions_chart,
-    chart_descriptions
+    chart_descriptions,
+    admission_rma_chart
 )
 
 # This is somewhat dangerous:
@@ -33,7 +34,7 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 p = display_sidebar(st, DEFAULTS)
 m = SimSirModel(p)
-olg = OLG(p)
+olm = OLM(p)
 
 
 display_header(st, m, p)
@@ -105,13 +106,12 @@ if st.checkbox("Show Additional Projections"):
 st.subheader("OLM Prediction")
 st.markdown("Projected number of **daily** COVID-19 admissions")
 
-new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
+# new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
 st.altair_chart(
-    new_admissions_chart(alt, m.admits_df, parameters=p),
-    use_container_width=True,
+    admission_rma_chart(alt, olm.df),
+    #use_container_width=True,
 )
 
-st.markdown(chart_descriptions(new_admit_chart, p.labels))
 
 # write_definitions(st)
 # write_footer(st)

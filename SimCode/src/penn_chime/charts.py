@@ -1,4 +1,3 @@
-
 from math import ceil
 import datetime
 
@@ -9,9 +8,15 @@ from .parameters import Parameters
 from .utils import add_date_column
 from .presentation import DATE_FORMAT
 
+def admission_rma_chart(alt, df: pd.DataFrame,):
+    return (alt.Chart(df).mark_trail(point=True).encode(
+        x=alt.X("index", title="Dates"),
+        y='RMA'
+    ).interactive()
+)
 
 def new_admissions_chart(
-    alt, projection_admits: pd.DataFrame, parameters: Parameters
+        alt, projection_admits: pd.DataFrame, parameters: Parameters
 ) -> Chart:
     """docstring"""
     plot_projection_days = parameters.n_days - 10
@@ -33,11 +38,11 @@ def new_admissions_chart(
     # TODO fix the fold to allow any number of dispositions
     return (
         alt.Chart(projection_admits.head(plot_projection_days))
-        .transform_fold(fold=["hospitalized", "icu", "ventilated"])
-        .mark_line(point=True)
-        .encode(
+            .transform_fold(fold=["hospitalized", "icu", "ventilated"])
+            .mark_line(point=True)
+            .encode(
             x=alt.X(**x_kwargs),
-            y=alt.Y("value:Q", title="Daily admissions", scale=y_scale),
+                y=alt.Y("value:Q", title="Daily admissions", scale=y_scale),
             color="key:N",
             tooltip=[
                 tooltip_dict[as_date],
@@ -45,12 +50,12 @@ def new_admissions_chart(
                 "key:N",
             ],
         )
-        .interactive()
+            .interactive()
     )
 
 
 def admitted_patients_chart(
-    alt, census: pd.DataFrame, parameters: Parameters
+        alt, census: pd.DataFrame, parameters: Parameters
 ) -> Chart:
     """docstring"""
 
@@ -73,9 +78,9 @@ def admitted_patients_chart(
     # TODO fix the fold to allow any number of dispositions
     return (
         alt.Chart(census.head(plot_projection_days))
-        .transform_fold(fold=["hospitalized", "icu", "ventilated"])
-        .mark_line(point=True)
-        .encode(
+            .transform_fold(fold=["hospitalized", "icu", "ventilated"])
+            .mark_line(point=True)
+            .encode(
             x=alt.X(**x_kwargs),
             y=alt.Y("value:Q", title="Census", scale=y_scale),
             color="key:N",
@@ -85,14 +90,13 @@ def admitted_patients_chart(
                 "key:N",
             ],
         )
-        .interactive()
+            .interactive()
     )
 
 
 def additional_projections_chart(
-    alt, model, parameters
+        alt, model, parameters
 ) -> Chart:
-
     # TODO use subselect of df_raw instead of creating a new df
     raw_df = model.raw_df
     dat = pd.DataFrame({
@@ -117,15 +121,15 @@ def additional_projections_chart(
 
     return (
         alt.Chart(dat)
-        .transform_fold(fold=["infected", "recovered"])
-        .mark_line()
-        .encode(
+            .transform_fold(fold=["infected", "recovered"])
+            .mark_line()
+            .encode(
             x=alt.X(**x_kwargs),
             y=alt.Y("value:Q", title="Case Volume", scale=y_scale),
             tooltip=["key:N", "value:Q"],
             color="key:N",
         )
-        .interactive()
+            .interactive()
     )
 
 

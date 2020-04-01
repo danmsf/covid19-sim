@@ -173,14 +173,14 @@ def build_census_df(
     })
 
 
-class OLG:
+class OLM:
     def __init__(self, p: Parameters):
         self.periods_count = len(p.daily_hospitalized)
         self.r_values = np.zeros(self.periods_count, dtype='float')
-
         self.procces(daily_hospitalized=p.daily_hospitalized, tau=p.tau, cases=p.cases)
         self.RMA = self.movingaverage(r_values=self.r_values, tau=p.tau)
         self.df = self.create_df()
+
 
     def procces(self, daily_hospitalized, tau, cases):
 
@@ -188,8 +188,7 @@ class OLG:
         b[0] = daily_hospitalized[0]
 
         for t in range(self.periods_count - 1):  # Increasing values only
-            b[t + 1] = daily_hospitalized[t + 1] if daily_hospitalized[t + 1] > daily_hospitalized[t] else \
-            daily_hospitalized[t]
+            b[t + 1] = daily_hospitalized[t + 1] if daily_hospitalized[t + 1] > daily_hospitalized[t] else daily_hospitalized[t]
 
         first_case = np.argmax(b > cases)  # First case
 
@@ -199,13 +198,20 @@ class OLG:
         for t in range(first_case + tau + 1, self.periods_count):
             self.r_values[t] = (b[t] / (b[t - 1] - b[t - tau] + b[t - tau - 1]) - 1) * tau
 
+
     def movingaverage(self, r_values, tau):
         weights = np.repeat(1.0, tau) / tau
         sma = np.convolve(r_values, weights, 'valid')
         RMA = np.append(np.zeros((tau - 1,), dtype='float'), sma)
         return RMA
 
+
     def create_df(self):
-        return pd.DataFrame({'RMA': self.RMA},
-                            index=pd.date_range(end=pd.to_datetime('today'),
-                                                periods=self.periods_count)).reset_index()
+        return  pd.DataFrame({'RMA': self.RMA},
+                              index=pd.date_range(end=pd.to_datetime('today'),
+                                                  periods=self.periods_count)).reset_index()
+
+
+    # for t=tau:T
+    # RMA(t) = sum(R(t - tau + 1:t)) / tau;
+    # end
