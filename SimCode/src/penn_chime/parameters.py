@@ -46,6 +46,7 @@ class Parameters:
         seiar_start_date_simulation,
         seiar_number_of_days: int,
 
+        seirs_plus_params,
         country_file: str
     ):
         self.current_hospitalized = current_hospitalized
@@ -84,6 +85,7 @@ class Parameters:
         self.start_date_simulation = seiar_start_date_simulation
         self.number_of_days = seiar_number_of_days
 
+        self.seirs_plus_params = seirs_plus_params
         self.country_file = country_file
         self.labels = {
             "hospitalized": "Hospitalized",

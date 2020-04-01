@@ -79,6 +79,30 @@ class Constants:
                              'seiar_start_date_simulation': datetime.date(2020, 3, 1),
                              'seiar_number_of_days': 300.00
                              }
+        self.seirs_plus_params = {
+            'beta': 0.155,
+            'sigma': 0.080710250201776,
+            'gamma': 0.0,
+            'xi':0.0,
+            'mu_I': 0.0,
+            'mu_0':0.0,
+            'nu': 0.0,
+            'beta_D': 0.0,
+            'sigma_D': 0.0,
+            'gamma_D': 0.0,
+            'mu_D': 0.0,
+            'theta_E': 0.0,
+            'theta_I': 0.0,
+            'psi_E': 0.0,
+            'psi_I': 0.0,
+            'initN': 100000.0,
+            'initI': 100.0,
+            'initE': 0.0,
+            'initD_E': 0.0,
+            'initD_I': 0.0,
+            'initR': 0.0,
+            'initF':0.0,
+        }
         self.country_file = country_file
 
     def __repr__(self) -> str:

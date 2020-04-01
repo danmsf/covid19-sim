@@ -13,7 +13,9 @@ import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
 from .parameters import Parameters
-from dateutil.relativedelta import relativedelta
+
+from seirsplus.models import *
+import networkx
 
 class SimSirModel:
 

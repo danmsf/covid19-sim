@@ -381,6 +381,25 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             format="%s",
         )
 
+    if "SEIRSPlus" in models_option:
+        for k, v in d.seirs_plus_params.items():
+            if k.find('init')>-1:
+                d.seirs_plus_params[k] = st.sidebar.number_input(
+                k,
+                min_value=0.0,
+                max_value=100000000.0,
+                value=v,
+                step=10.0,
+                format="%f")
+            else:
+                d.seirs_plus_params[k] = st.sidebar.number_input(
+                k,
+                min_value=0.0,
+                max_value=100.0,
+                value=v,
+                step=0.01,
+                format="%f")
+
 
     return Parameters(
         as_date=as_date,
@@ -415,7 +434,9 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         seiar_theta = d.seiar_params['seiar_theta'],
         seiar_start_date_simulation = d.seiar_params['seiar_start_date_simulation'],
         seiar_number_of_days = d.seiar_params['seiar_start_date_simulation'] + datetime.timedelta(d.seiar_params['seiar_number_of_days']),
-        country_file = d.country_file
+        country_file = d.country_file,
+
+        seirs_plus_params = d.seirs_plus_params
         )
 
 
