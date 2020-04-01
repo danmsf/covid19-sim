@@ -5,7 +5,7 @@ from typing import Optional
 import altair as alt  # type: ignore
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-
+import datetime
 from .defaults import Constants, RateLos
 from .utils import add_date_column, dataframe_to_base64
 from .parameters import Parameters
@@ -241,6 +241,140 @@ def display_sidebar(st, d: Constants) -> Parameters:
             "Y-axis static value", value=500, format="%i", step=25,
         )
 
+    st.sidebar.text("SEAIR Model parameters")
+
+    N_0 = st.sidebar.number_input(
+        "Population",
+        min_value=1.,
+        max_value=1000000000.0,
+        value=8740000.0,
+        step=10.0,
+        format="%f",
+    )
+
+    S_0 = st.sidebar.number_input(
+        "Susceptible",
+        min_value=0.,
+        max_value=N_0,
+        value=(1.0-1./N_0)*N_0,
+        step=10.,
+        format="%f",
+    )
+
+    E_0 = st.sidebar.number_input(
+        "Exposed",
+        min_value=0.,
+        max_value=N_0,
+        value=(1*9/N_0)*N_0,
+        step=10.,
+        format="%f",
+    )
+
+    A_0 = st.sidebar.number_input(
+        "Unknown Infected",
+        min_value=0.,
+        max_value=N_0,
+        value=(1./N_0)*N_0,
+        step=10.,
+        format="%f",
+    )
+
+    I_0 = st.sidebar.number_input(
+        "Currently Known Ill ",
+        min_value=0.,
+        max_value=N_0,
+        value=(1./N_0)*N_0,
+        step=10.,
+        format="%f",
+    )
+
+    R_0 = st.sidebar.number_input(
+        "Recovered",
+        min_value=0.,
+        max_value=N_0,
+        value=0.0,
+        step=10.,
+        format="%f",
+    )
+
+    seiar_alpha = st.sidebar.number_input(
+        "seiar_alpha",
+        min_value=0.0,
+        max_value=100.0,
+        value=0.1,
+        step=0.01,
+        format="%f",
+    )
+
+    seiar_beta_ill = st.sidebar.number_input(
+        "seiar_beta_ill",
+        min_value=0.0,
+        max_value=100.0,
+        value=0.8,
+        step=0.01,
+        format="%f",
+    )
+
+    seiar_beta_asy = st.sidebar.number_input(
+        "seiar_beta_asy",
+        min_value=0.0,
+        max_value=100.0,
+        value=0.4,
+        step=0.01,
+        format="%f",
+    )
+
+    seiar_gamma_ill = st.sidebar.number_input(
+        "seiar_gamma_ill",
+        min_value=0.0,
+        max_value=100.0,
+        value=0.05,
+        step=0.01,
+        format="%f",
+    )
+
+    seiar_gamma_asy = st.sidebar.number_input(
+        "seiar_gamma_asy",
+        min_value=0.0,
+        max_value=100.0,
+        value=0.12,
+        step=0.01,
+        format="%f",
+    )
+
+    seiar_rho = st.sidebar.number_input(
+        "seiar_rho",
+        min_value=0.0,
+        max_value=100.0,
+        value=0.5,
+        step=0.01,
+        format="%f",
+    )
+
+    seiar_theta = st.sidebar.number_input(
+        "seiar_theta",
+        min_value=0.0,
+        max_value=100.0,
+        value=0.5,
+        step=0.01,
+        format="%f",
+    )
+
+    seiar_start_date_simulation = st.sidebar.date_input(
+        "seiar_start_date_simulation",
+        value=datetime.date(2020, 3, 1)
+    )
+
+    seiar_number_of_days = st.sidebar.number_input(
+        "seiar_number_of_days",
+        min_value=0.0,
+        max_value=1000.0,
+        value=300.0,
+        step=1.0,
+        format="%s",
+    )
+
+
     return Parameters(
         as_date=as_date,
         current_hospitalized=current_hospitalized,
@@ -257,7 +391,24 @@ def display_sidebar(st, d: Constants) -> Parameters:
         hospitalized=RateLos(hospitalized_rate, hospitalized_los),
         icu=RateLos(icu_rate, icu_los),
         ventilated=RateLos(ventilated_rate, ventilated_los),
-    )
+
+        # Seiar
+        N_0 = N_0,
+        S_0 = S_0,
+        E_0 = E_0,
+        I_0 = I_0,
+        A_0 = A_0,
+        R_0 = R_0,
+        seiar_alpha = seiar_alpha,
+        seiar_beta_ill = seiar_beta_ill,
+        seiar_beta_asy = seiar_beta_asy,
+        seiar_gamma_ill = seiar_gamma_ill,
+        seiar_gamma_asy = seiar_gamma_asy,
+        seiar_rho = seiar_rho,
+        seiar_theta = seiar_theta,
+        seiar_start_date_simulation = seiar_start_date_simulation,
+        seiar_number_of_days = seiar_start_date_simulation + datetime.timedelta(seiar_number_of_days)
+        )
 
 
 def show_more_info_about_this_tool(st, model, parameters, defaults, notes: str = ""):

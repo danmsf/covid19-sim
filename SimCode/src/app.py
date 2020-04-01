@@ -1,4 +1,4 @@
-# """App.C:\Users\User\git\covid19-sim>streamlit run Simcode\src\app.py"""
+"""App."""
 
 import altair as alt  # type: ignore
 import streamlit as st  # type: ignore
@@ -17,7 +17,7 @@ from penn_chime.presentation import (
     write_footer,
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLM
+from penn_chime.models import SimSirModel, OLM, Seiar
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
@@ -115,3 +115,16 @@ st.altair_chart(
 
 # write_definitions(st)
 # write_footer(st)
+
+
+mseiar = Seiar(p)
+mseiar.run_simulation()
+mseiar_results = mseiar.results.copy()
+
+if st.sidebar.checkbox(label="Plot as percentages", value=False):
+    mseiar_results = mseiar_results/mseiar.N
+
+if st.sidebar.checkbox(label="Present result as days instead of dates", value=True):
+    st.line_chart(mseiar_results)
+else:
+    st.line_chart(mseiar_results.reset_index(drop=True))
