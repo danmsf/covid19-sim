@@ -89,134 +89,152 @@ outbreak **{impact_statement:s} {doubling_time_t:.1f}** days, implying an effect
     return None
 
 
-def display_sidebar(st, d: Constants) -> Parameters:
+def display_sidebar(st, d: Constants, cond=False) -> Parameters:
     # Initialize variables
     # these functions create input elements and bind the values they are set to
     # to the variables they are set equal to
     # it's kindof like ember or angular if you are familiar with those
 
+    n_days, current_hospitalized, doubling_time, relative_contact_rate, hospitalized_rate, icu_rate, ventilated_rate,\
+    hospitalized_los, icu_los, ventilated_los, market_share, susceptible, known_infected, as_date, max_y_axis,\
+    tau = \
+        [d.n_days, d.current_hospitalized, d.doubling_time, d.relative_contact_rate, d.hospitalized.rate, d.icu.rate, d.ventilated.rate,
+         d.hospitalized.length_of_stay, d.icu.length_of_stay, d.ventilated.length_of_stay, d.market_share, d.region.susceptible, d.known_infected, True, None,
+         d.tau]
+
+    st.sidebar.subheader("General parameters")
+
     if d.known_infected < 1:
-        raise ValueError("Known cases must be larger than one to enable predictions.")
-
-    n_days = st.sidebar.number_input(
-        "Number of days to project",
-        min_value=30,
-        value=d.n_days,
-        step=10,
-        format="%i",
-    )
-
-    current_hospitalized = st.sidebar.number_input(
-        "Currently Hospitalized COVID-19 Patients",
-        min_value=0,
-        value=d.current_hospitalized,
-        step=1,
-        format="%i",
-    )
-
-    doubling_time = st.sidebar.number_input(
-        "Doubling time before social distancing (days)",
-        min_value=0,
-        value=d.doubling_time,
-        step=1,
-        format="%i",
-    )
-
-    relative_contact_rate = (
-        st.sidebar.number_input(
-            "Social distancing (% reduction in social contact)",
-            min_value=0,
-            max_value=100,
-            value=int(d.relative_contact_rate * 100),
-            step=5,
+            raise ValueError("Known cases must be larger than one to enable predictions.")
+    if cond:
+        n_days = st.sidebar.number_input(
+            "Number of days to project",
+            min_value=30,
+            value=d.n_days,
+            step=10,
             format="%i",
         )
-        / 100.0
-    )
 
-    hospitalized_rate = (
-        st.sidebar.number_input(
-            "Hospitalization %(total infections)",
-            min_value=0.001,
-            max_value=100.0,
-            value=d.hospitalized.rate * 100,
-            step=1.0,
-            format="%f",
+        current_hospitalized = st.sidebar.number_input(
+            "Currently Hospitalized COVID-19 Patients",
+            min_value=0,
+            value=d.current_hospitalized,
+            step=1,
+            format="%i",
         )
-        / 100.0
-    )
-    icu_rate = (
-        st.sidebar.number_input(
-            "ICU %(total infections)",
-            min_value=0.0,
-            max_value=100.0,
-            value=d.icu.rate * 100,
-            step=1.0,
-            format="%f",
+
+        doubling_time = st.sidebar.number_input(
+            "Doubling time before social distancing (days)",
+            min_value=0,
+            value=d.doubling_time,
+            step=1,
+            format="%i",
         )
-        / 100.0
-    )
-    ventilated_rate = (
-        st.sidebar.number_input(
-            "Ventilated %(total infections)",
-            min_value=0.0,
-            max_value=100.0,
-            value=d.ventilated.rate * 100,
-            step=1.0,
-            format="%f",
+
+        relative_contact_rate = (
+            st.sidebar.number_input(
+                "Social distancing (% reduction in social contact)",
+                min_value=0,
+                max_value=100,
+                value=int(d.relative_contact_rate * 100),
+                step=5,
+                format="%i",
+            )
+            / 100.0
         )
-        / 100.0
-    )
 
-    hospitalized_los = st.sidebar.number_input(
-        "Hospital Length of Stay",
-        min_value=0,
-        value=d.hospitalized.length_of_stay,
-        step=1,
-        format="%i",
-    )
-    icu_los = st.sidebar.number_input(
-        "ICU Length of Stay",
-        min_value=0,
-        value=d.icu.length_of_stay,
-        step=1,
-        format="%i",
-    )
-    ventilated_los = st.sidebar.number_input(
-        "Vent Length of Stay",
-        min_value=0,
-        value=d.ventilated.length_of_stay,
-        step=1,
-        format="%i",
-    )
-
-    market_share = (
-        st.sidebar.number_input(
-            "Hospital Market Share (%)",
-            min_value=0.001,
-            max_value=100.0,
-            value=d.market_share * 100,
-            step=1.0,
-            format="%f",
+        hospitalized_rate = (
+            st.sidebar.number_input(
+                "Hospitalization %(total infections)",
+                min_value=0.001,
+                max_value=100.0,
+                value=d.hospitalized.rate * 100,
+                step=1.0,
+                format="%f",
+            )
+            / 100.0
         )
-        / 100.0
-    )
-    susceptible = st.sidebar.number_input(
-        "Regional Population",
-        min_value=1,
-        value=d.region.susceptible,
-        step=100000,
-        format="%i",
-    )
+        icu_rate = (
+            st.sidebar.number_input(
+                "ICU %(total infections)",
+                min_value=0.0,
+                max_value=100.0,
+                value=d.icu.rate * 100,
+                step=1.0,
+                format="%f",
+            )
+            / 100.0
+        )
+        ventilated_rate = (
+            st.sidebar.number_input(
+                "Ventilated %(total infections)",
+                min_value=0.0,
+                max_value=100.0,
+                value=d.ventilated.rate * 100,
+                step=1.0,
+                format="%f",
+            )
+            / 100.0
+        )
 
-    known_infected = st.sidebar.number_input(
-        "Currently Known Regional Infections (only used to compute detection rate - does not change projections)",
-        min_value=0,
-        value=d.known_infected,
-        step=10,
-        format="%i",
-    )
+        hospitalized_los = st.sidebar.number_input(
+            "Hospital Length of Stay",
+            min_value=0,
+            value=d.hospitalized.length_of_stay,
+            step=1,
+            format="%i",
+        )
+        icu_los = st.sidebar.number_input(
+            "ICU Length of Stay",
+            min_value=0,
+            value=d.icu.length_of_stay,
+            step=1,
+            format="%i",
+        )
+        ventilated_los = st.sidebar.number_input(
+            "Vent Length of Stay",
+            min_value=0,
+            value=d.ventilated.length_of_stay,
+            step=1,
+            format="%i",
+        )
 
+        market_share = (
+            st.sidebar.number_input(
+                "Hospital Market Share (%)",
+                min_value=0.001,
+                max_value=100.0,
+                value=d.market_share * 100,
+                step=1.0,
+                format="%f",
+            )
+            / 100.0
+        )
+        susceptible = st.sidebar.number_input(
+            "Regional Population",
+            min_value=1,
+            value=d.region.susceptible,
+            step=100000,
+            format="%i",
+        )
+
+        known_infected = st.sidebar.number_input(
+            "Currently Known Regional Infections (only used to compute detection rate - does not change projections)",
+            min_value=0,
+            value=d.known_infected,
+            step=10,
+            format="%i",
+        )
+
+        as_date = st.sidebar.checkbox(label="Present result as dates instead of days", value=False)
+
+        max_y_axis_set = st.sidebar.checkbox("Set the Y-axis on graphs to a static value")
+        max_y_axis = None
+        if max_y_axis_set:
+            max_y_axis = st.sidebar.number_input(
+                "Y-axis static value", value=500, format="%i", step=25,
+            )
+    st.sidebar.subheader("OLG Model parameters")
     tau = st.sidebar.number_input(
         "tau rate",
         min_value=1,
@@ -232,16 +250,9 @@ def display_sidebar(st, d: Constants) -> Parameters:
         step=5,
         format="%i",
     )
-    as_date = st.sidebar.checkbox(label="Present result as dates instead of days", value=False)
 
-    max_y_axis_set = st.sidebar.checkbox("Set the Y-axis on graphs to a static value")
-    max_y_axis = None
-    if max_y_axis_set:
-        max_y_axis = st.sidebar.number_input(
-            "Y-axis static value", value=500, format="%i", step=25,
-        )
 
-    st.sidebar.text("SEAIR Model parameters")
+    st.sidebar.subheader("SEAIR Model parameters")
 
     N_0 = st.sidebar.number_input(
         "Population",

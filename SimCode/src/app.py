@@ -32,14 +32,16 @@ from penn_chime.charts import (
 # In dev, this should be shown
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-p = display_sidebar(st, DEFAULTS)
+penmodel = st.checkbox("Show Penn Dashboard", False)
+
+p = display_sidebar(st, DEFAULTS, penmodel)
 m = SimSirModel(p)
 olg = OLG(p)
 
 
 
 
-if st.checkbox("Show Penn Dashboard"):
+if penmodel:
     display_header(st, m, p)
     if st.checkbox("Show more info about this tool"):
         notes = "The total size of the susceptible population will be the entire catchment area for Penn Medicine entities (HUP, PAH, PMC, CCH)"
@@ -138,4 +140,11 @@ if st.checkbox(label="Present result as table", value=False):
     mseiar_results
 else:
     st.line_chart(mseiar_results)
+
+
+option = st.sidebar.multiselect(
+    'Which number do you like best?',
+     ['a','b','c'], )
+
+'selected:', option
 

@@ -11,7 +11,8 @@ from .presentation import DATE_FORMAT
 def admission_rma_chart(alt, df: pd.DataFrame,):
     return (alt.Chart(df).mark_trail(point=True).encode(
         x=alt.X("index", title="Dates"),
-        y='RMA'
+        y='RMA',
+        tooltip=["index", "RMA"]
     ).interactive()
 )
 
