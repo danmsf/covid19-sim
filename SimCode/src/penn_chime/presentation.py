@@ -217,6 +217,21 @@ def display_sidebar(st, d: Constants) -> Parameters:
         format="%i",
     )
 
+    tau = st.sidebar.number_input(
+        "tau rate",
+        min_value=1,
+        value=d.tau,
+        step=1,
+        format="%i",
+    )
+
+    cases = st.sidebar.number_input(
+        "Minimum cases for calculation",
+        min_value=0,
+        value=d.cases,
+        step=5,
+        format="%i",
+    )
     as_date = st.sidebar.checkbox(label="Present result as dates instead of days", value=False)
 
     max_y_axis_set = st.sidebar.checkbox("Set the Y-axis on graphs to a static value")
@@ -370,6 +385,8 @@ def display_sidebar(st, d: Constants) -> Parameters:
         n_days=n_days,
         relative_contact_rate=relative_contact_rate,
         susceptible=susceptible,
+        tau=tau,
+        cases=cases,
 
         hospitalized=RateLos(hospitalized_rate, hospitalized_los),
         icu=RateLos(icu_rate, icu_los),
