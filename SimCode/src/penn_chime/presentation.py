@@ -38,10 +38,9 @@ def display_header(st, m, p):
 <link rel="stylesheet" href="https://www1.pennmedicine.org/styles/shared/penn-medicine-header.css">
 
 <div class="penn-medicine-header__content">
-    <a href="https://www.g-stat.com" class="penn-medicine-header__logo"
-        title="Go to GSTAT">Penn Medicine</a>
-    <a id="title" class="penn-medicine-header__title">GSTAT - COVID-19</a>
-    <p id="title" class="penn-medicine-header__title" style="text-align:center">Based on Penn Medicine - COVID-19 Hospital Impact Model for Epidemics</p>
+    <a href="https://www.penn.com" class="penn-medicine-header__logo"
+        title="Go to Penn">Penn Medicine</a>
+    <a id="title" class="penn-medicine-header__title" style="text-align:center">Penn Medicine - COVID-19 Hospital Impact Model for Epidemics</p>
 </div>
     """,
         unsafe_allow_html=True,
@@ -100,7 +99,6 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         [d.n_days, d.current_hospitalized, d.doubling_time, d.relative_contact_rate, d.hospitalized.rate, d.icu.rate, d.ventilated.rate,
          d.hospitalized.length_of_stay, d.icu.length_of_stay, d.ventilated.length_of_stay, d.market_share, d.region.susceptible, d.known_infected, True, None]
 
-    st.sidebar.subheader("General parameters")
 
     if d.known_infected < 1:
             raise ValueError("Known cases must be larger than one to enable predictions.")

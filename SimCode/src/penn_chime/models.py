@@ -285,8 +285,8 @@ class OLG:
 
 
 class CountryData:
-    def __init__(self, p: Parameters):
-        self.filepath = p.country_file
+    def __init__(self, country_file):
+        self.filepath = country_file
         self.df = self.build_country_data()
 
     def build_country_data(self):

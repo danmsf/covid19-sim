@@ -31,19 +31,51 @@ from penn_chime.charts import (
 # This should not be hidden in prod, but removed
 # In dev, this should be shown
 st.markdown(hide_menu_style, unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="penn-medicine-header__content">
+    <h1 id="title" class="penn-medicine-header__title" style="text-align:center">GSTAT Impact Model for Epidemics</h1>
+    </div>
+    """, unsafe_allow_html=True)
 
-models_option = st.multiselect(
+st.markdown(
+    """*This tool was developed to aid government in policy making. It enables rapid simulation of multiple models for 
+    forecasting the effects of government policies on the spread of Covid-19 virus. Most models are framed in the SIR 
+    Model framework.*"""
+)
+
+st.sidebar.subheader("General parameters")
+
+if st.sidebar.checkbox(label="Show country data"):
+
+    countrydata = CountryData(DEFAULTS.country_file)
+    countrydata.build_country_data()
+    # TODO: fix overlapping countries comparison option
+    countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].unique())
+    temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
+                                                                  'Serious_Critical', 'Total Cases', 'Total Recovered',
+                                                                  'Total Deaths']]
+
+    if st.checkbox(label="Show Totals", value=False):
+        temp = temp.set_index("date")[['Total Cases', 'Total Recovered', 'Total Deaths']]
+    else:
+        temp = temp.set_index("date")[['ActiveCases', 'New Cases', 'Serious_Critical']]
+    if st.checkbox(label="Show table", value=False):
+        temp
+    else:
+        st.line_chart(temp)
+    st.markdown("""Data was collected from Worldmeter""")
+
+
+models_option = st.sidebar.multiselect(
     'Which models to show?',
     ('Penn Dashboard', 'OLG Model', 'SEIAR Model'), )
 
 p = display_sidebar(st, DEFAULTS, models_option)
-m = SimSirModel(p)
-olg = OLG(p)
-
-
 
 
 if "Penn Dashboard" in models_option:
+    m = SimSirModel(p)
     display_header(st, m, p)
     if st.checkbox("Show more info about this tool"):
         notes = "The total size of the susceptible population will be the entire catchment area for Penn Medicine entities (HUP, PAH, PMC, CCH)"
@@ -110,9 +142,10 @@ if "Penn Dashboard" in models_option:
             draw_raw_sir_simulation_table(st, model=m, parameters=p)
 
 if "OLG Model" in models_option:
+
     st.subheader("OLG Prediction")
     st.markdown("Projected number of **daily** COVID-19 admissions")
-
+    olg = OLG (p)
     # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
     st.altair_chart(
         admission_rma_chart(alt, olg.df),
@@ -144,20 +177,3 @@ if "SEIAR Model" in models_option:
     else:
         st.line_chart(mseiar_results)
 
-if st.checkbox(label="Show country data"):
-
-    countrydata = CountryData(p)
-    countrydata.build_country_data()
-    countryname = st.multiselect(label="Select Countries",options=countrydata.df['Country'].unique())
-    temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
-                                                                  'Serious_Critical', 'Total Cases', 'Total Recovered',
-                                                                  'Total Deaths']]
-
-    if st.checkbox(label="Show Totals", value=False):
-        temp = temp.set_index("date")[['Total Cases', 'Total Recovered', 'Total Deaths']]
-    else:
-        temp = temp.set_index("date")[['ActiveCases', 'New Cases', 'Serious_Critical']]
-    if st.checkbox(label="Show table", value=False):
-        temp
-    else:
-        st.line_chart(temp)
