@@ -65,7 +65,7 @@ if st.sidebar.checkbox(label="Show country data"):
         temp
     else:
         st.line_chart(temp)
-    st.markdown("""*Data was collected from Worldmeter*""")
+    st.markdown("""*Source: Worldmeter*""")
 
 
 models_option = st.sidebar.multiselect(
