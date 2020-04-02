@@ -255,6 +255,11 @@ class OLG:
         self.RMA = self.movingaverage(r_values=self.r_values, tau=p.tau)
         self.df = self.create_df()
 
+    # TODO:
+    #  Add oxford score on graph or annotate with Oz's government decisions
+    #  With option to see in lag of 14 days
+    #  Comparison between two countries
+    #  Show in SIR
 
     def procces(self, daily_hospitalized, tau, cases):
 
