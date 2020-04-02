@@ -1,4 +1,4 @@
-from settings import *
+from .settings import *
 import glob
 import re
 import datetime
