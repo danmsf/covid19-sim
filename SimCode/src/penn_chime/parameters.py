@@ -23,7 +23,9 @@ class Parameters:
         ventilated: RateLos,
 
         tau: int = 8,
-        cases: int = 100,
+        init_infected: int = 100,
+        fi: float = 0.1,
+        gamma: float = 0.077,
         as_date: bool = False,
         market_share: float = 1.0,
         max_y_axis: int = None,
@@ -55,7 +57,9 @@ class Parameters:
         self.relative_contact_rate = relative_contact_rate
         self.susceptible = susceptible
         self.tau = tau
-        self.cases = cases
+        self.init_infected = init_infected
+        self.fi = fi
+        self.gamma = gamma
 
         self.hospitalized = hospitalized
         self.icu = icu

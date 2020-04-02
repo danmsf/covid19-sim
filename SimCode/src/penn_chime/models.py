@@ -248,42 +248,82 @@ class Seiar:
         return 0
 
 class OLG:
+    """
+    calc_asymptomatic start from first case
+    exposed are the asymptomatic_infected with lag not only infected
+    asymptomatic_infected does not always grow
+
+
+    fi  # proportion of infectives are never diagnosed
+    gamma = gamma  # diagnosis daily rate
+
+    """
     def __init__(self, p: Parameters):
-        self.periods_count = len(p.daily_hospitalized)
-        self.r_values = np.zeros(self.periods_count, dtype='float')
-        self.procces(daily_hospitalized=p.daily_hospitalized, tau=p.tau, cases=p.cases)
-        self.RMA = self.movingaverage(r_values=self.r_values, tau=p.tau)
-        self.df = self.create_df()
+        self.periods_count = len(p.detected)
+        self.first_case = np.argmax(p.detected > p.init_infected)  # First case
 
+        self.detected = self.increasing_values(p.detected)
+        self.asymptomatic_infected = self.calc_asymptomatic(fi=p.fi, gamma=p.gamma)
 
-    def procces(self, daily_hospitalized, tau, cases):
+        self.RMA_D, self.R0_D = self.calc_r(self.detected, tau=p.tau)
+        self.RMA_C, self.R0_C = self.calc_r(self.asymptomatic_infected, tau=p.tau)
 
-        b = np.zeros((self.periods_count,), dtype='int')
-        b[0] = daily_hospitalized[0]
+        self.predict(tau=p.tau)
+        self.df = self.create_df(p.tau)
 
-        for t in range(self.periods_count - 1):  # Increasing values only
-            b[t + 1] = daily_hospitalized[t + 1] if daily_hospitalized[t + 1] > daily_hospitalized[t] else daily_hospitalized[t]
-
-        first_case = np.argmax(b > cases)  # First case
-
-        for t in range(first_case + 1, first_case + tau + 1):
-            self.r_values[t] = (b[t] / b[t - 1] - 1) * tau
-
-        for t in range(first_case + tau + 1, self.periods_count):
-            self.r_values[t] = (b[t] / (b[t - 1] - b[t - tau] + b[t - tau - 1]) - 1) * tau
-
-
-    def movingaverage(self, r_values, tau):
+    @staticmethod
+    def movingaverage(r_values, tau):
         weights = np.repeat(1.0, tau) / tau
         sma = np.convolve(r_values, weights, 'valid')
         RMA = np.append(np.zeros((tau - 1,), dtype='float'), sma)
-        return RMA
+        return RMA, RMA[-1]
+
+    @staticmethod
+    def calc_next_gen(r0=4.9636, tau=14, C_t=70, C_o=0):
+        return C_t * (1 + r0 / tau) ** tau - C_o * r0 / tau * (1 + r0 / tau) ** (tau - 1)
+
+    def increasing_values(self, detected):
+        tmp = [detected[0]]
+        for t in range(1, self.periods_count):
+            tmp.append(max(detected[t - 1], detected[t]))
+        return tmp
+
+    def calc_asymptomatic(self, fi, gamma):
+        asymptomatic_infected = np.zeros(self.periods_count, dtype='float')
+
+        for t in range(self.first_case + 1, self.periods_count):
+            prev_detected, cur_detected = self.detected[t - 1], self.detected[t]
+            asymptomatic_infected[t] = 1 / (1 - fi) * ((cur_detected - prev_detected) / gamma + prev_detected)
+        return asymptomatic_infected
 
 
-    def create_df(self):
-        return  pd.DataFrame({'RMA': self.RMA},
-                              index=pd.date_range(end=pd.to_datetime('today'),
-                                                  periods=self.periods_count)).reset_index()
+    def calc_r(self, values, tau):
+        r_values = np.zeros(self.periods_count, dtype='float')
+
+        for t in range(self.first_case + 1, self.first_case + tau + 1):
+            r_values[t] = (values[t] / values[t - 1] - 1) * tau
+
+        for t in range(self.first_case + tau + 1, self.periods_count):
+            r_values[t] = (values[t] / (values[t - 1] - values[t - tau] + values[t - tau - 1]) - 1) * tau
+
+        return self.movingaverage(r_values, tau)
+
+
+    def predict(self, tau):
+        for i in range(self.periods_count - tau, self.periods_count):
+            self.detected = np.append(self.detected, self.calc_next_gen(r0=self.R0_D, tau=tau, C_t=self.detected[i], C_o=self.detected[i-tau]))
+            self.asymptomatic_infected = np.append(self.asymptomatic_infected, self.calc_next_gen(r0=self.R0_C, tau=tau, C_t=self.asymptomatic_infected[i], C_o=self.asymptomatic_infected[i-tau]))
+
+
+    def create_df(self, tau):
+        periods  = self.periods_count + tau
+        exposed = np.empty(periods)
+        exposed[tau:] = self.asymptomatic_infected[:-tau]
+
+        asymptomatic = self.asymptomatic_infected - self.detected
+        return  pd.DataFrame({'Asymptomatic': asymptomatic, 'Infected': self.detected, 'Exposed': exposed},
+                             index=pd.date_range(end=pd.to_datetime('today'),
+                                                 periods=periods)).reset_index()
 
 
 class CountryData:
