@@ -35,7 +35,7 @@ class Constants:
             hospitalized: RateLos,
             icu: RateLos,
             ventilated: RateLos,
-            olg_params: Dict[str, int] = {'tau':8, 'cases': 100},
+            olg_params: Dict[str, int] = {'tau': 8, 'init_infected': 100, 'fi': 0.1, 'theta':0.0771},
 
             as_date: bool = False,
             market_share: float = 1.0,
