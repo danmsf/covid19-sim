@@ -24,7 +24,8 @@ from penn_chime.charts import (
     admitted_patients_chart,
     new_admissions_chart,
     chart_descriptions,
-    admission_rma_chart
+    admission_rma_chart,
+    country_level_chart
 )
 
 # This is somewhat dangerous:
@@ -49,23 +50,30 @@ st.sidebar.subheader("General parameters")
 
 if st.sidebar.checkbox(label="Show country data"):
 
-    countrydata = CountryData(DEFAULTS.country_file)
-    countrydata.build_country_data()
+    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file)
+    countrydata.get_country_data()
+    countrydata.get_country_stringency()
     # TODO: fix overlapping countries comparison option
     countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].unique())
     temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
                                                                   'Serious_Critical', 'Total Cases', 'Total Recovered',
-                                                                  'Total Deaths']]
+                                                                  'Total Deaths', 'StringencyIndex']]
+
+    temp = temp.set_index("date")
 
     if st.checkbox(label="Show Totals", value=False):
-        temp = temp.set_index("date")[['Total Cases', 'Total Recovered', 'Total Deaths']]
+        temp = temp[['Total Cases', 'Total Recovered', 'Total Deaths', 'StringencyIndex']]
     else:
-        temp = temp.set_index("date")[['ActiveCases', 'New Cases', 'Serious_Critical']]
+        temp = temp[['ActiveCases', 'New Cases', 'Serious_Critical']]
     if st.checkbox(label="Show table", value=False):
         temp
     else:
+        # st.altair_chart(
+        #     country_level_chart(alt, temp.df),
+        #     use_container_width=True,
+        # )
         st.line_chart(temp)
-    st.markdown("""*Source: Worldmeter*""")
+        st.markdown("""*Source: Worldmeter*""")
 
 
 models_option = st.sidebar.multiselect(

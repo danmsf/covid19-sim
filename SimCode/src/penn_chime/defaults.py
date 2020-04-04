@@ -43,7 +43,8 @@ class Constants:
             n_days: int = 60,
             recovery_days: int = 14,
 
-            country_file: str
+            country_file: str,
+            stringency_file: str,
     ):
         self.region = region
         self.current_hospitalized = current_hospitalized
@@ -101,9 +102,10 @@ class Constants:
             'initD_E': 0.0,
             'initD_I': 0.0,
             'initR': 0.0,
-            'initF':0.0,
+            'initF': 0.0,
         }
         self.country_file = country_file
+        self.stringency_file = stringency_file
 
     def __repr__(self) -> str:
         return f"Constants(susceptible_default: {self.region.susceptible}, known_infected: {self.known_infected})"

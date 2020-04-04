@@ -347,14 +347,27 @@ class OLG:
 
 
 class CountryData:
-    def __init__(self, country_file):
-        self.filepath = country_file
-        self.df = self.build_country_data()
+    def __init__(self, country_file, stringency_file):
+        self.country_file = country_file
+        self.country_file = country_file
+        self.stringency_file = stringency_file
+        self.country_df = self.get_country_data()
+        self.stringency_df = self.get_country_stringency()
+        self.df = self.get_data()
 
-    def build_country_data(self):
-        country_df = pd.read_csv(self.filepath)
+    def get_country_data(self):
+        country_df = pd.read_csv(self.country_file)
         # country_df = country_df.set_index('Country')
         country_df = country_df.drop(columns="Unnamed: 0")
         # country_df['date'] = country_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
         country_df['date'] = pd.to_datetime(country_df['date'],format="%d/%m/%Y")
         return country_df
+
+    def get_country_stringency(self):
+        country_st_df = pd.read_excel(self.stringency_file)
+        country_st_df['date'] = pd.to_datetime(country_st_df['Date'], format="%Y%m%d")
+        return country_st_df
+
+    def get_data(self):
+        df = self.country_df.merge(self.stringency_df, left_on=["Country", "date"], right_on=["CountryName", "date"])
+        return df

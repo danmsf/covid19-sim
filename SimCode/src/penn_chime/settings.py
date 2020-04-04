@@ -33,6 +33,7 @@ DEFAULTS = Constants(
     ventilated=RateLos(0.005, 10),
 
     olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta':0.0771},
-    country_file=os.path.join(project_path,"Resources/all_dates_n.csv")
+    country_file=os.path.join(project_path, "Resources/all_dates_n.csv"),
+    stringency_file=os.path.join(project_path, "Resources/OxCGRT_Download_latest_data.xlsx")
     # country_file=os.path.abspath(r"/../../Resources/all_dates_n.csv" + "/../../")
 )

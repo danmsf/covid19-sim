@@ -57,6 +57,54 @@ def admission_rma_chart(alt, df: pd.DataFrame,):
     ).interactive()
 )
 
+
+# def country_level_chart(alt, df: pd.DataFrame,):
+#
+#     source['value'] = source['value'].astype('int64')
+#
+#     nearest = alt.selection(type='single', nearest=True, on='mouseover',
+#                             fields=['date'], empty='none')
+#
+#     line = alt.Chart(source).mark_line(interpolate='basis').encode(
+#         x='date:T',
+#         y='value',
+#         color='variable'
+#     )
+#
+#     # Transparent selectors across the chart. This is what tells us
+#     # the x-value of the cursor
+#     selectors = alt.Chart(source).mark_point().encode(
+#         x='date',
+#         opacity=alt.value(0),
+#     ).add_selection(
+#         nearest
+#     )
+#
+#     # Draw points on the line, and highlight based on selection
+#     points = line.mark_point().encode(
+#         opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+#     )
+#     # Draw text labels near the points, and highlight based on selection
+#     text = line.mark_text(align='left', dx=5, dy=-5).encode(
+#         text=alt.condition(nearest, 'value', alt.value(' '))
+#     )
+#
+#     # Draw a rule at the location of the selection
+#     rules = alt.Chart(source).mark_rule(color='gray').encode(
+#         x='date',
+#     ).transform_filter(
+#         nearest
+#     )
+#
+#     # Put the five layers into a chart and bind the data
+#
+#     return (alt.layer (
+#         line, selectors, points, rules, text
+#     ).properties (
+#         width=600, height=300
+#     ).interactive ()
+#             )
+
 def new_admissions_chart(
         alt, projection_admits: pd.DataFrame, parameters: Parameters
 ) -> Chart:
