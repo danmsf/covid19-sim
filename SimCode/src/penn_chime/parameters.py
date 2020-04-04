@@ -17,7 +17,7 @@ class Parameters:
         known_infected: int,
         relative_contact_rate: float,
         susceptible: int,
-        daily_hospitalized=daily_hospitalized,
+        detected=daily_hospitalized,
         hospitalized: RateLos,
         icu: RateLos,
         ventilated: RateLos,
@@ -25,7 +25,7 @@ class Parameters:
         tau: int = 8,
         init_infected: int = 100,
         fi: float = 0.1,
-        gamma: float = 0.077,
+        theta: float = 0.077,
         as_date: bool = False,
         market_share: float = 1.0,
         max_y_axis: int = None,
@@ -59,12 +59,12 @@ class Parameters:
         self.tau = tau
         self.init_infected = init_infected
         self.fi = fi
-        self.gamma = gamma
+        self.theta = theta
 
         self.hospitalized = hospitalized
         self.icu = icu
         self.ventilated = ventilated
-        self.daily_hospitalized = daily_hospitalized ##TODO change to np array\dict + added to declares
+        self.detected = detected
 
         self.as_date = as_date
         self.market_share = market_share

@@ -240,12 +240,28 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             format="%i",
         )
 
-        d.olg_params['cases'] = st.sidebar.number_input(
+        d.olg_params['init_infected'] = st.sidebar.number_input(
             "Minimum cases for calculation",
             min_value=0,
-            value=d.olg_params['cases'],
-            step=5,
+            value=d.olg_params['init_infected'],
+            step=10,
             format="%i",
+        )
+
+        d.olg_params['fi'] = st.sidebar.number_input(
+            "Proportion of asymptomatic",
+            min_value=0.01,
+            value=d.olg_params['fi'],
+            step=0.025,
+            format="%f",
+        )
+
+        d.olg_params['theta'] = st.sidebar.number_input(
+            "Daily diagnosis rate",
+            min_value=0.0001,
+            value=d.olg_params['theta'],
+            step=0.01,
+            format="%f",
         )
 
     if "SEIAR Model" in models_option:
@@ -412,7 +428,10 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         relative_contact_rate=relative_contact_rate,
         susceptible=susceptible,
         tau=d.olg_params['tau'],
-        cases=d.olg_params['cases'],
+        init_infected=d.olg_params['init_infected'],
+        fi=d.olg_params['fi'],
+        theta=d.olg_params['theta'],
+
 
         hospitalized=RateLos(hospitalized_rate, hospitalized_los),
         icu=RateLos(icu_rate, icu_los),
@@ -435,6 +454,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         seiar_start_date_simulation = d.seiar_params['seiar_start_date_simulation'],
         seiar_number_of_days = d.seiar_params['seiar_start_date_simulation'] + datetime.timedelta(d.seiar_params['seiar_number_of_days']),
         country_file = d.country_file,
+
 
         seirs_plus_params = d.seirs_plus_params
         )
