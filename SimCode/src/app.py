@@ -24,7 +24,8 @@ from penn_chime.charts import (
     admitted_patients_chart,
     new_admissions_chart,
     chart_descriptions,
-    admission_rma_chart
+    admission_rma_chart,
+    country_level_chart
 )
 
 # This is somewhat dangerous:
@@ -49,23 +50,31 @@ st.sidebar.subheader("General parameters")
 
 if st.sidebar.checkbox(label="Show country data"):
 
-    countrydata = CountryData(DEFAULTS.country_file)
-    countrydata.build_country_data()
+    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file)
+    countrydata.get_country_data()
+    countrydata.get_country_stringency()
     # TODO: fix overlapping countries comparison option
     countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].unique())
     temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
                                                                   'Serious_Critical', 'Total Cases', 'Total Recovered',
-                                                                  'Total Deaths']]
+                                                                  'Total Deaths', 'StringencyIndex']]
+
+    temp = temp.set_index("date", drop=False)
 
     if st.checkbox(label="Show Totals", value=False):
-        temp = temp.set_index("date")[['Total Cases', 'Total Recovered', 'Total Deaths']]
+        temp = temp[['Country', 'Total Cases', 'Total Recovered', 'Total Deaths', 'StringencyIndex', 'date']]
     else:
-        temp = temp.set_index("date")[['ActiveCases', 'New Cases', 'Serious_Critical']]
+        temp = temp[['Country', 'ActiveCases', 'New Cases', 'Serious_Critical', 'StringencyIndex', 'date']]
     if st.checkbox(label="Show table", value=False):
         temp
     else:
-        st.line_chart(temp)
-    st.markdown("""*Source: Worldmeter*""")
+        for c in countryname:
+            st.altair_chart(
+                country_level_chart(alt, temp[temp.Country == c]),
+                use_container_width=True,
+            )
+        # st.line_chart(temp)
+        st.markdown("""*Source: Worldmeter*""")
 
 
 models_option = st.sidebar.multiselect(
@@ -195,7 +204,7 @@ if "SEIRSPlus" in models_option:
         )
         st.markdown(
             """
-            
+
             Constructor Argument | Parameter Description | Data Type | Default Value
             -----|-----|-----|-----
             ```beta   ``` | rate of transmission | float | REQUIRED
@@ -203,24 +212,24 @@ if "SEIRSPlus" in models_option:
             ```gamma  ``` | rate of recovery | float | REQUIRED
             ```xi     ``` | rate of re-susceptibility | float | 0
             ```mu_I   ``` | rate of infection-related mortality | float | 0
-            ```mu_0   ``` | rate of baseline mortality | float | 0 
-            ```nu     ``` | rate of baseline birth | float | 0 
-            ```beta_D ``` | rate of transmission for detected cases | float | None (set equal to ```beta```) 
-            ```sigma_D``` | rate of progression for detected cases | float | None (set equal to ```sigma```)  
-            ```gamma_D``` | rate of recovery for detected cases | float | None (set equal to ```gamma```)  
-            ```mu_D   ``` | rate of infection-related mortality for detected cases | float | None (set equal to ```mu_I```) 
-            ```theta_E``` | rate of testing for exposed individuals | float | 0 
-            ```theta_I``` | rate of testing for infectious individuals | float | 0 
-            ```psi_E  ``` | probability of positive tests for exposed individuals | float | 0 
+            ```mu_0   ``` | rate of baseline mortality | float | 0
+            ```nu     ``` | rate of baseline birth | float | 0
+            ```beta_D ``` | rate of transmission for detected cases | float | None (set equal to ```beta```)
+            ```sigma_D``` | rate of progression for detected cases | float | None (set equal to ```sigma```)
+            ```gamma_D``` | rate of recovery for detected cases | float | None (set equal to ```gamma```)
+            ```mu_D   ``` | rate of infection-related mortality for detected cases | float | None (set equal to ```mu_I```)
+            ```theta_E``` | rate of testing for exposed individuals | float | 0
+            ```theta_I``` | rate of testing for infectious individuals | float | 0
+            ```psi_E  ``` | probability of positive tests for exposed individuals | float | 0
             ```psi_I  ``` | probability of positive tests for infectious individuals | float | 0
             ```initN  ``` | initial total number of individuals | int | 10
             ```initI  ``` | initial number of infectious individuals | int | 10
-            ```initE  ``` | initial number of exposed individuals | int | 0 
-            ```initD_E``` | initial number of detected exposed individuals | int | 0 
-            ```initD_I``` | initial number of detected infectious individuals | int | 0 
+            ```initE  ``` | initial number of exposed individuals | int | 0
+            ```initD_E``` | initial number of detected exposed individuals | int | 0
+            ```initD_I``` | initial number of detected infectious individuals | int | 0
             ```initR  ``` | initial number of recovered individuals | int | 0
             ```initF  ``` | initial number of deceased individuals | int | 0
-    
+
             """
         )
     if st.checkbox(label="Detailed information on model", value=False):
