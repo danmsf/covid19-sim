@@ -82,8 +82,8 @@ class Constants:
                              }
         self.seirs_plus_params = {
             'beta': 0.155,
-            'sigma': 0.080710250201776,
-            'gamma': 0.0,
+            'sigma': 1./4,
+            'gamma': 1./14,
             'xi':0.0,
             'mu_I': 0.0,
             'mu_0':0.0,
@@ -96,14 +96,15 @@ class Constants:
             'theta_I': 0.0,
             'psi_E': 0.0,
             'psi_I': 0.0,
-            'initN': 100000.0,
-            'initI': 100.0,
+            'initN': 8740000.0,
+            'initI': 10.0,
             'initE': 0.0,
             'initD_E': 0.0,
             'initD_I': 0.0,
             'initR': 0.0,
             'initF': 0.0,
         }
+        self.model_chekpoints = {'t': [], 'beta': []}
         self.country_file = country_file
         self.stringency_file = stringency_file
 
