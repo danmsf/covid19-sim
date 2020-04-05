@@ -60,8 +60,8 @@ def admission_rma_chart(alt, df: pd.DataFrame,):
 
 def country_level_chart(alt, df: pd.DataFrame,):
     colnames = df.columns
-    colnames = [c for c in colnames if c not in ['date', 'StringencyIndex']]
-    source = df.melt(id_vars=['date'], value_vars=colnames).dropna()
+    colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
+    source = df.melt(id_vars=['date', 'Country'], value_vars=colnames).dropna()
     source['value'] = source['value'].astype('int64')
 
     source['value'] = source['value'].astype('int64')
@@ -115,9 +115,9 @@ def country_level_chart(alt, df: pd.DataFrame,):
     # Put the five layers into a chart and bind the data
 
     return (alt.layer(
-        line, line2, selectors, rules, text ,text2
+        line, line2, selectors, rules, text, text2
     ).properties(
-        width=600, height=300
+        width=600, height=300, title=df.Country[0]
     ).resolve_scale(y='independent').interactive()
             )
 
