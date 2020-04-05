@@ -59,20 +59,20 @@ if st.sidebar.checkbox(label="Show country data"):
                                                                   'Serious_Critical', 'Total Cases', 'Total Recovered',
                                                                   'Total Deaths', 'StringencyIndex']]
 
-    temp = temp.set_index("date")
+    temp = temp.set_index("date", drop=False)
 
     if st.checkbox(label="Show Totals", value=False):
-        temp = temp[['Total Cases', 'Total Recovered', 'Total Deaths', 'StringencyIndex']]
+        temp = temp[['Total Cases', 'Total Recovered', 'Total Deaths', 'StringencyIndex', 'date']]
     else:
-        temp = temp[['ActiveCases', 'New Cases', 'Serious_Critical']]
+        temp = temp[['ActiveCases', 'New Cases', 'Serious_Critical', 'StringencyIndex', 'date']]
     if st.checkbox(label="Show table", value=False):
         temp
     else:
-        # st.altair_chart(
-        #     country_level_chart(alt, temp.df),
-        #     use_container_width=True,
-        # )
-        st.line_chart(temp)
+        st.altair_chart(
+            country_level_chart(alt, temp),
+            use_container_width=True,
+        )
+        # st.line_chart(temp)
         st.markdown("""*Source: Worldmeter*""")
 
 
