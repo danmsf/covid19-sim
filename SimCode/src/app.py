@@ -47,7 +47,9 @@ st.markdown(
 )
 
 st.sidebar.subheader("General parameters")
-
+# TODO: changing betas
+# TODO: Michaels models by city/country
+# TODO: vector of percentages of beta
 if st.sidebar.checkbox(label="Show country data"):
 
     countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file)
@@ -64,7 +66,7 @@ if st.sidebar.checkbox(label="Show country data"):
     if st.checkbox(label="Show Totals", value=False):
         temp = temp[['Country', 'Total Cases', 'Total Recovered', 'Total Deaths', 'StringencyIndex', 'date']]
     else:
-        temp = temp[['Country', 'ActiveCases', 'New Cases', 'Serious_Critical', 'StringencyIndex', 'date']]
+        temp = temp[['Country',  'New Cases', 'Serious_Critical', 'StringencyIndex', 'date']]
     if st.checkbox(label="Show table", value=False):
         temp
     else:
