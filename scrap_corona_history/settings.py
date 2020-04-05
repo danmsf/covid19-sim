@@ -23,7 +23,8 @@ URLS_PATH = os.path.join(RESOURCE_DIR, 'urls.csv')
 
 RESULTS_DIR = 'results'
 RESULTS_FILE = 'all_dates.csv'
-RESULTS_PATH = os.path.join(RESULTS_DIR, RESULTS_FILE)
+# OLD RESULTS_PATH = os.path.join(RESULTS_DIR, RESULTS_FILE)
+RESULTS_PATH = r'D:\PycharmProjects\covid19-sim\Resources\all_dates.csv'
 
 MAPPER_FILE = 'column_remapper.csv'
 MAPPER_PATH = os.path.join(RESOURCE_DIR, MAPPER_FILE)
