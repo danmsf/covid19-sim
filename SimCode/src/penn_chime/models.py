@@ -247,6 +247,7 @@ class Seiar:
         self.results = pd.concat(results, axis = 1)
         return 0
 
+
 class OLG:
     def __init__(self, p: Parameters):
         self.periods_count = len(p.daily_hospitalized)
