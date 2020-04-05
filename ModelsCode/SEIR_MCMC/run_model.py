@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 import arviz as az
 from models import SIR
+
 import os
 import theano
 # os.environ["THEANO_FLAGS"] = "device=cuda"
