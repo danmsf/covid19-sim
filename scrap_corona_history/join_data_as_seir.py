@@ -1,4 +1,4 @@
-from settings import *
+from scrap_corona_history.settings import *
 import glob
 import re
 import datetime
@@ -80,7 +80,7 @@ def main():
     # --------------------
     # # Output to file
     # --------------------
-    all_data.to_csv(OUT_FILE)
+    all_data.to_csv(RESULTS_PATH)
     return (all_data)
 
 
