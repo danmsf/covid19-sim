@@ -200,6 +200,7 @@ class Seiar:
         S, E, I, A, R = [self.S_0/self.N], [self.E_0/self.N], [self.I_0/self.N], [self.A_0/self.N], [self.R_0/self.N]
 
         dt = t[1] - t[0]
+
         for _ in t[1:]:
             next_S = S[-1] - (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1]) * dt
             next_E = E[-1] + (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1] - self.alpha * E[-1]) * dt
@@ -347,13 +348,14 @@ class OLG:
 
 
 class CountryData:
-    def __init__(self, country_file, stringency_file):
+    def __init__(self, country_file, stringency_file, sir_file):
         self.country_file = country_file
-        self.country_file = country_file
+        self.sir_file = sir_file
         self.stringency_file = stringency_file
         self.country_df = self.get_country_data()
         self.stringency_df = self.get_country_stringency()
         self.df = self.get_data()
+        self.sir_df = self.get_sir()
 
     def get_country_data(self):
         country_df = pd.read_csv(self.country_file)
@@ -361,6 +363,8 @@ class CountryData:
         country_df = country_df.drop(columns="Unnamed: 0")
         # country_df['date'] = country_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
         country_df['date'] = pd.to_datetime(country_df['date'],format="%d/%m/%Y")
+        # country_df['date'] = pd.to_datetime(country_df['date'], format="%Y-%m-%d")
+
         return country_df
 
     def get_country_stringency(self):
@@ -371,3 +375,14 @@ class CountryData:
     def get_data(self):
         df = self.country_df.merge(self.stringency_df, left_on=["Country", "date"], right_on=["CountryName", "date"])
         return df
+
+    def get_sir(self):
+        sir_df = pd.read_csv(self.sir_file)
+        # sir_df = sir_df.set_index('Country')
+        sir_df = sir_df.drop(columns="Unnamed: 0")
+        # sir_df['date'] = sir_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
+        # sir_df['date'] = pd.to_datetime(sir_df['date'],format="%d/%m/%Y")
+        sir_df['date'] = pd.to_datetime(sir_df['date'], format="%Y-%m-%d")
+        sir_df['country'] = sir_df['country'].str.capitalize()
+        sir_df = sir_df.rename(columns={'country':'Country'})
+        return sir_df

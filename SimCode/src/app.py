@@ -55,9 +55,11 @@ st.sidebar.subheader("General parameters")
 # TODO: find params
 if st.sidebar.checkbox(label="Show country data"):
 
-    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file)
+    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
     countrydata.get_country_data()
     countrydata.get_country_stringency()
+    countrydata.get_sir()
+    countrydata.sir_df
     # TODO: fix overlapping countries comparison option
     countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].unique())
     temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
@@ -190,7 +192,7 @@ if "SEIAR Model" in models_option:
     if st.checkbox(label="Present result as table", value=False):
         mseiar_results
     else:
-        st.line_chart(mseiar_results[['Asymptomatic', 'Infected']])
+        st.line_chart(mseiar_results[['Asymptomatic', 'Ill']])
 
 if "SEIRSPlus" in models_option:
     st.subheader("SEIRSPlus")
