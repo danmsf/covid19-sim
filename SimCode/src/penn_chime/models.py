@@ -14,6 +14,8 @@ import pandas as pd  # type: ignore
 
 from .parameters import Parameters
 
+from seirsplus.models import *
+import networkx
 
 class SimSirModel:
 
@@ -173,28 +175,29 @@ def build_census_df(
     })
 
 class Seiar:
-    def __init__(self, N, S_0, E_0, I_0, A_0, R_0, alpha, beta_ill, beta_asy, gamma_ill, gamma_asy, rho,
-                 theta, start_date_simulation, number_of_days):
-        self.N = N
-        self.S_0 = S_0
-        self.E_0 = E_0
-        self.I_0 = I_0
-        self.A_0 = A_0
-        self.R_0 = R_0
-        self.alpha = alpha
-        self.beta_ill = beta_ill
-        self.beta_asy = beta_asy
-        self.gamma_ill = gamma_ill
-        self.gamma_asy = gamma_asy
-        self.rho = rho
-        self.theta = theta
-        self.start_date_simulation = start_date_simulation
-        self.number_of_days = number_of_days
+    def __init__(self, p: Parameters):
+
+        self.N = p.N
+        self.S_0 = p.S_0
+        self.E_0 = p.E_0
+        self.I_0 = p.I_0
+        self.A_0 = p.A_0
+        self.R_0 = p.R_0
+        self.alpha = p.alpha
+        self.beta_ill = p.beta_ill
+        self.beta_asy = p.beta_asy
+        self.gamma_ill = p.gamma_ill
+        self.gamma_asy = p.gamma_asy
+        self.rho = p.rho
+        self.theta = p.theta
+        self.start_date_simulation = p.start_date_simulation
+        self.number_of_days = p.number_of_days
+        self.run_simulation()
         self.results=[]
 
 
     def model(self,t):
-        S, E, I, A, R = [self.S_0], [self.E_0], [self.I_0], [self.A_0], [self.R_0]
+        S, E, I, A, R = [self.S_0/self.N], [self.E_0/self.N], [self.I_0/self.N], [self.A_0/self.N], [self.R_0/self.N]
 
         dt = t[1] - t[0]
         for _ in t[1:]:
@@ -234,17 +237,137 @@ class Seiar:
         exposed_df = df_I_E[['Exposed']] * self.N
 
         results = [
-                    infected_df[:self.number_of_days],
-                    asymptomatic_df[:self.number_of_days],
-                    recovered_df[:self.number_of_days],
-                    susceptible_df[:self.number_of_days],
-                    exposed_df[:self.number_of_days]
+                    infected_df.loc[:self.number_of_days],
+                    asymptomatic_df.loc[:self.number_of_days],
+                    recovered_df.loc[:self.number_of_days],
+                    susceptible_df.loc[:self.number_of_days],
+                    exposed_df.loc[:self.number_of_days]
                    ]
 
         self.results = pd.concat(results, axis = 1)
         return 0
 
-    def plot(self):
-        self.results.plot()
+class OLG:
+    """
+    calc_asymptomatic start from first case
+    exposed are the asymptomatic_infected with lag not only infected
+    asymptomatic_infected eq 10 does not always grow but uses two diferent R0
+
+    fi  # proportion of infectives are never diagnosed
+    theta = theta  # diagnosis daily rate
 
 
+
+
+
+    """
+    def __init__(self, p: Parameters):
+
+        self.detected = []
+        self.increasing_values(p.detected, p.init_infected)
+
+        self.RMA, self.R0D = self.calc_r(tau=p.tau)
+
+        self.detected = self.predict(tau=p.tau)
+
+
+        self.asymptomatic_infected = self.calc_asymptomatic(fi=p.fi, theta=p.theta)
+        self.df = self.write(tau=p.tau)
+
+
+    @staticmethod
+    def calc_next_gen(r0=4.9636, tau=14, C_t=70, C_o=0):
+        return C_t * (1 + r0 / tau) ** tau - C_o * r0 / tau * (1 + r0 / tau) ** (tau - 1)
+
+
+    def increasing_values(self, detected, init_infected):
+        day_0 = np.argmax(detected > init_infected)
+        detected = detected[day_0-1:]
+
+        for t in range(1, len(detected)):
+            self.detected.append(max(detected[t - 1], detected[t]))
+
+
+    def calc_r(self, tau):
+        detected = self.detected
+
+        r_values = np.array([])
+
+        for t in range(1, tau + 1):
+            r_value = (detected[t] /(detected[t - 1]  + 1e-05) - 1) * tau
+            r_values = np.append(r_values, r_value)
+
+
+        for t in range(tau + 1, len(detected)):
+            r_value = (detected[t] / (detected[t - 1] -detected[t - tau] +detected[t - tau - 1]) - 1) * tau
+            r_values = np.append(r_values, r_value)
+
+
+        rma = np.convolve(r_values, np.ones((tau,)) / tau, mode='full')
+
+        return rma, rma[-1]
+
+
+
+
+    def calc_asymptomatic(self, fi, theta):
+
+        asymptomatic_infected = np.array([self.detected[0]])
+
+        for t in range(1, len(self.detected)):
+            cur_asymptomatic_infected = 1 / (1 - fi) * (self.detected[t] / theta)
+            asymptomatic_infected = np.append(asymptomatic_infected,  cur_asymptomatic_infected)
+
+        return asymptomatic_infected
+
+    def predict(self, tau):
+        detected = self.detected
+
+        for i in range(len(detected) - tau, len(detected)):
+            detected = np.append(detected, self.calc_next_gen(r0=self.R0D, tau=tau, C_t=detected[i], C_o=detected[i-tau]))
+        return detected
+
+
+    def write(self, tau):
+        periods  = len(self.detected)
+
+        asymptomatic = self.asymptomatic_infected - self.detected
+        exposed = self.asymptomatic_infected
+
+        df = pd.DataFrame({'asymptomatic': asymptomatic,
+                           'infected': self.detected,
+                           'exposed': exposed
+                           })
+
+        df['dates'] = pd.date_range(end=pd.to_datetime('today').strftime('%Y-%m-%d'), periods=periods)
+        df['asymptomatic'].clip(lower=0, inplace=True)
+        df['exposed'] = df['exposed'].shift(-tau)
+
+        return df
+
+
+class CountryData:
+    def __init__(self, country_file, stringency_file):
+        self.country_file = country_file
+        self.country_file = country_file
+        self.stringency_file = stringency_file
+        self.country_df = self.get_country_data()
+        self.stringency_df = self.get_country_stringency()
+        self.df = self.get_data()
+
+    def get_country_data(self):
+        country_df = pd.read_csv(self.country_file)
+        # country_df = country_df.set_index('Country')
+        country_df = country_df.drop(columns="Unnamed: 0")
+        # country_df['date'] = country_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
+        country_df['date'] = pd.to_datetime(country_df['date'],format="%d/%m/%Y")
+        return country_df
+
+    def get_country_stringency(self):
+        country_st_df = pd.read_excel(self.stringency_file)
+        country_st_df['date'] = pd.to_datetime(country_st_df['Date'], format="%Y%m%d")
+        return country_st_df
+
+    def get_data(self):
+        df = self.country_df.merge(self.stringency_df, left_on=["Country", "date"], right_on=["CountryName", "date"])
+        return df

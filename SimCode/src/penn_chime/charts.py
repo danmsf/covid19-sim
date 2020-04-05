@@ -1,4 +1,3 @@
-
 from math import ceil
 import datetime
 
@@ -9,9 +8,121 @@ from .parameters import Parameters
 from .utils import add_date_column
 from .presentation import DATE_FORMAT
 
+def admission_rma_chart(alt, df: pd.DataFrame,):
+
+    source = df.melt(id_vars=['dates'], value_vars=['asymptomatic', 'infected', 'exposed']).dropna()
+    source['value'] = source['value'].astype('int64')
+
+    nearest = alt.selection(type='single', nearest=True, on='mouseover',
+                            fields=['dates'], empty='none')
+
+    line = alt.Chart(source).mark_line(interpolate='basis').encode(
+        x='dates:T',
+        y='value',
+        color='variable'
+    )
+
+    # Transparent selectors across the chart. This is what tells us
+    # the x-value of the cursor
+    selectors = alt.Chart(source).mark_point().encode(
+        x='dates',
+        opacity=alt.value(0),
+    ).add_selection(
+        nearest
+    )
+
+    # Draw points on the line, and highlight based on selection
+    points = line.mark_point().encode(
+        opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+    )
+
+    # Draw text labels near the points, and highlight based on selection
+    text = line.mark_text(align='left', dx=5, dy=-5).encode(
+        text=alt.condition(nearest, 'value', alt.value(' '))
+    )
+
+    # Draw a rule at the location of the selection
+    rules = alt.Chart(source).mark_rule(color='gray').encode(
+        x='dates',
+    ).transform_filter(
+        nearest
+    )
+
+    # Put the five layers into a chart and bind the data
+
+    return (alt.layer(
+        line, selectors, points, rules, text
+    ).properties(
+        width=600, height=300
+    ).interactive()
+    )
+
+
+def country_level_chart(alt, df: pd.DataFrame,):
+    colnames = df.columns
+    colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
+    source = df.melt(id_vars=['date', 'Country'], value_vars=colnames).dropna()
+    source['value'] = source['value'].astype('int64')
+
+    source['value'] = source['value'].astype('int64')
+
+    nearest = alt.selection(type='single', nearest=True, on='mouseover',
+                            fields=['date'], empty='none')
+
+    line = alt.Chart(source).mark_line(interpolate='basis').encode(
+        x='date:T',
+        y='value',
+        color='variable'
+    )
+
+    line2 = alt.Chart(df).mark_line(interpolate='basis', strokeDash=[1, 1]).encode(
+        x='date:T',
+        y='StringencyIndex'
+    )
+
+    # Transparent selectors across the chart. This is what tells us
+    # the x-value of the cursor
+    selectors = alt.Chart(source).mark_point().encode(
+        x='date',
+        opacity=alt.value(0),
+    ).add_selection(
+        nearest
+    )
+
+    # Draw points on the line, and highlight based on selection
+    points = line.mark_point().encode(
+        opacity=alt.condition(nearest, alt.value(1), alt.value(0)),
+        y = alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
+    )
+    # Draw text labels near the points, and highlight based on selection
+    text = line.mark_text(align='left', dx=5, dy=-5).encode(
+        text=alt.condition(nearest, 'value', alt.value(' ')),
+        y=alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
+    )
+
+    text2 = line2.mark_text(align='left', dx=5, dy=-5).encode(
+        text=alt.condition(nearest, 'StringencyIndex', alt.value(' ')),
+        y=alt.Y('StringencyIndex', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
+    )
+
+    # Draw a rule at the location of the selection
+    rules = alt.Chart(source).mark_rule(color='gray').encode(
+        x='date',
+    ).transform_filter(
+        nearest
+    )
+
+    # Put the five layers into a chart and bind the data
+
+    return (alt.layer(
+        line, line2, selectors, rules, text, text2
+    ).properties(
+        width=600, height=300, title=df.Country[0]
+    ).resolve_scale(y='independent').interactive()
+            )
 
 def new_admissions_chart(
-    alt, projection_admits: pd.DataFrame, parameters: Parameters
+        alt, projection_admits: pd.DataFrame, parameters: Parameters
 ) -> Chart:
     """docstring"""
     plot_projection_days = parameters.n_days - 10
@@ -33,11 +144,11 @@ def new_admissions_chart(
     # TODO fix the fold to allow any number of dispositions
     return (
         alt.Chart(projection_admits.head(plot_projection_days))
-        .transform_fold(fold=["hospitalized", "icu", "ventilated"])
-        .mark_line(point=True)
-        .encode(
+            .transform_fold(fold=["hospitalized", "icu", "ventilated"])
+            .mark_line(point=True)
+            .encode(
             x=alt.X(**x_kwargs),
-            y=alt.Y("value:Q", title="Daily admissions", scale=y_scale),
+                y=alt.Y("value:Q", title="Daily admissions", scale=y_scale),
             color="key:N",
             tooltip=[
                 tooltip_dict[as_date],
@@ -45,12 +156,12 @@ def new_admissions_chart(
                 "key:N",
             ],
         )
-        .interactive()
+            .interactive()
     )
 
 
 def admitted_patients_chart(
-    alt, census: pd.DataFrame, parameters: Parameters
+        alt, census: pd.DataFrame, parameters: Parameters
 ) -> Chart:
     """docstring"""
 
@@ -73,9 +184,9 @@ def admitted_patients_chart(
     # TODO fix the fold to allow any number of dispositions
     return (
         alt.Chart(census.head(plot_projection_days))
-        .transform_fold(fold=["hospitalized", "icu", "ventilated"])
-        .mark_line(point=True)
-        .encode(
+            .transform_fold(fold=["hospitalized", "icu", "ventilated"])
+            .mark_line(point=True)
+            .encode(
             x=alt.X(**x_kwargs),
             y=alt.Y("value:Q", title="Census", scale=y_scale),
             color="key:N",
@@ -85,14 +196,13 @@ def admitted_patients_chart(
                 "key:N",
             ],
         )
-        .interactive()
+            .interactive()
     )
 
 
 def additional_projections_chart(
-    alt, model, parameters
+        alt, model, parameters
 ) -> Chart:
-
     # TODO use subselect of df_raw instead of creating a new df
     raw_df = model.raw_df
     dat = pd.DataFrame({
@@ -117,15 +227,15 @@ def additional_projections_chart(
 
     return (
         alt.Chart(dat)
-        .transform_fold(fold=["infected", "recovered"])
-        .mark_line()
-        .encode(
+            .transform_fold(fold=["infected", "recovered"])
+            .mark_line()
+            .encode(
             x=alt.X(**x_kwargs),
             y=alt.Y("value:Q", title="Case Volume", scale=y_scale),
             tooltip=["key:N", "value:Q"],
             color="key:N",
         )
-        .interactive()
+            .interactive()
     )
 
 
@@ -167,3 +277,4 @@ def chart_descriptions(chart: Chart, labels, suffix: str = ""):
     if asterisk:
         messages.append("_* The max is at the upper bound of the data, and therefore may not be the actual max_")
     return "\n\n".join(messages)
+

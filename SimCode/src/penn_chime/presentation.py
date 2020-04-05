@@ -5,7 +5,7 @@ from typing import Optional
 import altair as alt  # type: ignore
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-
+import datetime
 from .defaults import Constants, RateLos
 from .utils import add_date_column, dataframe_to_base64
 from .parameters import Parameters
@@ -38,10 +38,9 @@ def display_header(st, m, p):
 <link rel="stylesheet" href="https://www1.pennmedicine.org/styles/shared/penn-medicine-header.css">
 
 <div class="penn-medicine-header__content">
-    <a href="https://www.g-stat.com" class="penn-medicine-header__logo"
-        title="Go to GSTAT">Penn Medicine</a>
-    <a id="title" class="penn-medicine-header__title">GSTAT - COVID-19</a>
-    <p id="title" class="penn-medicine-header__title" style="text-align:center">Based on Penn Medicine - COVID-19 Hospital Impact Model for Epidemics</p>
+    <a href="https://www.penn.com" class="penn-medicine-header__logo"
+        title="Go to Penn">Penn Medicine</a>
+    <a id="title" class="penn-medicine-header__title" style="text-align:center">Penn Medicine - COVID-19 Hospital Impact Model for Epidemics</p>
 </div>
     """,
         unsafe_allow_html=True,
@@ -89,142 +88,345 @@ outbreak **{impact_statement:s} {doubling_time_t:.1f}** days, implying an effect
     return None
 
 
-def display_sidebar(st, d: Constants) -> Parameters:
+def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
     # Initialize variables
     # these functions create input elements and bind the values they are set to
     # to the variables they are set equal to
     # it's kindof like ember or angular if you are familiar with those
 
+    n_days, current_hospitalized, doubling_time, relative_contact_rate, hospitalized_rate, icu_rate, ventilated_rate,\
+    hospitalized_los, icu_los, ventilated_los, market_share, susceptible, known_infected, as_date, max_y_axis = \
+        [d.n_days, d.current_hospitalized, d.doubling_time, d.relative_contact_rate, d.hospitalized.rate, d.icu.rate, d.ventilated.rate,
+         d.hospitalized.length_of_stay, d.icu.length_of_stay, d.ventilated.length_of_stay, d.market_share, d.region.susceptible, d.known_infected, True, None]
+
+    init_beta, projection_path, time_steps = choose_projection_path(st)
     if d.known_infected < 1:
-        raise ValueError("Known cases must be larger than one to enable predictions.")
-
-    n_days = st.sidebar.number_input(
-        "Number of days to project",
-        min_value=30,
-        value=d.n_days,
-        step=10,
-        format="%i",
-    )
-
-    current_hospitalized = st.sidebar.number_input(
-        "Currently Hospitalized COVID-19 Patients",
-        min_value=0,
-        value=d.current_hospitalized,
-        step=1,
-        format="%i",
-    )
-
-    doubling_time = st.sidebar.number_input(
-        "Doubling time before social distancing (days)",
-        min_value=0,
-        value=d.doubling_time,
-        step=1,
-        format="%i",
-    )
-
-    relative_contact_rate = (
-        st.sidebar.number_input(
-            "Social distancing (% reduction in social contact)",
-            min_value=0,
-            max_value=100,
-            value=int(d.relative_contact_rate * 100),
-            step=5,
+            raise ValueError("Known cases must be larger than one to enable predictions.")
+    if "Penn Dashboard" in models_option:
+        n_days = st.sidebar.number_input(
+            "Number of days to project",
+            min_value=30,
+            value=d.n_days,
+            step=10,
             format="%i",
         )
-        / 100.0
-    )
 
-    hospitalized_rate = (
-        st.sidebar.number_input(
-            "Hospitalization %(total infections)",
-            min_value=0.001,
-            max_value=100.0,
-            value=d.hospitalized.rate * 100,
-            step=1.0,
+        current_hospitalized = st.sidebar.number_input(
+            "Currently Hospitalized COVID-19 Patients",
+            min_value=0,
+            value=d.current_hospitalized,
+            step=1,
+            format="%i",
+        )
+
+        doubling_time = st.sidebar.number_input(
+            "Doubling time before social distancing (days)",
+            min_value=0,
+            value=d.doubling_time,
+            step=1,
+            format="%i",
+        )
+
+        relative_contact_rate = (
+            st.sidebar.number_input(
+                "Social distancing (% reduction in social contact)",
+                min_value=0,
+                max_value=100,
+                value=int(d.relative_contact_rate * 100),
+                step=5,
+                format="%i",
+            )
+            / 100.0
+        )
+
+        hospitalized_rate = (
+            st.sidebar.number_input(
+                "Hospitalization %(total infections)",
+                min_value=0.001,
+                max_value=100.0,
+                value=d.hospitalized.rate * 100,
+                step=1.0,
+                format="%f",
+            )
+            / 100.0
+        )
+        icu_rate = (
+            st.sidebar.number_input(
+                "ICU %(total infections)",
+                min_value=0.0,
+                max_value=100.0,
+                value=d.icu.rate * 100,
+                step=1.0,
+                format="%f",
+            )
+            / 100.0
+        )
+        ventilated_rate = (
+            st.sidebar.number_input(
+                "Ventilated %(total infections)",
+                min_value=0.0,
+                max_value=100.0,
+                value=d.ventilated.rate * 100,
+                step=1.0,
+                format="%f",
+            )
+            / 100.0
+        )
+
+        hospitalized_los = st.sidebar.number_input(
+            "Hospital Length of Stay",
+            min_value=0,
+            value=d.hospitalized.length_of_stay,
+            step=1,
+            format="%i",
+        )
+        icu_los = st.sidebar.number_input(
+            "ICU Length of Stay",
+            min_value=0,
+            value=d.icu.length_of_stay,
+            step=1,
+            format="%i",
+        )
+        ventilated_los = st.sidebar.number_input(
+            "Vent Length of Stay",
+            min_value=0,
+            value=d.ventilated.length_of_stay,
+            step=1,
+            format="%i",
+        )
+
+        market_share = (
+            st.sidebar.number_input(
+                "Hospital Market Share (%)",
+                min_value=0.001,
+                max_value=100.0,
+                value=d.market_share * 100,
+                step=1.0,
+                format="%f",
+            )
+            / 100.0
+        )
+        susceptible = st.sidebar.number_input(
+            "Regional Population",
+            min_value=1,
+            value=d.region.susceptible,
+            step=100000,
+            format="%i",
+        )
+
+        known_infected = st.sidebar.number_input(
+            "Currently Known Regional Infections (only used to compute detection rate - does not change projections)",
+            min_value=0,
+            value=d.known_infected,
+            step=10,
+            format="%i",
+        )
+
+        as_date = st.sidebar.checkbox(label="Present result as dates instead of days", value=False)
+
+        max_y_axis_set = st.sidebar.checkbox("Set the Y-axis on graphs to a static value")
+        max_y_axis = None
+        if max_y_axis_set:
+            max_y_axis = st.sidebar.number_input(
+                "Y-axis static value", value=500, format="%i", step=25,
+            )
+    if "OLG Model" in models_option:
+        st.sidebar.subheader("OLG Model parameters")
+        d.olg_params['tau'] = st.sidebar.number_input(
+            "tau rate",
+            min_value=1,
+            value=d.olg_params['tau'],
+            step=1,
+            format="%i",
+        )
+
+        d.olg_params['init_infected'] = st.sidebar.number_input(
+            "Minimum cases for calculation",
+            min_value=0,
+            value=d.olg_params['init_infected'],
+            step=10,
+            format="%i",
+        )
+
+        d.olg_params['fi'] = st.sidebar.number_input(
+            "Proportion of asymptomatic",
+            min_value=0.01,
+            value=d.olg_params['fi'],
+            step=0.025,
             format="%f",
         )
-        / 100.0
-    )
-    icu_rate = (
-        st.sidebar.number_input(
-            "ICU %(total infections)",
+
+        d.olg_params['theta'] = st.sidebar.number_input(
+            "Daily diagnosis rate",
+            min_value=0.0001,
+            value=d.olg_params['theta'],
+            step=0.01,
+            format="%f",
+        )
+
+    if "SEIAR Model" in models_option:
+        st.sidebar.subheader("SEAIR Model parameters")
+        d.seiar_params['N_0'] = st.sidebar.number_input(
+            "Population",
+            min_value=1.,
+            max_value=1000000000.0,
+            value=d.seiar_params['N_0'],
+            step=10.0,
+            format="%f",
+        )
+
+        d.seiar_params['S_0'] = st.sidebar.number_input(
+            "Susceptible",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=d.seiar_params['S_0'],
+            step=10.,
+            format="%f",
+        )
+
+        d.seiar_params['E_0'] = st.sidebar.number_input(
+            "Exposed",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=d.seiar_params['E_0'],
+            step=10.,
+            format="%f",
+        )
+
+        d.seiar_params['A_0'] = st.sidebar.number_input(
+            "Unknown Infected",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=d.seiar_params['A_0'],
+            step=10.,
+            format="%f",
+        )
+
+        d.seiar_params['I_0'] = st.sidebar.number_input(
+            "Currently Known Ill ",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=d.seiar_params['I_0'],
+            step=10.,
+            format="%f",
+        )
+
+        d.seiar_params['R_0'] = st.sidebar.number_input(
+            "Recovered",
+            min_value=0.,
+            max_value=d.seiar_params['N_0'],
+            value=0.0,
+            step=10.,
+            format="%f",
+        )
+
+        d.seiar_params['seiar_alpha'] = st.sidebar.number_input(
+            "seiar_alpha",
             min_value=0.0,
             max_value=100.0,
-            value=d.icu.rate * 100,
-            step=1.0,
+            value=d.seiar_params['seiar_alpha'],
+            step=0.01,
             format="%f",
         )
-        / 100.0
-    )
-    ventilated_rate = (
-        st.sidebar.number_input(
-            "Ventilated %(total infections)",
+
+        d.seiar_params['seiar_beta_ill'] = st.sidebar.number_input(
+            "seiar_beta_ill",
             min_value=0.0,
             max_value=100.0,
-            value=d.ventilated.rate * 100,
-            step=1.0,
+            value=init_beta,
+            step=0.01,
             format="%f",
         )
-        / 100.0
-    )
 
-    hospitalized_los = st.sidebar.number_input(
-        "Hospital Length of Stay",
-        min_value=0,
-        value=d.hospitalized.length_of_stay,
-        step=1,
-        format="%i",
-    )
-    icu_los = st.sidebar.number_input(
-        "ICU Length of Stay",
-        min_value=0,
-        value=d.icu.length_of_stay,
-        step=1,
-        format="%i",
-    )
-    ventilated_los = st.sidebar.number_input(
-        "Vent Length of Stay",
-        min_value=0,
-        value=d.ventilated.length_of_stay,
-        step=1,
-        format="%i",
-    )
-
-    market_share = (
-        st.sidebar.number_input(
-            "Hospital Market Share (%)",
-            min_value=0.001,
+        d.seiar_params['seiar_beta_asy'] = st.sidebar.number_input(
+            "seiar_beta_asy",
+            min_value=0.0,
             max_value=100.0,
-            value=d.market_share * 100,
-            step=1.0,
+            value=init_beta,
+            step=0.01,
             format="%f",
         )
-        / 100.0
-    )
-    susceptible = st.sidebar.number_input(
-        "Regional Population",
-        min_value=1,
-        value=d.region.susceptible,
-        step=100000,
-        format="%i",
-    )
 
-    known_infected = st.sidebar.number_input(
-        "Currently Known Regional Infections (only used to compute detection rate - does not change projections)",
-        min_value=0,
-        value=d.known_infected,
-        step=10,
-        format="%i",
-    )
-
-    as_date = st.sidebar.checkbox(label="Present result as dates instead of days", value=False)
-
-    max_y_axis_set = st.sidebar.checkbox("Set the Y-axis on graphs to a static value")
-    max_y_axis = None
-    if max_y_axis_set:
-        max_y_axis = st.sidebar.number_input(
-            "Y-axis static value", value=500, format="%i", step=25,
+        d.seiar_params['seiar_gamma_ill'] = st.sidebar.number_input(
+            "seiar_gamma_ill",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_gamma_ill'],
+            step=0.01,
+            format="%f",
         )
+
+        d.seiar_params['seiar_gamma_asy'] = st.sidebar.number_input(
+            "seiar_gamma_asy",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_gamma_asy'],
+            step=0.01,
+            format="%f",
+        )
+
+        d.seiar_params['seiar_rho'] = st.sidebar.number_input(
+            "seiar_rho",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_rho'],
+            step=0.01,
+            format="%f",
+        )
+
+        d.seiar_params['seiar_theta'] = st.sidebar.number_input(
+            "seiar_theta",
+            min_value=0.0,
+            max_value=100.0,
+            value=d.seiar_params['seiar_theta'],
+            step=0.01,
+            format="%f",
+        )
+
+        d.seiar_params['seiar_start_date_simulation'] = st.sidebar.date_input(
+            "seiar_start_date_simulation",
+            value=d.seiar_params['seiar_start_date_simulation']
+        )
+
+        d.seiar_params['seiar_number_of_days'] = st.sidebar.number_input(
+            "seiar_number_of_days",
+            min_value=0.0,
+            max_value=1000.0,
+            value=d.seiar_params['seiar_number_of_days'],
+            step=1.0,
+            format="%s",
+        )
+
+    if "SEIRSPlus" in models_option:
+        for k, v in d.seirs_plus_params.items():
+            if k.find('init')>-1:
+                d.seirs_plus_params[k] = st.sidebar.number_input(
+                k,
+                min_value=0.0,
+                max_value=100000000.0,
+                value=v,
+                step=10.0,
+                format="%f")
+            elif k == 'beta':
+                d.seirs_plus_params[k] = st.sidebar.number_input(
+                k,
+                min_value=0.0,
+                max_value=100.0,
+                value=init_beta,
+                step=0.01,
+                format="%f")
+            else:
+                d.seirs_plus_params[k] = st.sidebar.number_input(
+                k,
+                min_value=0.0,
+                max_value=100.0,
+                value=v,
+                step=0.01,
+                format="%f")
+
+
+        checks = st.sidebar.number_input(label="Chekpoint", value=0)
+
 
     return Parameters(
         as_date=as_date,
@@ -236,11 +438,62 @@ def display_sidebar(st, d: Constants) -> Parameters:
         n_days=n_days,
         relative_contact_rate=relative_contact_rate,
         susceptible=susceptible,
+        tau=d.olg_params['tau'],
+        init_infected=d.olg_params['init_infected'],
+        fi=d.olg_params['fi'],
+        theta=d.olg_params['theta'],
+
 
         hospitalized=RateLos(hospitalized_rate, hospitalized_los),
         icu=RateLos(icu_rate, icu_los),
         ventilated=RateLos(ventilated_rate, ventilated_los),
-    )
+
+        # Seiar
+        N_0 = d.seiar_params['N_0'],
+        S_0 = d.seiar_params['S_0'],
+        E_0 = d.seiar_params['E_0'],
+        I_0 = d.seiar_params['I_0'],
+        A_0 = d.seiar_params['A_0'],
+        R_0 = d.seiar_params['R_0'],
+        seiar_alpha = d.seiar_params['seiar_alpha'],
+        seiar_beta_ill = d.seiar_params['seiar_beta_ill'],
+        seiar_beta_asy = d.seiar_params['seiar_beta_asy'],
+        seiar_gamma_ill = d.seiar_params['seiar_gamma_ill'],
+        seiar_gamma_asy = d.seiar_params['seiar_gamma_asy'],
+        seiar_rho = d.seiar_params['seiar_rho'],
+        seiar_theta = d.seiar_params['seiar_theta'],
+        seiar_start_date_simulation = d.seiar_params['seiar_start_date_simulation'],
+        seiar_number_of_days = d.seiar_params['seiar_start_date_simulation'] + datetime.timedelta(d.seiar_params['seiar_number_of_days']),
+        country_file=d.country_file,
+
+
+        seirs_plus_params=d.seirs_plus_params,
+        model_checkpoints=projection_path,
+        time_steps = time_steps
+        )
+
+
+def choose_projection_path(st):
+    time_steps = st.sidebar.number_input("Days to project?", value=150, format="%i")
+    temp = {'t': [], 'beta': [], 'sigma': []}
+    s_times = st.sidebar.text_input('Insert array of times', value='20, 50')
+    s_times = s_times.split(",")
+    s_times = [int(s) for s in s_times]
+
+    init_beta = st.sidebar.number_input('Insert initial beta', value=0.25)
+    s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0.2, 0.7')
+    s_betas = s_betas.split(",")
+    s_betas = [float(s) for s in s_betas]
+
+    s_betas_p = []
+    bt = init_beta
+    for s in s_betas:
+        bt = bt * (1 + s)
+        s_betas_p.append(bt)
+
+    temp['t'] = s_times
+    temp['beta'] = s_betas_p
+    return init_beta, temp, time_steps
 
 
 def show_more_info_about_this_tool(st, model, parameters, defaults, notes: str = ""):
@@ -444,4 +697,7 @@ def build_download_link(st, filename: str, df: pd.DataFrame, parameters: Paramet
     st.markdown("""
         <a download="{filename}" href="data:file/csv;base64,{csv}">Download full table as CSV</a>
 """.format(csv=csv,filename=filename), unsafe_allow_html=True)
+
+
+
 

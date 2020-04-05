@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
 from .defaults import Constants, Regions, RateLos
+import os
+
+current_directory = os.path.abspath(os.getcwd())
+project_path = os.path.dirname(current_directory)
 
 delaware = 564696
 chester = 519293
@@ -23,7 +27,13 @@ DEFAULTS = Constants(
     n_days=60,
     market_share=0.15,
     relative_contact_rate=0.3,
+
     hospitalized=RateLos(0.025, 7),
     icu=RateLos(0.0075, 9),
     ventilated=RateLos(0.005, 10),
+
+    olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta':0.0771},
+    country_file=os.path.join(project_path, "Resources/all_dates_n.csv"),
+    stringency_file=os.path.join(project_path, "Resources/OxCGRT_Download_latest_data.xlsx")
+    # country_file=os.path.abspath(r"/../../Resources/all_dates_n.csv" + "/../../")
 )
