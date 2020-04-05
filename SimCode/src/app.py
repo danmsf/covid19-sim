@@ -59,7 +59,7 @@ if st.sidebar.checkbox(label="Show country data"):
     countrydata.get_country_data()
     countrydata.get_country_stringency()
     countrydata.get_sir()
-    countrydata.sir_df
+    # countrydata.sir_df
     # TODO: fix overlapping countries comparison option
     countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].unique())
     temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
