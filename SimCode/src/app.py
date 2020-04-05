@@ -51,6 +51,8 @@ st.sidebar.subheader("General parameters")
 # TODO: Michaels models by city/country
 # TODO: vector of percentages of beta
 # TODO: change to Corona time (param form first X incidents
+# TODO: get rid of S
+# TODO: find params
 if st.sidebar.checkbox(label="Show country data"):
 
     countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file)
@@ -188,23 +190,23 @@ if "SEIAR Model" in models_option:
     if st.checkbox(label="Present result as table", value=False):
         mseiar_results
     else:
-        st.line_chart(mseiar_results)
+        st.line_chart(mseiar_results[['Asymptomatic', 'Infected']])
 
 if "SEIRSPlus" in models_option:
     st.subheader("SEIRSPlus")
     seirs_params = p.seirs_plus_params
     model = SEIRSModel(**p.seirs_plus_params)
     p.model_checkpoints
-    if len(p.model_checkpoints) > 0:
-        model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
-    else:
-        model.run(T=p.time_steps)
+    # if len(p.model_checkpoints) > 0:
+    #     model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
+    # else:
+    model.run(T=p.time_steps)
 
     # df = pd.DataFrame(
     #     {'S': model.numS, 'E': model.numE, 'I': model.numI, 'D_E': model.numD_E, 'D_I': model.numD_I, 'R': model.numR,
     #      'F': model.numF}, index=model.tseries)
     df = pd.DataFrame(
-        {'E': model.numE, 'I': model.numI, 'R': model.numR}, index=model.tseries)
+        {'E': model.numE, 'I': model.numI}, index=model.tseries)
     st.line_chart(df)
 
     model.figure_basic()

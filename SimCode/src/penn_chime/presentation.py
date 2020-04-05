@@ -333,7 +333,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             "seiar_beta_ill",
             min_value=0.0,
             max_value=100.0,
-            value=init_beta,
+            value=d.seiar_params['seiar_beta_ill'],
             step=0.01,
             format="%f",
         )
@@ -342,7 +342,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             "seiar_beta_asy",
             min_value=0.0,
             max_value=100.0,
-            value=init_beta,
+            value=d.seiar_params['seiar_beta_ill'],
             step=0.01,
             format="%f",
         )
@@ -477,11 +477,12 @@ def choose_projection_path(st):
     time_steps = st.sidebar.number_input("Days to project?", value=150, format="%i")
     temp = {'t': [], 'beta': [], 'sigma': []}
     s_times = st.sidebar.text_input('Insert array of times', value='20, 50')
+    s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0.2, 0.7')
     s_times = s_times.split(",")
     s_times = [int(s) for s in s_times]
 
     init_beta = st.sidebar.number_input('Insert initial beta', value=0.25)
-    s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0.2, 0.7')
+
     s_betas = s_betas.split(",")
     s_betas = [float(s) for s in s_betas]
 

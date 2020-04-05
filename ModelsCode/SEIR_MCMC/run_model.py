@@ -21,18 +21,18 @@ times = np.arange(0, 160, 1)
 
 # beta, gamma = 4, 1.0
 # beta, gamma = 0.25, 1.0/14
-beta, gamma = 0.25, 1./14
+beta, gamma = 0.9, 1./14
 # Create true curves
 # y0 = [S/N, I]
-y = odeint(SIR, t=times, y0=[999.0/1000, 1.0/1000, 0.0], args=((beta, gamma),), rtol=1e-8)
+y = odeint(SIR, t=times, y0=[8400000, 8399999, 0.0], args=((beta, gamma),), rtol=1e-8)
 # Observational model.  Lognormal likelihood isn't appropriate, but we'll do it anyway
 yobs = np.random.lognormal(mean=np.log(y[1::]), sigma=[0.2, 0.3, 0.2])
 
 plt.figure()
 # plt.plot(times[1::], yobs, marker='o', linestyle='none')
-plt.plot(times, y[:, 0], color='C0', alpha=0.5, label=f'$S(t)$')
+# plt.plot(times, y[:, 0], color='C0', alpha=0.5, label=f'$S(t)$')
 plt.plot(times, y[:, 1], color='C1', alpha=0.5, label=f'$I(t)$')
-plt.plot(times, y[:, 2], color='C2', alpha=0.5, label=f'$R(t)$')
+# plt.plot(times, y[:, 2], color='C2', alpha=0.5, label=f'$R(t)$')
 plt.legend()
 plt.title(f'R0={beta/gamma:.2f}; $\\beta$={beta}; $\\gamma$={gamma:.2f}; d={14}')
 plt.show()
