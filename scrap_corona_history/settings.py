@@ -2,36 +2,37 @@ import os
 import pandas as pd
 from selenium import webdriver
 
+# Pandas options
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
-# Paths and dirs
-resource_dir = 'resources'
-data_dir = 'data'
-log_dir = 'logs'
+# Paths and Dirs
+RESOURCE_DIR = 'resources'
+DATA_DIR = 'data'
+LOG_DIR = 'logs'
 
-hrefs_path = os.path.join(resource_dir, 'refs.csv')
-hrefs = pd.read_csv(hrefs_path, index_col ='id')
+LOG_CONFIG_PATH = r'logs'
+OUT_FILE = 'all_dates.csv'
+CUTOFF_DATE = '2020-02-10'
+CHROMEDRIVER_PATH= os.path.join(RESOURCE_DIR, 'chromedriver.exe')
+POPULATION_PATH = os.path.join(RESOURCE_DIR, 'population.csv')
+URLS_PATH = os.path.join(RESOURCE_DIR, 'urls.csv')
 
-#final file output
-outfile = 'all_dates.csv'
-
+MAPPER_FILE = 'column_remapper.csv'
+MAPPER_PATH = os.path.join(RESOURCE_DIR, MAPPER_FILE)
 
 # Selenium options
-chromedriver_path= os.path.join(resource_dir, 'chromedriver.exe')
 option = webdriver.ChromeOptions()
 option.add_argument('— incognito')
 
-
 # Resources
-mapper_path = os.path.join(resource_dir, 'column_remapper.csv')
-mapper = pd.read_csv(mapper_path, index_col = 'key', usecols = ['key','value'])
+mapper = pd.read_csv(MAPPER_PATH, index_col ='key', usecols = ['key', 'value'])
 column_remapper = mapper.iloc[:,0]
 
-urls_path = os.path.join(resource_dir, 'urls.csv')
-urls = pd.read_csv(urls_path, index_col = 'id')
-wayback_machine_corona_url = urls.loc[1,'url']
-url_pattern = urls.loc[2,'url']
+urls = pd.read_csv(URLS_PATH, index_col ='id')
+WAYBACK_MACHINE_CORONA_URL = urls.loc[1, 'url']
+URL_REGEX_PATTERN = urls.loc[2, 'url']
+GOVERNMENT_RESPONSE_URL = urls.loc[4,'url']
 
-# Parameters to read country data
-population_path = os.path.join(resource_dir,'population.csv')
+
+

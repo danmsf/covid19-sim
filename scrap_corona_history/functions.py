@@ -1,12 +1,17 @@
 from datetime import datetime
 from settings import  *
 import re
+import glob
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
+import logging.config
+
+logging.config.fileConfig(fname=LOG_CONFIG_PATH, disable_existing_loggers=False)
+logger = logging.getLogger('root')
 
 def log_errors_and_runtime(errors, delta, log_dir):
 
@@ -43,7 +48,6 @@ def verbose(i, arrsize):
 
 def download_csv_from_all_links(new_refs):
 
-    errors = []
     for i, ref in enumerate(new_refs):
 
         verbose(i, len(new_refs))
@@ -60,13 +64,10 @@ def download_csv_from_all_links(new_refs):
             date_repr_to_file = date_obj.strftime('%b-%d-%Y')
 
             outfile = date_repr_to_file + '.csv'
-            outpath = os.path.join(data_dir, outfile)
+            outpath = os.path.join(DATA_DIR, outfile)
             df.to_csv(outpath)
         except:
-            print('error')
-            errors.append(ref)
-
-    return errors
+            logger.error(ref)
 
 
 def get_all_urls(browser, url_pattern):
@@ -86,3 +87,15 @@ def get_fresh_urls(browser, prev_refs, url_pattern):
     refs = get_all_urls(browser, url_pattern)
     new_refs = set(refs) - set(prev_refs)
     return new_refs
+
+
+def get_prev_urls():
+    prev_urls=[]
+    all_files = glob.glob(DATA_DIR + "/*.csv")
+    for filename in all_files:
+        df = pd.read_csv(filename)
+        try:
+            prev_urls = prev_urls + df.ref.to_list()
+        except:
+            pass
+    return list(set(prev_urls))

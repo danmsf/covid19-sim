@@ -1,4 +1,4 @@
-from .settings import *
+from settings import *
 import glob
 import re
 import datetime
@@ -10,7 +10,7 @@ import datetime
 conversion_dict= column_remapper.to_dict()
 
 # Iterate and read csv files into df
-all_files = glob.glob(data_dir + "/*.csv")
+all_files = glob.glob(DATA_DIR + "/*.csv")
 df_list = []
 
 for filename in all_files:
@@ -52,19 +52,11 @@ disease_data.columns = disease_data.columns.str.lower().str.replace("\s+", "_")
 # --------------------
 # Join data and world_population data
 # --------------------
-population = pd.read_csv(population_path, index_col = 'id')
+population = pd.read_csv(POPULATION_PATH, index_col ='id')
 all_data = disease_data.merge(population).fillna(0)
-
-all_data['S'] = all_data['population']
-all_data['E'] = all_data.groupby('country')['activecases'].shift(4).fillna(0)
-all_data['I'] = all_data['activecases']
-all_data['R'] = all_data['total_recovered'] + all_data['total_deaths']
-
-all_data = all_data[['S','E','I','R','country','date']]
-
 
 
 # --------------------
 # # Output to dile
 # --------------------
-all_data.to_csv(outfile)
+all_data.to_csv(OUT_FILE)
