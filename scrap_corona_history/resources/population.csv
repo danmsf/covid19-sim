@@ -1,0 +1,236 @@
+id,country,population
+1,china,1439323776
+2,india,1380004385
+3,united states,331002651
+4,indonesia,273523615
+5,pakistan,220892340
+6,brazil,212559417
+7,nigeria,206139589
+8,bangladesh,164689383
+9,russia,145934462
+10,mexico,128932753
+11,japan,126476461
+12,ethiopia,114963588
+13,philippines,109581078
+14,egypt,102334404
+15,vietnam,97338579
+16,dr congo,89561403
+17,turkey,84339067
+18,iran,83992949
+19,germany,83783942
+20,thailand,69799978
+21,united kingdom,67886011
+22,france,65273511
+23,italy,60461826
+24,tanzania,59734218
+25,south africa,59308690
+26,myanmar,54409800
+27,kenya,53771296
+28,south korea,51269185
+29,colombia,50882891
+30,spain,46754778
+31,uganda,45741007
+32,argentina,45195774
+33,algeria,43851044
+34,sudan,43849260
+35,ukraine,43733762
+36,iraq,40222493
+37,afghanistan,38928346
+38,poland,37846611
+39,canada,37742154
+40,morocco,36910560
+41,saudi arabia,34813871
+42,uzbekistan,33469203
+43,peru,32971854
+44,angola,32866272
+45,malaysia,32365999
+46,mozambique,31255435
+47,ghana,31072940
+48,yemen,29825964
+49,nepal,29136808
+50,venezuela,28435940
+51,madagascar,27691018
+52,cameroon,26545863
+53,côte d'ivoire,26378274
+54,north korea,25778816
+55,australia,25499884
+56,niger,24206644
+57,taiwan,23816775
+58,sri lanka,21413249
+59,burkina faso,20903273
+60,mali,20250833
+61,romania,19237691
+62,malawi,19129952
+63,chile,19116201
+64,kazakhstan,18776707
+65,zambia,18383955
+66,guatemala,17915568
+67,ecuador,17643054
+68,syria,17500658
+69,netherlands,17134872
+70,senegal,16743927
+71,cambodia,16718965
+72,chad,16425864
+73,somalia,15893222
+74,zimbabwe,14862924
+75,guinea,13132795
+76,rwanda,12952218
+77,benin,12123200
+78,burundi,11890784
+79,tunisia,11818619
+80,bolivia,11673021
+81,belgium,11589623
+82,haiti,11402528
+83,cuba,11326616
+84,south sudan,11193725
+85,dominican republic,10847910
+86,czech republic (czechia),10708981
+87,greece,10423054
+88,jordan,10203134
+89,portugal,10196709
+90,azerbaijan,10139177
+91,sweden,10099265
+92,honduras,9904607
+93,united arab emirates,9890402
+94,hungary,9660351
+95,tajikistan,9537645
+96,belarus,9449323
+97,austria,9006398
+98,papua new guinea,8947024
+99,serbia,8737371
+100,israel,8655535
+101,switzerland,8654622
+102,togo,8278724
+103,sierra leone,7976983
+104,hong kong,7496981
+105,laos,7275560
+106,paraguay,7132538
+107,bulgaria,6948445
+108,libya,6871292
+109,lebanon,6825445
+110,nicaragua,6624554
+111,kyrgyzstan,6524195
+112,el salvador,6486205
+113,turkmenistan,6031200
+114,singapore,5850342
+115,denmark,5792202
+116,finland,5540720
+117,congo,5518087
+118,slovakia,5459642
+119,norway,5421241
+120,oman,5106626
+121,state of palestine,5101414
+122,costa rica,5094118
+123,liberia,5057681
+124,ireland,4937786
+125,central african republic,4829767
+126,new zealand,4822233
+127,mauritania,4649658
+128,panama,4314767
+129,kuwait,4270571
+130,croatia,4105267
+131,moldova,4033963
+132,georgia,3989167
+133,eritrea,3546421
+134,uruguay,3473730
+135,bosnia and herzegovina,3280819
+136,mongolia,3278290
+137,armenia,2963243
+138,jamaica,2961167
+139,qatar,2881053
+140,albania,2877797
+141,puerto rico,2860853
+142,lithuania,2722289
+143,namibia,2540905
+144,gambia,2416668
+145,botswana,2351627
+146,gabon,2225734
+147,lesotho,2142249
+148,north macedonia,2083374
+149,slovenia,2078938
+150,guinea-bissau,1968001
+151,latvia,1886198
+152,bahrain,1701575
+153,equatorial guinea,1402985
+154,trinidad and tobago,1399488
+155,estonia,1326535
+156,timor-leste,1318445
+157,mauritius,1271768
+158,cyprus,1207359
+159,eswatini,1160164
+160,djibouti,988000
+161,fiji,896445
+162,réunion,895312
+163,comoros,869601
+164,guyana,786552
+165,bhutan,771608
+166,solomon islands,686884
+167,macao,649335
+168,montenegro,628066
+169,luxembourg,625978
+170,western sahara,597339
+171,suriname,586632
+172,cabo verde,555987
+173,maldives,540544
+174,malta,441543
+175,brunei,437479
+176,guadeloupe,400124
+177,belize,397628
+178,bahamas,393244
+179,martinique,375265
+180,iceland,341243
+181,vanuatu,307145
+182,french guiana,298682
+183,barbados,287375
+184,new caledonia,285498
+185,french polynesia,280908
+186,mayotte,272815
+187,sao tome & principe,219159
+188,samoa,198414
+189,saint lucia,183627
+190,channel islands,173863
+191,guam,168775
+192,curaçao,164093
+193,kiribati,119449
+194,micronesia,115023
+195,grenada,112523
+196,st. vincent & grenadines,110940
+197,aruba,106766
+198,tonga,105695
+199,u.s. virgin islands,104425
+200,seychelles,98347
+201,antigua and barbuda,97929
+202,isle of man,85033
+203,andorra,77265
+204,dominica,71986
+205,cayman islands,65722
+206,bermuda,62278
+207,marshall islands,59190
+208,northern mariana islands,57559
+209,greenland,56770
+210,american samoa,55191
+211,saint kitts & nevis,53199
+212,faeroe islands,48863
+213,sint maarten,42876
+214,monaco,39242
+215,turks and caicos,38717
+216,saint martin,38666
+217,liechtenstein,38128
+218,san marino,33931
+219,gibraltar,33691
+220,british virgin islands,30231
+221,caribbean netherlands,26223
+222,palau,18094
+223,cook islands,17564
+224,anguilla,15003
+225,tuvalu,11792
+226,wallis & futuna,11239
+227,nauru,10824
+228,saint barthelemy,9877
+229,saint helena,6077
+230,saint pierre & miquelon,5794
+231,montserrat,4992
+232,falkland islands,3480
+233,niue,1626
+234,tokelau,1357
+235,holy see,801
