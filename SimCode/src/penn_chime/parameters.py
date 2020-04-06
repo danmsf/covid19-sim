@@ -51,7 +51,9 @@ class Parameters:
         seiar_number_of_days: int,
 
         seirs_plus_params,
-        country_file: str
+        model_checkpoints,
+        country_file: str,
+        time_steps: int
     ):
         self.current_hospitalized = current_hospitalized
         self.doubling_time = doubling_time
@@ -92,6 +94,8 @@ class Parameters:
         self.number_of_days = seiar_number_of_days
 
         self.seirs_plus_params = seirs_plus_params
+        self.model_checkpoints = model_checkpoints
+        self.time_steps = time_steps
         self.country_file = country_file
         self.labels = {
             "hospitalized": "Hospitalized",

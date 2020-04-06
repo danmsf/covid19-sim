@@ -192,6 +192,7 @@ class Seiar:
         self.theta = p.theta
         self.start_date_simulation = p.start_date_simulation
         self.number_of_days = p.number_of_days
+        self.projection = p.model_checkpoints
         self.run_simulation()
         self.results=[]
 
@@ -200,7 +201,19 @@ class Seiar:
         S, E, I, A, R = [self.S_0/self.N], [self.E_0/self.N], [self.I_0/self.N], [self.A_0/self.N], [self.R_0/self.N]
 
         dt = t[1] - t[0]
-        for _ in t[1:]:
+        time_asy, time_ill, beta_asy, beta_ill = self.projection['time_asy'], self.projection['time_ill'], self.projection['beta_asy'], self.projection['beta_ill']
+        for tm in t[1:]:
+            if tm in time_asy:
+                print(tm, beta_asy)
+                self.beta_asy = beta_asy[time_asy.index(tm)]
+                print(tm, self.beta_asy)
+                time_asy.pop(0)
+                beta_asy.pop(0)
+            if tm in time_ill:
+                self.beta_ill = beta_ill[time_ill.index (tm)]
+                print(tm, self.beta_ill)
+                beta_ill.pop(0)
+                time_ill.pop(0)
             next_S = S[-1] - (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1]) * dt
             next_E = E[-1] + (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1] - self.alpha * E[-1]) * dt
             next_I = I[-1] + (self.theta * self.alpha * E[-1] - self.gamma_ill * I[-1]) * dt
@@ -378,14 +391,41 @@ class OLG:
 
 
 class CountryData:
-    def __init__(self, country_file):
-        self.filepath = country_file
-        self.df = self.build_country_data()
+    def __init__(self, country_file, stringency_file, sir_file):
+        self.country_file = country_file
+        self.sir_file = sir_file
+        self.stringency_file = stringency_file
+        self.country_df = self.get_country_data()
+        self.stringency_df = self.get_country_stringency()
+        self.df = self.get_data()
+        self.sir_df = self.get_sir()
 
-    def build_country_data(self):
-        country_df = pd.read_csv(self.filepath)
+    def get_country_data(self):
+        country_df = pd.read_csv(self.country_file)
         # country_df = country_df.set_index('Country')
         country_df = country_df.drop(columns="Unnamed: 0")
         # country_df['date'] = country_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
         country_df['date'] = pd.to_datetime(country_df['date'],format="%d/%m/%Y")
+        # country_df['date'] = pd.to_datetime(country_df['date'], format="%Y-%m-%d")
+
         return country_df
+
+    def get_country_stringency(self):
+        country_st_df = pd.read_excel(self.stringency_file)
+        country_st_df['date'] = pd.to_datetime(country_st_df['Date'], format="%Y%m%d")
+        return country_st_df
+
+    def get_data(self):
+        df = self.country_df.merge(self.stringency_df, left_on=["Country", "date"], right_on=["CountryName", "date"])
+        return df
+
+    def get_sir(self):
+        sir_df = pd.read_csv(self.sir_file)
+        # sir_df = sir_df.set_index('Country')
+        sir_df = sir_df.drop(columns="Unnamed: 0")
+        # sir_df['date'] = sir_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
+        # sir_df['date'] = pd.to_datetime(sir_df['date'],format="%d/%m/%Y")
+        sir_df['date'] = pd.to_datetime(sir_df['date'], format="%Y-%m-%d")
+        sir_df['country'] = sir_df['country'].str.capitalize()
+        sir_df = sir_df.rename(columns={'country':'Country'})
+        return sir_df

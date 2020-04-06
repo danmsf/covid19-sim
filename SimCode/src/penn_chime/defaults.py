@@ -43,7 +43,9 @@ class Constants:
             n_days: int = 60,
             recovery_days: int = 14,
 
-            country_file: str
+            country_file: str,
+            stringency_file: str,
+            sir_file: str
     ):
         self.region = region
         self.current_hospitalized = current_hospitalized
@@ -64,25 +66,25 @@ class Constants:
         self.recovery_days = recovery_days
 
         self.seiar_params = {'N_0': 8740000.00,
-                             'S_0': 8739999.00,
+                             'S_0': 8739990.00,
                              'E_0': 0.0,
                              'A_0': 0.00,
-                             'I_0': 1.00,
+                             'I_0': 10.00,
                              'R_0': 0.00,
-                             'seiar_alpha': 0.10,
-                             'seiar_beta_ill': 0.80,
-                             'seiar_beta_asy': 0.40,
-                             'seiar_gamma_ill': 0.05,
-                             'seiar_gamma_asy': 0.12,
-                             'seiar_rho': 0.50,
-                             'seiar_theta': 0.50,
+                             'seiar_alpha': 0.2,
+                             'seiar_beta_ill': 1.05,
+                             'seiar_beta_asy': 1.05,
+                             'seiar_gamma_ill': 0.08,
+                             'seiar_gamma_asy': 0.15,
+                             'seiar_rho': 1.0,
+                             'seiar_theta': 0.8,
                              'seiar_start_date_simulation': datetime.date(2020, 3, 1),
-                             'seiar_number_of_days': 300.00
+                             'seiar_number_of_days': 30.00
                              }
         self.seirs_plus_params = {
             'beta': 0.155,
-            'sigma': 0.080710250201776,
-            'gamma': 0.0,
+            'sigma': 1./4,
+            'gamma': 1./14,
             'xi':0.0,
             'mu_I': 0.0,
             'mu_0':0.0,
@@ -95,15 +97,18 @@ class Constants:
             'theta_I': 0.0,
             'psi_E': 0.0,
             'psi_I': 0.0,
-            'initN': 100000.0,
-            'initI': 100.0,
+            'initN': 8740000.0,
+            'initI': 10.0,
             'initE': 0.0,
             'initD_E': 0.0,
             'initD_I': 0.0,
             'initR': 0.0,
-            'initF':0.0,
+            'initF': 0.0,
         }
+        self.model_chekpoints = {'t': [], 'beta': []}
         self.country_file = country_file
+        self.stringency_file = stringency_file
+        self.sir_file = sir_file
 
     def __repr__(self) -> str:
         return f"Constants(susceptible_default: {self.region.susceptible}, known_infected: {self.known_infected})"

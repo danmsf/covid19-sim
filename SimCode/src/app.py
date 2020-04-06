@@ -4,7 +4,7 @@ import altair as alt  # type: ignore
 import streamlit as st  # type: ignore
 import pandas as pd
 
-from penn_chime.presentation import (
+from penn_chime.presentation import(
     build_download_link,
     display_header,
     display_sidebar,
@@ -24,7 +24,8 @@ from penn_chime.charts import (
     admitted_patients_chart,
     new_admissions_chart,
     chart_descriptions,
-    admission_rma_chart
+    admission_rma_chart,
+    country_level_chart
 )
 
 # This is somewhat dangerous:
@@ -46,26 +47,43 @@ st.markdown(
 )
 
 st.sidebar.subheader("General parameters")
-
+# TODO: changing betas
+# TODO: Michaels models by city/country
+# TODO: vector of percentages of beta
+# TODO: change to Corona time (param form first X incidents
+# TODO: get rid of S
+# TODO: find params
 if st.sidebar.checkbox(label="Show country data"):
 
-    countrydata = CountryData(DEFAULTS.country_file)
-    countrydata.build_country_data()
+    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
+    countrydata.get_country_data()
+    countrydata.get_country_stringency()
+    countrydata.get_sir()
+    # countrydata.sir_df
     # TODO: fix overlapping countries comparison option
     countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].unique())
     temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
                                                                   'Serious_Critical', 'Total Cases', 'Total Recovered',
-                                                                  'Total Deaths']]
+                                                                  'Total Deaths', 'StringencyIndex']]
+    min_infected = st.sidebar.number_input("Minimum Infected for graphs", value=10)
+    temp = temp.loc[temp['Total Cases'] >= min_infected, :]
+
+    temp = temp.set_index("date", drop=False)
 
     if st.checkbox(label="Show Totals", value=False):
-        temp = temp.set_index("date")[['Total Cases', 'Total Recovered', 'Total Deaths']]
+        temp = temp[['Country', 'Total Cases', 'Total Recovered', 'Total Deaths', 'StringencyIndex', 'date']]
     else:
-        temp = temp.set_index("date")[['ActiveCases', 'New Cases', 'Serious_Critical']]
+        temp = temp[['Country',  'New Cases', 'Serious_Critical', 'StringencyIndex', 'date']]
     if st.checkbox(label="Show table", value=False):
         temp
     else:
-        st.line_chart(temp)
-    st.markdown("""*Source: Worldmeter*""")
+        for c in countryname:
+            st.altair_chart(
+                country_level_chart(alt, temp[temp.Country == c]),
+                use_container_width=True,
+            )
+        # st.line_chart(temp)
+        st.markdown("""*Source: Worldmeter*""")
 
 
 models_option = st.sidebar.multiselect(
@@ -146,7 +164,7 @@ if "OLG Model" in models_option:
 
     st.subheader("OLG Prediction")
     st.markdown("Projected number of **daily** COVID-19 admissions")
-    olg = OLG (p)
+    olg = OLG(p)
     # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
     st.altair_chart(
         admission_rma_chart(alt, olg.df),
@@ -164,7 +182,7 @@ if "SEIAR Model" in models_option:
     mseiar = Seiar(p)
     mseiar.run_simulation()
     mseiar_results = mseiar.results.copy()
-
+    p.model_checkpoints
     if st.sidebar.checkbox(label="Plot as percentages", value=False):
         mseiar_results = mseiar_results/mseiar.N
 
@@ -176,16 +194,26 @@ if "SEIAR Model" in models_option:
     if st.checkbox(label="Present result as table", value=False):
         mseiar_results
     else:
-        st.line_chart(mseiar_results)
+        st.line_chart(mseiar_results[['Asymptomatic', 'Infected']])
 
 if "SEIRSPlus" in models_option:
     st.subheader("SEIRSPlus")
+    seirs_params = p.seirs_plus_params
     model = SEIRSModel(**p.seirs_plus_params)
-    model.run(T=300)
+    p.model_checkpoints
+    if p.model_checkpoints:
+        model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
+    else:
+        model.run(T=p.time_steps)
+
+    # df = pd.DataFrame(
+    #     {'S': model.numS, 'E': model.numE, 'I': model.numI, 'D_E': model.numD_E, 'D_I': model.numD_I, 'R': model.numR,
+    #      'F': model.numF}, index=model.tseries)
     df = pd.DataFrame(
-        {'S': model.numS, 'E': model.numE, 'I': model.numI, 'D_E': model.numD_E, 'D_I': model.numD_I, 'R': model.numR,
-         'F': model.numF}, index=model.tseries)
+        {'E': model.numE, 'I': model.numI}, index=model.tseries)
     st.line_chart(df)
+
+    model.figure_basic()
     st.markdown(
         """*Graph generated from `SEIRSPlus` package*"""
     )
