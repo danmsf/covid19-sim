@@ -192,6 +192,7 @@ class Seiar:
         self.theta = p.theta
         self.start_date_simulation = p.start_date_simulation
         self.number_of_days = p.number_of_days
+        self.projection = p.model_checkpoints
         self.run_simulation()
         self.results=[]
 
@@ -200,8 +201,19 @@ class Seiar:
         S, E, I, A, R = [self.S_0/self.N], [self.E_0/self.N], [self.I_0/self.N], [self.A_0/self.N], [self.R_0/self.N]
 
         dt = t[1] - t[0]
-
-        for _ in t[1:]:
+        time_asy, time_ill, beta_asy, beta_ill = self.projection['time_asy'], self.projection['time_ill'], self.projection['beta_asy'], self.projection['beta_ill']
+        for tm in t[1:]:
+            if tm in time_asy:
+                print(tm, beta_asy)
+                self.beta_asy = beta_asy[time_asy.index(tm)]
+                print(tm, self.beta_asy)
+                time_asy.pop(0)
+                beta_asy.pop(0)
+            if tm in time_ill:
+                self.beta_ill = beta_ill[time_ill.index (tm)]
+                print(tm, self.beta_ill)
+                beta_ill.pop(0)
+                time_ill.pop(0)
             next_S = S[-1] - (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1]) * dt
             next_E = E[-1] + (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1] - self.alpha * E[-1]) * dt
             next_I = I[-1] + (self.theta * self.alpha * E[-1] - self.gamma_ill * I[-1]) * dt
