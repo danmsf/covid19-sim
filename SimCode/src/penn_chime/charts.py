@@ -8,7 +8,14 @@ from .parameters import Parameters
 from .utils import add_date_column
 from .presentation import DATE_FORMAT
 
-def admission_rma_chart(alt, df: pd.DataFrame,):
+def admission_rma_chart(alt, df: pd.DataFrame,df_predict: pd.DataFrame):
+
+    df = df.melt(id_vars=['date'], value_vars=['A', 'I', 'E'])
+    df['value'] = df['value'].astype('int64')
+
+    df_predict = df_predict.melt(id_vars=['date'], value_vars=['A', 'I'])
+    df_predict['value'] = df_predict['value'].astype('int64')
+
 
     source = df.melt(id_vars=['dates'], value_vars=['asymptomatic', 'infected', 'exposed']).dropna()
     source['value'] = source['value'].astype('int64')
@@ -37,7 +44,7 @@ def admission_rma_chart(alt, df: pd.DataFrame,):
     )
 
     # Draw text labels near the points, and highlight based on selection
-    text = line.mark_text(align='left', dx=5, dy=-5).encode(
+    text = line.mark_text(align='right', dx=5, dy=-5).encode(
         text=alt.condition(nearest, 'value', alt.value(' '))
     )
 
