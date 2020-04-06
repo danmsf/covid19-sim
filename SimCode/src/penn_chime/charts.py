@@ -62,6 +62,7 @@ def country_level_chart(alt, df: pd.DataFrame,):
     colnames = df.columns
     colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
     source = df.melt(id_vars=['date', 'Country'], value_vars=colnames).dropna()
+    source = source.reset_index()
     source['value'] = source['value'].astype('int64')
 
     source['value'] = source['value'].astype('int64')

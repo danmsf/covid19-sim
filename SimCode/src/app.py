@@ -65,6 +65,8 @@ if st.sidebar.checkbox(label="Show country data"):
     temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
                                                                   'Serious_Critical', 'Total Cases', 'Total Recovered',
                                                                   'Total Deaths', 'StringencyIndex']]
+    min_infected = st.sidebar.number_input("Minimum Infected for graphs", value=10)
+    temp = temp.loc[temp['Total Cases'] >= min_infected, :]
 
     temp = temp.set_index("date", drop=False)
 

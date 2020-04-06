@@ -427,7 +427,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             projection_path['time_asy'] = s_times2
             projection_path['beta_asy'] = s_betas_p2
         else:
-            projection_path, time_steps = None, None
+            projection_path, time_steps = {'time_ill': [], 'beta_ill': [], 'time_asy': [], 'beta_asy': []}, None
 
     if "SEIRSPlus" in models_option:
         for k, v in d.seirs_plus_params.items():
