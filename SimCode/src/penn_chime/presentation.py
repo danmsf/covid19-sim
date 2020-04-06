@@ -447,8 +447,9 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
                 value=v,
                 step=0.01,
                 format="%f")
+        time_steps = st.sidebar.number_input("Days to project?", value=150, format="%i")
         if st.sidebar.checkbox ("Make a projection", value=False):
-            time_steps = st.sidebar.number_input("Days to project?", value=150, format="%i")
+
             s_times = st.sidebar.text_input('Insert array of times', value='20, 50')
             s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0.2, 0.7')
             s_times = s_times.split(",")
@@ -464,7 +465,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             projection_path['t'] = s_times
             projection_path['beta'] = s_betas_p
         else:
-            projection_path, time_steps = None, None
+            projection_path = None
 
 
     return Parameters(

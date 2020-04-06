@@ -211,6 +211,7 @@ if "SEIRSPlus" in models_option:
     seirs_params = p.seirs_plus_params
     model = SEIRSModel(**p.seirs_plus_params)
     p.model_checkpoints
+    p.time_steps
     if p.model_checkpoints:
         model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
     else:
