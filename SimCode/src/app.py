@@ -4,7 +4,7 @@ import altair as alt  # type: ignore
 import streamlit as st  # type: ignore
 import pandas as pd
 
-from penn_chime.presentation import (
+from penn_chime.presentation import(
     build_download_link,
     display_header,
     display_sidebar,
@@ -164,7 +164,7 @@ if "OLG Model" in models_option:
 
     st.subheader("OLG Prediction")
     st.markdown("Projected number of **daily** COVID-19 admissions")
-    olg = OLG (p)
+    olg = OLG(p)
     # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
     st.altair_chart(
         admission_rma_chart(alt, olg.df),
@@ -182,7 +182,7 @@ if "SEIAR Model" in models_option:
     mseiar = Seiar(p)
     mseiar.run_simulation()
     mseiar_results = mseiar.results.copy()
-
+    p.model_checkpoints
     if st.sidebar.checkbox(label="Plot as percentages", value=False):
         mseiar_results = mseiar_results/mseiar.N
 
@@ -201,7 +201,7 @@ if "SEIRSPlus" in models_option:
     seirs_params = p.seirs_plus_params
     model = SEIRSModel(**p.seirs_plus_params)
     p.model_checkpoints
-    if len(p.model_checkpoints) > 0:
+    if p.model_checkpoints:
         model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
     else:
         model.run(T=p.time_steps)

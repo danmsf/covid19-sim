@@ -66,20 +66,20 @@ class Constants:
         self.recovery_days = recovery_days
 
         self.seiar_params = {'N_0': 8740000.00,
-                             'S_0': 8739999.00,
+                             'S_0': 8739990.00,
                              'E_0': 0.0,
                              'A_0': 0.00,
-                             'I_0': 1.00,
+                             'I_0': 10.00,
                              'R_0': 0.00,
-                             'seiar_alpha': 0.10,
-                             'seiar_beta_ill': 0.80,
-                             'seiar_beta_asy': 0.40,
-                             'seiar_gamma_ill': 0.05,
-                             'seiar_gamma_asy': 0.12,
-                             'seiar_rho': 0.50,
-                             'seiar_theta': 0.50,
+                             'seiar_alpha': 0.2,
+                             'seiar_beta_ill': 1.05,
+                             'seiar_beta_asy': 1.05,
+                             'seiar_gamma_ill': 0.08,
+                             'seiar_gamma_asy': 0.15,
+                             'seiar_rho': 1.0,
+                             'seiar_theta': 0.8,
                              'seiar_start_date_simulation': datetime.date(2020, 3, 1),
-                             'seiar_number_of_days': 300.00
+                             'seiar_number_of_days': 30.00
                              }
         self.seirs_plus_params = {
             'beta': 0.155,
