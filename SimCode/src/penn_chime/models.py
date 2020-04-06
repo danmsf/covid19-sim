@@ -247,6 +247,7 @@ class Seiar:
         self.results = pd.concat(results, axis = 1)
         return 0
 
+
 class OLG:
     """
     calc_asymptomatic start from first case
@@ -256,94 +257,124 @@ class OLG:
     fi  # proportion of infectives are never diagnosed
     theta = theta  # diagnosis daily rate
 
-
-
-
-
     """
+
     def __init__(self, p: Parameters):
 
         self.detected = []
-        self.increasing_values(p.detected, p.init_infected)
+        self.asymptomatic_infected = []
+        self.df = pd.DataFrame()
+        self.df_from_loop = pd.DataFrame()
+        self.df_predict = pd.DataFrame()
+        self.R0D = int
 
-        self.RMA, self.R0D = self.calc_r(tau=p.tau)
-
-        self.detected = self.predict(tau=p.tau)
-
-
-        self.asymptomatic_infected = self.calc_asymptomatic(fi=p.fi, theta=p.theta)
-        self.df = self.write(tau=p.tau)
-
+        self.loop_countries(p)
 
     @staticmethod
-    def calc_next_gen(r0=4.9636, tau=14, C_t=70, C_o=0):
-        return C_t * (1 + r0 / tau) ** tau - C_o * r0 / tau * (1 + r0 / tau) ** (tau - 1)
+    def next_gen(r0, tau, c0, ct):
+        r0d = r0 / tau
+        # return ct * (1 + r0d) ** tau - c0 * r0d * (1 + r0d) ** (tau - 1)
+        return (1 + r0d) * (ct - c0) # (1+3.082/14) * (5825-846)
+
+    @staticmethod
+    def true_a(fi, theta, d, d_prev):
+        delta_detected = (d - d_prev)
+        prev_asymptomatic_infected = 1 / (1 - fi) * (delta_detected / theta + d_prev)
+        return prev_asymptomatic_infected
+
+    def loop_countries(self, p):
+
+        for country in p.country:
+            self.df = p.df[p.df['country'] == country]
+            self.increasing_values(p.init_infected)
+            self.calc_r(tau=p.tau)
+            self.predict(tau=p.tau, scenario=p.scenario)
+            self.calc_asymptomatic(fi=p.fi, theta=p.theta, init_infected=p.init_infected)
+            self.write(tau=p.tau)
+
+            self.df_predict = pd.concat([self.df_predict, self.write(tau=p.tau)])
+            self.df_from_loop = pd.concat([self.df, self.df_from_loop])
 
 
-    def increasing_values(self, detected, init_infected):
+    def increasing_values(self, init_infected):
+        detected = self.df['I'].values
         day_0 = np.argmax(detected > init_infected)
-        detected = detected[day_0-1:]
+        detected = detected[day_0 - 1:]
 
+        self.detected = []
         for t in range(1, len(detected)):
             self.detected.append(max(detected[t - 1], detected[t]))
 
+        print(len(self.df), len(self.detected))
+        self.df = self.df[day_0:]
+        print(len(self.df))
+        self.df.loc[:, 'I'] = self.detected
 
     def calc_r(self, tau):
         detected = self.detected
-
         r_values = np.array([])
 
-        for t in range(1, tau + 1):
-            r_value = (detected[t] /(detected[t - 1]  + 1e-05) - 1) * tau
+        for t in range(1, len(detected)):
+            if t <= tau:
+                r_value = (detected[t] / (detected[t - 1] + 1e-05) - 1) * tau
+            else:
+                r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
             r_values = np.append(r_values, r_value)
 
+        rma = np.convolve(r_values, np.ones((tau,)) / tau, mode='full')[:-tau + 1]
+        self.R0D = rma[-1]
 
-        for t in range(tau + 1, len(detected)):
-            r_value = (detected[t] / (detected[t - 1] -detected[t - tau] +detected[t - tau - 1]) - 1) * tau
-            r_values = np.append(r_values, r_value)
-
-
-        rma = np.convolve(r_values, np.ones((tau,)) / tau, mode='full')
-
-        return rma, rma[-1]
-
-
-
-
-    def calc_asymptomatic(self, fi, theta):
-
-        asymptomatic_infected = np.array([self.detected[0]])
-
-        for t in range(1, len(self.detected)):
-            cur_asymptomatic_infected = 1 / (1 - fi) * (self.detected[t] / theta)
-            asymptomatic_infected = np.append(asymptomatic_infected,  cur_asymptomatic_infected)
-
-        return asymptomatic_infected
-
-    def predict(self, tau):
+    def predict(self, tau, scenario):
         detected = self.detected
 
-        for i in range(len(detected) - tau, len(detected)):
-            detected = np.append(detected, self.calc_next_gen(r0=self.R0D, tau=tau, C_t=detected[i], C_o=detected[i-tau]))
-        return detected
+        t = len(detected) - 1   # (1+3.082/14) * (5825-846)
+        cnt = 0
+        for i in scenario['t'].keys():
 
+            while cnt <= scenario['t'].get(i):
+                c0 = detected[t - tau] if len(detected) - tau >= 0 else 0
+                next_gen = self.next_gen(r0=self.R0D * scenario['R0D'].get(i) / 100, tau=tau, c0=c0, ct=detected[t])
+                detected.append(next_gen)
+                print(cnt, t, t - tau, c0, np.round(detected[t], 1), np.round(next_gen, 1))
+                t += 1
+                cnt += 1
+
+
+    def calc_asymptomatic(self, fi, theta, init_infected):
+
+        asymptomatic_infected = [self.true_a(fi=fi, theta=theta, d=self.detected[0], d_prev=init_infected)]
+
+        for t in range(1, len(self.detected)):
+            prev_asymptomatic_infected = self.true_a(fi=fi, theta=theta, d=self.detected[t], d_prev=self.detected[t - 1])
+            # print('{0:.0f}, {1:.0f}, {2:.0f}, {3:.0f}, {4:.0f}, {5:.0f}'.format(t,
+            #                                                                     self.detected[t - 1],
+            #                                                                     self.detected[t],
+            #                                                                     asymptomatic_infected[-1],
+            #                                                                     prev_asymptomatic_infected,
+            #                                                                     max(asymptomatic_infected[-1],
+            #                                                                         prev_asymptomatic_infected)))
+            asymptomatic_infected.append(prev_asymptomatic_infected)
+            # asymptomatic_infected.append(max(asymptomatic_infected[-1], prev_asymptomatic_infected))
+
+        self.asymptomatic_infected = asymptomatic_infected
 
     def write(self, tau):
-        periods  = len(self.detected)
 
-        asymptomatic = self.asymptomatic_infected - self.detected
-        exposed = self.asymptomatic_infected
+        asymptomatic =np.array(self.asymptomatic_infected- np.array(self.detected))
+        asymptomatic[0] = 0
+        predict_date = self.df['date'].max() +  pd.to_timedelta(1, unit="D")
+        periods = len(self.detected) - len(self.df)
+        predict_dates = pd.date_range(start=predict_date.strftime('%Y-%m-%d'), periods=periods)
 
-        df = pd.DataFrame({'asymptomatic': asymptomatic,
-                           'infected': self.detected,
-                           'exposed': exposed
-                           })
+        self.df['A'] = asymptomatic[:-periods]
+        self.df['E'] = self.asymptomatic_infected[:-periods]
 
-        df['dates'] = pd.date_range(end=pd.to_datetime('today').strftime('%Y-%m-%d'), periods=periods)
-        df['asymptomatic'].clip(lower=0, inplace=True)
-        df['exposed'] = df['exposed'].shift(-tau)
-
-        return df
+        df_predict = pd.DataFrame({'date': predict_dates, 'I': self.detected[-periods:]})
+        df_predict['A'] = asymptomatic[-periods:]
+        df_predict['E'] = None
+        df_predict.iloc[:-tau, 3] = self.asymptomatic_infected[-(periods-tau):]
+        df_predict['country'] = self.df['country'].head(1).values[0]
+        return df_predict
 
 
 class CountryData:
