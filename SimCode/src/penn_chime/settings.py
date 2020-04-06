@@ -37,6 +37,6 @@ DEFAULTS = Constants(
     stringency_file=os.path.join(project_path, "Resources", "OxCGRT_Download_latest_data.xlsx"),
     israel_file=os.path.join(project_path, "Resources", "Israel Corona Network Data Yishuv.xlsx"),
     sir_file=os.path.join(project_path, "Resources", "all_dates.csv"),
-    country_file2=os.path.join(project_path,"Resources/SIR_COUNTRY.csv.csv")
+    country_file2=os.path.join(project_path,"Resources","SIR_COUNTRY.csv")
     # country_file=os.path.abspath(r"/../../Resources/all_dates_n.csv" + "/../../")
 )
