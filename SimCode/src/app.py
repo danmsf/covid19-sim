@@ -5,7 +5,7 @@ import streamlit as st  # type: ignore
 import pandas as pd
 from penn_chime.utils import pivot_dataframe
 
-from penn_chime.presentation import (
+from penn_chime.presentation import(
     build_download_link,
     display_header,
     display_sidebar,
@@ -19,14 +19,15 @@ from penn_chime.presentation import (
     write_footer,
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel
+from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel, get_sir_country_file, IsraelData
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
     new_admissions_chart,
     chart_descriptions,
     admission_rma_chart,
-    country_level_chart
+    country_level_chart,
+    yishuv_level_chart
 )
 
 # This is somewhat dangerous:
@@ -48,20 +49,23 @@ st.markdown(
 )
 
 st.sidebar.subheader("General parameters")
-# TODO: changing betas
 # TODO: Michaels models by city/country
-# TODO: vector of percentages of beta
-# TODO: change to Corona time (param form first X incidents
+# TODO: Michaels model for S effect
+# TODO: get rid of S
 if st.sidebar.checkbox(label="Show country data"):
 
-    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file)
+    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
     countrydata.get_country_data()
     countrydata.get_country_stringency()
+    countrydata.get_sir()
+    # countrydata.sir_df
     # TODO: fix overlapping countries comparison option
     countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].sort_values().unique())
     temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
                                                                   'Serious_Critical', 'Total Cases', 'Total Recovered',
                                                                   'Total Deaths', 'StringencyIndex']]
+    min_infected = st.sidebar.number_input("Minimum Infected for graphs", value=10)
+    temp = temp.loc[temp['Total Cases'] >= min_infected, :]
 
     temp = temp.set_index("date", drop=False)
     total_cases_criteria = st.text_input(label ='Min Total Cases ', value =10)
@@ -84,6 +88,18 @@ if st.sidebar.checkbox(label="Show country data"):
 
         st.markdown("""*Source: Worldmeter*""")
 
+if st.sidebar.checkbox(label="Show Israel data"):
+    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
+    country_stringency = countrydata.get_country_stringency()
+    israel_data = IsraelData(DEFAULTS.israel_file)
+    israel_data.get_data()
+    israel_df = israel_data.df.copy()
+    yishuvim = st.sidebar.multiselect("Select Yishuv:", israel_df['Yishuv'].unique())
+    israel_df = israel_df.loc[israel_df['Yishuv'].isin(yishuvim), :]
+    # israel_df = pd.merge(israel_df, country_stringency.loc[country_stringency['Country']=='Israel',['date','stringency_df'])
+    israel_df = israel_df.merge(
+        country_stringency.loc[country_stringency['CountryName'] == 'Israel', ['date', 'StringencyIndex']], how='left')
+    st.altair_chart(yishuv_level_chart(alt, israel_df), use_container_width=True)
 
 models_option = st.sidebar.multiselect(
     'Which models to show?',
@@ -163,13 +179,18 @@ if "OLG Model" in models_option:
 
     st.subheader("OLG Prediction")
     st.markdown("Projected number of **daily** COVID-19 admissions")
-    olg = OLG (p)
-    # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
+
+    sir_country_df = get_sir_country_file(DEFAULTS.sir_country_file)
+    olg = OLG(sir_country_df, p)
+
     st.altair_chart(
-        admission_rma_chart(alt, olg.df),
+        admission_rma_chart(alt, olg.df_corpus, olg.df_predict),
         use_container_width=True,
     )
 
+
+
+# admission_rma_chart(alt, olg.df_corpus, olg.df_predict)
 
 # write_definitions(st)
 # write_footer(st)
@@ -181,7 +202,7 @@ if "SEIAR Model" in models_option:
     mseiar = Seiar(p)
     mseiar.run_simulation()
     mseiar_results = mseiar.results.copy()
-
+    p.model_checkpoints
     if st.sidebar.checkbox(label="Plot as percentages", value=False):
         mseiar_results = mseiar_results/mseiar.N
 
@@ -193,14 +214,15 @@ if "SEIAR Model" in models_option:
     if st.checkbox(label="Present result as table", value=False):
         mseiar_results
     else:
-        st.line_chart(mseiar_results)
+        st.line_chart(mseiar_results[['Asymptomatic', 'Infected']])
 
 if "SEIRSPlus" in models_option:
     st.subheader("SEIRSPlus")
     seirs_params = p.seirs_plus_params
     model = SEIRSModel(**p.seirs_plus_params)
     p.model_checkpoints
-    if len(p.model_checkpoints) > 0:
+    p.time_steps
+    if p.model_checkpoints:
         model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
     else:
         model.run(T=p.time_steps)
@@ -209,7 +231,7 @@ if "SEIRSPlus" in models_option:
     #     {'S': model.numS, 'E': model.numE, 'I': model.numI, 'D_E': model.numD_E, 'D_I': model.numD_I, 'R': model.numR,
     #      'F': model.numF}, index=model.tseries)
     df = pd.DataFrame(
-        {'E': model.numE, 'I': model.numI, 'R': model.numR}, index=model.tseries)
+        {'E': model.numE, 'I': model.numI}, index=model.tseries)
     st.line_chart(df)
 
     model.figure_basic()

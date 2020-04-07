@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
 from .defaults import Constants, Regions, RateLos
+import datetime
 import os
 
-current_directory = os.path.abspath(os.getcwd())
-project_path = os.path.dirname(current_directory)
+current_directory = os.path.dirname(os.path.abspath(__file__))
+project_path = os.path.dirname(os.path.dirname(os.path.dirname(current_directory)))
 
 delaware = 564696
 chester = 519293
@@ -32,8 +33,57 @@ DEFAULTS = Constants(
     icu=RateLos(0.0075, 9),
     ventilated=RateLos(0.005, 10),
 
-    olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta':0.0771},
-    country_file=os.path.join(project_path, "Resources/all_dates_n.csv"),
-    stringency_file=os.path.join(project_path, "Resources/OxCGRT_Download_latest_data.xlsx")
+    olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta': 0.0771,
+                'country': ['israel', 'canada'],
+                'scenario': {'t': {0: 10, 1:10},  'R0D': {0: 0, 1:-0.4}}},
+
+    seirs_plus_params={
+                        'beta': 0.155,
+                        'sigma': 1. / 4,
+                        'gamma': 1. / 14,
+                        'xi': 0.0,
+                        'mu_I': 0.0,
+                        'mu_0': 0.0,
+                        'nu': 0.0,
+                        'beta_D': 0.0,
+                        'sigma_D': 0.0,
+                        'gamma_D': 0.0,
+                        'mu_D': 0.0,
+                        'theta_E': 0.0,
+                        'theta_I': 0.0,
+                        'psi_E': 0.0,
+                        'psi_I': 0.0,
+                        'initN': 8740000.0,
+                        'initI': 10.0,
+                        'initE': 0.0,
+                        'initD_E': 0.0,
+                        'initD_I': 0.0,
+                        'initR': 0.0,
+                        'initF': 0.0,
+                    },
+    seiar_params={
+                 'N_0': 8740000.00,
+                 'S_0': 8739990.00,
+                 'E_0': 0.0,
+                 'A_0': 0.00,
+                 'I_0': 10.00,
+                 'R_0': 0.00,
+                 'seiar_alpha': 0.2,
+                 'seiar_beta_ill': 1.05,
+                 'seiar_beta_asy': 1.05,
+                 'seiar_gamma_ill': 0.08,
+                 'seiar_gamma_asy': 0.15,
+                 'seiar_rho': 1.0,
+                 'seiar_theta': 0.8,
+                 'seiar_start_date_simulation': datetime.date(2020, 3, 1),
+                 'seiar_number_of_days': 30.00
+                 },
+    model_chekpoints = {'t': [], 'beta': []},
+    country_file=os.path.join(project_path, "Resources", "all_dates_n.csv"),
+    stringency_file=os.path.join(project_path, "Resources", "OxCGRT_Download_latest_data.xlsx"),
+    israel_file=os.path.join(project_path, "Resources", "Israel Corona Network Data Yishuv.xlsx"),
+    sir_file=os.path.join(project_path, "Resources", "all_dates.csv"),
+    sir_country_file=os.path.join(project_path, "Resources", "SIR_COUNTRY.csv"),
+    country_file2=os.path.join(project_path, "Resources", "all_dates_n.csv") ##TODO not real
     # country_file=os.path.abspath(r"/../../Resources/all_dates_n.csv" + "/../../")
 )

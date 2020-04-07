@@ -10,6 +10,8 @@ from .defaults import Constants, RateLos
 from .utils import add_date_column, dataframe_to_base64
 from .parameters import Parameters
 
+from .models import get_sir_country_file
+
 DATE_FORMAT = "%b, %d"  # see https://strftime.org
 
 
@@ -98,11 +100,12 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
     hospitalized_los, icu_los, ventilated_los, market_share, susceptible, known_infected, as_date, max_y_axis = \
         [d.n_days, d.current_hospitalized, d.doubling_time, d.relative_contact_rate, d.hospitalized.rate, d.icu.rate, d.ventilated.rate,
          d.hospitalized.length_of_stay, d.icu.length_of_stay, d.ventilated.length_of_stay, d.market_share, d.region.susceptible, d.known_infected, True, None]
+    projection_path, time_steps = None, None
 
-    init_beta, projection_path, time_steps = choose_projection_path(st)
     if d.known_infected < 1:
             raise ValueError("Known cases must be larger than one to enable predictions.")
     if "Penn Dashboard" in models_option:
+        init_beta, projection_path, time_steps = None, None
         n_days = st.sidebar.number_input(
             "Number of days to project",
             min_value=30,
@@ -110,7 +113,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             step=10,
             format="%i",
         )
-
+        time_steps = n_days
         current_hospitalized = st.sidebar.number_input(
             "Currently Hospitalized COVID-19 Patients",
             min_value=0,
@@ -264,6 +267,23 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             format="%f",
         )
 
+        d.olg_params['country'] = st.multiselect('Select countries', list(get_sir_country_file(d.sir_country_file)['country'].drop_duplicates().values), default='israel')
+
+        if st.sidebar.checkbox ("Make a projection", value=False):
+            s_times = st.sidebar.text_input('Insert array of times', value='10, 10')
+            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0, -0.4')
+            s_times = s_times.split(",")
+            s_betas = s_betas.split(",")
+            s_times = [int(s) for s in s_times]
+            s_betas = [float(s) for s in s_betas]
+
+
+            d.olg_params['scenario'] = {'t': {k: v for k, v in enumerate(s_times)},
+                                        'R0D': {k: v for k, v in enumerate(s_betas)}}
+
+        else:
+            d.olg_params['scenario'] = {'t': {0: 10, 1:10},  'R0D': {0: 0, 1:-0.4}}
+
     if "SEIAR Model" in models_option:
         st.sidebar.subheader("SEAIR Model parameters")
         d.seiar_params['N_0'] = st.sidebar.number_input(
@@ -333,7 +353,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             "seiar_beta_ill",
             min_value=0.0,
             max_value=100.0,
-            value=init_beta,
+            value=d.seiar_params['seiar_beta_ill'],
             step=0.01,
             format="%f",
         )
@@ -342,7 +362,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             "seiar_beta_asy",
             min_value=0.0,
             max_value=100.0,
-            value=init_beta,
+            value=d.seiar_params['seiar_beta_ill'],
             step=0.01,
             format="%f",
         )
@@ -396,6 +416,37 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             step=1.0,
             format="%s",
         )
+        if st.sidebar.checkbox ("Make a projection", value=False):
+            time_steps = d.seiar_params['seiar_number_of_days']
+            s_times1 = st.sidebar.text_input('Insert array of times for beta_ill', value='20, 50')
+            s_betas1 = st.sidebar.text_input('Insert percentage change in beta_ill', value='0.2, 0.7')
+            s_times2 = st.sidebar.text_input('Insert array of times for beta_asy', value='20, 50')
+            s_betas2 = st.sidebar.text_input('Insert percentage change in beta_asy', value='0.2, 0.7')
+            s_times1 = s_times1.split(",")
+            s_betas1 = s_betas1.split(",")
+            s_times1 = [int(s) for s in s_times1]
+            s_betas1 = [float(s) for s in s_betas1]
+            s_times2 = s_times2.split(",")
+            s_betas2 = s_betas2.split(",")
+            s_times2 = [int(s) for s in s_times2]
+            s_betas2 = [float(s) for s in s_betas2]
+            beta_t1 = d.seiar_params['seiar_beta_ill']
+            beta_t2 = d.seiar_params['seiar_beta_asy']
+            s_betas_p1 = []
+            s_betas_p2 = []
+            for s in s_betas1:
+                beta_t1 = beta_t1 * (1 + s)
+                s_betas_p1.append(beta_t1)
+            for s in s_betas2:
+                beta_t2 = beta_t2 * (1 + s)
+                s_betas_p2.append(beta_t2)
+            projection_path = {'time_ill': [], 'beta_ill': [], 'time_asy': [], 'beta_asy': []}
+            projection_path['time_ill'] = s_times1
+            projection_path['beta_ill'] = s_betas_p1
+            projection_path['time_asy'] = s_times2
+            projection_path['beta_asy'] = s_betas_p2
+        else:
+            projection_path, time_steps = {'time_ill': [], 'beta_ill': [], 'time_asy': [], 'beta_asy': []}, None
 
     if "SEIRSPlus" in models_option:
         for k, v in d.seirs_plus_params.items():
@@ -407,14 +458,6 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
                 value=v,
                 step=10.0,
                 format="%f")
-            elif k == 'beta':
-                d.seirs_plus_params[k] = st.sidebar.number_input(
-                k,
-                min_value=0.0,
-                max_value=100.0,
-                value=init_beta,
-                step=0.01,
-                format="%f")
             else:
                 d.seirs_plus_params[k] = st.sidebar.number_input(
                 k,
@@ -423,9 +466,25 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
                 value=v,
                 step=0.01,
                 format="%f")
+        time_steps = st.sidebar.number_input("Days to project?", value=150, format="%i")
+        if st.sidebar.checkbox ("Make a projection", value=False):
 
-
-        checks = st.sidebar.number_input(label="Chekpoint", value=0)
+            s_times = st.sidebar.text_input('Insert array of times', value='20, 50')
+            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0.2, 0.7')
+            s_times = s_times.split(",")
+            s_betas = s_betas.split(",")
+            s_times = [int(s) for s in s_times]
+            s_betas = [float(s) for s in s_betas]
+            beta_t = d.seirs_plus_params['beta']
+            s_betas_p = []
+            for s in s_betas:
+                beta_t = beta_t * (1 + s)
+                s_betas_p.append(beta_t)
+            projection_path = {'t': [], 'beta': []}
+            projection_path['t'] = s_times
+            projection_path['beta'] = s_betas_p
+        else:
+            projection_path = None
 
 
     return Parameters(
@@ -442,6 +501,8 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         init_infected=d.olg_params['init_infected'],
         fi=d.olg_params['fi'],
         theta=d.olg_params['theta'],
+        country=d.olg_params['country'],
+        scenario=d.olg_params['scenario'],
 
 
         hospitalized=RateLos(hospitalized_rate, hospitalized_los),
@@ -462,38 +523,15 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         seiar_gamma_asy = d.seiar_params['seiar_gamma_asy'],
         seiar_rho = d.seiar_params['seiar_rho'],
         seiar_theta = d.seiar_params['seiar_theta'],
-        seiar_start_date_simulation = d.seiar_params['seiar_start_date_simulation'],
+        seiar_start_date_simulation=d.seiar_params['seiar_start_date_simulation'],
         seiar_number_of_days = d.seiar_params['seiar_start_date_simulation'] + datetime.timedelta(d.seiar_params['seiar_number_of_days']),
         country_file=d.country_file,
 
 
         seirs_plus_params=d.seirs_plus_params,
         model_checkpoints=projection_path,
-        time_steps = time_steps
+        time_steps=time_steps
         )
-
-
-def choose_projection_path(st):
-    time_steps = st.sidebar.number_input("Days to project?", value=150, format="%i")
-    temp = {'t': [], 'beta': [], 'sigma': []}
-    s_times = st.sidebar.text_input('Insert array of times', value='20, 50')
-    s_times = s_times.split(",")
-    s_times = [int(s) for s in s_times]
-
-    init_beta = st.sidebar.number_input('Insert initial beta', value=0.25)
-    s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0.2, 0.7')
-    s_betas = s_betas.split(",")
-    s_betas = [float(s) for s in s_betas]
-
-    s_betas_p = []
-    bt = init_beta
-    for s in s_betas:
-        bt = bt * (1 + s)
-        s_betas_p.append(bt)
-
-    temp['t'] = s_times
-    temp['beta'] = s_betas_p
-    return init_beta, temp, time_steps
 
 
 def show_more_info_about_this_tool(st, model, parameters, defaults, notes: str = ""):

@@ -105,3 +105,5 @@ def pivot_dataframe(df, col_name, countryname, normalize_day=False):
                                       .pivot(columns='Country', values=col_name)))
 
     return piv_temp
+=======
+

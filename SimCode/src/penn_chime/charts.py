@@ -8,42 +8,66 @@ from .parameters import Parameters
 from .utils import add_date_column
 from .presentation import DATE_FORMAT
 
-def admission_rma_chart(alt, df: pd.DataFrame,):
 
-    source = df.melt(id_vars=['dates'], value_vars=['asymptomatic', 'infected', 'exposed']).dropna()
-    source['value'] = source['value'].astype('int64')
+def admission_rma_chart(alt, df, df_predict):
+    country_count = df['country'].nunique()
 
+    if country_count == 1:
+        df = df.melt(id_vars=['date'], value_vars=['A', 'I', 'E'])
+        df_predict = df_predict.melt(id_vars=['date'], value_vars=['A', 'I'])
+
+    else:
+        pp = set(df['country']).dropna()
+        df = df.pivot(index='date', columns='country', values='I').reset_index().melt(id_vars=['date'],
+                                                                                      value_vars=pp)  # .drop('country', axis=1)
+        df_predict = df_predict.pivot(index='date', columns='country', values='I').reset_index().melt(id_vars=['date'],
+                                                                                                      value_vars=pp)
+
+    df.dropna(inplace=True)
+    df_predict.dropna(inplace=True)
+    df['value'] = df['value'].astype('int64')
+    df_predict['value'] = df_predict['value'].astype('int64')
+
+    color = 'variable' if country_count == 1 else 'country'
+
+    # Create a selection that chooses the nearest point & selects based on x-value
     nearest = alt.selection(type='single', nearest=True, on='mouseover',
-                            fields=['dates'], empty='none')
+                            fields=['date'], empty='none')
 
-    line = alt.Chart(source).mark_line(interpolate='basis').encode(
-        x='dates:T',
+    # The basic line
+    line = alt.Chart(df).mark_line(interpolate='basis').encode(
+        x='date:T',
         y='value',
-        color='variable'
+        color=color
+    )
+
+    line2 = alt.Chart(df_predict).mark_line(interpolate='basis', strokeDash=[1, 1]).encode(
+        x='date:T',
+        y='value',
+        color=color
     )
 
     # Transparent selectors across the chart. This is what tells us
     # the x-value of the cursor
-    selectors = alt.Chart(source).mark_point().encode(
-        x='dates',
+    selectors = alt.Chart(df_predict).mark_point().encode(
+        x='date',
         opacity=alt.value(0),
     ).add_selection(
         nearest
     )
-
     # Draw points on the line, and highlight based on selection
-    points = line.mark_point().encode(
+    points = line2.mark_point().encode(
         opacity=alt.condition(nearest, alt.value(1), alt.value(0))
     )
 
     # Draw text labels near the points, and highlight based on selection
-    text = line.mark_text(align='left', dx=5, dy=-5).encode(
+    text = line2.mark_text(align='left', dx=5, dy=-5).encode(
         text=alt.condition(nearest, 'value', alt.value(' '))
     )
 
     # Draw a rule at the location of the selection
-    rules = alt.Chart(source).mark_rule(color='gray').encode(
-        x='dates',
+    rules = alt.Chart(df_predict).mark_rule(color='gray').encode(
+        x='date:T',
     ).transform_filter(
         nearest
     )
@@ -51,17 +75,79 @@ def admission_rma_chart(alt, df: pd.DataFrame,):
     # Put the five layers into a chart and bind the data
 
     return (alt.layer(
-        line, selectors, points, rules, text
+        line, line2, selectors, points, rules, text
     ).properties(
         width=600, height=300
     ).interactive()
     )
 
+def yishuv_level_chart(alt, df: pd.DataFrame,):
+    # colnames = df.columns
+    # colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
+    # source = df.melt(id_vars=['date', 'Country'], value_vars=colnames).dropna()
+    source = df
+    source['value'] = source['value'].astype('int64')
+
+    nearest = alt.selection(type='single', nearest=True, on='mouseover',
+                            fields=['date'], empty='none')
+
+    line = alt.Chart(source).mark_line(interpolate='basis').encode(
+        x='date:T',
+        y='value',
+        color='Yishuv'
+    )
+
+    line2 = alt.Chart(df).mark_line(interpolate='basis', strokeDash=[1, 1]).encode(
+        x='date:T',
+        y='StringencyIndex'
+    )
+
+    # Transparent selectors across the chart. This is what tells us
+    # the x-value of the cursor
+    selectors = alt.Chart(source).mark_point().encode(
+        x='date',
+        opacity=alt.value(0),
+    ).add_selection(
+        nearest
+    )
+
+    # Draw points on the line, and highlight based on selection
+    points = line.mark_point().encode(
+        opacity=alt.condition(nearest, alt.value(1), alt.value(0)),
+        y = alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
+    )
+    # Draw text labels near the points, and highlight based on selection
+    text = line.mark_text(align='left', dx=5, dy=-5).encode(
+        text=alt.condition(nearest, 'value', alt.value(' ')),
+        y=alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
+    )
+
+    text2 = line2.mark_text(align='left', dx=5, dy=-5).encode(
+        text=alt.condition(nearest, 'StringencyIndex', alt.value(' ')),
+        y=alt.Y('StringencyIndex', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
+    )
+
+    # Draw a rule at the location of the selection
+    rules = alt.Chart(source).mark_rule(color='gray').encode(
+        x='date',
+    ).transform_filter(
+        nearest
+    )
+
+    # Put the five layers into a chart and bind the data
+
+    return (alt.layer(
+        line, line2, selectors, rules, text, text2
+    ).properties(
+        width=600, height=300, title="Israel - Total Cases"
+    ).resolve_scale(y='independent').interactive()
+            )
 
 def country_level_chart(alt, df: pd.DataFrame,):
     colnames = df.columns
     colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
     source = df.melt(id_vars=['date', 'Country'], value_vars=colnames).dropna()
+    source = source.reset_index()
     source['value'] = source['value'].astype('int64')
 
     source['value'] = source['value'].astype('int64')
