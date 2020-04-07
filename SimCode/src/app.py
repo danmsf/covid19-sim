@@ -3,6 +3,7 @@
 import altair as alt  # type: ignore
 import streamlit as st  # type: ignore
 import pandas as pd
+from penn_chime.utils import pivot_dataframe
 
 from penn_chime.presentation import(
     build_download_link,
@@ -59,7 +60,7 @@ if st.sidebar.checkbox(label="Show country data"):
     countrydata.get_sir()
     # countrydata.sir_df
     # TODO: fix overlapping countries comparison option
-    countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].unique())
+    countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].sort_values().unique())
     temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
                                                                   'Serious_Critical', 'Total Cases', 'Total Recovered',
                                                                   'Total Deaths', 'StringencyIndex']]
@@ -67,11 +68,15 @@ if st.sidebar.checkbox(label="Show country data"):
     temp = temp.loc[temp['Total Cases'] >= min_infected, :]
 
     temp = temp.set_index("date", drop=False)
-
-    if st.checkbox(label="Show Totals", value=False):
+    total_cases_criteria = st.text_input(label ='Min Total Cases ', value =10)
+    if st.checkbox(label='Totals Cases', value=False):
+        st.line_chart(pivot_dataframe(temp,'Total Cases',countryname,normalize_day=int(total_cases_criteria)))
         temp = temp[['Country', 'Total Cases', 'Total Recovered', 'Total Deaths', 'StringencyIndex', 'date']]
-    else:
-        temp = temp[['Country',  'New Cases', 'Serious_Critical', 'StringencyIndex', 'date']]
+    elif st.checkbox(label="New Cases", value=False):
+        st.bar_chart(pivot_dataframe(temp, 'New Cases', countryname))
+    elif st.checkbox(label="Total Deaths", value=False):
+        st.line_chart(pivot_dataframe(temp, 'Total Deaths', countryname))
+        temp = temp[['Country',  'Total Deaths', 'Serious_Critical', 'StringencyIndex', 'date']]
     if st.checkbox(label="Show table", value=False):
         temp
     else:
@@ -80,7 +85,7 @@ if st.sidebar.checkbox(label="Show country data"):
                 country_level_chart(alt, temp[temp.Country == c]),
                 use_container_width=True,
             )
-        # st.line_chart(temp)
+
         st.markdown("""*Source: Worldmeter*""")
 
 if st.sidebar.checkbox(label="Show Israel data"):
