@@ -35,7 +35,8 @@ DEFAULTS = Constants(
 
     olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta': 0.0771,
                 'country': ['israel', 'canada'],
-                'scenario': {'t': {0: 20},  'R0D': {0: 0}}},
+                'scenario': {'t': {0: 10, 1:10},  'R0D': {0: 0, 1:-0.4}}},
+
     seirs_plus_params={
                         'beta': 0.155,
                         'sigma': 1. / 4,

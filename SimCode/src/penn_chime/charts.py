@@ -10,7 +10,6 @@ from .presentation import DATE_FORMAT
 
 
 def admission_rma_chart(alt, df, df_predict):
-
     country_count = df['country'].nunique()
 
     if country_count == 1:
@@ -18,13 +17,14 @@ def admission_rma_chart(alt, df, df_predict):
         df_predict = df_predict.melt(id_vars=['date'], value_vars=['A', 'I'])
 
     else:
-        pp = set(df['country'])
-        df = df.pivot(index='date', columns='country', values='A').reset_index().melt(id_vars=['date'],
-                                                                                      value_vars=pp)
-        df_predict = df_predict.pivot(index='date', columns='country', values='A').reset_index().melt(id_vars=['date'],
+        pp = set(df['country']).dropna()
+        df = df.pivot(index='date', columns='country', values='I').reset_index().melt(id_vars=['date'],
+                                                                                      value_vars=pp)  # .drop('country', axis=1)
+        df_predict = df_predict.pivot(index='date', columns='country', values='I').reset_index().melt(id_vars=['date'],
                                                                                                       value_vars=pp)
-    df.query('value==value', inplace = True)
-    print(df.head(5))
+
+    df.dropna(inplace=True)
+    df_predict.dropna(inplace=True)
     df['value'] = df['value'].astype('int64')
     df_predict['value'] = df_predict['value'].astype('int64')
 
