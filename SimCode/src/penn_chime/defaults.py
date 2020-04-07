@@ -4,6 +4,7 @@ from typing import Dict, Any, Union
 from .utils import RateLos
 import datetime
 
+
 class Regions:
     """Arbitrary number of counties."""
 
@@ -21,7 +22,6 @@ class Regions:
 
 class Constants:
 
-
     def __init__(
             self,
             *,
@@ -35,7 +35,7 @@ class Constants:
             hospitalized: RateLos,
             icu: RateLos,
             ventilated: RateLos,
-            olg_params: Dict[str, int] = {'tau': 8, 'init_infected': 100, 'fi': 0.1, 'theta':0.0771},
+            olg_params: Dict[str, int],
 
             as_date: bool = False,
             market_share: float = 1.0,
@@ -45,7 +45,8 @@ class Constants:
 
             country_file: str,
             stringency_file: str,
-            sir_file: str
+            sir_file: str,
+            sir_country_file: str
     ):
         self.region = region
         self.current_hospitalized = current_hospitalized
@@ -109,6 +110,7 @@ class Constants:
         self.country_file = country_file
         self.stringency_file = stringency_file
         self.sir_file = sir_file
+        self.sir_country_file = sir_country_file
 
     def __repr__(self) -> str:
         return f"Constants(susceptible_default: {self.region.susceptible}, known_infected: {self.known_infected})"

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-from .defaults import Constants, Regions, RateLos
+from penn_chime.defaults import Constants, Regions, RateLos
+
+
 import os
 
 current_directory = os.path.abspath(os.getcwd())
@@ -32,10 +34,11 @@ DEFAULTS = Constants(
     icu=RateLos(0.0075, 9),
     ventilated=RateLos(0.005, 10),
 
-    olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta':0.0771},
+    olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta': 0.0771, 'country': ['israel', 'canada'],
+                'scenario': {'t': {0: 20},  'R0D': {0: 100}}},
     country_file=os.path.join(project_path, "Resources/all_dates_n.csv"),
     stringency_file=os.path.join(project_path, "Resources/OxCGRT_Download_latest_data.xlsx"),
     sir_file=os.path.join(project_path, "Resources/all_dates.csv"),
-    country_file2=os.path.join(project_path,"Resources/SIR_COUNTRY.csv.csv")
+    sir_country_file=os.path.join(project_path, "Resources/SIR_COUNTRY.csv")
     # country_file=os.path.abspath(r"/../../Resources/all_dates_n.csv" + "/../../")
 )
