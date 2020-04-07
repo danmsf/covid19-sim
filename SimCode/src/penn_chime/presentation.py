@@ -269,9 +269,9 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
 
         d.olg_params['country'] = st.multiselect('Select countries', list(get_sir_country_file(d.sir_country_file)['country'].drop_duplicates().values), default='israel')
 
-        if st.sidebar.checkbox ("Make a projection", value=False):
-            s_times = st.sidebar.text_input('Insert array of times', value='10, 10')
-            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0, -0.4')
+        if st.sidebar.checkbox ("Make a projection", value=False, key=10):
+            s_times = st.sidebar.text_input('Insert array of times', value='10, 10', key=11)
+            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0, -0.4', key=12)
             s_times = s_times.split(",")
             s_betas = s_betas.split(",")
             s_times = [int(s) for s in s_times]
@@ -416,7 +416,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             step=1.0,
             format="%s",
         )
-        if st.sidebar.checkbox ("Make a projection", value=False):
+        if st.sidebar.checkbox ("Make a projection", value=False, key=14):
             time_steps = d.seiar_params['seiar_number_of_days']
             s_times1 = st.sidebar.text_input('Insert array of times for beta_ill', value='20, 50')
             s_betas1 = st.sidebar.text_input('Insert percentage change in beta_ill', value='0.2, 0.7')
@@ -467,10 +467,10 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
                 step=0.01,
                 format="%f")
         time_steps = st.sidebar.number_input("Days to project?", value=150, format="%i")
-        if st.sidebar.checkbox ("Make a projection", value=False):
+        if st.sidebar.checkbox ("Make a projection", value=False, key=15):
 
-            s_times = st.sidebar.text_input('Insert array of times', value='20, 50')
-            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0.2, 0.7')
+            s_times = st.sidebar.text_input('Insert array of times', value='20, 50', key=16)
+            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0.2, 0.7', key=17)
             s_times = s_times.split(",")
             s_betas = s_betas.split(",")
             s_times = [int(s) for s in s_times]

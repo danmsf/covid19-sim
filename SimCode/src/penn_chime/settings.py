@@ -84,6 +84,8 @@ DEFAULTS = Constants(
     israel_file=os.path.join(project_path, "Resources", "Israel Corona Network Data Yishuv.xlsx"),
     sir_file=os.path.join(project_path, "Resources", "all_dates.csv"),
     sir_country_file=os.path.join(project_path, "Resources", "SIR_COUNTRY.csv"),
-    country_file2=os.path.join(project_path, "Resources", "all_dates_n.csv") ##TODO not real
+    country_file2=os.path.join(project_path, "Resources", "all_dates_n.csv"),
+    lab_results=os.path.join(project_path, "Resources", "Datasets", "IsraelData", "lab_tests.csv"),
+    isolations=os.path.join(project_path, "Resources", "Datasets","IsraelData", "isolations.csv"),
     # country_file=os.path.abspath(r"/../../Resources/all_dates_n.csv" + "/../../")
 )

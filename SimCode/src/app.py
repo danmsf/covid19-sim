@@ -27,7 +27,9 @@ from penn_chime.charts import (
     chart_descriptions,
     admission_rma_chart,
     country_level_chart,
-    yishuv_level_chart
+    yishuv_level_chart,
+    test_results_chart,
+    isolations_chart
 )
 
 # This is somewhat dangerous:
@@ -53,53 +55,57 @@ st.sidebar.subheader("General parameters")
 # TODO: Michaels model for S effect
 # TODO: get rid of S
 if st.sidebar.checkbox(label="Show country data"):
-
+    st.header('Country Data')
     countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
     countrydata.get_country_data()
     countrydata.get_country_stringency()
     countrydata.get_sir()
-    # countrydata.sir_df
-    # TODO: fix overlapping countries comparison option
-    countryname = st.sidebar.multiselect(label="Select Countries", options=countrydata.df['Country'].sort_values().unique())
+
+    countryname = st.multiselect(label="Select Countries", options=countrydata.df['Country'].sort_values().unique())
     temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
                                                                   'Serious_Critical', 'Total Cases', 'Total Recovered',
                                                                   'Total Deaths', 'StringencyIndex']]
-    min_infected = st.sidebar.number_input("Minimum Infected for graphs", value=10)
-    temp = temp.loc[temp['Total Cases'] >= min_infected, :]
+    # min_infected = st.sidebar.number_input("Minimum Infected for graphs", value=10)
+    # temp = temp.loc[temp['Total Cases'] >= min_infected, :]
 
     temp = temp.set_index("date", drop=False)
-    total_cases_criteria = st.text_input(label ='Min Total Cases ', value =10)
-    if st.checkbox(label='Totals Cases', value=False):
-        st.line_chart(pivot_dataframe(temp,'Total Cases',countryname,normalize_day=int(total_cases_criteria)))
-        temp = temp[['Country', 'Total Cases', 'Total Recovered', 'Total Deaths', 'StringencyIndex', 'date']]
-    elif st.checkbox(label="New Cases", value=False):
-        st.bar_chart(pivot_dataframe(temp, 'New Cases', countryname))
-    elif st.checkbox(label="Total Deaths", value=False):
-        st.line_chart(pivot_dataframe(temp, 'Total Deaths', countryname))
-        temp = temp[['Country',  'Total Deaths', 'Serious_Critical', 'StringencyIndex', 'date']]
+    total_cases_criteria = st.number_input(label='Minimum Infected for Start', value=10)
+    temp = temp.loc[temp['Total Cases'] >= total_cases_criteria, :]
+    cols = temp.columns
+    cols = [c for c in cols if c not in ['Country', 'date']]
+    col_measure = st.selectbox(label="Chose comparison column", options=cols, key=1)
+    st.line_chart(pivot_dataframe(temp, col_measure, countryname, normalize_day=int(total_cases_criteria)))
     if st.checkbox(label="Show table", value=False):
         temp
     else:
+        col_measures = st.multiselect(label="Chose columns", options=[c for c in cols if c not in ['StringencyIndex']], key=2)
         for c in countryname:
             st.altair_chart(
-                country_level_chart(alt, temp[temp.Country == c]),
+                country_level_chart(alt, temp.loc[temp.Country == c, ['Country', 'date', 'StringencyIndex'] + col_measures]),
                 use_container_width=True,
             )
 
         st.markdown("""*Source: Worldmeter*""")
 
 if st.sidebar.checkbox(label="Show Israel data"):
+    st.header('Israeli Data')
+    israel_data = IsraelData(DEFAULTS.israel_file, DEFAULTS.isolations, DEFAULTS.lab_results)
+
+    lab_tests = israel_data.lab_results_df
+    st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
+
+    isolation_df = israel_data.isolation_df
+    st.altair_chart(isolations_chart(alt, isolation_df), use_container_width=True)
+
     countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
     country_stringency = countrydata.get_country_stringency()
-    israel_data = IsraelData(DEFAULTS.israel_file)
-    israel_data.get_data()
-    israel_df = israel_data.df.copy()
-    yishuvim = st.sidebar.multiselect("Select Yishuv:", israel_df['Yishuv'].unique())
-    israel_df = israel_df.loc[israel_df['Yishuv'].isin(yishuvim), :]
-    # israel_df = pd.merge(israel_df, country_stringency.loc[country_stringency['Country']=='Israel',['date','stringency_df'])
-    israel_df = israel_df.merge(
+    israel_data.get_yishuv_data()
+    israel_yishuv_df = israel_data.yishuv_df.copy()
+    yishuvim = st.multiselect("Select Yishuv:", israel_yishuv_df['Yishuv'].unique())
+    israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
+    israel_yishuv_df = israel_yishuv_df.merge(
         country_stringency.loc[country_stringency['CountryName'] == 'Israel', ['date', 'StringencyIndex']], how='left')
-    st.altair_chart(yishuv_level_chart(alt, israel_df), use_container_width=True)
+    st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
 
 models_option = st.sidebar.multiselect(
     'Which models to show?',

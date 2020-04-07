@@ -145,7 +145,7 @@ def yishuv_level_chart(alt, df: pd.DataFrame,):
     return (alt.layer(
         line, line2, selectors, rules, text, text2
     ).properties(
-        width=600, height=300, title="Israel - Total Cases"
+        width=600, height=300, title="Total Cases by Yishuv"
     ).resolve_scale(y='independent').interactive()
             )
 
@@ -212,6 +212,21 @@ def country_level_chart(alt, df: pd.DataFrame,):
         width=600, height=300, title=df.Country[0]
     ).resolve_scale(y='independent').interactive()
             )
+
+def test_results_chart(alt, df: pd.DataFrame,):
+    cond = (df['is_first_test'] == "Yes")
+    lab_tests = df.loc[cond, ['result_date', 'corona_result']]
+    agg_data = lab_tests.groupby(['result_date', 'corona_result']).size().reset_index(name='counts')
+    return alt.Chart(agg_data).mark_bar(tooltip=True).encode(alt.X('result_date', title='Result Date'), alt.Y('counts', title='Counts'), color='corona_result').properties(
+        width=600, height=300, title="Lab Test Results"
+    )
+
+def isolations_chart(alt, df: pd.DataFrame,):
+    isolations = df.melt(id_vars='date', value_vars=df.columns[1:]).dropna()
+    return alt.Chart(isolations).mark_bar(tooltip=True).encode(alt.X('date', title='Isolation Date'), alt.Y('value', title='Count'), color='variable').properties(
+        width=600, height=300, title="Isolation"
+    )
+
 
 def new_admissions_chart(
         alt, projection_admits: pd.DataFrame, parameters: Parameters

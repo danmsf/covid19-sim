@@ -81,7 +81,7 @@ def dataframe_to_base64(df: pd.DataFrame) -> str:
     return b64
 
 
-## TODO only temp shoul use a dateset
+## TODO only temp should use a dataset
 daily_hospitalized = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0,
                                0, 0, 0, 0, 1, 1, 1, 1, 1,
                                1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -105,5 +105,4 @@ def pivot_dataframe(df, col_name, countryname, normalize_day=False):
                                       .pivot(columns='Country', values=col_name)))
 
     return piv_temp
-=======
 

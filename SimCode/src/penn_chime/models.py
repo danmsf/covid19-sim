@@ -424,17 +424,33 @@ class CountryData:
 
 
 class IsraelData:
-    def __init__(self, israel_file):
-        self.filepath = israel_file
-        self.df = self.get_data()
+    def __init__(self, yishuv_file, isolation_file, lab_file):
+        self.filepath = yishuv_file
+        self.isolation_file = isolation_file
+        self.lab_file = lab_file
+        self.yishuv_df = self.get_yishuv_data()
+        self.isolation_df = self.get_isolation_df()
+        self.lab_results_df = self.get_lab_results_df()
 
-    def get_data(self):
+    def get_yishuv_data(self):
         df = pd.read_excel(self.filepath)
         colnames = df.columns
         df = df.melt(id_vars=['יישוב'], value_vars=colnames[1:])
         df['variable'] = pd.to_datetime(df['variable'],format="%d/%m/%Y", errors='coerce')
         df = df[df["variable"].dt.year>1677].dropna()
         df = df.rename(columns={'יישוב':'Yishuv', 'variable':'date'})
+        return df
+
+    def get_isolation_df(self):
+        df = pd.read_csv(self.isolation_file)
+        df['date'] = pd.to_datetime(df['date'])
+        df = df.set_index("date", drop=False)
+        df = df.drop(columns="_id")
+        return df
+
+    def get_lab_results_df(self):
+        df = pd.read_csv(self.lab_file)
+        df['result_date'] = pd.to_datetime(df['result_date'])
         return df
 
 
