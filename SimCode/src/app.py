@@ -101,6 +101,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
     country_stringency = countrydata.get_country_stringency()
     israel_data.get_yishuv_data()
     israel_yishuv_df = israel_data.yishuv_df.copy()
+
     yishuvim = st.multiselect("Select Yishuv:", israel_yishuv_df['Yishuv'].unique())
     israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
     israel_yishuv_df = israel_yishuv_df.merge(

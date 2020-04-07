@@ -105,7 +105,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
     if d.known_infected < 1:
             raise ValueError("Known cases must be larger than one to enable predictions.")
     if "Penn Dashboard" in models_option:
-        init_beta, projection_path, time_steps = None, None
+        init_beta, projection_path, time_steps = None, None, None
         n_days = st.sidebar.number_input(
             "Number of days to project",
             min_value=30,
