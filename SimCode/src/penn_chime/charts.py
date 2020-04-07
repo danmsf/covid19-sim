@@ -9,8 +9,10 @@ from .utils import add_date_column
 from .presentation import DATE_FORMAT
 
 
-def admission_rma_chart(alt, df, df_predict):
-    country_count = df['country'].nunique()
+def admission_rma_chart(alt, df: pd.DataFrame, df_predict: pd.DataFrame):
+    print(df.head(5))
+    country_count = len(set(df['country'].values)) # df['country'].nunique()
+    print(df['country'].nunique())
 
     if country_count == 1:
         df = df.melt(id_vars=['date'], value_vars=['A', 'I', 'E'])
@@ -64,6 +66,10 @@ def admission_rma_chart(alt, df, df_predict):
     text = line2.mark_text(align='left', dx=5, dy=-5).encode(
         text=alt.condition(nearest, 'value', alt.value(' '))
     )
+    # Draw text labels near the points, and highlight based on selection
+    text2 = line.mark_text(align='left', dx=5, dy=-5).encode(
+        text=alt.condition(nearest, 'value', alt.value(' '))
+    )
 
     # Draw a rule at the location of the selection
     rules = alt.Chart(df_predict).mark_rule(color='gray').encode(
@@ -75,7 +81,7 @@ def admission_rma_chart(alt, df, df_predict):
     # Put the five layers into a chart and bind the data
 
     return (alt.layer(
-        line, line2, selectors, points, rules, text
+        line, line2, selectors, points, rules, text, text2
     ).properties(
         width=600, height=300
     ).interactive()
