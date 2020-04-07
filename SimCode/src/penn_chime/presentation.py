@@ -265,6 +265,28 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             format="%f",
         )
 
+        d.olg_params['country'] = st.multiselect('Select countries', d.olg_params['country'])
+
+
+        if st.sidebar.checkbox ("Make a projection", value=False):
+            time_steps = st.sidebar.number_input("Days to project?", value=150, format="%i")
+            s_times = st.sidebar.text_input('Insert array of times', value='20, 50')
+            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0.2, 0.7')
+            s_times = s_times.split(",")
+            s_betas = s_betas.split(",")
+            s_times = [int(s) for s in s_times]
+            s_betas = [float(s) for s in s_betas]
+
+            s_betas_p = []
+            for s in s_betas:
+                beta_t = (1 + s)
+                s_betas_p.append(beta_t)
+
+            d.olg_params['scenario'] = {'t': [s_times], 'R0D': [s_betas_p]}
+
+        else:
+            d.olg_params['scenario'] = {'t': {0: 20},  'R0D': {0: 100}}
+
     if "SEIAR Model" in models_option:
         st.sidebar.subheader("SEAIR Model parameters")
         d.seiar_params['N_0'] = st.sidebar.number_input(
@@ -482,6 +504,8 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         init_infected=d.olg_params['init_infected'],
         fi=d.olg_params['fi'],
         theta=d.olg_params['theta'],
+        country=d.olg_params['country'],
+        scenario=d.olg_params['scenario'],
 
 
         hospitalized=RateLos(hospitalized_rate, hospitalized_los),
@@ -511,7 +535,6 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         model_checkpoints=projection_path,
         time_steps=time_steps
         )
-
 
 
 def show_more_info_about_this_tool(st, model, parameters, defaults, notes: str = ""):

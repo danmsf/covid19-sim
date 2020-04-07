@@ -6,7 +6,6 @@ Changes affecting results or their presentation should also update
 
 from .utils import RateLos
 
-
 class Parameters:
     """Parameters."""
 
@@ -22,17 +21,18 @@ class Parameters:
         icu: RateLos,
         ventilated: RateLos,
 
-        tau: int = 8,
-        init_infected: int = 100,
-        fi: float = 0.25,
-        theta: float = 0.077,
+        tau: int,
+        init_infected: int,
+        fi: float,
+        theta: float,
+        country: list,
+        scenario: dict,
+
         as_date: bool = False,
         market_share: float = 1.0,
         max_y_axis: int = None,
         n_days: int = 60,
         recovery_days: int = 14,
-        scenario: dict = {'t': {0: 20},
-                         'R0D': {0: 100}},
 
         N_0: int = 7000000,
         S_0: float = 0,
@@ -64,11 +64,14 @@ class Parameters:
         self.init_infected = init_infected
         self.fi = fi
         self.theta = theta
+        self.country = country
         self.scenario = scenario
+
 
         self.hospitalized = hospitalized
         self.icu = icu
         self.ventilated = ventilated
+
 
         self.as_date = as_date
         self.market_share = market_share

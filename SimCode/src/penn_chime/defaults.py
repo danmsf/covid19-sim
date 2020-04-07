@@ -3,6 +3,7 @@ from typing import Dict, Any, Union
 
 from .utils import RateLos
 
+
 class Regions:
     """Arbitrary number of counties."""
 
@@ -34,7 +35,7 @@ class Constants:
             hospitalized: RateLos,
             icu: RateLos,
             ventilated: RateLos,
-            olg_params: Dict[str, int] = {'tau': 8, 'init_infected': 100, 'fi': 0.1, 'theta':0.0771},
+            olg_params: Dict[str, int],
             seirs_plus_params: Dict,
             seiar_params: Dict,
             model_chekpoints: Dict,
@@ -47,6 +48,7 @@ class Constants:
             country_file: str,
             stringency_file: str,
             sir_file: str,
+            sir_country_file: str,
             israel_file: str,
             country_file2: str,
     ):
@@ -74,6 +76,7 @@ class Constants:
         self.country_file = country_file
         self.stringency_file = stringency_file
         self.sir_file = sir_file
+        self.sir_country_file = sir_country_file
         self.israel_file = israel_file
         self.country_file2 = country_file2
 

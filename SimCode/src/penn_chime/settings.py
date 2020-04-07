@@ -33,7 +33,8 @@ DEFAULTS = Constants(
     icu=RateLos(0.0075, 9),
     ventilated=RateLos(0.005, 10),
 
-    olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta':0.0771},
+    olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta': 0.0771, 'country': ['israel', 'canada'],
+                'scenario': {'t': {0: 20},  'R0D': {0: 100}}},
     seirs_plus_params={
                         'beta': 0.155,
                         'sigma': 1. / 4,
@@ -80,6 +81,6 @@ DEFAULTS = Constants(
     stringency_file=os.path.join(project_path, "Resources", "OxCGRT_Download_latest_data.xlsx"),
     israel_file=os.path.join(project_path, "Resources", "Israel Corona Network Data Yishuv.xlsx"),
     sir_file=os.path.join(project_path, "Resources", "all_dates.csv"),
-    country_file2=os.path.join(project_path,"Resources","SIR_COUNTRY.csv")
+    sir_country_file=os.path.join(project_path, "Resources","SIR_COUNTRY.csv")
     # country_file=os.path.abspath(r"/../../Resources/all_dates_n.csv" + "/../../")
 )
