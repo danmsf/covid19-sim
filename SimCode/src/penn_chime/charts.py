@@ -217,13 +217,15 @@ def test_results_chart(alt, df: pd.DataFrame,):
     cond = (df['is_first_test'] == "Yes")
     lab_tests = df.loc[cond, ['result_date', 'corona_result']]
     agg_data = lab_tests.groupby(['result_date', 'corona_result']).size().reset_index(name='counts')
-    return alt.Chart(agg_data).mark_bar(tooltip=True).encode(alt.X('result_date', title='Result Date'), alt.Y('counts', title='Counts'), color='corona_result').properties(
+    return alt.Chart(agg_data).mark_bar(tooltip=True).encode(alt.X('result_date', title='Result Date'), alt.Y('counts', title='Counts'),
+                                                             color=alt.Color('corona_result',  legend=alt.Legend(orient="top", title=''))).properties(
         width=600, height=300, title="Lab Test Results"
     )
 
 def isolations_chart(alt, df: pd.DataFrame,):
     isolations = df.melt(id_vars='date', value_vars=df.columns[1:]).dropna()
-    return alt.Chart(isolations).mark_bar(tooltip=True).encode(alt.X('date', title='Isolation Date'), alt.Y('value', title='Count'), color='variable').properties(
+    return alt.Chart(isolations).mark_bar(tooltip=True).encode(alt.X('date', title='Isolation Date'), alt.Y('value', title='Count'),
+                                                               color=alt.Color('variable',  legend=alt.Legend(orient="top", title=''))).properties(
         width=600, height=300, title="Isolation"
     )
 
