@@ -10,7 +10,7 @@ class Regions:
     def __init__(self, **kwargs):
         susceptible = 0
         for key, value in kwargs.items ():
-            setattr (self, key, value)
+            setattr(self, key, value)
             susceptible += value
         self._susceptible = susceptible
 

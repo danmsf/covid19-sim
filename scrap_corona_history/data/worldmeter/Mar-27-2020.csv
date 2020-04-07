@@ -1,0 +1,202 @@
+,"Country,Other",TotalCases,NewCases,TotalDeaths,NewDeaths,TotalRecovered,ActiveCases,"Serious,Critical",Tot Cases/1M pop,Tot Deaths/1M pop,ref,date
+0,China,81340,+55,3292.0,5.0,74588.0,3460,1034.0,57.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+1,USA,85435,"+17,224",1295.0,268.0,1868.0,82272,2122.0,258.0,4.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+2,Italy,80589,"+6,203",8215.0,712.0,10361.0,62013,3612.0,1333.0,136.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+3,Spain,57786,"+8,271",4365.0,718.0,7015.0,46406,3166.0,1236.0,93.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+4,Germany,43938,"+6,615",267.0,61.0,5673.0,37998,23.0,524.0,3.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+5,Iran,29406,"+2,389",2234.0,157.0,10457.0,16715,2746.0,350.0,27.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+6,France,29155,"+3,922",1696.0,365.0,4948.0,22511,3375.0,447.0,26.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+7,Switzerland,11811,+914,192.0,39.0,131.0,11488,141.0,1365.0,22.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+8,UK,11658,"+2,129",578.0,115.0,135.0,10945,163.0,172.0,9.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+9,S. Korea,9241,+104,131.0,5.0,4144.0,4966,59.0,180.0,3.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+10,Netherlands,7431,"+1,019",434.0,78.0,3.0,6994,761.0,434.0,25.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+11,Austria,6909,"+1,321",49.0,18.0,112.0,6748,96.0,767.0,5.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+12,Belgium,6235,"+1,298",220.0,42.0,675.0,5340,605.0,538.0,19.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+13,Canada,4043,+634,39.0,3.0,228.0,3776,120.0,107.0,1.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+14,Turkey,3629,"+1,196",75.0,16.0,26.0,3528,136.0,43.0,0.9,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+15,Portugal,3544,+549,60.0,17.0,43.0,3441,61.0,348.0,6.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+16,Norway,3372,+288,14.0,,6.0,3352,70.0,622.0,3.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+17,Australia,3050,+374,13.0,2.0,170.0,2867,23.0,120.0,0.5,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+18,Brazil,2985,+431,77.0,18.0,6.0,2902,18.0,14.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+19,Sweden,2840,+314,77.0,15.0,16.0,2747,200.0,281.0,8.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+20,Israel,2693,+324,8.0,3.0,68.0,2617,46.0,311.0,0.9,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+21,Malaysia,2031,+235,23.0,3.0,215.0,1793,45.0,63.0,0.7,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+22,Czechia,1925,+271,9.0,3.0,10.0,1906,34.0,180.0,0.8,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+23,Denmark,1877,+153,41.0,7.0,1.0,1835,94.0,324.0,7.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+24,Ireland,1819,+255,19.0,10.0,5.0,1795,47.0,368.0,4.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+25,Luxembourg,1453,+120,9.0,1.0,6.0,1438,3.0,2321.0,14.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+26,Ecuador,1403,+192,34.0,5.0,3.0,1366,58.0,80.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+27,Japan,1387,+80,47.0,2.0,359.0,981,57.0,11.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+28,Chile,1306,+164,4.0,1.0,22.0,1280,7.0,68.0,0.2,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+29,Poland,1221,+170,16.0,2.0,7.0,1198,3.0,32.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+30,Pakistan,1201,+138,9.0,1.0,21.0,1171,5.0,5.0,0.04,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+31,Thailand,1045,+111,4.0,,88.0,953,4.0,15.0,0.06,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+32,Romania,1029,+123,23.0,6.0,94.0,912,29.0,53.0,1.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+33,Saudi Arabia,1012,+112,3.0,1.0,33.0,976,6.0,29.0,0.09,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+34,Finland,958,+78,5.0,2.0,10.0,943,24.0,173.0,0.9,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+35,South Africa,927,+218,,,12.0,915,2.0,16.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+36,Indonesia,893,+103,78.0,20.0,35.0,780,,3.0,0.3,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+37,Greece,892,+71,27.0,5.0,36.0,829,53.0,86.0,3.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+38,Russia,840,+182,3.0,,38.0,799,8.0,6.0,0.02,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+39,Iceland,802,+65,2.0,,82.0,718,11.0,2350.0,6.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+40,India,727,+70,20.0,8.0,45.0,662,,0.5,0.01,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+41,Diamond Princess,712,,10.0,,597.0,105,15.0,,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+42,Philippines,707,+71,45.0,7.0,28.0,634,1.0,6.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+43,Singapore,683,+52,2.0,,172.0,509,17.0,117.0,0.3,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+44,Panama,674,+116,9.0,1.0,2.0,663,20.0,156.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+45,Argentina,589,+87,12.0,4.0,72.0,505,,13.0,0.3,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+46,Peru,580,+100,9.0,,14.0,557,14.0,18.0,0.3,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+47,Slovenia,562,+34,6.0,1.0,10.0,546,14.0,270.0,3.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+48,Qatar,549,+12,,,43.0,506,6.0,191.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+49,Estonia,538,+134,1.0,,8.0,529,6.0,406.0,0.8,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+50,Egypt,495,+39,24.0,3.0,102.0,369,,5.0,0.2,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+51,Croatia,495,+53,3.0,2.0,22.0,470,14.0,121.0,0.7,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+52,Colombia,491,+21,6.0,2.0,8.0,477,,10.0,0.1,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+53,Dominican Republic,488,+96,10.0,,3.0,475,,45.0,0.9,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+54,Mexico,475,+70,6.0,1.0,4.0,465,1.0,4.0,0.05,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+55,Bahrain,458,+39,4.0,,204.0,250,1.0,269.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+56,Serbia,457,+73,7.0,3.0,15.0,435,21.0,52.0,0.8,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+57,Hong Kong,454,+43,4.0,,110.0,340,5.0,61.0,0.5,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+58,Iraq,382,+36,36.0,7.0,105.0,241,,9.0,0.9,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+59,Lebanon,368,+35,6.0,,23.0,339,3.0,54.0,0.9,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+60,New Zealand,368,+85,,,37.0,331,1.0,76.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+61,Algeria,367,+65,25.0,4.0,29.0,313,,8.0,0.6,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+62,UAE,333,,2.0,,52.0,279,2.0,34.0,0.2,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+63,Lithuania,299,+25,4.0,,1.0,294,1.0,110.0,1.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+64,Armenia,290,+25,1.0,1.0,18.0,271,6.0,98.0,0.3,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+65,Morocco,275,+50,11.0,5.0,8.0,256,1.0,7.0,0.3,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+66,Bulgaria,264,+22,3.0,,8.0,253,8.0,38.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+67,Hungary,261,+35,10.0,,28.0,223,6.0,27.0,1.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+68,Taiwan,252,+17,2.0,,29.0,221,,11.0,0.08,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+69,Latvia,244,+23,,,1.0,243,,129.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+70,Uruguay,238,+21,,,,238,3.0,69.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+71,Costa Rica,231,+30,2.0,,2.0,227,5.0,45.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+72,Slovakia,226,+10,,,2.0,224,2.0,41.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+73,Andorra,224,+36,3.0,2.0,1.0,220,6.0,2899.0,39.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+74,Jordan,212,+40,,,1.0,211,,21.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+75,San Marino,208,,21.0,,4.0,183,12.0,6130.0,619.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+76,Kuwait,208,+13,,,49.0,159,7.0,49.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+77,North Macedonia,201,+24,3.0,,3.0,195,1.0,96.0,1.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+78,Tunisia,197,+24,5.0,,2.0,190,10.0,17.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+79,Ukraine,196,+51,5.0,,1.0,190,,4.0,0.1,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+80,Bosnia and Herzegovina,191,+15,3.0,,2.0,186,1.0,58.0,0.9,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+81,Moldova,177,+28,1.0,,2.0,174,28.0,44.0,0.2,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+82,Albania,174,+28,6.0,1.0,17.0,151,3.0,60.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+83,Vietnam,153,+5,,,20.0,133,3.0,2.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+84,Burkina Faso,152,+6,7.0,3.0,10.0,135,,7.0,0.3,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+85,Cyprus,146,+14,3.0,,4.0,139,3.0,121.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+86,Faeroe Islands,140,+8,,,47.0,93,,2865.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+87,Réunion,135,+24,,,1.0,134,,151.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+88,Malta,134,+5,,,2.0,132,1.0,303.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+89,Ghana,132,+64,4.0,,1.0,127,,4.0,0.1,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+90,Azerbaijan,122,+29,3.0,1.0,15.0,104,6.0,12.0,0.3,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+91,Brunei,114,+5,,,5.0,109,1.0,261.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+92,Kazakhstan,113,+32,1.0,1.0,2.0,110,,6.0,0.05,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+93,Oman,109,+10,,,23.0,86,,21.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+94,Venezuela,107,+1,1.0,1.0,15.0,91,2.0,4.0,0.04,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+95,Sri Lanka,106,+4,,,7.0,99,3.0,5.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+96,Senegal,105,+6,,,9.0,96,,6.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+97,Cambodia,98,+2,,,10.0,88,1.0,6.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+98,Ivory Coast,96,+16,,,3.0,93,,4.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+99,Afghanistan,94,+10,4.0,2.0,2.0,88,,2.0,0.1,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+100,Palestine,86,+15,1.0,,17.0,68,,17.0,0.2,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+101,Belarus,86,,,,29.0,57,2.0,9.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+102,Mauritius,81,+33,2.0,,,79,1.0,64.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+103,Martinique,81,+15,1.0,,,80,12.0,216.0,3.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+104,Georgia,79,+4,,,11.0,68,1.0,20.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+105,Cameroon,75,,1.0,,2.0,72,,3.0,0.04,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+106,Uzbekistan,75,+15,,,,75,4.0,2.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+107,Guadeloupe,73,,1.0,,,72,4.0,182.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+108,Montenegro,69,+16,1.0,,,68,1.0,110.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+109,Cuba,67,+10,2.0,1.0,1.0,64,2.0,6.0,0.2,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+110,Honduras,67,+15,1.0,1.0,,66,,7.0,0.1,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+111,Channel Islands,66,+20,1.0,1.0,,65,,380.0,6.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+112,Nigeria,65,+14,1.0,,3.0,61,,0.3,0.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+113,Trinidad and Tobago,65,+5,1.0,,,64,,46.0,0.7,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+114,Bolivia,61,+29,,,,61,,5.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+115,Liechtenstein,56,+5,,,,56,,1469.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+116,DRC,51,+3,3.0,1.0,,48,,0.6,0.03,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+117,Rwanda,50,+9,,,,50,,4.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+118,Bangladesh,44,+5,5.0,,11.0,28,1.0,0.3,0.03,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+119,Kyrgyzstan,44,,,,,44,,7.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+120,Paraguay,41,+4,3.0,,,38,1.0,6.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+121,Mayotte,36,,,,,36,,132.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+122,Gibraltar,35,+9,,,13.0,22,,1039.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+123,Macao,33,+2,,,10.0,23,,51.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+124,Monaco,33,+2,,,1.0,32,,841.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+125,Kenya,31,+3,1.0,1.0,1.0,29,,0.6,0.02,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+126,French Polynesia,30,+5,,,,30,,107.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+127,Aruba,28,+9,,,1.0,27,,262.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+128,French Guiana,28,,,,6.0,22,,94.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+129,Jamaica,26,,1.0,,2.0,23,,9.0,0.3,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+130,Isle of Man,26,+3,,,,26,,306.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+131,Guatemala,25,+1,1.0,,4.0,20,,1.0,0.06,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+132,Barbados,24,+6,,,,24,,84.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+133,Togo,24,+1,,,1.0,23,,3.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+134,Madagascar,23,+4,,,,23,,0.8,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+135,Zambia,16,+4,,,,16,,0.9,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+136,Bermuda,15,+8,,,2.0,13,,241.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+137,New Caledonia,14,,,,,14,,49.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+138,Uganda,14,,,,,14,,0.3,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+139,El Salvador,13,+4,,,,13,,2.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+140,Maldives,13,,,,8.0,5,,24.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+141,Tanzania,13,,,,,13,,0.2,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+142,Equatorial Guinea,12,+3,,,,12,,9.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+143,Ethiopia,12,,,,,12,,0.1,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+144,Djibouti,11,,,,,11,,11.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+145,Dominica,11,,,,,11,,153.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+146,Mongolia,11,+1,,,,11,,3.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+147,Saint Martin,11,,,,,11,,284.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+148,Niger,10,+3,1.0,,,9,,0.4,0.04,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+149,Bahamas,9,+4,,,1.0,8,,23.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+150,Cayman Islands,8,,1.0,,,7,,122.0,15.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+151,Haiti,8,,,,,8,,0.7,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+152,Namibia,8,+1,,,2.0,6,,3.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+153,Suriname,8,,,,,8,,14.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+154,Curaçao,7,+1,1.0,,2.0,4,,43.0,6.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+155,Gabon,7,+1,1.0,,,6,,3.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+156,Antigua and Barbuda,7,+4,,,,7,,71.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+157,Grenada,7,+6,,,,7,,62.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+158,Mozambique,7,+2,,,,7,,0.2,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+159,Seychelles,7,,,,,7,,71.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+160,Benin,6,,,,,6,,0.5,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+161,Eritrea,6,+2,,,,6,,2.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+162,Greenland,6,,,,2.0,4,,106.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+163,Laos,6,+3,,,,6,,0.8,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+164,Eswatini,6,+2,,,,6,,5.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+165,Cabo Verde,5,+1,1.0,,,4,,9.0,2.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+166,Guyana,5,,1.0,,,4,,6.0,1.0,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+167,Fiji,5,,,,,5,,6.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+168,Montserrat,5,+4,,,,5,,1002.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+169,Myanmar,5,+2,,,,5,,0.09,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+170,Syria,5,,,,,5,,0.3,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+171,Angola,4,+1,,,,4,,0.1,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+172,Congo,4,,,,,4,,0.7,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+173,Guinea,4,,,,,4,,0.3,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+174,Vatican City,4,,,,,4,,4994.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+175,Mali,4,+2,,,,4,,0.2,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+176,Gambia,3,,1.0,,,2,,1.0,0.4,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+177,Sudan,3,,1.0,,,2,,0.07,0.02,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+178,Zimbabwe,3,,1.0,,,2,,0.2,0.07,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+179,Nepal,3,,,,1.0,2,,0.1,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+180,CAR,3,,,,,3,,0.6,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+181,Chad,3,,,,,3,,0.2,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+182,Liberia,3,,,,,3,,0.6,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+183,Mauritania,3,+1,,,,3,,0.6,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+184,St. Barth,3,,,,,3,,304.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+185,Saint Lucia,3,,,,1.0,2,,16.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+186,Sint Maarten,3,,,,,3,,70.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+187,Anguilla,2,+2,,,,2,,133.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+188,Belize,2,,,,,2,,5.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+189,Bhutan,2,,,,,2,,3.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+190,British Virgin Islands,2,,,,,2,,66.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+191,Guinea-Bissau,2,,,,,2,,1.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+192,Nicaragua,2,,,,,2,,0.3,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+193,Saint Kitts and Nevis,2,,,,,2,,38.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+194,Somalia,2,+1,,,,2,,0.1,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+195,Turks and Caicos,2,+1,,,,2,,52.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+196,Libya,1,,,,,1,,0.1,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+197,Papua New Guinea,1,,,,,1,,0.1,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+198,St. Vincent Grenadines,1,,,,,1,,9.0,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+199,Timor-Leste,1,,,,,1,,0.8,,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
+200,Total:,531865,60830,24073.0,2791.0,123942.0,383850,19357.0,68.2,3.1,https://web.archive.org/web/20200327/https://www.worldometers.info/coronavirus/,2020-03-27
