@@ -109,5 +109,5 @@ If the graph is complicated its best to do so in `charts.py`.
 ## Adding a table data source
 In general, data should be called through a `class` in the `models.py`
  file.  
-The filename can be accessed directly from `DEFAULTS` so you only need to run steps `2.` and `3.` above.
+The filename can be accessed directly from `DEFAULTS` so you only need to do steps `2.` and `3.` above.
   
