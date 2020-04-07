@@ -18,14 +18,15 @@ from penn_chime.presentation import(
     write_footer,
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel, get_sir_country_file
+from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel, IsraelData, get_sir_country_file
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
     new_admissions_chart,
     chart_descriptions,
     admission_rma_chart,
-    country_level_chart
+    country_level_chart,
+    yishuv_level_chart
 )
 
 # This is somewhat dangerous:
@@ -47,12 +48,9 @@ st.markdown(
 )
 
 st.sidebar.subheader("General parameters")
-# TODO: changing betas
 # TODO: Michaels models by city/country
-# TODO: vector of percentages of beta
-# TODO: change to Corona time (param form first X incidents
+# TODO: Michaels model for S effect
 # TODO: get rid of S
-# TODO: find params
 if st.sidebar.checkbox(label="Show country data"):
 
     countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
@@ -85,6 +83,18 @@ if st.sidebar.checkbox(label="Show country data"):
         # st.line_chart(temp)
         st.markdown("""*Source: Worldmeter*""")
 
+if st.sidebar.checkbox(label="Show Israel data"):
+    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
+    country_stringency = countrydata.get_country_stringency()
+    israel_data = IsraelData(DEFAULTS.israel_file)
+    israel_data.get_data()
+    israel_df = israel_data.df.copy()
+    yishuvim = st.sidebar.multiselect("Select Yishuv:", israel_df['Yishuv'].unique())
+    israel_df = israel_df.loc[israel_df['Yishuv'].isin(yishuvim), :]
+    # israel_df = pd.merge(israel_df, country_stringency.loc[country_stringency['Country']=='Israel',['date','stringency_df'])
+    israel_df = israel_df.merge(
+        country_stringency.loc[country_stringency['CountryName'] == 'Israel', ['date', 'StringencyIndex']], how='left')
+    st.altair_chart(yishuv_level_chart(alt, israel_df), use_container_width=True)
 
 models_option = st.sidebar.multiselect(
     'Which models to show?',
@@ -206,6 +216,7 @@ if "SEIRSPlus" in models_option:
     seirs_params = p.seirs_plus_params
     model = SEIRSModel(**p.seirs_plus_params)
     p.model_checkpoints
+    p.time_steps
     if p.model_checkpoints:
         model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
     else:

@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 
-from penn_chime.defaults import Constants, Regions, RateLos
-
-
+from .defaults import Constants, Regions, RateLos
 import os
 
-current_directory = os.path.abspath(os.getcwd())
-project_path = os.path.dirname(current_directory)
+current_directory = os.path.dirname(os.path.abspath(__file__))
+project_path = os.path.dirname(os.path.dirname(os.path.dirname(current_directory)))
 
 delaware = 564696
 chester = 519293
@@ -36,9 +34,10 @@ DEFAULTS = Constants(
 
     olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta': 0.0771, 'country': ['israel', 'canada'],
                 'scenario': {'t': {0: 20},  'R0D': {0: 100}}},
-    country_file=os.path.join(project_path, "Resources/all_dates_n.csv"),
-    stringency_file=os.path.join(project_path, "Resources/OxCGRT_Download_latest_data.xlsx"),
-    sir_file=os.path.join(project_path, "Resources/all_dates.csv"),
-    sir_country_file=os.path.join(project_path, "Resources/SIR_COUNTRY.csv")
+    country_file=os.path.join(project_path, "Resources", "all_dates_n.csv"),
+    stringency_file=os.path.join(project_path, "Resources", "OxCGRT_Download_latest_data.xlsx"),
+    israel_file=os.path.join(project_path, "Resources", "Israel Corona Network Data Yishuv.xlsx"),
+    sir_file=os.path.join(project_path, "Resources", "all_dates.csv"),
+    sir_country_file=os.path.join(project_path, "Resources","SIR_COUNTRY.csv")
     # country_file=os.path.abspath(r"/../../Resources/all_dates_n.csv" + "/../../")
 )

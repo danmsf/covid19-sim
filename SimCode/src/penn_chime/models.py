@@ -420,6 +420,19 @@ class CountryData:
         sir_df = sir_df.rename(columns={'country':'Country'})
         return sir_df
 
+class IsraelData:
+    def __init__(self, israel_file):
+        self.filepath = israel_file
+        self.df = self.get_data()
+
+    def get_data(self):
+        df = pd.read_excel(self.filepath)
+        colnames = df.columns
+        df = df.melt(id_vars=['יישוב'], value_vars=colnames[1:])
+        df['variable'] = pd.to_datetime(df['variable'],format="%d/%m/%Y", errors='coerce')
+        df = df[df["variable"].dt.year>1677].dropna()
+        df = df.rename(columns={'יישוב':'Yishuv', 'variable':'date'})
+        return df
 
 def get_sir_country_file(sir_country_file):
     sir_country_df = pd.read_csv(sir_country_file, usecols=['I', 'date', 'country'], parse_dates=['date'])
