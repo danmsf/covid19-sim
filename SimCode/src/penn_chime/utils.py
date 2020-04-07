@@ -17,7 +17,7 @@ RateLos = namedtuple("RateLos", ("rate", "length_of_stay"))
 
 
 def add_date_column(
-    df: pd.DataFrame, drop_day_column: bool = False, date_format: Optional[str] = None,
+        df: pd.DataFrame, drop_day_column: bool = False, date_format: Optional[str] = None,
 ) -> pd.DataFrame:
     """Copies input data frame and converts "day" column to "date" column
 
@@ -67,6 +67,7 @@ def add_date_column(
 
     return df
 
+
 def dataframe_to_base64(df: pd.DataFrame) -> str:
     """Converts a dataframe to a base64-encoded CSV representation of that data.
 
@@ -78,4 +79,31 @@ def dataframe_to_base64(df: pd.DataFrame) -> str:
     csv = df.to_csv(index=False)
     b64 = b64encode(csv.encode()).decode()
     return b64
+
+
+## TODO only temp shoul use a dateset
+daily_hospitalized = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0,
+                               0, 0, 0, 0, 1, 1, 1, 1, 1,
+                               1, 1, 1, 1, 1, 1, 1, 1, 1,
+                               1, 1, 1, 1, 1, 1, 1, 1, 1,
+                               1, 1, 1, 2, 8, 13, 23, 50, 109,
+                               169, 200, 239, 267, 314, 314, 559, 689, 886,
+                               1058, 1243, 1486, 1795, 2257, 2815, 3401, 3743, 4269,
+                               4937, 6235, 7284, 9134, 10836], dtype='int')
+
+
+def pivot_dataframe(df, col_name, countryname, normalize_day=False):
+    """Convert DataFrame to Pivot view"""
+    piv_temp = pd.DataFrame(index=pd.date_range(start=df.index.min(), end=df.index.max())).reset_index(drop=True)
+    for country in countryname:
+        if normalize_day:
+            piv_temp = (piv_temp.join(df[(df.Country == country)&
+                                     (df['Total Cases']>=normalize_day)].reset_index(drop=True)
+                                      .pivot(columns='Country', values=col_name)))
+        else:
+            piv_temp = (piv_temp.join(df[(df.Country == country)].reset_index(drop=True)
+                                      .pivot(columns='Country', values=col_name)))
+
+    return piv_temp
+=======
 
