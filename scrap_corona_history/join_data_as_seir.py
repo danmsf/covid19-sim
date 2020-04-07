@@ -1,4 +1,4 @@
-from scrap_corona_history.settings import *
+from settings import *
 import glob
 import re
 import datetime

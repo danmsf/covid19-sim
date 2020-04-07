@@ -18,12 +18,11 @@ The links for the covid19 locations in each site are:
 
 ```
 project
-│   readme.md
+│   README.md
 │   functions.py
-│   join_data.py    
-│   main.py
+│   ETL_scrap_worldmeter.py    
+│   join_data_as_seir.py
 │   settings.py
-│   package_list.yml
 │
 └───data
 │      ...
@@ -35,16 +34,22 @@ project
 │      column_remapper.csv
 │      refs.csv
 │      urls.csv
+│      file.conf
+│      package_list.yml
+│      population.csv
+│
+└───snippets
+│        ...
 
 ```
 The project contains two main files that are found in the projects main directory - main.py and join_data.py.  
 
-main.py - *NEEDS TO BE EXECUTED DAILY*.  
+ETL_scrap_worldmeter.py - *NEEDS TO BE EXECUTED AUTOMATICALLY*.  
 connects to The Wayback Machine which contains links to archived pages
 from Worldmeter, regarding covid19 statistics,  
-downloads dataframes from these links and finally updates a log file.  
+downloads csv from these links to the data folder.  
 
-join_data.py - takes all the downloaded dataframes does some column name manipulation  
+scrap_corona_history.py - takes all the downloaded dataframes does some column name manipulation  
 (the number and names of the dataframes is different) and outputs to file.  
 
 The project also have some a additional files:  
