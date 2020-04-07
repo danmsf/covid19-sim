@@ -2,7 +2,6 @@
 from typing import Dict, Any, Union
 
 from .utils import RateLos
-import datetime
 
 class Regions:
     """Arbitrary number of counties."""
@@ -36,7 +35,9 @@ class Constants:
             icu: RateLos,
             ventilated: RateLos,
             olg_params: Dict[str, int] = {'tau': 8, 'init_infected': 100, 'fi': 0.1, 'theta':0.0771},
-
+            seirs_plus_params: Dict,
+            seiar_params: Dict,
+            model_chekpoints: Dict,
             as_date: bool = False,
             market_share: float = 1.0,
             max_y_axis: int = None,
@@ -67,47 +68,9 @@ class Constants:
         self.n_days = n_days
         self.recovery_days = recovery_days
 
-        self.seiar_params = {'N_0': 8740000.00,
-                             'S_0': 8739990.00,
-                             'E_0': 0.0,
-                             'A_0': 0.00,
-                             'I_0': 10.00,
-                             'R_0': 0.00,
-                             'seiar_alpha': 0.2,
-                             'seiar_beta_ill': 1.05,
-                             'seiar_beta_asy': 1.05,
-                             'seiar_gamma_ill': 0.08,
-                             'seiar_gamma_asy': 0.15,
-                             'seiar_rho': 1.0,
-                             'seiar_theta': 0.8,
-                             'seiar_start_date_simulation': datetime.date(2020, 3, 1),
-                             'seiar_number_of_days': 30.00
-                             }
-        self.seirs_plus_params = {
-            'beta': 0.155,
-            'sigma': 1./4,
-            'gamma': 1./14,
-            'xi':0.0,
-            'mu_I': 0.0,
-            'mu_0':0.0,
-            'nu': 0.0,
-            'beta_D': 0.0,
-            'sigma_D': 0.0,
-            'gamma_D': 0.0,
-            'mu_D': 0.0,
-            'theta_E': 0.0,
-            'theta_I': 0.0,
-            'psi_E': 0.0,
-            'psi_I': 0.0,
-            'initN': 8740000.0,
-            'initI': 10.0,
-            'initE': 0.0,
-            'initD_E': 0.0,
-            'initD_I': 0.0,
-            'initR': 0.0,
-            'initF': 0.0,
-        }
-        self.model_chekpoints = {'t': [], 'beta': []}
+        self.seiar_params = seiar_params
+        self.seirs_plus_params = seirs_plus_params
+        self.model_chekpoints = model_chekpoints
         self.country_file = country_file
         self.stringency_file = stringency_file
         self.sir_file = sir_file
