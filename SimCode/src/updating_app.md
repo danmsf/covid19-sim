@@ -102,6 +102,7 @@ There are 5 places you need to make changes when you add a new model:
  ## Updating a models paramters
  * If you want to change the default values do so in step `3.` above.
  * If you want to add more parameters update the dict in  `3.` and `5.`
+ * If you want to add a parameter not in the dict, `2`, `3` and `5`
  
 ## Updating a graph         
 If the graph is complicated its best to do so in `charts.py`.
