@@ -5,7 +5,7 @@ import json
 import os
 
 
-OUTDIR = 'data/gov_data'
+OUTDIR = 'Resources/Datasets/IsraelData'
 RESOURCE_1_NAME = 'isolations'
 RESOURCE_2_NAME = 'lab_tests'
 
