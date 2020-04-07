@@ -6,14 +6,14 @@ import os
 
 
 OUTDIR = 'data/gov_data'
-RECORDS_LIMIT = 10000000
-
-GOVSITE_BASE_URL = "https://data.gov.il/api/action/datastore_search?"
-
-RESOURCE_ID1= "9eedd26c-019b-433a-b28b-efcc98de378d"
 RESOURCE_1_NAME = 'isolations'
-RESOURCE_ID2= "dcf999c1-d394-4b57-a5e0-9d014a62e046"
 RESOURCE_2_NAME = 'lab_tests'
+
+
+RECORDS_LIMIT = 10000000
+GOVSITE_BASE_URL = "https://data.gov.il/api/action/datastore_search?"
+RESOURCE_ID1= "9eedd26c-019b-433a-b28b-efcc98de378d" # isolations data
+RESOURCE_ID2= "dcf999c1-d394-4b57-a5e0-9d014a62e046" # lab test data
 
 query1 = f"{GOVSITE_BASE_URL}resource_id={RESOURCE_ID1}&limit={RECORDS_LIMIT}"
 query2 = f"{GOVSITE_BASE_URL}resource_id={RESOURCE_ID2}&limit={RECORDS_LIMIT}"
