@@ -217,8 +217,11 @@ def test_results_chart(alt, df: pd.DataFrame,):
     cond = (df['is_first_test'] == "Yes")
     lab_tests = df.loc[cond, ['result_date', 'corona_result']]
     agg_data = lab_tests.groupby(['result_date', 'corona_result']).size().reset_index(name='counts')
-    return alt.Chart(agg_data).mark_bar(tooltip=True).encode(alt.X('result_date', title='Result Date'), alt.Y('counts', title='Counts'),
-                                                             color=alt.Color('corona_result',  legend=alt.Legend(orient="top", title=''))).properties(
+    return alt.Chart(agg_data).mark_bar(tooltip=True).encode(
+                                                            alt.X('result_date', title='Result Date'),
+                                                            alt.Y('counts', title='Counts'),
+                                                            color=alt.Color('corona_result',  legend=alt.Legend(orient="top", title=''))
+                                                    ).properties(
         width=600, height=300, title="Lab Test Results"
     )
 
