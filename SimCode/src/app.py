@@ -18,7 +18,7 @@ from penn_chime.presentation import(
     write_footer,
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel, IsraelData, get_sir_country_file
+from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel, get_sir_country_file, IsraelData
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
@@ -177,7 +177,7 @@ if "OLG Model" in models_option:
 
     sir_country_df = get_sir_country_file(DEFAULTS.sir_country_file)
     olg = OLG(sir_country_df, p)
-    # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
+
     st.altair_chart(
         admission_rma_chart(alt, olg.df_corpus, olg.df_predict),
         use_container_width=True,

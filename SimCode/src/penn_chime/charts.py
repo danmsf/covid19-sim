@@ -9,13 +9,12 @@ from .utils import add_date_column
 from .presentation import DATE_FORMAT
 
 
-def admission_rma_chart(alt, df: pd.DataFrame, df_predict: pd.DataFrame):
-    print(df.head(5))
-    country_count = len(set(df['country'].values)) # df['country'].nunique()
-    print(df['country'].nunique())
+def admission_rma_chart(alt, df, df_predict):
+
+    country_count = df['country'].nunique()
 
     if country_count == 1:
-        df = df.melt(id_vars=['date'], value_vars=['A', 'I', 'E'])  #
+        df = df.melt(id_vars=['date'], value_vars=['A', 'I', 'E'])
         df_predict = df_predict.melt(id_vars=['date'], value_vars=['A', 'I'])
 
     else:
@@ -24,6 +23,8 @@ def admission_rma_chart(alt, df: pd.DataFrame, df_predict: pd.DataFrame):
                                                                                       value_vars=pp)
         df_predict = df_predict.pivot(index='date', columns='country', values='A').reset_index().melt(id_vars=['date'],
                                                                                                       value_vars=pp)
+    df.query('value==value', inplace = True)
+    print(df.head(5))
     df['value'] = df['value'].astype('int64')
     df_predict['value'] = df_predict['value'].astype('int64')
 
@@ -37,13 +38,13 @@ def admission_rma_chart(alt, df: pd.DataFrame, df_predict: pd.DataFrame):
     line = alt.Chart(df).mark_line(interpolate='basis').encode(
         x='date:T',
         y='value',
-        color='country'
+        color=color
     )
 
     line2 = alt.Chart(df_predict).mark_line(interpolate='basis', strokeDash=[1, 1]).encode(
         x='date:T',
         y='value',
-        color='country'
+        color=color
     )
 
     # Transparent selectors across the chart. This is what tells us
