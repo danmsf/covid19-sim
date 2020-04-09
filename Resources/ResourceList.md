@@ -7,7 +7,8 @@
 * Aggregate, also other countries - https://docs.google.com/spreadsheets/d/1EIns4m4PLfEd3n5I7j2wY5nhAiNujG533aJG8DSN3DI/edit?fbclid=IwAR2uhuk2SWii-hvCAAK5F7HfW2CkfevnDr6t88CfsOIAX1vA7_vX97L0Z74#gid=6658668
 * Case data - https://docs.google.com/spreadsheets/d/1Y-ieLWMDzFzzeJKW-SygD90dBH80d4x0db8I3UFNj_c/edit#gid=0
     * Network graph -  https://israelcoronanetwork.mafatchallenge.com/
-    
+* Professional blobs - https://blog.mafatchallenge.com/author/mafatchallenge/    
+
 ### Official Databases
 * Case descriptions - https://data.gov.il/dataset/covid-19
 
