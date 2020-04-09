@@ -236,15 +236,16 @@ def test_symptoms_chart(alt, df: pd.DataFrame,):
 
     # agg_data = lab_tests.groupby(['result_date', 'corona_result']).size().reset_index(name='counts')
     symptoms = df
-    symptoms = pd.concat([symptoms, pd.get_dummies(symptoms[['age_60_and_above','gender','test_indication']])])
+    # symptoms = pd.concat([symptoms, pd.get_dummies(symptoms[['age_60_and_above','gender','test_indication']])])
     symptoms = symptoms.drop(columns=['age_60_and_above','gender','test_indication'])
+    symptoms['None'] = symptoms[symptoms.columns[2:]].sum(axis=1)
     symptoms = symptoms.melt(id_vars=['test_date', 'corona_result'], value_vars=symptoms.columns[2:]).dropna()
     agg_data = symptoms.groupby(['test_date', 'corona_result', 'variable'], as_index=False).sum()
         # size().reset_index(name='counts')
     bar1 = alt.Chart(agg_data).mark_bar(tooltip=True).\
         encode(x=alt.X('variable', title=None, axis=alt.Axis(labels=False), scale=alt.Scale(rangeStep=6)),
                y=alt.Y('value', title=None),
-               color=alt.Color('variable', title='Symptom'),
+               color=alt.Color('variable', title='', legend=alt.Legend(orient="top", title='')),
                column=alt.Column('test_date', header=alt.Header(labelOrient='bottom'), title=None),
                row=alt.Row('corona_result', title='Result')).\
         configure_view(
