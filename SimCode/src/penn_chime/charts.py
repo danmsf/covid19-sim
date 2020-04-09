@@ -232,6 +232,41 @@ def isolations_chart(alt, df: pd.DataFrame,):
         width=600, height=300, title="Isolation"
     )
 
+def test_symptoms_chart(alt, df: pd.DataFrame,):
+
+    # agg_data = lab_tests.groupby(['result_date', 'corona_result']).size().reset_index(name='counts')
+    symptoms = df
+    symptoms = pd.concat([symptoms, pd.get_dummies(symptoms[['age_60_and_above','gender','test_indication']])])
+    symptoms = symptoms.drop(columns=['age_60_and_above','gender','test_indication'])
+    symptoms = symptoms.melt(id_vars=['test_date', 'corona_result'], value_vars=symptoms.columns[2:]).dropna()
+    agg_data = symptoms.groupby(['test_date', 'corona_result', 'variable'], as_index=False).sum()
+        # size().reset_index(name='counts')
+    bar1 = alt.Chart(agg_data).mark_bar(tooltip=True).\
+        encode(x=alt.X('variable', title=None, axis=alt.Axis(labels=False), scale=alt.Scale(rangeStep=6)),
+               y=alt.Y('value', title=None),
+               color=alt.Color('variable', title='Symptom'),
+               column=alt.Column('test_date', header=alt.Header(labelOrient='bottom'), title=None),
+               row=alt.Row('corona_result', title='Result')).\
+        configure_view(
+        stroke='transparent'
+    ).properties(
+        width=50, height=300, title="Symptoms"
+    )
+
+    # alt.Chart(q13a).mark_bar().encode(
+    #     x=alt.X('primary_type', scale=alt.Scale(rangeStep=8), title=None),
+    #     y=alt.Y('sum(Number_of_Incidents)', title='sum(Number_of_Incidents)'),
+    #     color='primary_type',
+    #     column='year',
+    #     tooltip=['year']
+    # ).configure_view(
+    #     stroke='transparent'
+    # )
+    # return alt.Chart(isolations).mark_bar(tooltip=True).encode(alt.X('test_date', title='Test Date'), alt.Y('value', title='Count'),
+    #                                                            color=alt.Color('variable',  legend=alt.Legend(orient="top", title=''))).properties(
+    #     width=600, height=300, title="Isolation"
+    # )
+    return bar1
 
 def new_admissions_chart(
         alt, projection_admits: pd.DataFrame, parameters: Parameters

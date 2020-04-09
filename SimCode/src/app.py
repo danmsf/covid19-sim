@@ -29,7 +29,8 @@ from penn_chime.charts import (
     country_level_chart,
     yishuv_level_chart,
     test_results_chart,
-    isolations_chart
+    isolations_chart,
+    test_symptoms_chart
 )
 
 # This is somewhat dangerous:
@@ -89,13 +90,15 @@ if st.sidebar.checkbox(label="Show country data"):
 
 if st.sidebar.checkbox(label="Show Israel data"):
     st.header('Israeli Data')
-    israel_data = IsraelData(DEFAULTS.israel_file, DEFAULTS.isolations, DEFAULTS.lab_results)
+    israel_data = IsraelData(DEFAULTS.israel_files)
 
     lab_tests = israel_data.lab_results_df
     st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
 
     isolation_df = israel_data.isolation_df
     st.altair_chart(isolations_chart(alt, isolation_df), use_container_width=True)
+
+    st.altair_chart(test_symptoms_chart(alt,israel_data.tested_df), use_container_width=False)
 
     countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
     country_stringency = countrydata.get_country_stringency()

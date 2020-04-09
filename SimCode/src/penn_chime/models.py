@@ -424,16 +424,15 @@ class CountryData:
 
 
 class IsraelData:
-    def __init__(self, yishuv_file, isolation_file, lab_file):
-        self.filepath = yishuv_file
-        self.isolation_file = isolation_file
-        self.lab_file = lab_file
+    def __init__(self, israel_files):
+        self.filepath = israel_files
         self.yishuv_df = self.get_yishuv_data()
         self.isolation_df = self.get_isolation_df()
         self.lab_results_df = self.get_lab_results_df()
+        self.tested_df = self.get_tested_df()
 
     def get_yishuv_data(self):
-        df = pd.read_excel(self.filepath)
+        df = pd.read_excel(self.filepath['yishuv_file'])
         colnames = df.columns
         df = df.melt(id_vars=['יישוב'], value_vars=colnames[1:])
         df['variable'] = pd.to_datetime(df['variable'],format="%d/%m/%Y", errors='coerce')
@@ -442,17 +441,22 @@ class IsraelData:
         return df
 
     def get_isolation_df(self):
-        df = pd.read_csv(self.isolation_file)
+        df = pd.read_csv(self.filepath['isolations_file'])
         df['date'] = pd.to_datetime(df['date'])
         df = df.set_index("date", drop=False)
         df = df.drop(columns="_id")
         return df
 
     def get_lab_results_df(self):
-        df = pd.read_csv(self.lab_file)
+        df = pd.read_csv(self.filepath['lab_results_file'])
         df['result_date'] = pd.to_datetime(df['result_date'])
         return df
 
+    def get_tested_df(self):
+        df = pd.read_csv(self.filepath['tested_file'])
+        # df['test_date'] = pd.to_datetime(df['test_date'])
+       # df = df.drop(columns="_id")
+        return df
 
 def get_sir_country_file(sir_country_file):
     sir_country_df = pd.read_csv(sir_country_file, usecols=['I', 'date', 'country'], parse_dates=['date'])
