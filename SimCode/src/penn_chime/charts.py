@@ -223,14 +223,14 @@ def test_results_chart(alt, df: pd.DataFrame,):
                                                             color=alt.Color('corona_result',  legend=alt.Legend(orient="top", title=''))
                                                     ).properties(
         width=600, height=300, title="Lab Test Results"
-    )
+    ).interactive()
 
 def isolations_chart(alt, df: pd.DataFrame,):
     isolations = df.melt(id_vars='date', value_vars=df.columns[1:]).dropna()
     return alt.Chart(isolations).mark_bar(tooltip=True).encode(alt.X('date', title='Isolation Date'), alt.Y('value', title='Count'),
                                                                color=alt.Color('variable',  legend=alt.Legend(orient="top", title=''))).properties(
         width=600, height=300, title="Isolation"
-    )
+    ).interactive()
 
 def test_symptoms_chart(alt, df: pd.DataFrame,):
 
@@ -241,9 +241,10 @@ def test_symptoms_chart(alt, df: pd.DataFrame,):
     symptoms['None'] = symptoms[symptoms.columns[2:]].sum(axis=1)
     symptoms = symptoms.melt(id_vars=['test_date', 'corona_result'], value_vars=symptoms.columns[2:]).dropna()
     agg_data = symptoms.groupby(['test_date', 'corona_result', 'variable'], as_index=False).sum()
+    agg_data = agg_data.loc[agg_data['corona_result']!='אחר',:]
         # size().reset_index(name='counts')
     bar1 = alt.Chart(agg_data).mark_bar(tooltip=True).\
-        encode(x=alt.X('variable', title=None, axis=alt.Axis(labels=False), scale=alt.Scale(rangeStep=6)),
+        encode(x=alt.X('variable', title=None, axis=alt.Axis(labels=False), scale=alt.Scale(rangeStep=8)),
                y=alt.Y('value', title=None),
                color=alt.Color('variable', title='', legend=alt.Legend(orient="top", title='')),
                column=alt.Column('test_date', header=alt.Header(labelOrient='bottom'), title=None),
@@ -252,7 +253,7 @@ def test_symptoms_chart(alt, df: pd.DataFrame,):
         stroke='transparent'
     ).properties(
         width=50, height=300, title="Symptoms"
-    )
+    ).interactive()
 
     # alt.Chart(q13a).mark_bar().encode(
     #     x=alt.X('primary_type', scale=alt.Scale(rangeStep=8), title=None),
