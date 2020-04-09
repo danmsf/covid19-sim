@@ -9,6 +9,7 @@
     * Network graph -  https://israelcoronanetwork.mafatchallenge.com/
     
 ### Official Databases
+* Case descriptions - https://data.gov.il/dataset/covid-19
 
 ## Global
 ### World
@@ -31,3 +32,5 @@
 * NY-Times -aggregate - https://github.com/nytimes/covid-19-data
 * Penn Uni Model - https://penn-chime.phl.io/
     * Model Explanation -  https://code-for-philly.gitbook.io/chime/what-is-chime/parameters
+### Japan
+* Real time dashboard - https://covid19.sph.hku.hk/dashboard
