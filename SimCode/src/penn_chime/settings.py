@@ -81,7 +81,7 @@ DEFAULTS = Constants(
         'seiar_number_of_days': 30.00
     },
     model_chekpoints={'t': [], 'beta': []},
-    country_file=os.path.join(project_path, "Resources", "all_dates_n.csv"),
+    country_file=os.path.join(project_path, "Resources", "all_dates.csv"),
     stringency_file=os.path.join(project_path, "Resources", "OxCGRT_Download_latest_data.xlsx"),
     israel_file=os.path.join(project_path, "Resources", "Israel Corona Network Data Yishuv.xlsx"),
     sir_file=os.path.join(project_path, "Resources", "all_dates.csv"),

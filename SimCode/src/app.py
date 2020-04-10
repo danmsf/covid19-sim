@@ -62,17 +62,20 @@ if st.sidebar.checkbox(label="Show country data"):
     countrydata.get_country_data()
     countrydata.get_country_stringency()
     countrydata.get_sir()
-
-    countryname = st.multiselect(label="Select Countries", options=countrydata.df['Country'].sort_values().unique())
-    temp = countrydata.df.loc[countrydata.df.Country.isin(countryname), ['Country', 'date', 'New Cases', 'ActiveCases',
-                                                                  'Serious_Critical', 'Total Cases', 'Total Recovered',
-                                                                  'Total Deaths', 'StringencyIndex']]
+    # 'total_cases', 'new_cases', 'total_deaths', 'new_deaths', 'total_recovered', 'activecases', 'serious_critical'
+    countryname = st.multiselect(label="Select Countries", options=countrydata.country_df['Country'].sort_values().unique())
+    # d = countrydata.country_df
+    # d
+    temp = countrydata.country_df.loc[countrydata.country_df.Country.isin(countryname), ['Country', 'date', 'total_cases', 'new_cases',
+                                                                         'total_deaths', 'new_deaths',
+                                                                         'total_recovered', 'activecases',
+                                                                         'serious_critical', 'StringencyIndex']]
     # min_infected = st.sidebar.number_input("Minimum Infected for graphs", value=10)
     # temp = temp.loc[temp['Total Cases'] >= min_infected, :]
 
     temp = temp.set_index("date", drop=False)
     total_cases_criteria = st.number_input(label='Minimum Infected for Start', value=10)
-    temp = temp.loc[temp['Total Cases'] >= total_cases_criteria, :]
+    temp = temp.loc[temp['total_cases'] >= total_cases_criteria, :]
     cols = temp.columns
     cols = [c for c in cols if c not in ['Country', 'date']]
     col_measure = st.selectbox(label="Chose comparison column", options=cols, key=1)

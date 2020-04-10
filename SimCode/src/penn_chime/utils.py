@@ -98,7 +98,7 @@ def pivot_dataframe(df, col_name, countryname, normalize_day=False):
     for country in countryname:
         if normalize_day:
             piv_temp = (piv_temp.join(df[(df.Country == country)&
-                                     (df['Total Cases']>=normalize_day)].reset_index(drop=True)
+                                     (df['total_cases']>=normalize_day)].reset_index(drop=True)
                                       .pivot(columns='Country', values=col_name)))
         else:
             piv_temp = (piv_temp.join(df[(df.Country == country)].reset_index(drop=True)
