@@ -332,17 +332,14 @@ class OLG:
         self.R0D = rma[-1]
 
     def predict(self, tau, scenario):
-        detected = self.detected
+        t = len(self.detected) - tau   # (1+3.082/14) * (5825-846)
 
-        t = len(detected) - tau   # (1+3.082/14) * (5825-846)
         cnt = 0
         for i in scenario['t'].keys():
-
             while cnt <= scenario['t'].get(i):
-                c0 = detected[t - tau] if t - tau >= 0 else 0 # len(detected) - tau
-                next_gen = self.next_gen(r0=self.R0D * (scenario['R0D'].get(i) + 1), tau=tau, c0=c0, ct=detected[t])
-                detected.append(next_gen)
-                # print(cnt, t, t - tau, c0, np.round(detected[t], 1), np.round(next_gen, 1))
+                c0 = self.detected[t - tau] if t - tau >= 0 else 0 # len(detected) - tau
+                next_gen = self.next_gen(r0=self.R0D * (scenario['R0D'].get(i) + 1), tau=tau, c0=c0, ct=self.detected[t])
+                self.detected.append(next_gen)
                 t += 1
                 cnt += 1
 
@@ -350,16 +347,6 @@ class OLG:
         asymptomatic_infected = [self.true_a(fi=fi, theta=theta, d=self.detected[0], d_prev=init_infected)]
         for t in range(1, len(self.detected)):
             prev_asymptomatic_infected = self.true_a(fi=fi, theta=theta, d=self.detected[t], d_prev=self.detected[t - 1])
-            # print(' {1:,.1f} {2:,.1f} for step {0} prediction {5:,.1f}'.format(t,
-            #                 self.detected[t - 1],
-            #                 self.detected[t],
-            #
-            #                 asymptomatic_infected[-1],
-            #                 prev_asymptomatic_infected,
-            #
-            #                 max(prev_asymptomatic_infected, asymptomatic_infected[-1])
-            #                 ))
-
             asymptomatic_infected.append(max(prev_asymptomatic_infected, asymptomatic_infected[-1]))
         self.asymptomatic_infected = asymptomatic_infected
 
@@ -371,12 +358,11 @@ class OLG:
 
         predicted = pd.DataFrame({'date': predict_dates, 'I': self.detected[-periods:], 'country': country})
         self.df = self.df.append(predicted, ignore_index=True)
-
         self.df['A'] = self.asymptomatic_infected
-        self.df['A'] = self.df['A'].shift(periods=-1, axis=0)
-
+        self.df['A'] = self.df['A'].shift(periods=-1)
         self.df['E'] = self.df['A'] - self.df['I']
         self.df['E'] = self.df['E'].shift(periods=-tau - 1)
+
 
         self.df_corpus = pd.concat([self.df_corpus, self.df[:-periods]])
         self.df_predict = pd.concat([self.df_predict, self.df[-periods:]])
