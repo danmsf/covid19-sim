@@ -234,18 +234,17 @@ def isolations_chart(alt, df: pd.DataFrame,):
 
 def test_symptoms_chart(alt, df: pd.DataFrame,):
 
-    # agg_data = lab_tests.groupby(['result_date', 'corona_result']).size().reset_index(name='counts')
     symptoms = df
-    # symptoms = pd.concat([symptoms, pd.get_dummies(symptoms[['age_60_and_above','gender','test_indication']])])
-    symptoms = symptoms.drop(columns=['age_60_and_above','gender','test_indication'])
-    symptoms['None'] = symptoms[symptoms.columns[2:]].sum(axis=1)
+    symptoms = symptoms.drop(columns=['age_60_and_above', 'gender', 'test_indication'])
     symptoms = symptoms.melt(id_vars=['test_date', 'corona_result'], value_vars=symptoms.columns[2:]).dropna()
     agg_data = symptoms.groupby(['test_date', 'corona_result', 'variable'], as_index=False).sum()
-    agg_data = agg_data.loc[agg_data['corona_result']!='אחר',:]
-        # size().reset_index(name='counts')
+    tmp = df.groupby(['test_date', 'corona_result'], as_index=False).size().reset_index(name='counts')
+    agg_data = agg_data.merge(tmp, how='left')
+    agg_data['value_pct'] = agg_data['value']/agg_data['counts']
+    agg_data = agg_data.loc[agg_data['corona_result'] != 'אחר', :]
     bar1 = alt.Chart(agg_data).mark_bar(tooltip=True).\
         encode(x=alt.X('variable', title=None, axis=alt.Axis(labels=False), scale=alt.Scale(rangeStep=8)),
-               y=alt.Y('value', title=None),
+               y=alt.Y('value_pct', title=None),
                color=alt.Color('variable', title='', legend=alt.Legend(orient="top", title='')),
                column=alt.Column('test_date', header=alt.Header(labelOrient='bottom'), title=None),
                row=alt.Row('corona_result', title='Result')).\
@@ -254,21 +253,39 @@ def test_symptoms_chart(alt, df: pd.DataFrame,):
     ).properties(
         width=50, height=300, title="Symptoms"
     ).interactive()
-
-    # alt.Chart(q13a).mark_bar().encode(
-    #     x=alt.X('primary_type', scale=alt.Scale(rangeStep=8), title=None),
-    #     y=alt.Y('sum(Number_of_Incidents)', title='sum(Number_of_Incidents)'),
-    #     color='primary_type',
-    #     column='year',
-    #     tooltip=['year']
-    # ).configure_view(
-    #     stroke='transparent'
-    # )
-    # return alt.Chart(isolations).mark_bar(tooltip=True).encode(alt.X('test_date', title='Test Date'), alt.Y('value', title='Count'),
-    #                                                            color=alt.Color('variable',  legend=alt.Legend(orient="top", title=''))).properties(
-    #     width=600, height=300, title="Isolation"
-    # )
     return bar1
+
+def test_indication_chart(alt, df: pd.DataFrame,):
+
+    agg_data = df.groupby(['test_date', 'corona_result', 'test_indication'], as_index=False).size().reset_index(name='counts')
+    tmp = df.groupby(['test_date', 'corona_result'], as_index=False).size().reset_index(name='counts_all')
+    agg_data = agg_data.merge(tmp, how='left')
+    agg_data['value_pct'] = agg_data['counts']/agg_data['counts_all']
+    agg_data = agg_data.loc[agg_data['corona_result'] != 'אחר', :]
+    line1 = alt.Chart(agg_data).mark_line(tooltip=True).\
+        encode(x=alt.X('test_date', title='Test Date'),
+               y=alt.Y('value_pct', title=None),
+               color=alt.Color('test_indication', title='', legend=alt.Legend(orient="top", title='')),
+               row=alt.Row('corona_result', title='Result')). \
+        configure_view(
+        stroke='transparent'
+    ).properties(
+        width=600, height=300, title="Test Indication"
+    ).interactive()
+
+    bar1 = alt.Chart(agg_data).mark_bar(tooltip=True).\
+        encode(x=alt.X('test_indication', title=None, axis=alt.Axis(labels=False), scale=alt.Scale(rangeStep=8)),
+               y=alt.Y('value_pct', title=None),
+               color=alt.Color('test_indication', title='', legend=alt.Legend(orient="top", title='')),
+               column=alt.Column('test_date', header=alt.Header(labelOrient='bottom'), title=None),
+               row=alt.Row('corona_result', title='Result')). \
+        configure_view(
+        stroke='transparent'
+    ).properties(
+        width=50, height=300, title="Test Indication"
+    ).interactive()
+    return line1
+
 
 def new_admissions_chart(
         alt, projection_admits: pd.DataFrame, parameters: Parameters

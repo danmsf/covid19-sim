@@ -454,7 +454,9 @@ class IsraelData:
 
     def get_tested_df(self):
         df = pd.read_csv(self.filepath['tested_file'])
-        # df['test_date'] = pd.to_datetime(df['test_date'])
+        df['None'] = df[df.columns[2:]].sum(axis=1)
+        df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
+        df['test_date'] = pd.to_datetime(df['test_date'])
        # df = df.drop(columns="_id")
         return df
 
