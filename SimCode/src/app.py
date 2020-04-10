@@ -31,7 +31,8 @@ from penn_chime.charts import (
     test_results_chart,
     isolations_chart,
     test_symptoms_chart,
-    test_indication_chart
+    test_indication_chart,
+    patients_status_chart
 )
 
 # This is somewhat dangerous:
@@ -96,22 +97,33 @@ if st.sidebar.checkbox(label="Show Israel data"):
     st.header('Israeli Data')
     israel_data = IsraelData(DEFAULTS.israel_files)
 
-    lab_tests = israel_data.lab_results_df
-    st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
-
-    isolation_df = israel_data.isolation_df
-    st.altair_chart(isolations_chart(alt, isolation_df), use_container_width=True)
-    st.altair_chart(test_indication_chart(alt,israel_data.tested_df), use_container_width=False)
-    st.altair_chart(test_symptoms_chart(alt,israel_data.tested_df), use_container_width=False)
-
-
-    # df = test_symptoms_chart(alt, israel_data.tested_df)
-    # df
+    # Load data
     countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
     country_stringency = countrydata.get_country_stringency()
+    lab_tests = israel_data.lab_results_df.copy()
     israel_data.get_yishuv_data()
     israel_yishuv_df = israel_data.yishuv_df.copy()
+    israel_patients = israel_data.patients_df.copy()
+    isolation_df = israel_data.isolation_df.copy()
 
+    # Patients graph
+    patient_cols = ['New Patients Amount', 'Total Patients',
+                    'Current Serious Condition Patients',
+                    'Total Serious Condition Patients', 'New Dead Patients Amount',
+                    'Total Dead Patients', 'Total Serious + Dead Patients',
+                    'Lab Test Amount']
+    patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols)
+    israel_patients = israel_patients.loc[:, ['Date'] + patient_cols_selected]
+    st.altair_chart(patients_status_chart(alt, israel_patients), use_container_width=True)
+
+    # Isolation chart
+    st.altair_chart(isolations_chart(alt, isolation_df), use_container_width=True)
+    # Test charts
+    st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
+    st.altair_chart(test_indication_chart(alt, israel_data.tested_df), use_container_width=False)
+    st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df), use_container_width=False)
+
+    # Yishuvim charts
     yishuvim = st.multiselect("Select Yishuv:", israel_yishuv_df['Yishuv'].unique())
     israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
     israel_yishuv_df = israel_yishuv_df.merge(

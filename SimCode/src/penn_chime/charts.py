@@ -286,6 +286,16 @@ def test_indication_chart(alt, df: pd.DataFrame,):
     ).interactive()
     return line1
 
+def patients_status_chart(alt, df: pd.DataFrame,):
+    patients = df.melt(id_vars='Date', value_vars=df.columns[1:]).dropna()
+    line = alt.Chart(patients).mark_line(interpolate='basis', point=True, tooltip=True).encode(
+        x='Date:T',
+        y=alt.Y('value', title="Counts"),
+        color=alt.Color('variable', title=None, legend=alt.Legend(orient="top", title='')),
+    )
+    return line.properties(
+        width=600, height=300, title="Patients Condition"
+    ).interactive()
 
 def new_admissions_chart(
         alt, projection_admits: pd.DataFrame, parameters: Parameters
