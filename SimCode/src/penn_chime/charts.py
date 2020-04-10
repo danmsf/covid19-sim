@@ -243,7 +243,7 @@ def test_symptoms_chart(alt, df: pd.DataFrame,):
     agg_data['value_pct'] = agg_data['value']/agg_data['counts']
     agg_data = agg_data.loc[agg_data['corona_result'] != 'אחר', :]
     bar1 = alt.Chart(agg_data).mark_bar(tooltip=True).\
-        encode(x=alt.X('variable', title=None, axis=alt.Axis(labels=False), scale=alt.Scale(rangeStep=8)),
+        encode(x=alt.X('variable', title=None, axis=alt.Axis(labels=False)),
                y=alt.Y('value_pct', title=None),
                color=alt.Color('variable', title='', legend=alt.Legend(orient="top", title='')),
                column=alt.Column('test_date', header=alt.Header(labelOrient='bottom'), title=None),
@@ -273,17 +273,17 @@ def test_indication_chart(alt, df: pd.DataFrame,):
         width=600, height=300, title="Test Indication"
     ).interactive()
 
-    bar1 = alt.Chart(agg_data).mark_bar(tooltip=True).\
-        encode(x=alt.X('test_indication', title=None, axis=alt.Axis(labels=False), scale=alt.Scale(rangeStep=8)),
-               y=alt.Y('value_pct', title=None),
-               color=alt.Color('test_indication', title='', legend=alt.Legend(orient="top", title='')),
-               column=alt.Column('test_date', header=alt.Header(labelOrient='bottom'), title=None),
-               row=alt.Row('corona_result', title='Result')). \
-        configure_view(
-        stroke='transparent'
-    ).properties(
-        width=50, height=300, title="Test Indication"
-    ).interactive()
+    # bar1 = alt.Chart(agg_data).mark_bar(tooltip=True).\
+    #     encode(x=alt.X('test_indication', title=None, axis=alt.Axis(labels=False), scale=alt.Scale(rangeStep=8)),
+    #            y=alt.Y('value_pct', title=None),
+    #            color=alt.Color('test_indication', title='', legend=alt.Legend(orient="top", title='')),
+    #            column=alt.Column('test_date', header=alt.Header(labelOrient='bottom'), title=None),
+    #            row=alt.Row('corona_result', title='Result')). \
+    #     configure_view(
+    #     stroke='transparent'
+    # ).properties(
+    #     width=50, height=300, title="Test Indication"
+    # ).interactive()
     return line1
 
 def patients_status_chart(alt, df: pd.DataFrame,):
