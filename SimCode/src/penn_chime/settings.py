@@ -94,5 +94,6 @@ DEFAULTS = Constants(
         'lab_results_file': os.path.join(israel_data_path, "lab_tests.csv"),
         'isolations_file': os.path.join(israel_data_path, "isolations.csv"),
         'tested_file': os.path.join(israel_data_path, "corona_tested_individuals_ver_001.csv"),
+        'patients_file':  os.path.join(israel_data_path, "Israel Corona Network Data - Patients_sum.csv")
     }
 )

@@ -417,6 +417,7 @@ class IsraelData:
         self.isolation_df = self.get_isolation_df()
         self.lab_results_df = self.get_lab_results_df()
         self.tested_df = self.get_tested_df()
+        self.patients_df = self.get_patients_df()
 
     def get_yishuv_data(self):
         df = pd.read_excel(self.filepath['yishuv_file'])
@@ -444,6 +445,13 @@ class IsraelData:
         df['None'] = df[df.columns[2:]].sum(axis=1)
         df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
         df['test_date'] = pd.to_datetime(df['test_date'])
+       # df = df.drop(columns="_id")
+        return df
+
+    def get_patients_df(self):
+        df = pd.read_csv(self.filepath['patients_file'])
+        df = df.dropna(subset=['New Patients Amount'])
+        df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
        # df = df.drop(columns="_id")
         return df
 
