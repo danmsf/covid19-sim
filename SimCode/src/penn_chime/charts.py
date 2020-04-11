@@ -248,7 +248,7 @@ def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True):
                column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
                row=alt.Row('variable', title='Symptom')).\
         properties(
-        width=600, height=300, title="Symptoms vs Test Indication"
+        width=200, height=150, title="Symptoms vs Test Indication by Date"
     ).interactive()
     agg_data = symptoms.groupby(['corona_result', 'test_indication', 'variable'], as_index=False)['value'].sum()
     bar = alt.Chart(agg_data).mark_bar(tooltip=True, line=True).\
@@ -258,15 +258,11 @@ def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True):
                # column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
                row=alt.Row('variable', title='Symptom')).\
         properties(
-        width=500, height=200, title="Symptoms vs Test Indication"
+        width=600, height=150, title="Symptoms vs Test Indication"
     ).interactive()
 
     if drill_down:
-        return alt.hconcat(
-                area.transform_filter(alt.datum.test_indication == 'Abroad'),
-                area.transform_filter(alt.datum.test_indication == 'Contact with confirmed'),
-                area.transform_filter(alt.datum.test_indication == 'Other'),
-                )
+        return area
     else:
         return bar
 
@@ -300,7 +296,7 @@ def test_indication_chart(alt, df: pd.DataFrame,):
 
 def patients_status_chart(alt, df: pd.DataFrame,):
     patients = df.melt(id_vars='Date', value_vars=df.columns[1:]).dropna()
-    line = alt.Chart(patients).mark_line(interpolate='basis', point=True, tooltip=True).encode(
+    line = alt.Chart(patients).mark_line(interpolate='basis', point=False, tooltip=True).encode(
         x='Date:T',
         y=alt.Y('value', title="Counts"),
         color=alt.Color('variable', title=None, legend=alt.Legend(orient="top", title='')),

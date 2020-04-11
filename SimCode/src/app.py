@@ -126,6 +126,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
         st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=True), use_container_width=False)
 
     # Yishuvim charts
+    st.subheader("Cases by Yishuv")
     yishuvim = st.multiselect("Select Yishuv:", israel_yishuv_df['Yishuv'].unique())
     israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
     israel_yishuv_df = israel_yishuv_df.merge(
