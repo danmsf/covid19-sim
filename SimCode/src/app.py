@@ -64,7 +64,7 @@ if st.sidebar.checkbox(label="Show country data"):
     countrydata.get_country_stringency()
     countrydata.get_sir()
     # 'total_cases', 'new_cases', 'total_deaths', 'new_deaths', 'total_recovered', 'activecases', 'serious_critical'
-    countryname = st.multiselect(label="Select Countries", options=countrydata.country_df['Country'].sort_values().unique())
+    countryname = st.multiselect("Select Countries", list(countrydata.country_df['Country'].sort_values().unique()), ['israel'])
     # d = countrydata.country_df
     # d
     temp = countrydata.country_df.loc[countrydata.country_df.Country.isin(countryname), ['Country', 'date', 'total_cases', 'new_cases',
@@ -79,12 +79,12 @@ if st.sidebar.checkbox(label="Show country data"):
     temp = temp.loc[temp['total_cases'] >= total_cases_criteria, :]
     cols = temp.columns
     cols = [c for c in cols if c not in ['Country', 'date']]
-    col_measure = st.selectbox(label="Chose comparison column", options=cols, key=1)
+    col_measure = st.selectbox("Chose comparison column", cols, 0)
     st.line_chart(pivot_dataframe(temp, col_measure, countryname, normalize_day=int(total_cases_criteria)))
     if st.checkbox(label="Show table", value=False):
         temp
     else:
-        col_measures = st.multiselect(label="Chose columns", options=[c for c in cols if c not in ['StringencyIndex']], key=2)
+        col_measures = st.multiselect("Chose columns", [c for c in cols if c not in ['StringencyIndex']],['total_cases'] , key=2)
         for c in countryname:
             st.altair_chart(
                 country_level_chart(alt, temp.loc[temp.Country == c, ['Country', 'date', 'StringencyIndex'] + col_measures]),
@@ -112,7 +112,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
                     'Total Serious Condition Patients', 'New Dead Patients Amount',
                     'Total Dead Patients', 'Total Serious + Dead Patients',
                     'Lab Test Amount']
-    patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols)
+    patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols, ['Current Serious Condition Patients'])
     israel_patients = israel_patients.loc[:, ['Date'] + patient_cols_selected]
     st.altair_chart(patients_status_chart(alt, israel_patients), use_container_width=True)
 
@@ -127,7 +127,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
 
     # Yishuvim charts
     st.subheader("Cases by Yishuv")
-    yishuvim = st.multiselect("Select Yishuv:", israel_yishuv_df['Yishuv'].unique())
+    yishuvim = st.multiselect("Select Yishuv:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
     israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
     israel_yishuv_df = israel_yishuv_df.merge(
         country_stringency.loc[country_stringency['CountryName'] == 'Israel', ['date', 'StringencyIndex']], how='left')
