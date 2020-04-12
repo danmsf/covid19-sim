@@ -173,3 +173,9 @@
 2020-04-12 11:15:22,MainThread,errorLogger,INFO,Got response [200] for URL: https://web.archive.org/web/20200202/https://www.worldometers.info/coronavirus/
 2020-04-12 11:15:23,MainThread,errorLogger,INFO,Got response [200] for URL: https://web.archive.org/web/20200206/https://www.worldometers.info/coronavirus/
 2020-04-12 11:15:23,MainThread,errorLogger,INFO,Got response [200] for URL: https://web.archive.org/web/20200210/https://www.worldometers.info/coronavirus/
+2020-04-12 11:29:29,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 11:29:31,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 11:29:39,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 11:29:40,MainThread,errorLogger,INFO,>>No new links
+2020-04-12 11:29:40,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 11:29:40,MainThread,errorLogger,INFO,>>End program
