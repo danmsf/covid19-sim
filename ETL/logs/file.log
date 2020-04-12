@@ -181,3 +181,9 @@
 2020-04-12 11:29:40,MainThread,errorLogger,INFO,>>End program
 2020-04-12 12:14:53,MainThread,errorLogger,INFO,>>Opening chromium in background
 2020-04-12 12:14:55,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 12:18:07,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 12:18:09,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 12:18:17,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 12:18:18,MainThread,errorLogger,INFO,>>No new links
+2020-04-12 12:18:18,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 12:18:18,MainThread,errorLogger,INFO,>>End program

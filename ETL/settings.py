@@ -1,11 +1,7 @@
 import pandas as pd
 import os
-from pathlib import Path
 
 current_dir = os.path.dirname(__file__)
-# parernt = os.pardir
-# print os.path.abspath(os.path.join(yourpath, os.pardir))
-
 
 # Paths and Dirs
 WORLDMETER_DATA = os.path.join(current_dir,'DW/raw_data/worldmeter')
