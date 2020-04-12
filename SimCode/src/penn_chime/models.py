@@ -398,7 +398,9 @@ class OLG:
         df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
         df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
-
+        df['dI'] = df['I'] - df["I"].shift(1)
+        df['dA'] = df['A'] - df["A"].shift(1)
+        df['dE'] = df['E'] - df["E"].shift(1)
         self.df = pd.concat([self.df, df])
 
 class CountryData:
@@ -418,7 +420,9 @@ class CountryData:
         # country_df['date'] = pd.to_datetime(country_df['date'],format="%d/%m/%Y")
         country_df['date'] = pd.to_datetime(country_df['date'], format="%Y-%m-%d")
         country_df = country_df.rename(columns={'country' : 'Country'})
-
+        country_df['new_deaths'] = country_df['new_deaths'].str.replace('+', '')
+        country_df['new_deaths'] = country_df['new_deaths'].str.replace(',', '')
+        country_df['new_deaths'] = country_df['new_deaths'].apply(lambda x: float(x))
         return country_df
 
     def get_country_stringency(self):

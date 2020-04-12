@@ -157,8 +157,8 @@ if st.sidebar.checkbox(label="Show Israel data"):
 
 if st.sidebar.checkbox("Show Israel Projections", False):
     models_option = st.sidebar.multiselect(
-        'Which models to show?',
-        ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
+        'Which models to show?', ['OLG Model'])
+        # ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
 
     p = display_sidebar(st, DEFAULTS, models_option)
 
@@ -243,7 +243,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         #     use_container_width=True,
         # )
         dd = olg.df.copy()
-        dd
+        # dd
         olg_cols = dd.columns
         olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R']]
         olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['A', 'E', 'I'])
