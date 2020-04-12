@@ -1,0 +1,86 @@
+2020-04-11 13:29:52,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-11 13:29:54,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-11 13:30:02,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-11 13:30:04,MainThread,errorLogger,INFO,>>Downloading data from links: 1 files
+2020-04-11 13:30:10,MainThread,errorLogger,INFO,Got response [200] for URL: https://web.archive.org/web/20200410/https://www.worldometers.info/coronavirus/
+2020-04-11 13:30:12,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-11 13:30:12,MainThread,errorLogger,INFO,>>End program
+2020-04-11 13:38:21,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-11 13:38:23,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-11 13:38:30,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-11 13:38:32,MainThread,errorLogger,INFO,>>No new links
+2020-04-11 13:38:32,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-11 13:38:32,MainThread,errorLogger,INFO,>>End program
+2020-04-11 13:42:09,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-11 13:42:11,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-11 13:42:19,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-11 13:42:20,MainThread,errorLogger,INFO,>>No new links
+2020-04-11 13:42:20,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-11 13:42:20,MainThread,errorLogger,INFO,>>End program
+2020-04-11 15:35:17,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-11 15:35:19,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-11 15:35:27,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-11 15:35:28,MainThread,errorLogger,INFO,>>No new links
+2020-04-11 15:35:28,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-11 15:35:28,MainThread,errorLogger,INFO,>>End program
+2020-04-11 16:31:31,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-11 16:31:33,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-11 16:31:48,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-11 16:31:50,MainThread,errorLogger,INFO,>>No new links
+2020-04-11 16:31:50,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-11 16:31:50,MainThread,errorLogger,INFO,>>End program
+2020-04-11 16:34:24,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-11 16:34:26,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-11 16:34:34,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-11 16:34:35,MainThread,errorLogger,INFO,>>No new links
+2020-04-11 16:34:35,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-11 16:34:35,MainThread,errorLogger,INFO,>>End program
+2020-04-12 09:51:33,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 09:51:35,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 09:51:43,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 09:51:45,MainThread,errorLogger,INFO,>>Downloading data from links: 1 files
+2020-04-12 09:51:51,MainThread,errorLogger,INFO,Got response [200] for URL: https://web.archive.org/web/20200411/https://www.worldometers.info/coronavirus/
+2020-04-12 09:51:53,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 09:51:53,MainThread,errorLogger,INFO,>>End program
+2020-04-12 09:53:51,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 09:53:53,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 09:54:01,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 09:54:02,MainThread,errorLogger,INFO,>>No new links
+2020-04-12 09:54:02,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 09:54:02,MainThread,errorLogger,INFO,>>End program
+2020-04-12 09:56:14,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 09:56:16,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 09:56:24,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 09:56:25,MainThread,errorLogger,INFO,>>No new links
+2020-04-12 09:56:25,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 09:56:25,MainThread,errorLogger,INFO,>>End program
+2020-04-12 10:01:24,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 10:01:26,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 10:01:32,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 10:01:33,MainThread,errorLogger,INFO,>>No new links
+2020-04-12 10:01:33,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 10:01:33,MainThread,errorLogger,INFO,>>End program
+2020-04-12 10:03:34,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 10:03:36,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 10:03:44,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 10:03:46,MainThread,errorLogger,INFO,>>No new links
+2020-04-12 10:03:46,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 10:03:46,MainThread,errorLogger,INFO,>>End program
+2020-04-12 10:04:32,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 10:04:34,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 10:04:41,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 10:04:42,MainThread,errorLogger,INFO,>>No new links
+2020-04-12 10:04:42,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 10:04:42,MainThread,errorLogger,INFO,>>End program
+2020-04-12 10:05:25,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 10:05:27,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 10:05:36,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 10:05:37,MainThread,errorLogger,INFO,>>No new links
+2020-04-12 10:05:37,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 10:05:37,MainThread,errorLogger,INFO,>>End program
+2020-04-12 10:18:08,MainThread,errorLogger,INFO,>>Opening chromium in background
+2020-04-12 10:18:10,MainThread,errorLogger,INFO,>>Connecting to URL..waiting for response
+2020-04-12 10:18:17,MainThread,errorLogger,INFO,>>Checking for new links in URL
+2020-04-12 10:18:19,MainThread,errorLogger,INFO,>>No new links
+2020-04-12 10:18:19,MainThread,errorLogger,INFO,>>Quitting chromium
+2020-04-12 10:18:19,MainThread,errorLogger,INFO,>>End program
