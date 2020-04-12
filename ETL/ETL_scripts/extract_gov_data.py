@@ -13,7 +13,7 @@ def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
     print(__file__, 'is running')
     RECORDS_LIMIT = 10000000
 
-    df = pd.read_csv(GOV_RESOURCE_PATH)
+    df = pd.read_csv(GOV_RESOURCE_CSV)
 
     df['datastore_structure'] = df['resource_id'].apply(lambda x: {'resource_id': x,'limit':RECORDS_LIMIT})\
                                             .apply(lambda x: str.encode(json.dumps(x)))

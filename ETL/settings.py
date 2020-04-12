@@ -5,7 +5,7 @@ current_dir = os.path.dirname(__file__)
 
 # Paths and Dirs
 WORLDMETER_DATA = os.path.join(current_dir,'DW/raw_data/worldmeter')
-GOV_RESOURCE_PATH = os.path.join(current_dir,'resources/csv/gov_resource.csv')
+GOV_RESOURCE_CSV = os.path.join(current_dir, 'resources/csv/gov_resource.csv')
 
 MAPPER_PATH = os.path.join(current_dir,'resources/csv/column_remapper.csv')
 mapper = pd.read_csv(MAPPER_PATH, index_col ='key', usecols = ['key', 'value'])
