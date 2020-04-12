@@ -3,7 +3,7 @@ import asyncio
 import re
 import pandas as pd
 from datetime import datetime
-from ETL_scripts.extract_worldmeter.settings import  *
+from ..settings import  *
 import time
 import aiohttp
 
