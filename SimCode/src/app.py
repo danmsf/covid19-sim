@@ -33,7 +33,8 @@ from penn_chime.charts import (
     test_symptoms_chart,
     test_indication_chart,
     patients_status_chart,
-    jhopkins_level_chart
+    jhopkins_level_chart,
+    olg_projections_chart
 )
 
 # This is somewhat dangerous:
@@ -91,6 +92,7 @@ if st.sidebar.checkbox(label="Show country data"):
                 country_level_chart(alt, temp.loc[temp.Country == c, ['Country', 'date', 'StringencyIndex'] + col_measures]),
                 use_container_width=True,
             )
+        st.markdown("""*Note: Oxford Stringency Index is a score from 0-100 rating the government restrictions due to Corona*""")
 
         st.markdown("""*Source: Worldmeter*""")
     # total_cases_criteria
@@ -103,7 +105,7 @@ if st.sidebar.checkbox(label="Show country data"):
 
     country_select = st.multiselect("Select Country/Region :", list(jh_confirmed_df['Country'].unique()), ['China','Israel'])
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Country'].isin(country_select), :]
-    province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()), ['Hubei', 'All'])
+    province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()))
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Province'].isin(province), :]
     st.altair_chart(
         jhopkins_level_chart(alt, jh_confirmed_df),use_container_width=True,
@@ -115,7 +117,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
 
     # Load data
     countrydata = CountryData(DEFAULTS.country_files)
-    country_stringency = countrydata.get_country_stringency()
+    country_df = countrydata.get_country_data()
     lab_tests = israel_data.lab_results_df.copy()
     israel_data.get_yishuv_data()
     israel_yishuv_df = israel_data.yishuv_df.copy()
@@ -150,14 +152,14 @@ if st.sidebar.checkbox(label="Show Israel data"):
     yishuvim = st.multiselect("Select Yishuv:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
     israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
     israel_yishuv_df = israel_yishuv_df.merge(
-        country_stringency.loc[country_stringency['CountryName'] == 'Israel', ['date', 'StringencyIndex']], how='left')
+        country_df.loc[country_df['Country'] == 'israel', ['date', 'StringencyIndex']], how='left')
     st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
     st.markdown("""*Source: Self collection*""")
 
 if st.sidebar.checkbox("Show Israel Projections", False):
     models_option = st.sidebar.multiselect(
-        'Which models to show?',
-        ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
+        'Which models to show?', ['OLG Model'])
+        # ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
 
     p = display_sidebar(st, DEFAULTS, models_option)
 
@@ -237,13 +239,24 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         sir_country_df = get_sir_country_file(DEFAULTS.sir_country_file)
         olg = OLG(sir_country_df, p)
         # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
+        # st.altair_chart(
+        #     admission_rma_chart(alt, olg.df_corpus, olg.df_predict),
+        #     use_container_width=True,
+        # )
+        dd = olg.df.copy()
+        # dd
+        olg_cols = dd.columns
+        olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R']]
+        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['A', 'E', 'I'])
         st.altair_chart(
-            admission_rma_chart(alt, olg.df_corpus, olg.df_predict),
+        olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country'] + olg_cols_select]),
             use_container_width=True,
         )
 
-
-
+        st.altair_chart(
+            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'R']]),
+            use_container_width=True,
+        )
     # admission_rma_chart(alt, olg.df_corpus, olg.df_predict)
 
     # write_definitions(st)

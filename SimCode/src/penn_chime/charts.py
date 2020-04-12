@@ -326,9 +326,49 @@ def patients_status_chart(alt, df: pd.DataFrame,):
         y=alt.Y('value', title="Counts"),
         color=alt.Color('variable', title=None, legend=alt.Legend(orient="top", title='')),
     )
-    return line.properties(
+    nearest = alt.selection(type='single', nearest=True, on='mouseover',
+                            fields=['Date'], empty='none')
+    # Transparent selectors across the chart. This is what tells us
+    # the x-value of the cursor
+    selectors = alt.Chart(patients).mark_point().encode(
+        x='Date:T',
+        opacity=alt.value(0),
+    ).add_selection(
+        nearest
+    )
+
+    # Draw text labels near the points, and highlight based on selection
+    text = line.mark_text(align='left', dx=5, dy=-5).encode(
+        text=alt.condition(nearest, 'value', alt.value(' ')),
+        y=alt.Y('value', axis=alt.Axis(labels=True, title='', tickOpacity=0)),
+    )
+    # Draw a rule at the location of the selection
+    rules = alt.Chart(patients).mark_rule(color='gray').encode(
+        x='Date',
+    ).transform_filter(
+        nearest
+    )
+
+    return alt.layer(line,selectors, text, rules ).properties(
         width=600, height=300, title="Patients Condition"
     ).interactive()
+
+@st.cache(allow_output_mutation=True)
+def olg_projections_chart(alt, df: pd.DataFrame,):
+    olg_cols = df.columns
+    olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country']]
+    olg_df = df.melt(id_vars=['date', 'corona_days', 'country'], value_vars=olg_cols).dropna()
+    line = alt.Chart(olg_df).transform_calculate(
+        cat="datum.country + '-' + datum.variable"
+    ).mark_line(interpolate='basis', point=False, tooltip=True).encode(
+        x='corona_days:Q',
+        y=alt.Y('value', title=""),
+        color=alt.Color('cat:N', title=None, legend=alt.Legend(orient="top", title='')),
+    )
+    return line.properties(
+        width=600, height=300, title=""
+    ).interactive()
+
 
 def new_admissions_chart(
         alt, projection_admits: pd.DataFrame, parameters: Parameters

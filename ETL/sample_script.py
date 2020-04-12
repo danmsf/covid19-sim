@@ -3,7 +3,7 @@ from ETL_scripts.transform_worldmeter_data.transform_worldmeter_data import main
 from ETL_scripts.extract_gov_data.extract_gov_data import main as extract_gov_data
 from ETL_scripts.extract_gsheets.covid19sheets import main as extract_sheet_data
 
-results_dir = '../Resources'
+results_dir = '../Resources/Datasets/CountryData'
 worldmeter_dir = 'DW/raw_data/worldmeter'
 gov_dir = '../Resources/Datasets/IsraelData'
 
