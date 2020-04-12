@@ -1,5 +1,5 @@
-from ETL_scripts.extract_worldmeter.utils.functions import *
-from ETL_scripts.extract_worldmeter.utils.nonsync import main as download_async
+from .utils.functions import *
+from .utils.nonsync import main as download_async
 from selenium import webdriver
 
 def main(outdir:IO)->None:
