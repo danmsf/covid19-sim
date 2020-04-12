@@ -15,16 +15,10 @@ class Entries(object):
         self.__dict__.update(kwargs)
 
 def df_to_entries(df):
-    url_entrys = []
-    for _, rows in df.iterrows():
-        my_list = [rows.url, rows.urlname]
-        url_entrys.append(my_list)
-
     entries = []
-    for row in url_entrys:
-        entry = Entry(*row)
+    for _, rows in df.iterrows():
+        entry = Entry(rows.url, rows.urlname)
         entries.append(entry)
-
     return entries
 
 
