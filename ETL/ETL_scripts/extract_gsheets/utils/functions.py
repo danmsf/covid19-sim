@@ -1,14 +1,10 @@
 from __future__ import print_function
 import pickle
-import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import pandas as pd
-
-THISDIR = os.path.dirname(__file__)
-CREDS_PATH = os.path.join(THISDIR, 'credentials.json')
-TOKEN_PATH = os.path.join(THISDIR, 'token.pickle')
+from ..settings import *
 
 
 def values_to_df(result):
