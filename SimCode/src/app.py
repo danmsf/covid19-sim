@@ -37,7 +37,7 @@ from penn_chime.charts import (
 )
 
 # This is somewhat dangerous:
-# Hide the main menu with "Rerun", "run on Save", "clear cache", and "record a screencast"
+# Hide the download_dfs menu with "Rerun", "run on Save", "clear cache", and "record a screencast"
 # This should not be hidden in prod, but removed
 # In dev, this should be shown
 st.markdown(hide_menu_style, unsafe_allow_html=True)

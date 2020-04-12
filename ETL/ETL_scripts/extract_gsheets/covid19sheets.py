@@ -1,4 +1,4 @@
-from .functions import *
+from ETL.ETL_scripts.extract_gsheets.utils.functions import *
 
 # Enable sheets api at: https://developers.google.com/sheets/api/quickstart/python
 # Choose desktop app
