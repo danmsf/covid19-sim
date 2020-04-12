@@ -33,7 +33,8 @@ from penn_chime.charts import (
     test_symptoms_chart,
     test_indication_chart,
     patients_status_chart,
-    jhopkins_level_chart
+    jhopkins_level_chart,
+    olg_projections_chart
 )
 
 # This is somewhat dangerous:
@@ -237,13 +238,24 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         sir_country_df = get_sir_country_file(DEFAULTS.sir_country_file)
         olg = OLG(sir_country_df, p)
         # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
+        # st.altair_chart(
+        #     admission_rma_chart(alt, olg.df_corpus, olg.df_predict),
+        #     use_container_width=True,
+        # )
+        dd = olg.df.copy()
+        dd
+        olg_cols = dd.columns
+        olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R']]
+        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['A', 'E', 'I'])
         st.altair_chart(
-            admission_rma_chart(alt, olg.df_corpus, olg.df_predict),
+        olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country'] + olg_cols_select]),
             use_container_width=True,
         )
 
-
-
+        st.altair_chart(
+            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'R']]),
+            use_container_width=True,
+        )
     # admission_rma_chart(alt, olg.df_corpus, olg.df_predict)
 
     # write_definitions(st)

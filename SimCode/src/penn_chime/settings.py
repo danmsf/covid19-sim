@@ -83,8 +83,8 @@ DEFAULTS = Constants(
     model_chekpoints={'t': [], 'beta': []},
     country_file=os.path.join(project_path, "Resources", "Datasets", "CountryData", "all_dates.csv"),
     stringency_file=os.path.join(project_path, "Resources", "OxCGRT_Download_latest_data.xlsx"),
-    sir_file=os.path.join(project_path, "Resources", "Datasets", "CountryData", "all_dates.csv"),
-    sir_country_file=os.path.join(project_path, "Resources", "SIR_COUNTRY.csv"),
+    sir_file=os.path.join(country_data_path, "all_dates.csv"),
+    sir_country_file=os.path.join(country_data_path, "all_dates.csv"),
     country_file2=os.path.join(project_path, "Resources", "all_dates_n.csv"),
     country_files={
         'country_file': os.path.join(country_data_path, "all_dates.csv"),

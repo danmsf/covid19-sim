@@ -283,7 +283,7 @@ class OLG:
         self.df = pd.DataFrame()
         self.tmp = None
 
-        self.iter_countries(df, tau=p.tau, init_infected=p.init_infected, theta=p.theta, fi=p.fi, scenario=p.scenario,  countries=p.countries)
+        self.iter_countries(df, tau=p.tau, init_infected=p.init_infected, theta=p.theta, fi=p.fi, scenario=p.scenario, countries=p.country)
 
     @staticmethod
     def next_gen(r0, tau, c0, ct):
@@ -305,9 +305,9 @@ class OLG:
         ln_r = np.log(r_prev) + r_comparator_delta_ln + pi * (s_delta - s_comparator_delta)
         return np.exp(ln_r)
 
-    def iter_countries(self, df, tau, init_infected, theta, fi, scenario, countries='Israel'):
+    def iter_countries(self, df, tau, init_infected, theta, fi, scenario, countries='israel'):
         for country in countries:
-            df_tmp = df[df['Country'] == country].copy()
+            df_tmp = df[df['country'] == country].copy()
             self.process(detected=df_tmp['I'].values, init_infected=init_infected)
             self.calc_r(tau=tau, init_infected=init_infected, scenario=scenario)
             self.predict(tau=tau, scenario=scenario)
@@ -354,7 +354,7 @@ class OLG:
             cnt = 0
             while cnt < scenario['t'].get(i):
                 c0 = self.detected[t - tau] if t - tau >= 0 else 0
-                next_gen = self.next_gen(r0=self.r0d[cnt + predicted_cnt] * (scenario['r0d'].get(i) + 1), tau=tau,
+                next_gen = self.next_gen(r0=self.r0d[cnt + predicted_cnt] * (scenario['R0D'].get(i) + 1), tau=tau,
                                          c0=c0, ct=self.detected[t])
                 # print(self.r0d[cnt + predicted_cnt] * (scenario['r0d'].get(i) + 1), c0, self.detected[t], next_gen, )
                 self.detected.append(next_gen)
@@ -375,7 +375,7 @@ class OLG:
 
     def write(self, df, tau):
         forcast_cnt = len(self.detected) - len(self.r_adj)
-        df = df[-len(self.r_adj):][['date', 'Country', 'StringencyIndex', ]].copy()
+        df = df[-len(self.r_adj):][['date', 'country', 'StringencyIndex', ]].copy()
 
         df['r_values'] = self.r_values
         df['R'] = self.r_adj
@@ -395,7 +395,7 @@ class OLG:
         df['A'] = df['A'].shift(periods=-1)
         df['E'] = df['A'].shift(periods=-tau -1)
         df['A'] = df['A'] - df['I']
-        df['Country'].fillna(method='ffill', inplace=True)
+        df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
         df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
 
@@ -507,7 +507,7 @@ class IsraelData:
 
 
 def get_sir_country_file(sir_country_file):
-    sir_country_df = pd.read_csv(sir_country_file, usecols=['I', 'date', 'country'], parse_dates=['date'])
+    sir_country_df = pd.read_csv(sir_country_file, usecols=['I', 'date', 'country', 'StringencyIndex'], parse_dates=['date'])
     return sir_country_df
 
 

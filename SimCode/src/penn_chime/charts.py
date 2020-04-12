@@ -330,6 +330,23 @@ def patients_status_chart(alt, df: pd.DataFrame,):
         width=600, height=300, title="Patients Condition"
     ).interactive()
 
+@st.cache(allow_output_mutation=True)
+def olg_projections_chart(alt, df: pd.DataFrame,):
+    olg_cols = df.columns
+    olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country']]
+    olg_df = df.melt(id_vars=['date', 'corona_days', 'country'], value_vars=olg_cols).dropna()
+    line = alt.Chart(olg_df).transform_calculate(
+        cat="datum.country + '-' + datum.variable"
+    ).mark_line(interpolate='basis', point=False, tooltip=True).encode(
+        x='corona_days:Q',
+        y=alt.Y('value', title=""),
+        color=alt.Color('cat:N', title=None, legend=alt.Legend(orient="top", title='')),
+    )
+    return line.properties(
+        width=600, height=300, title=""
+    ).interactive()
+
+
 def new_admissions_chart(
         alt, projection_admits: pd.DataFrame, parameters: Parameters
 ) -> Chart:
