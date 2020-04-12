@@ -1,9 +1,10 @@
 from  ETL.ETL_scripts.extract_regular_csvs.settings import *
-from ETL.ETL_scripts.extract_regular_csvs.utils.functions import download_dfs
+from ETL.ETL_scripts.extract_regular_csvs.utils.functions import *
 
 def main():
-    dfs = download_dfs(url_list)
-    return dfs
+    entries = df_to_entries(urls)
+    entries_loaded = download_dfs(entries)
+    return entries_loaded
 
 if __name__ == '__main__':
     main()

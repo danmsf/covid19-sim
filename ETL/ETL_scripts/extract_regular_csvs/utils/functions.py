@@ -4,6 +4,25 @@ import pandas as pd
 from io import StringIO
 import aiohttp
 
+class Entry(object):
+    def __init__(self,url=None , name = None, df= None, *args):
+        self.url = url
+        self.name = name
+        self.df = df
+
+def df_to_entries(df):
+    url_entrys = []
+    for _, rows in df.iterrows():
+        my_list = [rows.url, rows.urlname]
+        url_entrys.append(my_list)
+
+    entries = []
+    for row in url_entrys:
+        entry = Entry(*row)
+        entries.append(entry)
+
+    return entries
+
 
 async def fetch_html(url: str, session: ClientSession, **kwargs) -> str:
     resp = await session.request(method="GET", url=url, **kwargs)
@@ -11,35 +30,32 @@ async def fetch_html(url: str, session: ClientSession, **kwargs) -> str:
     html = await resp.text()
     return html
 
-async def to_file(url,session) -> None:
+async def to_file(entry,session) -> None:
 
-    html = await fetch_html(url,session)
+    html = await fetch_html(entry.url,session)
     df = await to_pd(html)
-    return df
+    entry.df = df
+    return entry
 
 async def to_pd(html):
     df = pd.read_csv(StringIO(html))
     return df
 
-async def bulk_crawl_and_write( urls: list, **kwargs) -> None:
+async def bulk_crawl_and_write( entries: list, **kwargs) -> None:
     """Crawl & write concurrently to `file` for multiple `urls`."""
     conn = aiohttp.TCPConnector(limit=10)
     async with ClientSession(connector=conn) as session:
         tasks = []
-        for url in urls:
+        for entry in entries:
             tasks.append(
-                to_file(url=url, session=session, **kwargs)
+                to_file(entry=entry, session=session, **kwargs)
             )
         errors = await asyncio.gather(*tasks)
         return errors
 
-def download_dfs(urls):
-    results = asyncio.run(bulk_crawl_and_write(urls=urls))
-    dfs  = [element for element in results if hasattr(element, 'columns')]
-    return dfs
-
-
-
+def download_dfs(entries):
+    results = asyncio.run(bulk_crawl_and_write(entries=entries))
+    return results
 
 
 
