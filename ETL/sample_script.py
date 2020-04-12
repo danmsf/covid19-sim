@@ -6,10 +6,10 @@ import pathlib
 
 
 worldmeter_dir = pathlib.Path(__file__).parent.joinpath('DW/raw_data/worldmeter').__str__()
-results_dir = pathlib.Path(__file__).parent.parent.joinpath('Resources/Datasets').__str__()
+results_dir = pathlib.Path(__file__).parent.parent.joinpath('Resources').__str__()
 gov_dir = pathlib.Path(__file__).parent.parent.joinpath('Resources/Datasets/IsraelData').__str__()
 
-extract_worldmeter_data(worldmeter_dir)
+# extract_worldmeter_data(worldmeter_dir)
 transform_worldmeter_data(worldmeter_dir,
                           outpath = results_dir,
                           cutoffdate = '2020-02-10')
