@@ -59,7 +59,7 @@ st.sidebar.subheader("General parameters")
 # TODO: get rid of S
 if st.sidebar.checkbox(label="Show country data"):
     st.header('Country Data')
-    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
+    countrydata = CountryData(DEFAULTS.country_files)
     countrydata.get_country_data()
     countrydata.get_country_stringency()
     countrydata.get_sir()
@@ -98,7 +98,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
     israel_data = IsraelData(DEFAULTS.israel_files)
 
     # Load data
-    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
+    countrydata = CountryData(DEFAULTS.country_files)
     country_stringency = countrydata.get_country_stringency()
     lab_tests = israel_data.lab_results_df.copy()
     israel_data.get_yishuv_data()

@@ -383,17 +383,15 @@ class OLG:
 
 
 class CountryData:
-    def __init__(self, country_file, stringency_file, sir_file):
-        self.country_file = country_file
-        self.sir_file = sir_file
-        self.stringency_file = stringency_file
+    def __init__(self, country_files):
+        self.country_files = country_files
         self.country_df = self.get_country_data()
         self.stringency_df = self.get_country_stringency()
         self.df = self.get_data()
         self.sir_df = self.get_sir()
 
     def get_country_data(self):
-        country_df = pd.read_csv(self.country_file)
+        country_df = pd.read_csv(self.country_files['country_file'])
         # country_df = country_df.set_index('Country')
         country_df = country_df.drop(columns="Unnamed: 0")
         # country_df['date'] = country_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
@@ -404,7 +402,7 @@ class CountryData:
         return country_df
 
     def get_country_stringency(self):
-        country_st_df = pd.read_excel(self.stringency_file)
+        country_st_df = pd.read_excel(self.country_files['stringency_file'])
         country_st_df['date'] = pd.to_datetime(country_st_df['Date'], format="%Y%m%d")
         return country_st_df
 
@@ -413,7 +411,7 @@ class CountryData:
         return df
 
     def get_sir(self):
-        sir_df = pd.read_csv(self.sir_file)
+        sir_df = pd.read_csv(self.country_files['sir_file'])
         # sir_df = sir_df.set_index('Country')
         sir_df = sir_df.drop(columns="Unnamed: 0")
         # sir_df['date'] = sir_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
@@ -435,10 +433,11 @@ class IsraelData:
 
     @st.cache
     def get_yishuv_data(self):
-        df = pd.read_excel(self.filepath['yishuv_file'])
+        df = pd.read_csv(self.filepath['yishuv_file'])
+        df = df.drop(columns="Unnamed: 0")
         colnames = df.columns
         df = df.melt(id_vars=['יישוב'], value_vars=colnames[1:])
-        df['variable'] = pd.to_datetime(df['variable'],format="%d/%m/%Y", errors='coerce')
+        df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
         df = df[df["variable"].dt.year>1677].dropna()
         df = df.rename(columns={'יישוב':'Yishuv', 'variable':'date'})
         return df
