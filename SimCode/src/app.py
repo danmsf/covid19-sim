@@ -92,6 +92,7 @@ if st.sidebar.checkbox(label="Show country data"):
                 country_level_chart(alt, temp.loc[temp.Country == c, ['Country', 'date', 'StringencyIndex'] + col_measures]),
                 use_container_width=True,
             )
+        st.markdown("""*Note: Oxford Stringency Index is a score from 0-100 rating the government restrictions due to Corona*""")
 
         st.markdown("""*Source: Worldmeter*""")
     # total_cases_criteria
@@ -104,7 +105,7 @@ if st.sidebar.checkbox(label="Show country data"):
 
     country_select = st.multiselect("Select Country/Region :", list(jh_confirmed_df['Country'].unique()), ['China','Israel'])
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Country'].isin(country_select), :]
-    province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()), ['Hubei', 'All'])
+    province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()))
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Province'].isin(province), :]
     st.altair_chart(
         jhopkins_level_chart(alt, jh_confirmed_df),use_container_width=True,
