@@ -1,7 +1,7 @@
 """Defaults."""
 from typing import Dict, Any, Union
 
-from penn_chime.utils import RateLos
+from .utils import RateLos
 
 
 class Regions:
@@ -20,6 +20,8 @@ class Regions:
 
 
 class Constants:
+
+
     def __init__(
             self,
             *,
@@ -47,11 +49,9 @@ class Constants:
             stringency_file: str,
             sir_file: str,
             sir_country_file: str,
-            israel_file: str,
-            # country_file2: str,
-            lab_results: str,
-            isolations: str
-            # israel_files: Dict,
+            country_file2: str,
+            country_files: Dict,
+            israel_files: Dict,
     ):
         self.region = region
         self.current_hospitalized = current_hospitalized
@@ -78,11 +78,9 @@ class Constants:
         self.stringency_file = stringency_file
         self.sir_file = sir_file
         self.sir_country_file = sir_country_file
-        self.israel_file = israel_file
-  # /      self.country_file2 = country_file2
-        self.lab_results = lab_results
-        self.isolations = isolations
-        # self.israel_files = israel_files
+        self.country_file2 = country_file2
+        self.country_files = country_files
+        self.israel_files = israel_files
 
     def __repr__(self) -> str:
         return f"Constants(susceptible_default: {self.region.susceptible}, known_infected: {self.known_infected})"

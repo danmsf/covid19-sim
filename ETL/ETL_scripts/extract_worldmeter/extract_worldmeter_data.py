@@ -11,7 +11,7 @@ def main(outdir:IO)->None:
     browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=options)
 
     # send a get request to the appropiate webpage
-    # (in this case the main archive page from "The Wayback Machine" for "https://www.worldometers.info/coronavirus/")
+    # (in this case the download_dfs archive page from "The Wayback Machine" for "https://www.worldometers.info/coronavirus/")
     logger.info(f'>>Connecting to URL..waiting for response')
     browser.get(WAYBACK_FULLPATH)
 

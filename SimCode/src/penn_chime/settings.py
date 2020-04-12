@@ -81,18 +81,22 @@ DEFAULTS = Constants(
         'seiar_number_of_days': 30.00
     },
     model_chekpoints={'t': [], 'beta': []},
-    country_file=os.path.join(project_path, "Resources", "all_dates.csv"),
+    country_file=os.path.join(project_path, "Resources", "Datasets", "CountryData", "all_dates.csv"),
     stringency_file=os.path.join(project_path, "Resources", "OxCGRT_Download_latest_data.xlsx"),
-    israel_file=os.path.join(project_path, "Resources", "Israel Corona Network Data Yishuv.xlsx"),
-    sir_file=os.path.join(project_path, "Resources", "all_dates.csv"),
+    sir_file=os.path.join(project_path, "Resources", "Datasets", "CountryData", "all_dates.csv"),
     sir_country_file=os.path.join(project_path, "Resources", "SIR_COUNTRY.csv"),
-    lab_results=os.path.join(project_path, "Resources", "Datasets", "IsraelData", "lab_tests.csv"),
-    isolations=os.path.join(project_path, "Resources", "Datasets", "IsraelData", "isolations.csv"),
+    country_file2=os.path.join(project_path, "Resources", "all_dates_n.csv"),
+    country_files={
+        'country_file': os.path.join(country_data_path, "all_dates.csv"),
+        'stringency_file': os.path.join(country_data_path, "OxCGRT_Download_latest_data.xlsx"),
+        'sir_file': os.path.join(country_data_path, "all_dates.csv"),
+        'jhopkins_confirmed': os.path.join(country_data_path, "time_series_covid19_confirmed_global.csv"),
+    },
     israel_files={
-        'yishuv_file': os.path.join(israel_data_path, "Israel Corona Network Data Yishuv.xlsx"),
+        'yishuv_file': os.path.join(israel_data_path, "gsheets.csv"),
         'lab_results_file': os.path.join(israel_data_path, "lab_tests.csv"),
         'isolations_file': os.path.join(israel_data_path, "isolations.csv"),
-        'tested_file': os.path.join(israel_data_path, "corona_tested_individuals_ver_001.csv"),
+        'tested_file': os.path.join(israel_data_path, "symptoms.csv"),
         'patients_file':  os.path.join(israel_data_path, "Israel Corona Network Data - Patients_sum.csv")
     }
 )
