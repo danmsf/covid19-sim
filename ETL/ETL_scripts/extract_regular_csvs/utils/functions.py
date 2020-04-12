@@ -11,9 +11,8 @@ class Entry(object):
         self.df = df
 
 class Entries(object):
-    def __init__(self,entries_class):
-        d = {entry.name: entry.df for entry in entries_class}
-        self.__dict__.update(d)
+    def __init__(self,**kwargs):
+        self.__dict__.update(kwargs)
 
 def df_to_entries(df):
     entries = []

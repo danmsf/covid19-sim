@@ -1,4 +1,4 @@
-from ETL.ETL_scripts.extract_gsheets.utils.functions import *
+from .utils.functions import *
 
 # Enable sheets api at: https://developers.google.com/sheets/api/quickstart/python
 # Choose desktop app
@@ -10,7 +10,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID = '1Y-ieLWMDzFzzeJKW-SygD90dBH80d4x0db8I3UFNj_c'
 
-SHEET_NAME = 'חולים מאומתים/ישוב'
+SHEET_NAME = 'Patients/towns'
 RANGE = 'A3:U'
 SAMPLE_RANGE_NAME = f'{SHEET_NAME}!{RANGE}'
 

@@ -3,9 +3,10 @@ import asyncio
 import re
 import pandas as pd
 from datetime import datetime
-from ETL_scripts.extract_worldmeter.settings import  *
+from ..settings import  *
 import time
 import aiohttp
+from typing import IO
 
 
 async def fetch_html(url: str, session: ClientSession, **kwargs) -> str:
@@ -15,7 +16,7 @@ async def fetch_html(url: str, session: ClientSession, **kwargs) -> str:
     html = await resp.text()
     return html
 
-async def to_file(url,session) -> None:
+async def to_file(url,session,outdir) -> None:
 
     try:
         html = await fetch_html(url,session)
@@ -37,10 +38,10 @@ async def to_file(url,session) -> None:
         return url
 
     else:
-        df = await to_pd(html,url)
+        df = await to_pd(html,url,outdir)
         return df
 
-async def to_pd(html,url):
+async def to_pd(html,url,outdir ):
     container = pd.read_html(html, match=READ_HTML_MATCH_PARAM)
     df = container[-1]
     df['ref'] = url
@@ -51,29 +52,29 @@ async def to_pd(html,url):
     date_repr_to_file = date_obj.strftime('%b-%d-%Y')
 
     outfile = date_repr_to_file + '.csv'
-    outpath = os.path.join(OUTPUT_PATH, outfile)
+    outpath = os.path.join(outdir, outfile)
     df.to_csv(outpath)
     return df
 
-async def bulk_crawl_and_write( urls: list, **kwargs) -> None:
+async def bulk_crawl_and_write( urls: list, outdir:IO, **kwargs) -> None:
     """Crawl & write concurrently to `file` for multiple `urls`."""
     conn = aiohttp.TCPConnector(limit=10)
     async with ClientSession(connector=conn) as session:
         tasks = []
         for i,url in enumerate(urls):
             tasks.append(
-                to_file(url=url, session=session, **kwargs)
+                to_file(url=url, session=session,outdir=outdir, **kwargs)
             )
         errors = await asyncio.gather(*tasks)
         return errors
 
-def main(urls):
+def main(urls,outdir):
     s = time.perf_counter()
     count = 0
     max_count = 3
     all_dfs=[]
     while urls and count < max_count:
-        results = asyncio.run(bulk_crawl_and_write(urls=urls))
+        results = asyncio.run(bulk_crawl_and_write(urls=urls, outdir = outdir))
         urls = [element for element in results if hasattr(element,'upper')]
         dfs  = [element for element in results if hasattr(element, 'columns')]
         all_dfs.append(dfs)
