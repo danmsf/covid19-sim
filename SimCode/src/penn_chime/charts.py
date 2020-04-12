@@ -151,6 +151,27 @@ def yishuv_level_chart(alt, df: pd.DataFrame,):
             )
 
 @st.cache(allow_output_mutation=True)
+def jhopkins_level_chart(alt, df: pd.DataFrame,):
+    # colnames = df.columns
+    # colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
+    # source = df.melt(id_vars=['date', 'Country'], value_vars=colnames).dropna()
+    source = df
+    source['value'] = source['value'].astype('int64')
+
+    line = alt.Chart(source).transform_calculate(
+        cat="datum.Country + '-' + datum.Province"
+    ).mark_line(interpolate='basis', tooltip=True).encode(
+            x=alt.X('date:Q', title='Corona Date'),
+            y=alt.Y('value', title='Counts'),
+            color=alt.Color('cat:N', title='Country-Region', legend=alt.Legend(orient="top", title=''))
+        )
+
+    return line.properties(
+        width=600, height=300, title="Total Cases by Country-Region"
+    ).resolve_scale(y='independent').interactive()
+
+
+@st.cache(allow_output_mutation=True)
 def country_level_chart(alt, df: pd.DataFrame,):
     colnames = df.columns
     colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]

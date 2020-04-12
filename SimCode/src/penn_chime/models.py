@@ -389,6 +389,7 @@ class CountryData:
         self.stringency_df = self.get_country_stringency()
         self.df = self.get_data()
         self.sir_df = self.get_sir()
+        self.jh_confirmed_df = self.get_jhopkins_confirmed()
 
     def get_country_data(self):
         country_df = pd.read_csv(self.country_files['country_file'])
@@ -421,6 +422,17 @@ class CountryData:
         sir_df = sir_df.rename(columns={'country':'Country'})
         return sir_df
 
+    def get_jhopkins_confirmed(self):
+        df = pd.read_csv(self.country_files['jhopkins_confirmed'])
+        # df = df.drop(columns="Unnamed: 0")
+        colnames = df.columns
+        df = df.melt(id_vars=['Province/State', 'Country/Region'], value_vars=colnames[2:])
+        df['variable'] = pd.to_datetime(df['variable'], format="%m/%d/%y", errors='coerce')
+        df = df[df["variable"].dt.year > 1677].dropna(subset=['value'])
+        df = df.rename(columns={'Country/Region': 'Country', 'Province/State': 'Province'})
+        df['Province'] = df['Province'].fillna('All')
+        # df = df.rename(columns={'יישוב':'Yishuv', 'variable':'date'})
+        return df
 
 class IsraelData:
     def __init__(self, israel_files):

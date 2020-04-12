@@ -32,7 +32,8 @@ from penn_chime.charts import (
     isolations_chart,
     test_symptoms_chart,
     test_indication_chart,
-    patients_status_chart
+    patients_status_chart,
+    jhopkins_level_chart
 )
 
 # This is somewhat dangerous:
@@ -92,6 +93,21 @@ if st.sidebar.checkbox(label="Show country data"):
             )
 
         st.markdown("""*Source: Worldmeter*""")
+    # total_cases_criteria
+    st.subheader("Johns Hopkins Data")
+    jh_confirmed_df = countrydata.jh_confirmed_df.copy()
+
+    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
+    jh_confirmed_df['min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
+    jh_confirmed_df['date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
+
+    country_select = st.multiselect("Select Country/Region :", list(jh_confirmed_df['Country'].unique()), ['China','Israel'])
+    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Country'].isin(country_select), :]
+    province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()), ['Hubei', 'All'])
+    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Province'].isin(province), :]
+    st.altair_chart(
+        jhopkins_level_chart(alt, jh_confirmed_df),use_container_width=True,
+            )
 
 if st.sidebar.checkbox(label="Show Israel data"):
     st.header('Israeli Data')
