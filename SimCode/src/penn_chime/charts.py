@@ -3,7 +3,7 @@ import datetime
 
 from altair import Chart  # type: ignore
 import pandas as pd  # type: ignore
-
+import streamlit as st
 from .parameters import Parameters
 from .utils import add_date_column
 from .presentation import DATE_FORMAT
@@ -87,6 +87,7 @@ def admission_rma_chart(alt, df: pd.DataFrame, df_predict: pd.DataFrame):
     ).interactive()
     )
 
+@st.cache(allow_output_mutation=True)
 def yishuv_level_chart(alt, df: pd.DataFrame,):
     # colnames = df.columns
     # colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
@@ -149,6 +150,7 @@ def yishuv_level_chart(alt, df: pd.DataFrame,):
     ).resolve_scale(y='independent').interactive()
             )
 
+@st.cache(allow_output_mutation=True)
 def country_level_chart(alt, df: pd.DataFrame,):
     colnames = df.columns
     colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
@@ -213,6 +215,7 @@ def country_level_chart(alt, df: pd.DataFrame,):
     ).resolve_scale(y='independent').interactive()
             )
 
+@st.cache(allow_output_mutation=True)
 def test_results_chart(alt, df: pd.DataFrame,):
     cond = (df['is_first_test'] == "Yes")
     lab_tests = df.loc[cond, ['result_date', 'corona_result']]
@@ -225,13 +228,14 @@ def test_results_chart(alt, df: pd.DataFrame,):
         width=600, height=300, title="Lab Test Results"
     ).interactive()
 
+@st.cache(allow_output_mutation=True)
 def isolations_chart(alt, df: pd.DataFrame,):
     isolations = df.melt(id_vars='date', value_vars=df.columns[1:]).dropna()
     return alt.Chart(isolations).mark_area(tooltip=True, line=True).encode(alt.X('date', title='Isolation Date'), alt.Y('value', title='Count'),
                                                                color=alt.Color('variable',  legend=alt.Legend(orient="top", title=''))).properties(
         width=600, height=300, title="Isolation"
     ).interactive()
-
+@st.cache(allow_output_mutation=True)
 def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True):
 
     symptoms = df
@@ -265,7 +269,7 @@ def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True):
         return area
     else:
         return bar
-
+@st.cache(allow_output_mutation=True)
 def test_indication_chart(alt, df: pd.DataFrame,):
 
     agg_data = df.groupby(['test_date', 'corona_result', 'test_indication'], as_index=False).size().reset_index(name='counts')
@@ -293,7 +297,7 @@ def test_indication_chart(alt, df: pd.DataFrame,):
     #     width=50, height=300, title="Test Indication"
     # ).interactive()
     return line1
-
+@st.cache(allow_output_mutation=True)
 def patients_status_chart(alt, df: pd.DataFrame,):
     patients = df.melt(id_vars='Date', value_vars=df.columns[1:]).dropna()
     line = alt.Chart(patients).mark_line(interpolate='basis', point=False, tooltip=True).encode(

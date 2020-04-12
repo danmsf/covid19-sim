@@ -11,7 +11,7 @@ from typing import Dict, Generator, Tuple
 
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-
+import streamlit as st
 from penn_chime.parameters import Parameters
 
 from seirsplus.models import *
@@ -433,6 +433,7 @@ class IsraelData:
         self.tested_df = self.get_tested_df()
         self.patients_df = self.get_patients_df()
 
+    @st.cache
     def get_yishuv_data(self):
         df = pd.read_excel(self.filepath['yishuv_file'])
         colnames = df.columns
@@ -442,6 +443,7 @@ class IsraelData:
         df = df.rename(columns={'יישוב':'Yishuv', 'variable':'date'})
         return df
 
+    @st.cache
     def get_isolation_df(self):
         df = pd.read_csv(self.filepath['isolations_file'])
         df['date'] = pd.to_datetime(df['date'])
@@ -449,11 +451,13 @@ class IsraelData:
         df = df.drop(columns="_id")
         return df
 
+    @st.cache
     def get_lab_results_df(self):
         df = pd.read_csv(self.filepath['lab_results_file'])
         df['result_date'] = pd.to_datetime(df['result_date'])
         return df
 
+    @st.cache
     def get_tested_df(self):
         df = pd.read_csv(self.filepath['tested_file'])
         df['None'] = df[df.columns[2:]].sum(axis=1)
@@ -463,6 +467,7 @@ class IsraelData:
        # df = df.drop(columns="_id")
         return df
 
+    @st.cache
     def get_patients_df(self):
         df = pd.read_csv(self.filepath['patients_file'])
         df = df.dropna(subset=['New Patients Amount'])
