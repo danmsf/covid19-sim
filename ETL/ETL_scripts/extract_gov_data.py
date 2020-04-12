@@ -1,4 +1,4 @@
-from settings import *
+from ..settings import *
 import urllib.request
 import pandas as pd
 import json
