@@ -115,7 +115,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
 
     # Load data
     countrydata = CountryData(DEFAULTS.country_files)
-    country_stringency = countrydata.get_country_stringency()
+    country_df = countrydata.get_country_data()
     lab_tests = israel_data.lab_results_df.copy()
     israel_data.get_yishuv_data()
     israel_yishuv_df = israel_data.yishuv_df.copy()
@@ -150,7 +150,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
     yishuvim = st.multiselect("Select Yishuv:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
     israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
     israel_yishuv_df = israel_yishuv_df.merge(
-        country_stringency.loc[country_stringency['CountryName'] == 'Israel', ['date', 'StringencyIndex']], how='left')
+        country_df.loc[country_df['Country'] == 'israel', ['date', 'StringencyIndex']], how='left')
     st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
     st.markdown("""*Source: Self collection*""")
 
