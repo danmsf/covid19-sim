@@ -236,8 +236,8 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
     if "OLG Model" in models_option:
         st.sidebar.subheader("OLG Model parameters")
         d.olg_params['tau'] = st.sidebar.number_input(
-            "tau rate",
-            min_value=1,
+            "Tau rate (number of days infectious)",
+            min_value=2,
             value=d.olg_params['tau'],
             step=1,
             format="%i",
