@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from .defaults import Constants, Regions, RateLos
+from penn_chime.defaults import Constants, Regions, RateLos
 import datetime
 import os
 

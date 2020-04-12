@@ -81,17 +81,6 @@ def dataframe_to_base64(df: pd.DataFrame) -> str:
     return b64
 
 
-## TODO only temp should use a dataset
-daily_hospitalized = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0,
-                               0, 0, 0, 0, 1, 1, 1, 1, 1,
-                               1, 1, 1, 1, 1, 1, 1, 1, 1,
-                               1, 1, 1, 1, 1, 1, 1, 1, 1,
-                               1, 1, 1, 2, 8, 13, 23, 50, 109,
-                               169, 200, 239, 267, 314, 314, 559, 689, 886,
-                               1058, 1243, 1486, 1795, 2257, 2815, 3401, 3743, 4269,
-                               4937, 6235, 7284, 9134, 10836], dtype='int')
-
-
 def pivot_dataframe(df, col_name, countryname, normalize_day=False):
     """Convert DataFrame to Pivot view"""
     piv_temp = pd.DataFrame(index=pd.date_range(start=df.index.min(), end=df.index.max())).reset_index(drop=True)
