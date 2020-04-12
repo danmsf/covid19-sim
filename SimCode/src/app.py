@@ -32,7 +32,8 @@ from penn_chime.charts import (
     isolations_chart,
     test_symptoms_chart,
     test_indication_chart,
-    patients_status_chart
+    patients_status_chart,
+    jhopkins_level_chart
 )
 
 # This is somewhat dangerous:
@@ -59,7 +60,7 @@ st.sidebar.subheader("General parameters")
 # TODO: get rid of S
 if st.sidebar.checkbox(label="Show country data"):
     st.header('Country Data')
-    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
+    countrydata = CountryData(DEFAULTS.country_files)
     countrydata.get_country_data()
     countrydata.get_country_stringency()
     countrydata.get_sir()
@@ -92,13 +93,28 @@ if st.sidebar.checkbox(label="Show country data"):
             )
 
         st.markdown("""*Source: Worldmeter*""")
+    # total_cases_criteria
+    st.subheader("Johns Hopkins Data")
+    jh_confirmed_df = countrydata.jh_confirmed_df.copy()
+
+    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
+    jh_confirmed_df['min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
+    jh_confirmed_df['date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
+
+    country_select = st.multiselect("Select Country/Region :", list(jh_confirmed_df['Country'].unique()), ['China','Israel'])
+    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Country'].isin(country_select), :]
+    province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()), ['Hubei', 'All'])
+    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Province'].isin(province), :]
+    st.altair_chart(
+        jhopkins_level_chart(alt, jh_confirmed_df),use_container_width=True,
+            )
 
 if st.sidebar.checkbox(label="Show Israel data"):
     st.header('Israeli Data')
     israel_data = IsraelData(DEFAULTS.israel_files)
 
     # Load data
-    countrydata = CountryData(DEFAULTS.country_file, DEFAULTS.stringency_file, DEFAULTS.sir_file)
+    countrydata = CountryData(DEFAULTS.country_files)
     country_stringency = countrydata.get_country_stringency()
     lab_tests = israel_data.lab_results_df.copy()
     israel_data.get_yishuv_data()
@@ -115,16 +131,20 @@ if st.sidebar.checkbox(label="Show Israel data"):
     patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols, ['Current Serious Condition Patients'])
     israel_patients = israel_patients.loc[:, ['Date'] + patient_cols_selected]
     st.altair_chart(patients_status_chart(alt, israel_patients), use_container_width=True)
-
+    st.markdown("""*Source: Self collection*""")
     # Isolation chart
     st.altair_chart(isolations_chart(alt, isolation_df), use_container_width=True)
+    st.markdown("""*Source: Israel Ministry of Health*""")
+
     # Test charts
     st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
+    st.markdown("""*Source: Israel Ministry of Health*""")
+
     # st.altair_chart(test_indication_chart(alt, israel_data.tested_df), use_container_width=False)
     st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=False), use_container_width=False)
     if st.checkbox("Drill down symptoms by date", value=False):
         st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=True), use_container_width=False)
-
+    st.markdown("""*Source: Israel Ministry of Health*""")
     # Yishuvim charts
     st.subheader("Cases by Yishuv")
     yishuvim = st.multiselect("Select Yishuv:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
@@ -132,183 +152,185 @@ if st.sidebar.checkbox(label="Show Israel data"):
     israel_yishuv_df = israel_yishuv_df.merge(
         country_stringency.loc[country_stringency['CountryName'] == 'Israel', ['date', 'StringencyIndex']], how='left')
     st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
+    st.markdown("""*Source: Self collection*""")
 
-models_option = st.sidebar.multiselect(
-    'Which models to show?',
-    ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
+if st.sidebar.checkbox("Show Israel Projections", False):
+    models_option = st.sidebar.multiselect(
+        'Which models to show?',
+        ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
 
-p = display_sidebar(st, DEFAULTS, models_option)
-
-
-if "Penn Dashboard" in models_option:
-    m = SimSirModel(p)
-    display_header(st, m, p)
-    if st.checkbox("Show more info about this tool"):
-        notes = "The total size of the susceptible population will be the entire catchment area for Penn Medicine entities (HUP, PAH, PMC, CCH)"
-        show_more_info_about_this_tool(st=st, model=m, parameters=p, defaults=DEFAULTS, notes=notes)
-
-    st.subheader("New Admissions")
-    st.markdown("Projected number of **daily** COVID-19 admissions at Penn hospitals")
-    new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
-    st.altair_chart(
-        new_admissions_chart(alt, m.admits_df, parameters=p),
-        use_container_width=True,
-    )
-
-    st.markdown(chart_descriptions(new_admit_chart, p.labels))
+    p = display_sidebar(st, DEFAULTS, models_option)
 
 
-    if st.checkbox("Show Projected Admissions in tabular form"):
-        if st.checkbox("Show Daily Counts"):
-            draw_projected_admissions_table(st, m.admits_df, p.labels, 1, as_date=p.as_date)
-        else:
-            admissions_day_range = st.slider(
-                'Interval of Days for Projected Admissions',
-                1, 10, 7
+    if "Penn Dashboard" in models_option:
+        m = SimSirModel(p)
+        display_header(st, m, p)
+        if st.checkbox("Show more info about this tool"):
+            notes = "The total size of the susceptible population will be the entire catchment area for Penn Medicine entities (HUP, PAH, PMC, CCH)"
+            show_more_info_about_this_tool(st=st, model=m, parameters=p, defaults=DEFAULTS, notes=notes)
+
+        st.subheader("New Admissions")
+        st.markdown("Projected number of **daily** COVID-19 admissions at Penn hospitals")
+        new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
+        st.altair_chart(
+            new_admissions_chart(alt, m.admits_df, parameters=p),
+            use_container_width=True,
+        )
+
+        st.markdown(chart_descriptions(new_admit_chart, p.labels))
+
+
+        if st.checkbox("Show Projected Admissions in tabular form"):
+            if st.checkbox("Show Daily Counts"):
+                draw_projected_admissions_table(st, m.admits_df, p.labels, 1, as_date=p.as_date)
+            else:
+                admissions_day_range = st.slider(
+                    'Interval of Days for Projected Admissions',
+                    1, 10, 7
+                )
+                draw_projected_admissions_table(st, m.admits_df, p.labels, admissions_day_range, as_date=p.as_date)
+            build_download_link(st,
+                filename="projected_admissions.csv",
+                df=m.admits_df,
+                parameters=p
             )
-            draw_projected_admissions_table(st, m.admits_df, p.labels, admissions_day_range, as_date=p.as_date)
-        build_download_link(st,
-            filename="projected_admissions.csv",
-            df=m.admits_df,
-            parameters=p
+        st.subheader("Admitted Patients (Census)")
+        st.markdown(
+            "Projected **census** of COVID-19 patients, accounting for arrivals and discharges at Penn hospitals"
         )
-    st.subheader("Admitted Patients (Census)")
-    st.markdown(
-        "Projected **census** of COVID-19 patients, accounting for arrivals and discharges at Penn hospitals"
-    )
-    census_chart = admitted_patients_chart(alt=alt, census=m.census_df, parameters=p)
-    st.altair_chart(
-        admitted_patients_chart(alt=alt, census=m.census_df, parameters=p),
-        use_container_width=True,
-    )
-    st.markdown(chart_descriptions(census_chart, p.labels, suffix=" Census"))
-    if st.checkbox("Show Projected Census in tabular form"):
-        if st.checkbox("Show Daily Census Counts"):
-            draw_census_table(st, m.census_df, p.labels, 1, as_date=p.as_date)
-        else:
-            census_day_range = st.slider(
-                'Interval of Days for Projected Census',
-                1, 10, 7
+        census_chart = admitted_patients_chart(alt=alt, census=m.census_df, parameters=p)
+        st.altair_chart(
+            admitted_patients_chart(alt=alt, census=m.census_df, parameters=p),
+            use_container_width=True,
+        )
+        st.markdown(chart_descriptions(census_chart, p.labels, suffix=" Census"))
+        if st.checkbox("Show Projected Census in tabular form"):
+            if st.checkbox("Show Daily Census Counts"):
+                draw_census_table(st, m.census_df, p.labels, 1, as_date=p.as_date)
+            else:
+                census_day_range = st.slider(
+                    'Interval of Days for Projected Census',
+                    1, 10, 7
+                )
+                draw_census_table(st, m.census_df, p.labels, census_day_range, as_date=p.as_date)
+            build_download_link(st,
+                filename="projected_census.csv",
+                df=m.census_df,
+                parameters=p
             )
-            draw_census_table(st, m.census_df, p.labels, census_day_range, as_date=p.as_date)
-        build_download_link(st,
-            filename="projected_census.csv",
-            df=m.census_df,
-            parameters=p
-        )
 
-    st.markdown(
-        """**Click the checkbox below to view additional data generated by this simulation**"""
-    )
-    if st.checkbox("Show Additional Projections"):
-        show_additional_projections(
-            st, alt, additional_projections_chart, model=m, parameters=p
-        )
-        if st.checkbox("Show Raw SIR Simulation Data"):
-            draw_raw_sir_simulation_table(st, model=m, parameters=p)
-
-if "OLG Model" in models_option:
-
-    st.subheader("OLG Prediction")
-    st.markdown("Projected number of **daily** COVID-19 admissions")
-
-    sir_country_df = get_sir_country_file(DEFAULTS.sir_country_file)
-    olg = OLG(sir_country_df, p)
-    # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
-    st.altair_chart(
-        admission_rma_chart(alt, olg.df_corpus, olg.df_predict),
-        use_container_width=True,
-    )
-
-
-
-# admission_rma_chart(alt, olg.df_corpus, olg.df_predict)
-
-# write_definitions(st)
-# write_footer(st)
-
-# SEIAR - Model
-if "SEIAR Model" in models_option:
-    st.subheader("SEIAR Model")
-
-    mseiar = Seiar(p)
-    mseiar.run_simulation()
-    mseiar_results = mseiar.results.copy()
-    p.model_checkpoints
-    if st.sidebar.checkbox(label="Plot as percentages", value=False):
-        mseiar_results = mseiar_results/mseiar.N
-
-    if st.sidebar.checkbox(label="Present result as dates instead of days ", value=False):
-        mseiar_results = mseiar_results
-    else:
-        mseiar_results = mseiar_results.reset_index(drop=True)
-
-    if st.checkbox(label="Present result as table", value=False):
-        mseiar_results
-    else:
-        st.line_chart(mseiar_results[['Asymptomatic', 'Infected']])
-
-if "SEIRSPlus" in models_option:
-    st.subheader("SEIRSPlus")
-    seirs_params = p.seirs_plus_params
-    model = SEIRSModel(**p.seirs_plus_params)
-    p.model_checkpoints
-    p.time_steps
-    if p.model_checkpoints:
-        model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
-    else:
-        model.run(T=p.time_steps)
-
-    # df = pd.DataFrame(
-    #     {'S': model.numS, 'E': model.numE, 'I': model.numI, 'D_E': model.numD_E, 'D_I': model.numD_I, 'R': model.numR,
-    #      'F': model.numF}, index=model.tseries)
-    df = pd.DataFrame(
-        {'E': model.numE, 'I': model.numI}, index=model.tseries)
-    st.line_chart(df)
-
-    model.figure_basic()
-    st.markdown(
-        """*Graph generated from `SEIRSPlus` package*"""
-    )
-    if st.checkbox(label="Model Parameters", value=False):
         st.markdown(
-            """### Model Parameters"""
+            """**Click the checkbox below to view additional data generated by this simulation**"""
         )
-        st.markdown(
-            """
+        if st.checkbox("Show Additional Projections"):
+            show_additional_projections(
+                st, alt, additional_projections_chart, model=m, parameters=p
+            )
+            if st.checkbox("Show Raw SIR Simulation Data"):
+                draw_raw_sir_simulation_table(st, model=m, parameters=p)
 
-            Constructor Argument | Parameter Description | Data Type | Default Value
-            -----|-----|-----|-----
-            ```beta   ``` | rate of transmission | float | REQUIRED
-            ```sigma  ``` | rate of progression | float | REQUIRED
-            ```gamma  ``` | rate of recovery | float | REQUIRED
-            ```xi     ``` | rate of re-susceptibility | float | 0
-            ```mu_I   ``` | rate of infection-related mortality | float | 0
-            ```mu_0   ``` | rate of baseline mortality | float | 0
-            ```nu     ``` | rate of baseline birth | float | 0
-            ```beta_D ``` | rate of transmission for detected cases | float | None (set equal to ```beta```)
-            ```sigma_D``` | rate of progression for detected cases | float | None (set equal to ```sigma```)
-            ```gamma_D``` | rate of recovery for detected cases | float | None (set equal to ```gamma```)
-            ```mu_D   ``` | rate of infection-related mortality for detected cases | float | None (set equal to ```mu_I```)
-            ```theta_E``` | rate of testing for exposed individuals | float | 0
-            ```theta_I``` | rate of testing for infectious individuals | float | 0
-            ```psi_E  ``` | probability of positive tests for exposed individuals | float | 0
-            ```psi_I  ``` | probability of positive tests for infectious individuals | float | 0
-            ```initN  ``` | initial total number of individuals | int | 10
-            ```initI  ``` | initial number of infectious individuals | int | 10
-            ```initE  ``` | initial number of exposed individuals | int | 0
-            ```initD_E``` | initial number of detected exposed individuals | int | 0
-            ```initD_I``` | initial number of detected infectious individuals | int | 0
-            ```initR  ``` | initial number of recovered individuals | int | 0
-            ```initF  ``` | initial number of deceased individuals | int | 0
+    if "OLG Model" in models_option:
 
-            """
+        st.subheader("OLG Prediction")
+        st.markdown("Projected number of **daily** COVID-19 admissions")
+
+        sir_country_df = get_sir_country_file(DEFAULTS.sir_country_file)
+        olg = OLG(sir_country_df, p)
+        # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
+        st.altair_chart(
+            admission_rma_chart(alt, olg.df_corpus, olg.df_predict),
+            use_container_width=True,
         )
-    if st.checkbox(label="Detailed information on model", value=False):
-        # TODO: Fix images
+
+
+
+    # admission_rma_chart(alt, olg.df_corpus, olg.df_predict)
+
+    # write_definitions(st)
+    # write_footer(st)
+
+    # SEIAR - Model
+    if "SEIAR Model" in models_option:
+        st.subheader("SEIAR Model")
+
+        mseiar = Seiar(p)
+        mseiar.run_simulation()
+        mseiar_results = mseiar.results.copy()
+        p.model_checkpoints
+        if st.sidebar.checkbox(label="Plot as percentages", value=False):
+            mseiar_results = mseiar_results/mseiar.N
+
+        if st.sidebar.checkbox(label="Present result as dates instead of days ", value=False):
+            mseiar_results = mseiar_results
+        else:
+            mseiar_results = mseiar_results.reset_index(drop=True)
+
+        if st.checkbox(label="Present result as table", value=False):
+            mseiar_results
+        else:
+            st.line_chart(mseiar_results[['Asymptomatic', 'Infected']])
+
+    if "SEIRSPlus" in models_option:
+        st.subheader("SEIRSPlus")
+        seirs_params = p.seirs_plus_params
+        model = SEIRSModel(**p.seirs_plus_params)
+        p.model_checkpoints
+        p.time_steps
+        if p.model_checkpoints:
+            model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
+        else:
+            model.run(T=p.time_steps)
+
+        # df = pd.DataFrame(
+        #     {'S': model.numS, 'E': model.numE, 'I': model.numI, 'D_E': model.numD_E, 'D_I': model.numD_I, 'R': model.numR,
+        #      'F': model.numF}, index=model.tseries)
+        df = pd.DataFrame(
+            {'E': model.numE, 'I': model.numI}, index=model.tseries)
+        st.line_chart(df)
+
+        model.figure_basic()
         st.markdown(
-            """
-            <a href = https://github.com/ryansmcgee/seirsplus> Seirsplus </a>
-            """, unsafe_allow_html=True
+            """*Graph generated from `SEIRSPlus` package*"""
         )
+        if st.checkbox(label="Model Parameters", value=False):
+            st.markdown(
+                """### Model Parameters"""
+            )
+            st.markdown(
+                """
+    
+                Constructor Argument | Parameter Description | Data Type | Default Value
+                -----|-----|-----|-----
+                ```beta   ``` | rate of transmission | float | REQUIRED
+                ```sigma  ``` | rate of progression | float | REQUIRED
+                ```gamma  ``` | rate of recovery | float | REQUIRED
+                ```xi     ``` | rate of re-susceptibility | float | 0
+                ```mu_I   ``` | rate of infection-related mortality | float | 0
+                ```mu_0   ``` | rate of baseline mortality | float | 0
+                ```nu     ``` | rate of baseline birth | float | 0
+                ```beta_D ``` | rate of transmission for detected cases | float | None (set equal to ```beta```)
+                ```sigma_D``` | rate of progression for detected cases | float | None (set equal to ```sigma```)
+                ```gamma_D``` | rate of recovery for detected cases | float | None (set equal to ```gamma```)
+                ```mu_D   ``` | rate of infection-related mortality for detected cases | float | None (set equal to ```mu_I```)
+                ```theta_E``` | rate of testing for exposed individuals | float | 0
+                ```theta_I``` | rate of testing for infectious individuals | float | 0
+                ```psi_E  ``` | probability of positive tests for exposed individuals | float | 0
+                ```psi_I  ``` | probability of positive tests for infectious individuals | float | 0
+                ```initN  ``` | initial total number of individuals | int | 10
+                ```initI  ``` | initial number of infectious individuals | int | 10
+                ```initE  ``` | initial number of exposed individuals | int | 0
+                ```initD_E``` | initial number of detected exposed individuals | int | 0
+                ```initD_I``` | initial number of detected infectious individuals | int | 0
+                ```initR  ``` | initial number of recovered individuals | int | 0
+                ```initF  ``` | initial number of deceased individuals | int | 0
+    
+                """
+            )
+        if st.checkbox(label="Detailed information on model", value=False):
+            # TODO: Fix images
+            st.markdown(
+                """
+                <a href = https://github.com/ryansmcgee/seirsplus> Seirsplus </a>
+                """, unsafe_allow_html=True
+            )
 

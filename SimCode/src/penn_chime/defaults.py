@@ -49,10 +49,8 @@ class Constants:
             stringency_file: str,
             sir_file: str,
             sir_country_file: str,
-            israel_file: str,
             country_file2: str,
-            lab_results: str,
-            isolations: str,
+            country_files: Dict,
             israel_files: Dict,
     ):
         self.region = region
@@ -80,10 +78,8 @@ class Constants:
         self.stringency_file = stringency_file
         self.sir_file = sir_file
         self.sir_country_file = sir_country_file
-        self.israel_file = israel_file
         self.country_file2 = country_file2
-        self.lab_results = lab_results
-        self.isolations = isolations
+        self.country_files = country_files
         self.israel_files = israel_files
 
     def __repr__(self) -> str:
