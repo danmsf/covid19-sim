@@ -131,16 +131,20 @@ if st.sidebar.checkbox(label="Show Israel data"):
     patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols, ['Current Serious Condition Patients'])
     israel_patients = israel_patients.loc[:, ['Date'] + patient_cols_selected]
     st.altair_chart(patients_status_chart(alt, israel_patients), use_container_width=True)
-
+    st.markdown("""*Source: Self collection*""")
     # Isolation chart
     st.altair_chart(isolations_chart(alt, isolation_df), use_container_width=True)
+    st.markdown("""*Source: Israel Ministry of Health*""")
+
     # Test charts
     st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
+    st.markdown("""*Source: Israel Ministry of Health*""")
+
     # st.altair_chart(test_indication_chart(alt, israel_data.tested_df), use_container_width=False)
     st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=False), use_container_width=False)
     if st.checkbox("Drill down symptoms by date", value=False):
         st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=True), use_container_width=False)
-
+    st.markdown("""*Source: Israel Ministry of Health*""")
     # Yishuvim charts
     st.subheader("Cases by Yishuv")
     yishuvim = st.multiselect("Select Yishuv:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
@@ -148,6 +152,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
     israel_yishuv_df = israel_yishuv_df.merge(
         country_stringency.loc[country_stringency['CountryName'] == 'Israel', ['date', 'StringencyIndex']], how='left')
     st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
+    st.markdown("""*Source: Self collection*""")
 
 if st.sidebar.checkbox("Show Israel Projections", False):
     models_option = st.sidebar.multiselect(
