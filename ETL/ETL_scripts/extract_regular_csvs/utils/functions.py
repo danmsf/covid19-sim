@@ -10,6 +10,10 @@ class Entry(object):
         self.name = name
         self.df = df
 
+class Entries(object):
+    def __init__(self,**kwargs):
+        self.__dict__.update(kwargs)
+
 def df_to_entries(df):
     url_entrys = []
     for _, rows in df.iterrows():
