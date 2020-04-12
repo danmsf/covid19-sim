@@ -217,7 +217,7 @@ def test_results_chart(alt, df: pd.DataFrame,):
     cond = (df['is_first_test'] == "Yes")
     lab_tests = df.loc[cond, ['result_date', 'corona_result']]
     agg_data = lab_tests.groupby(['result_date', 'corona_result']).size().reset_index(name='counts')
-    return alt.Chart(agg_data).mark_bar(tooltip=True).encode(
+    return alt.Chart(agg_data).mark_area(tooltip=True, line=True).encode(
                                                             alt.X('result_date', title='Result Date'),
                                                             alt.Y('counts', title='Counts'),
                                                             color=alt.Color('corona_result',  legend=alt.Legend(orient="top", title=''))
@@ -227,46 +227,54 @@ def test_results_chart(alt, df: pd.DataFrame,):
 
 def isolations_chart(alt, df: pd.DataFrame,):
     isolations = df.melt(id_vars='date', value_vars=df.columns[1:]).dropna()
-    return alt.Chart(isolations).mark_bar(tooltip=True).encode(alt.X('date', title='Isolation Date'), alt.Y('value', title='Count'),
+    return alt.Chart(isolations).mark_area(tooltip=True, line=True).encode(alt.X('date', title='Isolation Date'), alt.Y('value', title='Count'),
                                                                color=alt.Color('variable',  legend=alt.Legend(orient="top", title=''))).properties(
         width=600, height=300, title="Isolation"
     ).interactive()
 
-def test_symptoms_chart(alt, df: pd.DataFrame,):
+def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True):
 
     symptoms = df
-    symptoms = symptoms.drop(columns=['age_60_and_above', 'gender', 'test_indication'])
-    symptoms = symptoms.melt(id_vars=['test_date', 'corona_result'], value_vars=symptoms.columns[2:]).dropna()
-    agg_data = symptoms.groupby(['test_date', 'corona_result', 'variable'], as_index=False).sum()
-    tmp = df.groupby(['test_date', 'corona_result'], as_index=False).size().reset_index(name='counts')
-    agg_data = agg_data.merge(tmp, how='left')
-    agg_data['value_pct'] = agg_data['value']/agg_data['counts']
-    agg_data = agg_data.loc[agg_data['corona_result'] != 'אחר', :]
-    bar1 = alt.Chart(agg_data).mark_bar(tooltip=True).\
-        encode(x=alt.X('variable', title=None, axis=alt.Axis(labels=False)),
-               y=alt.Y('value_pct', title=None),
-               color=alt.Color('variable', title='', legend=alt.Legend(orient="top", title='')),
-               column=alt.Column('test_date', header=alt.Header(labelOrient='bottom'), title=None),
-               row=alt.Row('corona_result', title='Result')).\
-        configure_view(
-        stroke='transparent'
-    ).properties(
-        width=50, height=300, title="Symptoms"
+    symptoms = symptoms.drop(columns=['age_60_and_above', 'gender'])
+    sym_cols = symptoms.columns
+    sym_cols = [c for c in sym_cols if c not in ['test_date', 'corona_result', 'test_indication']]
+    symptoms = symptoms.melt(id_vars=['test_date', 'test_indication','corona_result'], value_vars=sym_cols).dropna()
+    agg_data = symptoms.groupby(['test_date', 'corona_result', 'test_indication','variable'], as_index=False).sum()
+    # agg_data = agg_data.loc[agg_data['corona_result'] != 'אחר', :]
+    area = alt.Chart(agg_data).mark_area(tooltip=True, line=True).\
+        encode(x=alt.X('test_date', title=None, axis=alt.Axis(labels=True)),
+               y=alt.Y('value', title=None, stack="normalize"),
+               color=alt.Color('corona_result', title='', legend=alt.Legend(orient="top", title='')),
+               column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
+               row=alt.Row('variable', title='Symptom')).\
+        properties(
+        width=200, height=150, title="Symptoms vs Test Indication by Date"
     ).interactive()
-    return bar1
+    agg_data = symptoms.groupby(['corona_result', 'test_indication', 'variable'], as_index=False)['value'].sum()
+    bar = alt.Chart(agg_data).mark_bar(tooltip=True, line=True).\
+        encode(x=alt.X('test_indication', title=None, axis=alt.Axis(labels=True, labelAngle=0, orient="top")),
+               y=alt.Y('value', title=None, stack="normalize"),
+               color=alt.Color('corona_result', title='', legend=alt.Legend(orient="top", title='')),
+               # column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
+               row=alt.Row('variable', title='Symptom')).\
+        properties(
+        width=600, height=150, title="Symptoms vs Test Indication"
+    ).interactive()
+
+    if drill_down:
+        return area
+    else:
+        return bar
 
 def test_indication_chart(alt, df: pd.DataFrame,):
 
     agg_data = df.groupby(['test_date', 'corona_result', 'test_indication'], as_index=False).size().reset_index(name='counts')
-    tmp = df.groupby(['test_date', 'corona_result'], as_index=False).size().reset_index(name='counts_all')
-    agg_data = agg_data.merge(tmp, how='left')
-    agg_data['value_pct'] = agg_data['counts']/agg_data['counts_all']
     agg_data = agg_data.loc[agg_data['corona_result'] != 'אחר', :]
-    line1 = alt.Chart(agg_data).mark_line(tooltip=True).\
+    line1 = alt.Chart(agg_data).mark_area(tooltip=True, line=True).\
         encode(x=alt.X('test_date', title='Test Date'),
-               y=alt.Y('value_pct', title=None),
-               color=alt.Color('test_indication', title='', legend=alt.Legend(orient="top", title='')),
-               row=alt.Row('corona_result', title='Result')). \
+               y=alt.Y('counts', title=None, stack="normalize"),
+               color=alt.Color('corona_result', title='', legend=alt.Legend(orient="top", title='')),
+               row=alt.Row('test_indication', title='Result')). \
         configure_view(
         stroke='transparent'
     ).properties(
@@ -288,7 +296,7 @@ def test_indication_chart(alt, df: pd.DataFrame,):
 
 def patients_status_chart(alt, df: pd.DataFrame,):
     patients = df.melt(id_vars='Date', value_vars=df.columns[1:]).dropna()
-    line = alt.Chart(patients).mark_line(interpolate='basis', point=True, tooltip=True).encode(
+    line = alt.Chart(patients).mark_line(interpolate='basis', point=False, tooltip=True).encode(
         x='Date:T',
         y=alt.Y('value', title="Counts"),
         color=alt.Color('variable', title=None, legend=alt.Legend(orient="top", title='')),

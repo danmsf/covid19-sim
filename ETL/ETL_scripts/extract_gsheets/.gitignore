@@ -1,0 +1,5 @@
+resources/credentials.json
+resources/token.pickle
+!.gitignore
+!*.py
+!.gitkeep
