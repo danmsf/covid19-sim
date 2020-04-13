@@ -312,8 +312,8 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             d.olg_params['scenario'] = {'t': {k: v for k, v in enumerate(s_times)},
                                         'R0D': {k: v for k, v in enumerate(s_betas)}}
 
-        else:
-            d.olg_params['scenario'] = {'t': {0: 10, 1:10},  'R0D': {0: 0, 1:-0.4}}
+        # else:
+        #     d.olg_params['scenario'] = {'t': {0: 10, 1:10},  'R0D': {0: 0, 1:-0.4}}
 
     if "SEIAR Model" in models_option:
         st.sidebar.subheader("SEAIR Model parameters")

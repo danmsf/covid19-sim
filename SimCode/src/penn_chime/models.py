@@ -335,6 +335,8 @@ class OLG:
                 r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
             r_values = np.append(r_values, max(r_value, 0))
         # print(len(holt_model), len(r_adj_model), len(exp_smot))
+        r_values = np.convolve(r_values, np.ones((tau,)) / tau, mode='full')[:len(detected)]
+
         self.r_values = r_values
 
     def predict(self, tau, scenario):
@@ -343,13 +345,13 @@ class OLG:
         cnt, predicted_cnt = 0, 0
 
         holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.6, smoothing_slope=0.1)
-        self.r0d = holt_model.forecast(forcast_cnt)
+        # self.r0d = holt_model.forecast(forcast_cnt)
 
         r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='full')[:-tau + 1]
 
         exp_smot_model = SimpleExpSmoothing(self.r_values[-tau:]).fit()
         exp_smot = exp_smot_model.forecast(forcast_cnt)
-        self.r0d = np.linspace(0.5, 0.05, forcast_cnt+15)[:forcast_cnt] #exp_smot_model.forecast(forcast_cnt)
+        self.r0d = np.linspace(self.r_values[-1], 0.05, forcast_cnt+15)[:forcast_cnt] #exp_smot_model.forecast(forcast_cnt)
 
         self.r_adj = self.r_values
 
@@ -358,9 +360,10 @@ class OLG:
             cnt = 0
             while cnt < scenario['t'].get(i):
                 c0 = self.detected[t - tau] if t - tau >= 0 else 0
-                next_gen = self.next_gen(r0=self.r0d[cnt + predicted_cnt] * (scenario['R0D'].get(i) + 1), tau=tau,
+                self.r0d[predicted_cnt+cnt] = self.r0d[predicted_cnt+cnt] * (scenario['R0D'].get(i) + 1)
+                next_gen = self.next_gen(r0=self.r0d[predicted_cnt+cnt], tau=tau,
                                          c0=c0, ct=self.detected[t])
-                # print(self.r0d[cnt + predicted_cnt] * (scenario['r0d'].get(i) + 1), c0, self.detected[t], next_gen, )
+                print(scenario['t'].get(i), cnt, c0, self.detected[t])
                 self.detected.append(next_gen)
                 t += 1
                 cnt += 1
@@ -417,8 +420,8 @@ class OLG:
         df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time+recovery_time).round(0)
 
         df['Doubling Time'] = np.log(2)/np.log(1+df['R']/tau)
-        df = df.rename(columns={'I': 'Total Infected', 'A': 'Total Asymptomatic', 'E': 'Total Exposed',
-                                'dI': 'New Infected', 'dA': 'New Asymptomatic', 'dE': 'New Exposed'})
+        df = df.rename(columns={'I': 'Total Detected', 'A': 'Total Infected', 'E': 'Total Exposed',
+                                'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
         self.df = pd.concat([self.df, df])
 
 class CountryData:

@@ -257,7 +257,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         )
 
         st.altair_chart(
-            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
+            olg_projections_chart(alt, dd.loc[dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
             use_container_width=True,
         )
 

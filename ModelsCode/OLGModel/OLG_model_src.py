@@ -248,3 +248,23 @@ class OLG:
         )
 
         return alt.vconcat(line, line2).configure_view(stroke='transparent')
+
+
+print("hello")
+scenario = {'t': {0: 20, 1: 90},
+            'r0d': {0: 0, 1: 0}} ## TODO t: == 20+
+
+p = Parameters2(tau=14,
+                init_infected=100,
+                fi=0.25,
+                theta=0.0771,
+                countries=['israel'],
+                scenario=scenario,
+                critical_condition_rate=0.05,
+                       recovery_rate=0.4,
+                critical_condition_time=10,
+                       recovery_time=6
+               )
+
+df = pd.read_csv('C:\\Users\\User\\PycharmProjects\\covad19-sim\\Resources\\all_dates.csv')
+olg_model = OLG(df, p)
