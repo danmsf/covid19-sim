@@ -301,8 +301,8 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         )
 
         if st.sidebar.checkbox ("Make a projection", value=False, key=10):
-            s_times = st.sidebar.text_input('Insert array of times', value='10, 10', key=11)
-            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0, -0.4', key=12)
+            s_times = st.sidebar.text_input('Insert array of times', value='10, 20', key=11)
+            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0, 0', key=12)
             s_times = s_times.split(",")
             s_betas = s_betas.split(",")
             s_times = [int(s) for s in s_times]
