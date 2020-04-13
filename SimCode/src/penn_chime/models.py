@@ -409,7 +409,7 @@ class OLG:
         # df['A'] = df['A'] - df['I']
         df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
-        df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
+        df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
 
         df['Currently Infected'] = np.where(df['corona_days'] < (critical_condition_time+recovery_time),
                                df['I'],
