@@ -350,14 +350,14 @@ class OLG:
         holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
         self.r0d = holt_model.forecast(forcast_cnt)
 
-        r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='valid')[:-tau + 1]
+        # r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='valid')[:-tau + 1]
 
-        exp_smot_model = SimpleExpSmoothing(self.r_values[-tau:]).fit()
-        exp_smot = exp_smot_model.forecast(forcast_cnt)
-        # self.r0d = np.linspace(self.r_values[-1], 0, forcast_cnt+5)[:forcast_cnt] #exp_smot_model.forecast(forcast_cnt)
+        # exp_smot_model = SimpleExpSmoothing(self.r_values[-tau:]).fit()
+        # exp_smot = exp_smot_model.forecast(forcast_cnt)
 
         self.r_adj = self.r_values
         temp = 0
+        # print('loop', t, forcast_cnt)
         for i in scenario['t'].keys():
             predicted_cnt += cnt
             cnt = 0
@@ -365,13 +365,29 @@ class OLG:
                 c0 = self.detected[t - tau] if t - tau >= 0 else 0
                 if cnt == 0:
                     temp += self.r0d[predicted_cnt + cnt] * (scenario['R0D'].get(i))
-                self.r0d[predicted_cnt + cnt] = (self.r0d[predicted_cnt + cnt] +temp)
+                self.r0d[predicted_cnt + cnt] = (self.r0d[predicted_cnt + cnt] + temp)
                 next_gen = self.next_gen(r0=self.r0d[predicted_cnt+cnt], tau=tau,
                                          c0=c0, ct=self.detected[t])
-                print(scenario['t'].get(i), cnt, c0, self.detected[t])
+                # print(scenario['t'].get(i), cnt, c0, self.detected[t])
                 self.detected.append(next_gen)
                 t += 1
                 cnt += 1
+
+        self.r0d[-tau:] = self.r0d[-tau:].clip(min=0.0001)
+        end_forecast = holt_model.forecast(tau)
+        end_forecast_normed = end_forecast / end_forecast.max(axis=0)
+        end_r0d = end_forecast_normed * temp
+        self.r0d = np.append(self.r0d, end_r0d)
+
+        cnt = 0
+        while cnt < tau:
+            c0 = self.detected[t - tau] if t - tau >= 0 else 0
+            next_gen = self.next_gen(r0=self.r0d[predicted_cnt + cnt], tau=tau,
+                                     c0=c0, ct=self.detected[t])
+            # print(predicted_cnt + cnt, self.r0d[predicted_cnt + cnt], t)
+            self.detected.append(next_gen)
+            t += 1
+            cnt += 1
 
     def calc_asymptomatic(self, fi, theta, init_infected):
         asymptomatic_infected = [self.true_a(fi=fi, theta=theta, d=self.detected[0], d_prev=init_infected)]
@@ -423,7 +439,7 @@ class OLG:
         df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time+recovery_time).round(0)
 
         df['Doubling Time'] = np.log(2)/np.log(1+df['R']/tau)
-        print(df_o.columns)
+        # print(df_o.columns)
         # df.loc[:len(self.r_adj), 'Critical_condition'] = df_o.loc[-len(self.r_adj):, 'serious_critical']
         df['temp_cr'] =None
         df_o = df_o.reset_index()
