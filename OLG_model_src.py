@@ -180,11 +180,6 @@ class OLG:
 
         df['Critical_condition'] = df['Critical_condition'].shift(periods=critical_condition_time).round(0)
         df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time+recovery_time).round(0)
-
-
-
-
-
         self.df = pd.concat([self.df, df])
 
     def plot_data(self, countries, var_in_multi_line='I'):

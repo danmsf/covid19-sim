@@ -267,7 +267,38 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             format="%f",
         )
 
-        d.olg_params['country'] = st.multiselect('Select countries', list(get_sir_country_file(d.sir_country_file)['country'].drop_duplicates().values), default='israel')
+        d.olg_params['countries'] = st.multiselect('Select countries', list(get_sir_country_file(d.sir_country_file)['country'].drop_duplicates().values), default='israel')
+        d.olg_params['critical_condition_rate'] = st.sidebar.number_input(
+            "Critical Condition Rate",
+            min_value=0.01,
+            value=d.olg_params['critical_condition_rate'],
+            step=0.025,
+            format="%f",
+        )
+
+        d.olg_params['recovery_rate'] = st.sidebar.number_input(
+            "Recovery Rate",
+            min_value=0.01,
+            value=d.olg_params['recovery_rate'],
+            step=0.025,
+            format="%f",
+        )
+
+        d.olg_params['critical_condition_time'] = st.sidebar.number_input(
+            "Critical Condition Time",
+            min_value=1,
+            value=d.olg_params['critical_condition_time'],
+            step=1,
+            format="%i",
+        )
+
+        d.olg_params['recovery_time'] = st.sidebar.number_input(
+            "Recovery Time",
+            min_value=1,
+            value=d.olg_params['recovery_time'],
+            step=1,
+            format="%i",
+        )
 
         if st.sidebar.checkbox ("Make a projection", value=False, key=10):
             s_times = st.sidebar.text_input('Insert array of times', value='10, 10', key=11)
@@ -501,9 +532,12 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         init_infected=d.olg_params['init_infected'],
         fi=d.olg_params['fi'],
         theta=d.olg_params['theta'],
-        country=d.olg_params['country'],
+        countries=d.olg_params['countries'],
         scenario=d.olg_params['scenario'],
-
+        critical_condition_rate=d.olg_params['critical_condition_rate'],
+        recovery_rate=d.olg_params['recovery_rate'],
+        critical_condition_time=d.olg_params['critical_condition_time'],
+        recovery_time=d.olg_params['recovery_time'],
 
         hospitalized=RateLos(hospitalized_rate, hospitalized_los),
         icu=RateLos(icu_rate, icu_los),

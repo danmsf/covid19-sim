@@ -35,7 +35,7 @@ class Constants:
             hospitalized: RateLos,
             icu: RateLos,
             ventilated: RateLos,
-            olg_params: Dict[str, int],
+            olg_params: Dict,
             seirs_plus_params: Dict,
             seiar_params: Dict,
             model_chekpoints: Dict,

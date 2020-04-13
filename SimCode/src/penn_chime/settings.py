@@ -36,8 +36,12 @@ DEFAULTS = Constants(
     ventilated=RateLos(0.005, 10),
 
     olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta': 0.0771,
-                'country': ['israel', 'canada'],
-                'scenario': {'t': {0: 10, 1: 10}, 'R0D': {0: 0, 1: -0.4}}},
+                'countries': ['israel', 'canada'],
+                'scenario': {'t': {0: 10, 1: 10}, 'R0D': {0: 0, 1: -0.4}},
+                'critical_condition_rate': 0.01,
+                'recovery_rate': 0.01,
+                'critical_condition_time': 10,
+                'recovery_time': 6},
 
     seirs_plus_params={
         'beta': 0.155,
@@ -97,6 +101,6 @@ DEFAULTS = Constants(
         'lab_results_file': os.path.join(israel_data_path, "lab_tests.csv"),
         'isolations_file': os.path.join(israel_data_path, "isolations.csv"),
         'tested_file': os.path.join(israel_data_path, "symptoms.csv"),
-        'patients_file':  os.path.join(israel_data_path, "Israel Corona Network Data - Patients_sum.csv")
+        'patients_file': os.path.join(israel_data_path, "Israel Corona Network Data - Patients_sum.csv")
     }
 )

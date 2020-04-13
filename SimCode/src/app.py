@@ -238,31 +238,29 @@ if st.sidebar.checkbox("Show Israel Projections", False):
 
         sir_country_df = get_sir_country_file(DEFAULTS.sir_country_file)
         olg = OLG(sir_country_df, p)
-        # new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
-        # st.altair_chart(
-        #     admission_rma_chart(alt, olg.df_corpus, olg.df_predict),
-        #     use_container_width=True,
-        # )
         dd = olg.df.copy()
         # dd
         olg_cols = dd.columns
-        olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R']]
-        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['A', 'E', 'I'])
+        olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R','Doubling Time', 'prediction_ind']]
+        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['Currently Infected'])
+
         st.altair_chart(
-        olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country'] + olg_cols_select]),
+            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "OLG Projections"),
+            use_container_width=True,
+        )
+        if st.checkbox("Show Projection Data", False):
+            dd
+
+        st.altair_chart(
+            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
             use_container_width=True,
         )
 
         st.altair_chart(
-            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'R']]),
+            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
             use_container_width=True,
         )
-    # admission_rma_chart(alt, olg.df_corpus, olg.df_predict)
 
-    # write_definitions(st)
-    # write_footer(st)
-
-    # SEIAR - Model
     if "SEIAR Model" in models_option:
         st.subheader("SEIAR Model")
 

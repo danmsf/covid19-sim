@@ -25,8 +25,12 @@ class Parameters:
         init_infected: int,
         fi: float,
         theta: float,
-        country: list,
+        countries: list,
         scenario: dict,
+        critical_condition_rate,
+        recovery_rate,
+        critical_condition_time,
+        recovery_time,
 
         as_date: bool = False,
         market_share: float = 1.0,
@@ -60,13 +64,18 @@ class Parameters:
         self.known_infected = known_infected
         self.relative_contact_rate = relative_contact_rate
         self.susceptible = susceptible
+
+        # OLG
         self.tau = tau
         self.init_infected = init_infected
         self.fi = fi
         self.theta = theta
-        self.country = country
+        self.countries = countries
         self.scenario = scenario
-
+        self.critical_condition_rate = critical_condition_rate
+        self.recovery_rate = recovery_rate
+        self.critical_condition_time = critical_condition_time
+        self.recovery_time = recovery_time
 
         self.hospitalized = hospitalized
         self.icu = icu

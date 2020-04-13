@@ -354,19 +354,28 @@ def patients_status_chart(alt, df: pd.DataFrame,):
     ).interactive()
 
 @st.cache(allow_output_mutation=True)
-def olg_projections_chart(alt, df: pd.DataFrame,):
+def olg_projections_chart(alt, df: pd.DataFrame, title: str):
     olg_cols = df.columns
-    olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country']]
-    olg_df = df.melt(id_vars=['date', 'corona_days', 'country'], value_vars=olg_cols).dropna()
-    line = alt.Chart(olg_df).transform_calculate(
+    olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'prediction_ind']]
+    olg_df = df.melt(id_vars=['date', 'corona_days', 'country', 'prediction_ind'], value_vars=olg_cols).dropna()
+    line1 = alt.Chart(olg_df.loc[olg_df['prediction_ind'] == 0, :]).transform_calculate(
         cat="datum.country + '-' + datum.variable"
     ).mark_line(interpolate='basis', point=False, tooltip=True).encode(
         x='corona_days:Q',
         y=alt.Y('value', title=""),
         color=alt.Color('cat:N', title=None, legend=alt.Legend(orient="top", title='')),
     )
-    return line.properties(
-        width=600, height=300, title=""
+
+    line2 = alt.Chart(olg_df.loc[olg_df['prediction_ind'] == 1, :]).transform_calculate(
+        cat="datum.country + '-' + datum.variable"
+    ).mark_line(interpolate='basis', point=False, tooltip=True, strokeDash=[1, 1]).encode(
+        x='corona_days:Q',
+        y=alt.Y('value', title=""),
+        color=alt.Color('cat:N', title=None, legend=alt.Legend(orient="top", title='')),
+    )
+
+    return alt.layer(line1, line2).properties(
+        width=600, height=300, title=title
     ).interactive()
 
 
