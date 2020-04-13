@@ -269,6 +269,12 @@ if st.sidebar.checkbox("Show Israel Projections", False):
             olg_projections_chart(alt, dd.loc[dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
             use_container_width=True,
         )
+        # st.line_chart(dd.loc[])
+        st.altair_chart(
+            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind',
+                                                                  'StringencyIndex']].fillna(0), "Stringency Index"),
+            use_container_width=True,
+        )
 
     if "SEIAR Model" in models_option:
         st.subheader("SEIAR Model")

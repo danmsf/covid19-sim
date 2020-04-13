@@ -344,23 +344,28 @@ class OLG:
         t = len(self.detected) - 1
         cnt, predicted_cnt = 0, 0
 
-        holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.6, smoothing_slope=0.1)
+        # holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.6, smoothing_slope=0.1)
         # self.r0d = holt_model.forecast(forcast_cnt)
+
+        holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
+        self.r0d = holt_model.forecast(forcast_cnt)
 
         r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='valid')[:-tau + 1]
 
         exp_smot_model = SimpleExpSmoothing(self.r_values[-tau:]).fit()
         exp_smot = exp_smot_model.forecast(forcast_cnt)
-        self.r0d = np.linspace(self.r_values[-1], 0.0, forcast_cnt)[:forcast_cnt] #exp_smot_model.forecast(forcast_cnt)
+        # self.r0d = np.linspace(self.r_values[-1], 0, forcast_cnt+5)[:forcast_cnt] #exp_smot_model.forecast(forcast_cnt)
 
         self.r_adj = self.r_values
-
+        temp = 0
         for i in scenario['t'].keys():
             predicted_cnt += cnt
             cnt = 0
             while cnt < scenario['t'].get(i):
                 c0 = self.detected[t - tau] if t - tau >= 0 else 0
-                self.r0d[predicted_cnt+cnt] = self.r0d[predicted_cnt+cnt] * (scenario['R0D'].get(i) + 1)
+                if cnt == 0:
+                    temp += self.r0d[predicted_cnt + cnt] * (scenario['R0D'].get(i))
+                self.r0d[predicted_cnt + cnt] = (self.r0d[predicted_cnt + cnt] +temp)
                 next_gen = self.next_gen(r0=self.r0d[predicted_cnt+cnt], tau=tau,
                                          c0=c0, ct=self.detected[t])
                 print(scenario['t'].get(i), cnt, c0, self.detected[t])
@@ -380,9 +385,9 @@ class OLG:
             asymptomatic_infected.append(prev_asymptomatic_infected)
         self.asymptomatic_infected = asymptomatic_infected
 
-    def write(self, df, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
+    def write(self, df_o, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
         forcast_cnt = len(self.detected) - len(self.r_adj)
-        df = df[-len(self.r_adj):][['date', 'country', 'StringencyIndex', ]].copy()
+        df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex', ]].copy()
 
         df['r_values'] = self.r_values
         df['R'] = self.r_adj
@@ -400,14 +405,12 @@ class OLG:
 
         df['A'] = self.asymptomatic_infected
         # df['A'] = df['A'].shift(periods=-1)
-        df['E'] = df['A'].shift(periods=-tau -1)
+        df['E'] = df['A'].shift(periods=-tau)
         # df['A'] = df['A'] - df['I']
         df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
-        df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
-        df['dI'] = df['I'] - df["I"].shift(1)
-        df['dA'] = df['A'] - df["A"].shift(1)
-        df['dE'] = df['E'] - df["E"].shift(1)
+        df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
+
         df['Currently Infected'] = np.where(df['corona_days'] < (critical_condition_time+recovery_time),
                                df['I'],
                                df['I'] - df['I'].shift(periods=+critical_condition_time+recovery_time))
@@ -420,6 +423,19 @@ class OLG:
         df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time+recovery_time).round(0)
 
         df['Doubling Time'] = np.log(2)/np.log(1+df['R']/tau)
+        print(df_o.columns)
+        # df.loc[:len(self.r_adj), 'Critical_condition'] = df_o.loc[-len(self.r_adj):, 'serious_critical']
+        df['temp_cr'] =None
+        df_o = df_o.reset_index()
+        # df = df.reset_index()
+        print(len(self.r_adj))
+        df['dI'] = df['I'] - df["I"].shift(1)
+        df['dA'] = df['A'] - df["A"].shift(1)
+        df['dE'] = df['E'] - df["E"].shift(1)
+        df = df.merge(df_o[['date', 'serious_critical', 'new_cases', 'activecases']], "left")
+        df['Critical_condition'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition'])
+        df['dI'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
+        df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
         df = df.rename(columns={'I': 'Total Detected', 'A': 'Total Infected', 'E': 'Total Exposed',
                                 'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
         self.df = pd.concat([self.df, df])
@@ -533,7 +549,7 @@ class IsraelData:
 
 
 def get_sir_country_file(sir_country_file):
-    sir_country_df = pd.read_csv(sir_country_file, usecols=['I', 'date', 'country', 'StringencyIndex'], parse_dates=['date'])
+    sir_country_df = pd.read_csv(sir_country_file, parse_dates=['date'])
     return sir_country_df
 
 

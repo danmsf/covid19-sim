@@ -270,9 +270,9 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         d.olg_params['countries'] = st.multiselect('Select countries', list(get_sir_country_file(d.sir_country_file)['country'].drop_duplicates().values), default='israel')
         d.olg_params['critical_condition_rate'] = st.sidebar.number_input(
             "Critical Condition Rate",
-            min_value=0.01,
+            min_value=0.0001,
             value=d.olg_params['critical_condition_rate'],
-            step=0.025,
+            step=0.0005,
             format="%f",
         )
 

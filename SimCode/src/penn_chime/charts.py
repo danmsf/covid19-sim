@@ -361,7 +361,7 @@ def olg_projections_chart(alt, df: pd.DataFrame, title: str, baseline=False):
     olg_df = df.melt(id_vars=['date', 'corona_days', 'country', 'prediction_ind'], value_vars=olg_cols).dropna()
     line1 = alt.Chart(olg_df.loc[olg_df['prediction_ind'] == 0, :]).transform_calculate(
         cat="datum.country + '-' + datum.variable"
-    ).mark_line(interpolate='basis', point=False, tooltip=True).encode(
+    ).mark_line(interpolate='linear', point=False, tooltip=True).encode(
         x='corona_days:Q',
         y=alt.Y('value', title=""),
         color=alt.Color('cat:N', title=None, legend=alt.Legend(orient="top", title='')),
