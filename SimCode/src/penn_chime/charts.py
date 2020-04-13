@@ -391,12 +391,12 @@ def olg_projections_chart(alt, df: pd.DataFrame, title: str, baseline=False):
     # Draw text labels near the points, and highlight based on selection
     text = line1.mark_text(align='left', dx=5, dy=-5).encode(
         text=alt.condition(nearest, 'value', alt.value(' ')),
-        y=alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
+        y=alt.Y('value', axis=alt.Axis(labels=True, title='', tickOpacity=0)),
     )
 
     text2 = line2.mark_text(align='left', dx=5, dy=-5).encode(
         text=alt.condition(nearest, 'value', alt.value(' ')),
-        y=alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
+        y=alt.Y('value', axis=alt.Axis(labels=True, title='', tickOpacity=0)),
     )
 
     # Draw a rule at the location of the selection
