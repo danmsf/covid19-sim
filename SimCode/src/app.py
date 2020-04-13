@@ -254,7 +254,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['Critical_condition'])
 
         st.altair_chart(
-            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "OLG Projections", True),
+            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "OLG Projections", False),
             use_container_width=True,
         )
         if st.checkbox("Show Projection Data", False):

@@ -335,7 +335,7 @@ class OLG:
                 r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
             r_values = np.append(r_values, max(r_value, 0))
         # print(len(holt_model), len(r_adj_model), len(exp_smot))
-        # r_values = np.convolve(r_values, np.ones((tau,)) / tau, mode='full')[:len(detected)]
+        r_values = np.convolve(r_values, np.ones(int(tau/2,)) / int(tau/2), mode='full')[:len(detected)]
 
         self.r_values = r_values
 
@@ -347,11 +347,11 @@ class OLG:
         holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.6, smoothing_slope=0.1)
         # self.r0d = holt_model.forecast(forcast_cnt)
 
-        r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='full')[:-tau + 1]
+        r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='valid')[:-tau + 1]
 
         exp_smot_model = SimpleExpSmoothing(self.r_values[-tau:]).fit()
         exp_smot = exp_smot_model.forecast(forcast_cnt)
-        self.r0d = np.linspace(self.r_values[-1], 0.05, forcast_cnt+15)[:forcast_cnt] #exp_smot_model.forecast(forcast_cnt)
+        self.r0d = np.linspace(self.r_values[-1], 0.0, forcast_cnt)[:forcast_cnt] #exp_smot_model.forecast(forcast_cnt)
 
         self.r_adj = self.r_values
 
@@ -399,7 +399,7 @@ class OLG:
         df = df.append(predicted, ignore_index=True)
 
         df['A'] = self.asymptomatic_infected
-        df['A'] = df['A'].shift(periods=-1)
+        # df['A'] = df['A'].shift(periods=-1)
         df['E'] = df['A'].shift(periods=-tau -1)
         # df['A'] = df['A'] - df['I']
         df['country'].fillna(method='ffill', inplace=True)
