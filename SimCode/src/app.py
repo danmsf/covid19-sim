@@ -139,11 +139,17 @@ if st.sidebar.checkbox(label="Show Israel data"):
     st.markdown("""*Source: Israel Ministry of Health*""")
 
     # Test charts
-    st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
+    if st.checkbox("Show as percentage", False, key=1):
+        st.altair_chart(test_results_chart(alt, lab_tests,'normalize'), use_container_width=True)
+    else:
+        st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
     st.markdown("""*Source: Israel Ministry of Health*""")
 
     # st.altair_chart(test_indication_chart(alt, israel_data.tested_df), use_container_width=False)
-    st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=False), use_container_width=False)
+    if st.checkbox("Show as percentage", True, key=2):
+        st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=False), use_container_width=False)
+    else:
+        st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=False, stacked='zero'), use_container_width=False)
     if st.checkbox("Drill down symptoms by date", value=False):
         st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=True), use_container_width=False)
     st.markdown("""*Source: Israel Ministry of Health*""")
@@ -153,7 +159,10 @@ if st.sidebar.checkbox(label="Show Israel data"):
     israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
     israel_yishuv_df = israel_yishuv_df.merge(
         country_df.loc[country_df['Country'] == 'israel', ['date', 'StringencyIndex']], how='left')
-    st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
+    if st.checkbox("Show per 1,000 inhabitants", True):
+        st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
+    else:
+        st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df, by_pop=False), use_container_width=True)
     st.markdown("""*Source: Self collection*""")
 
 if st.sidebar.checkbox("Show Israel Projections", False):

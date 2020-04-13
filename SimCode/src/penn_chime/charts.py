@@ -88,12 +88,12 @@ def admission_rma_chart(alt, df: pd.DataFrame, df_predict: pd.DataFrame):
     )
 
 @st.cache(allow_output_mutation=True)
-def yishuv_level_chart(alt, df: pd.DataFrame,):
-    # colnames = df.columns
-    # colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
-    # source = df.melt(id_vars=['date', 'Country'], value_vars=colnames).dropna()
+def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
     source = df
-    source['value'] = source['value'].astype('int64')
+    if by_pop:
+        source['value'] = source['value'].astype('int64')/(source['pop2018']/1000)
+    else:
+        source['value'] = source['value'].astype('int64')
 
     nearest = alt.selection(type='single', nearest=True, on='mouseover',
                             fields=['date'], empty='none')
@@ -237,27 +237,28 @@ def country_level_chart(alt, df: pd.DataFrame,):
             )
 
 @st.cache(allow_output_mutation=True)
-def test_results_chart(alt, df: pd.DataFrame,):
+def test_results_chart(alt, df: pd.DataFrame, stacked='zero'):
     cond = (df['is_first_test'] == "Yes")
     lab_tests = df.loc[cond, ['result_date', 'corona_result']]
     agg_data = lab_tests.groupby(['result_date', 'corona_result']).size().reset_index(name='counts')
     return alt.Chart(agg_data).mark_area(tooltip=True, line=True).encode(
                                                             alt.X('result_date', title='Result Date'),
-                                                            alt.Y('counts', title='Counts'),
+                                                            alt.Y('counts', title='Counts', stack=stacked),
                                                             color=alt.Color('corona_result',  legend=alt.Legend(orient="top", title=''))
                                                     ).properties(
         width=600, height=300, title="Lab Test Results"
     ).interactive()
 
 @st.cache(allow_output_mutation=True)
-def isolations_chart(alt, df: pd.DataFrame,):
+def isolations_chart(alt, df: pd.DataFrame, stacked='zero'):
     isolations = df.melt(id_vars='date', value_vars=df.columns[1:]).dropna()
-    return alt.Chart(isolations).mark_area(tooltip=True, line=True).encode(alt.X('date', title='Isolation Date'), alt.Y('value', title='Count'),
+    return alt.Chart(isolations).mark_area(tooltip=True, line=True).encode(alt.X('date', title='Isolation Date'),
+                                                                           alt.Y('value', title='Count', stack=stacked),
                                                                color=alt.Color('variable',  legend=alt.Legend(orient="top", title=''))).properties(
         width=600, height=300, title="Isolation"
     ).interactive()
 @st.cache(allow_output_mutation=True)
-def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True):
+def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True, stacked='normalize'):
 
     symptoms = df
     symptoms = symptoms.drop(columns=['age_60_and_above', 'gender'])
@@ -268,7 +269,7 @@ def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True):
     # agg_data = agg_data.loc[agg_data['corona_result'] != 'אחר', :]
     area = alt.Chart(agg_data).mark_area(tooltip=True, line=True).\
         encode(x=alt.X('test_date', title=None, axis=alt.Axis(labels=True)),
-               y=alt.Y('value', title=None, stack="normalize"),
+               y=alt.Y('value', title=None, stack=stacked),
                color=alt.Color('corona_result', title='', legend=alt.Legend(orient="top", title='')),
                column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
                row=alt.Row('variable', title='Symptom')).\
@@ -278,7 +279,7 @@ def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True):
     agg_data = symptoms.groupby(['corona_result', 'test_indication', 'variable'], as_index=False)['value'].sum()
     bar = alt.Chart(agg_data).mark_bar(tooltip=True, line=True).\
         encode(x=alt.X('test_indication', title=None, axis=alt.Axis(labels=True, labelAngle=0, orient="top")),
-               y=alt.Y('value', title=None, stack="normalize"),
+               y=alt.Y('value', title=None, stack=stacked),
                color=alt.Color('corona_result', title='', legend=alt.Legend(orient="top", title='')),
                # column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
                row=alt.Row('variable', title='Symptom')).\
