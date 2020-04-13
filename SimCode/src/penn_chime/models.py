@@ -289,7 +289,7 @@ class OLG:
     def next_gen(r0, tau, c0, ct):
         r0d = r0 / tau
         # return ct * (1 + r0d) ** tau - c0 * r0d * (1 + r0d) ** (tau - 1) # Eq 2
-        return c0 * (r0d) + ct
+        return (ct - c0)* (r0d) + ct
 
     @staticmethod
     def true_a(fi, theta, d, d_prev):
@@ -335,7 +335,7 @@ class OLG:
                 r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
             r_values = np.append(r_values, max(r_value, 0))
         # print(len(holt_model), len(r_adj_model), len(exp_smot))
-        r_values = np.convolve(r_values, np.ones((tau,)) / tau, mode='full')[:len(detected)]
+        # r_values = np.convolve(r_values, np.ones((tau,)) / tau, mode='full')[:len(detected)]
 
         self.r_values = r_values
 

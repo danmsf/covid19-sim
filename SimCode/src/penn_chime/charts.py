@@ -355,7 +355,7 @@ def patients_status_chart(alt, df: pd.DataFrame,):
     ).interactive()
 
 @st.cache(allow_output_mutation=True)
-def olg_projections_chart(alt, df: pd.DataFrame, title: str):
+def olg_projections_chart(alt, df: pd.DataFrame, title: str, baseline=False):
     olg_cols = df.columns
     olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'prediction_ind']]
     olg_df = df.melt(id_vars=['date', 'corona_days', 'country', 'prediction_ind'], value_vars=olg_cols).dropna()
@@ -374,10 +374,21 @@ def olg_projections_chart(alt, df: pd.DataFrame, title: str):
         y=alt.Y('value', title=""),
         color=alt.Color('cat:N', title=None, legend=alt.Legend(orient="top", title='')),
     )
+    if baseline:
+        rule = alt.Chart(olg_df).transform_calculate("baseline", "500") .mark_rule().encode(
+            y='baseline:Q',
+            # color='symbol',
+            size=alt.value(0.5)
+        )
+        return alt.layer(line1, line2, rule).properties(
+                width=600, height=300, title=title
+            ).interactive()
+    else:
+        return alt.layer(line1, line2).properties(
+                width=600, height=300, title=title
+            ).interactive()
 
-    return alt.layer(line1, line2).properties(
-        width=600, height=300, title=title
-    ).interactive()
+
 
 
 def new_admissions_chart(

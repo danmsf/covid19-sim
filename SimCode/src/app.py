@@ -102,11 +102,11 @@ if st.sidebar.checkbox(label="Show country data"):
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
     jh_confirmed_df['min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
     jh_confirmed_df['date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
-
-    country_select = st.multiselect("Select Country/Region :", list(jh_confirmed_df['Country'].unique()), ['China','Israel'])
+    jh_confirmed_df['country_province'] = jh_confirmed_df['Country'].str + "-" + jh_confirmed_df['Province']
+    country_select = st.multiselect("Select Country-Province :", list(jh_confirmed_df['country_province'].unique()), ['Israel-All'])
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Country'].isin(country_select), :]
-    province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()))
-    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Province'].isin(province), :]
+    # province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()))
+    # jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Province'].isin(province), :]
     st.altair_chart(
         jhopkins_level_chart(alt, jh_confirmed_df),use_container_width=True,
             )
@@ -251,10 +251,10 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         # dd
         olg_cols = dd.columns
         olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R','Doubling Time', 'prediction_ind']]
-        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['Currently Infected'])
+        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['Critical_condition'])
 
         st.altair_chart(
-            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "OLG Projections"),
+            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "OLG Projections", True),
             use_container_width=True,
         )
         if st.checkbox("Show Projection Data", False):
