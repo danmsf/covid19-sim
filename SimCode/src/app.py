@@ -272,7 +272,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         # st.line_chart(dd.loc[])
         st.altair_chart(
             olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind',
-                                                                  'StringencyIndex']].fillna(0), "Stringency Index"),
+                                                                  'StringencyIndex']].ffill(), "Stringency Index"),
             use_container_width=True,
         )
 
