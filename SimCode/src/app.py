@@ -102,11 +102,11 @@ if st.sidebar.checkbox(label="Show country data"):
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
     jh_confirmed_df['min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
     jh_confirmed_df['date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
-    jh_confirmed_df['country_province'] = jh_confirmed_df['Country'].str + "-" + jh_confirmed_df['Province']
-    country_select = st.multiselect("Select Country-Province :", list(jh_confirmed_df['country_province'].unique()), ['Israel-All'])
+    # jh_confirmed_df['country_province'] = jh_confirmed_df['Country'].str + "-" + jh_confirmed_df['Province']
+    country_select = st.multiselect("Select Country :", list(jh_confirmed_df['Country'].unique()), ['Israel'])
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Country'].isin(country_select), :]
-    # province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()))
-    # jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Province'].isin(province), :]
+    province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()))
+    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Province'].isin(province), :]
     st.altair_chart(
         jhopkins_level_chart(alt, jh_confirmed_df),use_container_width=True,
             )
@@ -272,7 +272,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         # st.line_chart(dd.loc[])
         st.altair_chart(
             olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind',
-                                                                  'StringencyIndex']].fillna(0), "Stringency Index"),
+                                                                  'StringencyIndex']].ffill(), "Stringency Index"),
             use_container_width=True,
         )
 
