@@ -14,5 +14,3 @@ def get_data(server_name:str,*args, **request_args)->pd.DataFrame:
     data = pd.DataFrame(records).set_index("_id")
 
     return data
-
-get_data(server_name='data.gov.il',resource_id='9eedd26c-019b-433a-b28b-efcc98de378d')
