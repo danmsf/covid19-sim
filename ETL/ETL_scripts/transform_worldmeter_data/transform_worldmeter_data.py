@@ -10,7 +10,7 @@ from collections import namedtuple
 # Merge all seperate worldmeter files and join with outher data sources
 # --------------------
 
-def main(resource_dir:IO,
+def main(indir:IO,
          outdir:Optional[IO] = None,
          cutoffdate:Optional[str] ='2020-1-1')->Union[namedtuple ,None]:
 
@@ -18,7 +18,7 @@ def main(resource_dir:IO,
     conversion_dict= column_remapper.to_dict()
 
     # Iterate and read csv files into df
-    all_files = glob.glob(resource_dir + "/*.csv")
+    all_files = glob.glob(indir + "/*.csv")
     df_list = []
 
     for filename in all_files:

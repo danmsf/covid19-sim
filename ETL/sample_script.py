@@ -9,7 +9,7 @@ worldmeter_data_dir = 'DW/raw_data/worldmeter'
 israel_data_dir = '../Resources/Datasets/IsraelData'
 
 extract_worldmeter_data(outdir = worldmeter_data_dir)
-transform_worldmeter_data(resource_dir = worldmeter_data_dir,
+transform_worldmeter_data(indir= worldmeter_data_dir,
                           outdir= country_data_dir,
                           cutoffdate = '2020-02-10')
 extract_gov_data(outdir=israel_data_dir)
