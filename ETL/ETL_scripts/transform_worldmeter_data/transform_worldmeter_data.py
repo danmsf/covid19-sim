@@ -11,7 +11,7 @@ from collections import namedtuple
 # --------------------
 
 def main(resource_dir:IO,
-         outpath:Optional[IO] = None,
+         outdir:Optional[IO] = None,
          cutoffdate:Optional[str] ='2020-1-1')->Union[namedtuple ,None]:
 
     print(__file__, 'is running')
@@ -88,9 +88,9 @@ def main(resource_dir:IO,
     # --------------------
     # Output to file/variable
     # --------------------
-    if outpath:
-        all_data.to_csv(os.path.join(outpath,'all_dates.csv'))
-        all_data_seir.to_csv(os.path.join(outpath,'all_dates_seir.csv'))
+    if outdir:
+        all_data.to_csv(os.path.join(outdir, 'all_dates.csv'))
+        all_data_seir.to_csv(os.path.join(outdir, 'all_dates_seir.csv'))
         retval = None
     else:
         Container = namedtuple('dfs', 'all_data all_data_seir')

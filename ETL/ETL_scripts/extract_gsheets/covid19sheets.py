@@ -14,7 +14,7 @@ SHEET_NAME = 'Patients/towns'
 RANGE = 'A3:AB'
 SAMPLE_RANGE_NAME = f'{SHEET_NAME}!{RANGE}'
 
-def main(outpath = None):
+def main(outdir = None):
     print(__file__, 'is running')
 
     service = create_service(SCOPES)
@@ -25,9 +25,9 @@ def main(outpath = None):
 
     df = values_to_df(result)
 
-    if outpath:
-        outpath = os.path.join(outpath,'gsheets.csv')
-        df.to_csv(outpath)
+    if outdir:
+        outdir = os.path.join(outdir, 'gsheets.csv')
+        df.to_csv(outdir)
         retval = None
     else:
         retval = df
