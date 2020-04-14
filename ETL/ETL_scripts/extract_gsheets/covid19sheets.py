@@ -11,7 +11,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SPREADSHEET_ID = '1Y-ieLWMDzFzzeJKW-SygD90dBH80d4x0db8I3UFNj_c'
 
 SHEET_NAME = 'Patients/towns'
-RANGE = 'A3:AA'
+RANGE = 'A3:AB'
 SAMPLE_RANGE_NAME = f'{SHEET_NAME}!{RANGE}'
 
 def main(outpath = None):

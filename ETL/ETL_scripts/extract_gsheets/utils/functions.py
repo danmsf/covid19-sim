@@ -20,8 +20,9 @@ def values_to_df(result):
             for row in values:
                 try:
                     column_data.append(row[col_id])
-                except:
-                    pass
+                except IndexError as e:
+                    column_data.append('')
+
             ds = pd.Series(data=column_data, name=col_name)
             all_data.append(ds)
         df = pd.concat(all_data, axis=1)
