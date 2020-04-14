@@ -18,7 +18,10 @@ def values_to_df(result):
         for col_id, col_name in enumerate(header):
             column_data = []
             for row in values:
-                column_data.append(row[col_id])
+                try:
+                    column_data.append(row[col_id])
+                except:
+                    pass
             ds = pd.Series(data=column_data, name=col_name)
             all_data.append(ds)
         df = pd.concat(all_data, axis=1)
