@@ -7,7 +7,6 @@ from typing import IO, Union, Optional
 from collections import namedtuple
 
 
-
 def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
 
     print(__file__, 'is running')
