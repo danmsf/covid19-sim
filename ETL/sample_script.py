@@ -8,10 +8,10 @@ results_dir = '../Resources/Datasets/CountryData'
 worldmeter_dir = 'DW/raw_data/worldmeter'
 gov_dir = '../Resources/Datasets/IsraelData'
 
-# extract_worldmeter_data(worldmeter_dir)
-# transform_worldmeter_data(worldmeter_dir,
-#                            outpath = results_dir,
-#                            cutoffdate = '2020-02-10')
-# extract_gov_data(gov_dir)
+extract_worldmeter_data(worldmeter_dir)
+transform_worldmeter_data(worldmeter_dir,
+                           outpath = results_dir,
+                           cutoffdate = '2020-02-10')
+extract_gov_data(gov_dir)
 extract_sheet_data(gov_dir)
 extract_regular_csvs(results_dir)
