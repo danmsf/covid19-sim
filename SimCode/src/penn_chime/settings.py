@@ -37,10 +37,10 @@ DEFAULTS = Constants(
 
     olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta': 0.0771,
                 'countries': ['israel', 'canada'],
-                'scenario': {'t': {0: 10, 1: 10}, 'R0D': {0: 0, 1: -0.4}},
-                'critical_condition_rate': 0.01,
-                'recovery_rate': 0.01,
-                'critical_condition_time': 10,
+                'scenario': {'t': {0: 10, 1: 20}, 'R0D': {0: 0, 1: 0}},
+                'critical_condition_rate': 0.035,
+                'recovery_rate': 0.8,
+                'critical_condition_time': 15,
                 'recovery_time': 6},
 
     seirs_plus_params={

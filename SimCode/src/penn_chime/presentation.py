@@ -270,9 +270,9 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         d.olg_params['countries'] = st.multiselect('Select countries', list(get_sir_country_file(d.sir_country_file)['country'].drop_duplicates().values), default='israel')
         d.olg_params['critical_condition_rate'] = st.sidebar.number_input(
             "Critical Condition Rate",
-            min_value=0.01,
+            min_value=0.0001,
             value=d.olg_params['critical_condition_rate'],
-            step=0.025,
+            step=0.0005,
             format="%f",
         )
 
@@ -301,8 +301,8 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
         )
 
         if st.sidebar.checkbox ("Make a projection", value=False, key=10):
-            s_times = st.sidebar.text_input('Insert array of times', value='10, 10', key=11)
-            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0, -0.4', key=12)
+            s_times = st.sidebar.text_input('Insert array of times', value='10, 20', key=11)
+            s_betas = st.sidebar.text_input('Insert percentage change in betas', value='0, 0', key=12)
             s_times = s_times.split(",")
             s_betas = s_betas.split(",")
             s_times = [int(s) for s in s_times]
@@ -312,8 +312,8 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             d.olg_params['scenario'] = {'t': {k: v for k, v in enumerate(s_times)},
                                         'R0D': {k: v for k, v in enumerate(s_betas)}}
 
-        else:
-            d.olg_params['scenario'] = {'t': {0: 10, 1:10},  'R0D': {0: 0, 1:-0.4}}
+        # else:
+        #     d.olg_params['scenario'] = {'t': {0: 10, 1:10},  'R0D': {0: 0, 1:-0.4}}
 
     if "SEIAR Model" in models_option:
         st.sidebar.subheader("SEAIR Model parameters")

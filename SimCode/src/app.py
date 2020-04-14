@@ -102,8 +102,8 @@ if st.sidebar.checkbox(label="Show country data"):
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
     jh_confirmed_df['min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
     jh_confirmed_df['date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
-
-    country_select = st.multiselect("Select Country/Region :", list(jh_confirmed_df['Country'].unique()), ['China','Israel'])
+    # jh_confirmed_df['country_province'] = jh_confirmed_df['Country'].str + "-" + jh_confirmed_df['Province']
+    country_select = st.multiselect("Select Country :", list(jh_confirmed_df['Country'].unique()), ['Israel'])
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Country'].isin(country_select), :]
     province = st.multiselect("Select Province/State :", list(jh_confirmed_df['Province'].unique()))
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['Province'].isin(province), :]
@@ -139,11 +139,17 @@ if st.sidebar.checkbox(label="Show Israel data"):
     st.markdown("""*Source: Israel Ministry of Health*""")
 
     # Test charts
-    st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
+    if st.checkbox("Show as percentage", False, key=1):
+        st.altair_chart(test_results_chart(alt, lab_tests,'normalize'), use_container_width=True)
+    else:
+        st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
     st.markdown("""*Source: Israel Ministry of Health*""")
 
     # st.altair_chart(test_indication_chart(alt, israel_data.tested_df), use_container_width=False)
-    st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=False), use_container_width=False)
+    if st.checkbox("Show as percentage", True, key=2):
+        st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=False), use_container_width=False)
+    else:
+        st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=False, stacked='zero'), use_container_width=False)
     if st.checkbox("Drill down symptoms by date", value=False):
         st.altair_chart(test_symptoms_chart(alt, israel_data.tested_df, drill_down=True), use_container_width=False)
     st.markdown("""*Source: Israel Ministry of Health*""")
@@ -153,7 +159,10 @@ if st.sidebar.checkbox(label="Show Israel data"):
     israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
     israel_yishuv_df = israel_yishuv_df.merge(
         country_df.loc[country_df['Country'] == 'israel', ['date', 'StringencyIndex']], how='left')
-    st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
+    if st.checkbox("Show per 1,000 inhabitants", True):
+        st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
+    else:
+        st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df, by_pop=False), use_container_width=True)
     st.markdown("""*Source: Self collection*""")
 
 if st.sidebar.checkbox("Show Israel Projections", False):
@@ -242,10 +251,10 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         # dd
         olg_cols = dd.columns
         olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R','Doubling Time', 'prediction_ind']]
-        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['Currently Infected'])
+        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['Critical_condition'])
 
         st.altair_chart(
-            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "OLG Projections"),
+            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "OLG Projections", False),
             use_container_width=True,
         )
         if st.checkbox("Show Projection Data", False):
@@ -257,7 +266,13 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         )
 
         st.altair_chart(
-            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
+            olg_projections_chart(alt, dd.loc[dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
+            use_container_width=True,
+        )
+        # st.line_chart(dd.loc[])
+        st.altair_chart(
+            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind',
+                                                                  'StringencyIndex']].ffill(), "Stringency Index"),
             use_container_width=True,
         )
 

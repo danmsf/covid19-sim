@@ -289,7 +289,7 @@ class OLG:
     def next_gen(r0, tau, c0, ct):
         r0d = r0 / tau
         # return ct * (1 + r0d) ** tau - c0 * r0d * (1 + r0d) ** (tau - 1) # Eq 2
-        return c0 * (r0d) + ct
+        return (ct - c0)* (r0d) + ct
 
     @staticmethod
     def true_a(fi, theta, d, d_prev):
@@ -335,6 +335,8 @@ class OLG:
                 r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
             r_values = np.append(r_values, max(r_value, 0))
         # print(len(holt_model), len(r_adj_model), len(exp_smot))
+        r_values = np.convolve(r_values, np.ones(int(tau/2,)) / int(tau/2), mode='full')[:len(detected)]
+
         self.r_values = r_values
 
     def predict(self, tau, scenario):
@@ -342,28 +344,50 @@ class OLG:
         t = len(self.detected) - 1
         cnt, predicted_cnt = 0, 0
 
-        holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.6, smoothing_slope=0.1)
+        # holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.6, smoothing_slope=0.1)
+        # self.r0d = holt_model.forecast(forcast_cnt)
+
+        holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
         self.r0d = holt_model.forecast(forcast_cnt)
 
-        r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='full')[:-tau + 1]
+        # r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='valid')[:-tau + 1]
 
-        exp_smot_model = SimpleExpSmoothing(self.r_values[-tau:]).fit()
-        exp_smot = exp_smot_model.forecast(forcast_cnt)
-        self.r0d = np.linspace(0.5, 0.05, forcast_cnt+15)[:forcast_cnt] #exp_smot_model.forecast(forcast_cnt)
+        # exp_smot_model = SimpleExpSmoothing(self.r_values[-tau:]).fit()
+        # exp_smot = exp_smot_model.forecast(forcast_cnt)
 
         self.r_adj = self.r_values
-
+        temp = 0
+        # print('loop', t, forcast_cnt)
         for i in scenario['t'].keys():
             predicted_cnt += cnt
             cnt = 0
             while cnt < scenario['t'].get(i):
                 c0 = self.detected[t - tau] if t - tau >= 0 else 0
-                next_gen = self.next_gen(r0=self.r0d[cnt + predicted_cnt] * (scenario['R0D'].get(i) + 1), tau=tau,
+                if cnt == 0:
+                    temp += self.r0d[predicted_cnt + cnt] * (scenario['R0D'].get(i))
+                self.r0d[predicted_cnt + cnt] = (self.r0d[predicted_cnt + cnt] + temp)
+                next_gen = self.next_gen(r0=self.r0d[predicted_cnt+cnt], tau=tau,
                                          c0=c0, ct=self.detected[t])
-                # print(self.r0d[cnt + predicted_cnt] * (scenario['r0d'].get(i) + 1), c0, self.detected[t], next_gen, )
+                # print(scenario['t'].get(i), cnt, c0, self.detected[t])
                 self.detected.append(next_gen)
                 t += 1
                 cnt += 1
+
+        self.r0d[-tau:] = self.r0d[-tau:].clip(min=0.0001)
+        end_forecast = holt_model.forecast(tau)
+        end_forecast_normed = end_forecast / end_forecast.max(axis=0)
+        end_r0d = end_forecast_normed * temp
+        self.r0d = np.append(self.r0d, end_r0d)
+
+        cnt = 0
+        while cnt < tau:
+            c0 = self.detected[t - tau] if t - tau >= 0 else 0
+            next_gen = self.next_gen(r0=self.r0d[predicted_cnt + cnt], tau=tau,
+                                     c0=c0, ct=self.detected[t])
+            # print(predicted_cnt + cnt, self.r0d[predicted_cnt + cnt], t)
+            self.detected.append(next_gen)
+            t += 1
+            cnt += 1
 
     def calc_asymptomatic(self, fi, theta, init_infected):
         asymptomatic_infected = [self.true_a(fi=fi, theta=theta, d=self.detected[0], d_prev=init_infected)]
@@ -377,9 +401,9 @@ class OLG:
             asymptomatic_infected.append(prev_asymptomatic_infected)
         self.asymptomatic_infected = asymptomatic_infected
 
-    def write(self, df, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
+    def write(self, df_o, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
         forcast_cnt = len(self.detected) - len(self.r_adj)
-        df = df[-len(self.r_adj):][['date', 'country', 'StringencyIndex', ]].copy()
+        df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex', ]].copy()
 
         df['r_values'] = self.r_values
         df['R'] = self.r_adj
@@ -396,15 +420,13 @@ class OLG:
         df = df.append(predicted, ignore_index=True)
 
         df['A'] = self.asymptomatic_infected
-        df['A'] = df['A'].shift(periods=-1)
-        df['E'] = df['A'].shift(periods=-tau -1)
+        # df['A'] = df['A'].shift(periods=-1)
+        df['E'] = df['A'].shift(periods=-tau)
         # df['A'] = df['A'] - df['I']
         df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
-        df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
-        df['dI'] = df['I'] - df["I"].shift(1)
-        df['dA'] = df['A'] - df["A"].shift(1)
-        df['dE'] = df['E'] - df["E"].shift(1)
+        df['prediction_ind'] = np.where(df['corona_days'] <  len(self.r_adj), 0, 1)
+
         df['Currently Infected'] = np.where(df['corona_days'] < (critical_condition_time+recovery_time),
                                df['I'],
                                df['I'] - df['I'].shift(periods=+critical_condition_time+recovery_time))
@@ -417,8 +439,21 @@ class OLG:
         df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time+recovery_time).round(0)
 
         df['Doubling Time'] = np.log(2)/np.log(1+df['R']/tau)
-        df = df.rename(columns={'I': 'Total Infected', 'A': 'Total Asymptomatic', 'E': 'Total Exposed',
-                                'dI': 'New Infected', 'dA': 'New Asymptomatic', 'dE': 'New Exposed'})
+        # print(df_o.columns)
+        # df.loc[:len(self.r_adj), 'Critical_condition'] = df_o.loc[-len(self.r_adj):, 'serious_critical']
+        df['temp_cr'] =None
+        df_o = df_o.reset_index()
+        # df = df.reset_index()
+        print(len(self.r_adj))
+        df['dI'] = df['I'] - df["I"].shift(1)
+        df['dA'] = df['A'] - df["A"].shift(1)
+        df['dE'] = df['E'] - df["E"].shift(1)
+        df = df.merge(df_o[['date', 'serious_critical', 'new_cases', 'activecases']], "left")
+        df['Critical_condition'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition'])
+        df['dI'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
+        df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
+        df = df.rename(columns={'I': 'Total Detected', 'A': 'Total Infected', 'E': 'Total Exposed',
+                                'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
         self.df = pd.concat([self.df, df])
 
 class CountryData:
@@ -488,11 +523,12 @@ class IsraelData:
     def get_yishuv_data(self):
         df = pd.read_csv(self.filepath['yishuv_file'])
         df = df.drop(columns="Unnamed: 0")
-        colnames = df.columns
-        df = df.melt(id_vars=['יישוב'], value_vars=colnames[1:])
+        id_vars = ['יישוב', 'אוכלוסייה נכון ל- 2018']
+        colnames = [c for c in df.columns if c not in id_vars]
+        df = df.melt(id_vars=id_vars, value_vars=colnames)
         df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
         df = df[df["variable"].dt.year>1677].dropna()
-        df = df.rename(columns={'יישוב':'Yishuv', 'variable':'date'})
+        df = df.rename(columns={'יישוב':'Yishuv','אוכלוסייה נכון ל- 2018':'pop2018', 'variable':'date'})
         return df
 
     @st.cache
@@ -516,7 +552,7 @@ class IsraelData:
         df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
         df['At Least One'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
         df['test_date'] = pd.to_datetime(df['test_date'])
-       # df = df.drop(columns="_id")
+        df = df.drop(columns="_id")
         return df
 
     @st.cache
@@ -529,7 +565,7 @@ class IsraelData:
 
 
 def get_sir_country_file(sir_country_file):
-    sir_country_df = pd.read_csv(sir_country_file, usecols=['I', 'date', 'country', 'StringencyIndex'], parse_dates=['date'])
+    sir_country_df = pd.read_csv(sir_country_file, parse_dates=['date'])
     return sir_country_df
 
 
