@@ -36,12 +36,13 @@ DEFAULTS = Constants(
     ventilated=RateLos(0.005, 10),
 
     olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta': 0.0771,
-                'countries': ['israel', 'canada'],
+                'countries': ['israel'],
                 'scenario': {'t': {0: 10, 1: 20}, 'R0D': {0: 0, 1: 0}},
                 'critical_condition_rate': 0.035,
                 'recovery_rate': 0.8,
                 'critical_condition_time': 15,
-                'recovery_time': 6},
+                'recovery_time': 6,
+                'countries_list': ['israel', 'china']},
 
     seirs_plus_params={
         'beta': 0.155,

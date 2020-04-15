@@ -4,88 +4,10 @@ import datetime
 from altair import Chart  # type: ignore
 import pandas as pd  # type: ignore
 import streamlit as st
-from .parameters import Parameters
+from penn_chime.parameters import Parameters
 from .utils import add_date_column
 from .presentation import DATE_FORMAT
 
-
-def admission_rma_chart(alt, df: pd.DataFrame, df_predict: pd.DataFrame):
-    print(df.head(5))
-    country_count = len(set(df['country'].values)) # df['country'].nunique()
-    print(df['country'].nunique())
-
-    if country_count == 1:
-        df = df.melt(id_vars=['date'], value_vars=['A', 'I', 'E'])
-        df_predict = df_predict.melt(id_vars=['date'], value_vars=['A', 'I'])
-
-    else:
-        pp = set(df['country']).dropna()
-        df = df.pivot(index='date', columns='country', values='I').reset_index().melt(id_vars=['date'],
-                                                                                      value_vars=pp)  # .drop('country', axis=1)
-        df_predict = df_predict.pivot(index='date', columns='country', values='I').reset_index().melt(id_vars=['date'],
-                                                                                                      value_vars=pp)
-
-    df.dropna(inplace=True)
-    df_predict.dropna(inplace=True)
-    df['value'] = df['value'].astype('int64')
-    df_predict['value'] = df_predict['value'].astype('int64')
-
-    color = 'variable' if country_count == 1 else 'country'
-
-    # Create a selection that chooses the nearest point & selects based on x-value
-    nearest = alt.selection(type='single', nearest=True, on='mouseover',
-                            fields=['date'], empty='none')
-
-    # The basic line
-    line = alt.Chart(df).mark_line(interpolate='basis').encode(
-        x='date:T',
-        y='value',
-        color=color
-    )
-
-    line2 = alt.Chart(df_predict).mark_line(interpolate='basis', strokeDash=[1, 1]).encode(
-        x='date:T',
-        y='value',
-        color=color
-    )
-
-    # Transparent selectors across the chart. This is what tells us
-    # the x-value of the cursor
-    selectors = alt.Chart(df_predict).mark_point().encode(
-        x='date',
-        opacity=alt.value(0),
-    ).add_selection(
-        nearest
-    )
-    # Draw points on the line, and highlight based on selection
-    points = line2.mark_point().encode(
-        opacity=alt.condition(nearest, alt.value(1), alt.value(0))
-    )
-
-    # Draw text labels near the points, and highlight based on selection
-    text = line2.mark_text(align='left', dx=5, dy=-5).encode(
-        text=alt.condition(nearest, 'value', alt.value(' '))
-    )
-    # Draw text labels near the points, and highlight based on selection
-    text2 = line.mark_text(align='left', dx=5, dy=-5).encode(
-        text=alt.condition(nearest, 'value', alt.value(' '))
-    )
-
-    # Draw a rule at the location of the selection
-    rules = alt.Chart(df_predict).mark_rule(color='gray').encode(
-        x='date:T',
-    ).transform_filter(
-        nearest
-    )
-
-    # Put the five layers into a chart and bind the data
-
-    return (alt.layer(
-        line, line2, selectors, points, rules, text, text2
-    ).properties(
-        width=600, height=300
-    ).interactive()
-    )
 
 @st.cache(allow_output_mutation=True)
 def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):

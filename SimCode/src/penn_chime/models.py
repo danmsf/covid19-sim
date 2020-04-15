@@ -275,21 +275,21 @@ class OLG:
     """
 
     def __init__(self, df, p: Parameters):
+
+
         self.detected = []
         self.r_adj = np.array([])
         self.r_values = np.array([])
-        self.r0d = int
+        self.r0d = np.array([])
         self.asymptomatic_infected = []
         self.df = pd.DataFrame()
         self.tmp = None
-
         self.iter_countries(df, p)
 
     @staticmethod
     def next_gen(r0, tau, c0, ct):
         r0d = r0 / tau
-        # return ct * (1 + r0d) ** tau - c0 * r0d * (1 + r0d) ** (tau - 1) # Eq 2
-        return (ct - c0)* (r0d) + ct
+        return (ct - c0) * r0d + ct
 
     @staticmethod
     def true_a(fi, theta, d, d_prev):
@@ -309,7 +309,7 @@ class OLG:
         for country in p.countries:
             df_tmp = df[df['country'] == country].copy()
             self.process(detected=df_tmp['I'].values, init_infected=p.init_infected)
-            self.calc_r(tau=p.tau, init_infected=p.init_infected, scenario=p.scenario)
+            self.calc_r(tau=p.tau, init_infected=p.init_infected)
             self.predict(tau=p.tau, scenario=p.scenario)
             self.calc_asymptomatic(fi=p.fi, theta=p.theta, init_infected=p.init_infected)
             self.write(df_tmp, tau=p.tau, critical_condition_rate=p.critical_condition_rate,
@@ -323,7 +323,7 @@ class OLG:
         for t in range(1, len(detected)):
             self.detected.append(max(detected[t - 1] + 1, detected[t]))
 
-    def calc_r(self, tau, init_infected, scenario):
+    def calc_r(self, tau, init_infected):
         epsilon = 1e-06
         detected = self.detected
         r_values = np.array([(detected[0] / (init_infected + epsilon) - 1) * tau])
@@ -334,8 +334,8 @@ class OLG:
             elif t > tau:
                 r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
             r_values = np.append(r_values, max(r_value, 0))
-        # print(len(holt_model), len(r_adj_model), len(exp_smot))
-        r_values = np.convolve(r_values, np.ones(int(tau/2,)) / int(tau/2), mode='full')[:len(detected)]
+
+        # r_values = np.convolve(r_values, np.ones(int(tau/2,)) / int(tau/2), mode='full')[:len(detected)]
 
         self.r_values = r_values
 
@@ -343,9 +343,6 @@ class OLG:
         forcast_cnt = sum(scenario['t'].values())
         t = len(self.detected) - 1
         cnt, predicted_cnt = 0, 0
-
-        # holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.6, smoothing_slope=0.1)
-        # self.r0d = holt_model.forecast(forcast_cnt)
 
         holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
         self.r0d = holt_model.forecast(forcast_cnt)
@@ -357,7 +354,6 @@ class OLG:
 
         self.r_adj = self.r_values
         temp = 0
-        # print('loop', t, forcast_cnt)
         for i in scenario['t'].keys():
             predicted_cnt += cnt
             cnt = 0
@@ -373,7 +369,8 @@ class OLG:
                 t += 1
                 cnt += 1
 
-        self.r0d[-tau:] = self.r0d[-tau:].clip(min=0.0001)
+        # final decsecnt
+        # self.r0d.clip(min=0.0001, inplace=True)
         end_forecast = holt_model.forecast(tau)
         end_forecast_normed = end_forecast / end_forecast.max(axis=0)
         end_r0d = end_forecast_normed * temp
@@ -444,7 +441,7 @@ class OLG:
         df['temp_cr'] =None
         df_o = df_o.reset_index()
         # df = df.reset_index()
-        print(len(self.r_adj))
+        # print(len(self.r_adj))
         df['dI'] = df['I'] - df["I"].shift(1)
         df['dA'] = df['A'] - df["A"].shift(1)
         df['dE'] = df['E'] - df["E"].shift(1)
@@ -510,64 +507,58 @@ class CountryData:
         # df = df.rename(columns={'יישוב':'Yishuv', 'variable':'date'})
         return df
 
-class IsraelData:
-    def __init__(self, israel_files):
-        self.filepath = israel_files
-        self.yishuv_df = self.get_yishuv_data()
-        self.isolation_df = self.get_isolation_df()
-        self.lab_results_df = self.get_lab_results_df()
-        self.tested_df = self.get_tested_df()
-        self.patients_df = self.get_patients_df()
-
-    @st.cache
-    def get_yishuv_data(self):
-        df = pd.read_csv(self.filepath['yishuv_file'])
-        df = df.drop(columns="Unnamed: 0")
-        id_vars = ['יישוב', 'אוכלוסייה נכון ל- 2018']
-        colnames = [c for c in df.columns if c not in id_vars]
-        df = df.melt(id_vars=id_vars, value_vars=colnames)
-        df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
-        df = df[df["variable"].dt.year>1677].dropna()
-        df = df.rename(columns={'יישוב':'Yishuv','אוכלוסייה נכון ל- 2018':'pop2018', 'variable':'date'})
-        return df
-
-    @st.cache
-    def get_isolation_df(self):
-        df = pd.read_csv(self.filepath['isolations_file'])
-        df['date'] = pd.to_datetime(df['date'])
-        df = df.set_index("date", drop=False)
-        df = df.drop(columns="_id")
-        return df
-
-    @st.cache
-    def get_lab_results_df(self):
-        df = pd.read_csv(self.filepath['lab_results_file'])
-        df['result_date'] = pd.to_datetime(df['result_date'])
-        return df
-
-    @st.cache
-    def get_tested_df(self):
-        df = pd.read_csv(self.filepath['tested_file'])
-        df['None'] = df[df.columns[2:]].sum(axis=1)
-        df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
-        df['At Least One'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
-        df['test_date'] = pd.to_datetime(df['test_date'])
-        df = df.drop(columns="_id")
-        return df
-
-    @st.cache
-    def get_patients_df(self):
-        df = pd.read_csv(self.filepath['patients_file'])
-        df = df.dropna(subset=['New Patients Amount'])
-        df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
-       # df = df.drop(columns="_id")
-        return df
-
-
-def get_sir_country_file(sir_country_file):
-    sir_country_df = pd.read_csv(sir_country_file, parse_dates=['date'])
-    return sir_country_df
-
+# class IsraelData:
+#     def __init__(self, israel_files):
+#         self.filepath = israel_files
+#         self.yishuv_df = self.get_yishuv_data()
+#         self.isolation_df = self.get_isolation_df()
+#         self.lab_results_df = self.get_lab_results_df()
+#         self.tested_df = self.get_tested_df()
+#         self.patients_df = self.get_patients_df()
+#
+#     @st.cache
+#     def get_yishuv_data(self):
+#         df = pd.read_csv(self.filepath['yishuv_file'])
+#         df = df.drop(columns="Unnamed: 0")
+#         id_vars = ['יישוב', 'אוכלוסייה נכון ל- 2018']
+#         colnames = [c for c in df.columns if c not in id_vars]
+#         df = df.melt(id_vars=id_vars, value_vars=colnames)
+#         df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
+#         df = df[df["variable"].dt.year>1677].dropna()
+#         df = df.rename(columns={'יישוב':'Yishuv','אוכלוסייה נכון ל- 2018':'pop2018', 'variable':'date'})
+#         return df
+#
+#     @st.cache
+#     def get_isolation_df(self):
+#         df = pd.read_csv(self.filepath['isolations_file'])
+#         df['date'] = pd.to_datetime(df['date'])
+#         df = df.set_index("date", drop=False)
+#         df = df.drop(columns="_id")
+#         return df
+#
+#     @st.cache
+#     def get_lab_results_df(self):
+#         df = pd.read_csv(self.filepath['lab_results_file'])
+#         df['result_date'] = pd.to_datetime(df['result_date'])
+#         return df
+#
+#     @st.cache
+#     def get_tested_df(self):
+#         df = pd.read_csv(self.filepath['tested_file'])
+#         df['None'] = df[df.columns[2:]].sum(axis=1)
+#         df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
+#         df['At Least One'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
+#         df['test_date'] = pd.to_datetime(df['test_date'])
+#         df = df.drop(columns="_id")
+#         return df
+#
+#     @st.cache
+#     def get_patients_df(self):
+#         df = pd.read_csv(self.filepath['patients_file'])
+#         df = df.dropna(subset=['New Patients Amount'])
+#         df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
+#        # df = df.drop(columns="_id")
+#         return df
 
 
 
