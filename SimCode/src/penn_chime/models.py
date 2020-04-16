@@ -18,6 +18,7 @@ from statsmodels.tsa.api import SimpleExpSmoothing, Holt
 from seirsplus.models import *
 import networkx
 
+
 class SimSirModel:
 
     def __init__(self, p: Parameters) -> SimSirModel:
@@ -40,7 +41,7 @@ class SimSirModel:
         # We're appoximating infected from what we do know.
         # TODO market_share > 0, hosp_rate > 0
         infected = (
-            p.current_hospitalized / p.market_share / p.hospitalized.rate
+                p.current_hospitalized / p.market_share / p.hospitalized.rate
         )
 
         detection_probability = (
@@ -54,9 +55,9 @@ class SimSirModel:
 
         # Contact rate, beta
         beta = (
-            (intrinsic_growth_rate + gamma)
-            / susceptible
-            * (1.0 - p.relative_contact_rate)
+                (intrinsic_growth_rate + gamma)
+                / susceptible
+                * (1.0 - p.relative_contact_rate)
         )  # {rate based on doubling time} / {initial susceptible}
 
         # r_t is r_0 after distancing
@@ -99,7 +100,7 @@ class SimSirModel:
 
 
 def sir(
-    s: float, i: float, r: float, beta: float, gamma: float, n: float
+        s: float, i: float, r: float, beta: float, gamma: float, n: float
 ) -> Tuple[float, float, float]:
     """The SIR model, one time step."""
     s_n = (-beta * s * i) + s
@@ -117,7 +118,7 @@ def sir(
 
 
 def gen_sir(
-    s: float, i: float, r: float, beta: float, gamma: float, n_days: int
+        s: float, i: float, r: float, beta: float, gamma: float, n_days: int
 ) -> Generator[Tuple[float, float, float], None, None]:
     """Simulate SIR model forward in time yielding tuples."""
     s, i, r = (float(v) for v in (s, i, r))
@@ -128,7 +129,7 @@ def gen_sir(
 
 
 def sim_sir_df(
-    s: float, i: float, r: float, beta: float, gamma: float, n_days: int
+        s: float, i: float, r: float, beta: float, gamma: float, n_days: int
 ) -> pd.DataFrame:
     """Simulate the SIR model forward in time."""
     return pd.DataFrame(
@@ -136,10 +137,11 @@ def sim_sir_df(
         columns=("day", "susceptible", "infected", "recovered"),
     )
 
+
 def build_dispositions_df(
-    sim_sir_df: pd.DataFrame,
-    rates: Dict[str, float],
-    market_share: float,
+        sim_sir_df: pd.DataFrame,
+        rates: Dict[str, float],
+        market_share: float,
 ) -> pd.DataFrame:
     """Get dispositions of patients adjusted by rate and market_share."""
     patients = sim_sir_df.infected + sim_sir_df.recovered
@@ -160,16 +162,16 @@ def build_admits_df(dispositions_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def build_census_df(
-    admits_df: pd.DataFrame,
-    lengths_of_stay: Dict[str, int],
+        admits_df: pd.DataFrame,
+        lengths_of_stay: Dict[str, int],
 ) -> pd.DataFrame:
     """ALOS for each disposition of COVID-19 case (total guesses)"""
     return pd.DataFrame({
         'day': admits_df.day,
         **{
             key: (
-                admits_df[key].cumsum().iloc[:-los]
-                - admits_df[key].cumsum().shift(los).fillna(0)
+                    admits_df[key].cumsum().iloc[:-los]
+                    - admits_df[key].cumsum().shift(los).fillna(0)
             ).apply(np.ceil)
             for key, los in lengths_of_stay.items()
         }
@@ -196,14 +198,15 @@ class Seiar:
         self.number_of_days = p.number_of_days
         self.projection = p.model_checkpoints
         self.run_simulation()
-        self.results=[]
+        self.results = []
 
-
-    def model(self,t):
-        S, E, I, A, R = [self.S_0/self.N], [self.E_0/self.N], [self.I_0/self.N], [self.A_0/self.N], [self.R_0/self.N]
+    def model(self, t):
+        S, E, I, A, R = [self.S_0 / self.N], [self.E_0 / self.N], [self.I_0 / self.N], [self.A_0 / self.N], [
+            self.R_0 / self.N]
 
         dt = t[1] - t[0]
-        time_asy, time_ill, beta_asy, beta_ill = self.projection['time_asy'], self.projection['time_ill'], self.projection['beta_asy'], self.projection['beta_ill']
+        time_asy, time_ill, beta_asy, beta_ill = self.projection['time_asy'], self.projection['time_ill'], \
+                                                 self.projection['beta_asy'], self.projection['beta_ill']
         for tm in t[1:]:
             if tm in time_asy:
                 print(tm, beta_asy)
@@ -212,12 +215,13 @@ class Seiar:
                 time_asy.pop(0)
                 beta_asy.pop(0)
             if tm in time_ill:
-                self.beta_ill = beta_ill[time_ill.index (tm)]
+                self.beta_ill = beta_ill[time_ill.index(tm)]
                 print(tm, self.beta_ill)
                 beta_ill.pop(0)
                 time_ill.pop(0)
             next_S = S[-1] - (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1]) * dt
-            next_E = E[-1] + (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[-1] - self.alpha * E[-1]) * dt
+            next_E = E[-1] + (self.rho * self.beta_ill * S[-1] * I[-1] + self.rho * self.beta_asy * S[-1] * A[
+                -1] - self.alpha * E[-1]) * dt
             next_I = I[-1] + (self.theta * self.alpha * E[-1] - self.gamma_ill * I[-1]) * dt
             next_A = A[-1] + ((1 - self.theta) * self.alpha * E[-1] - self.gamma_asy * A[-1]) * dt
             next_R = R[-1] + (self.gamma_ill * I[-1] + self.gamma_asy * A[-1]) * dt
@@ -230,7 +234,6 @@ class Seiar:
 
         return np.stack([S, E, I, A, R]).T
 
-
     def run_simulation(self):
         t_max = 600
         dt = .01
@@ -239,12 +242,14 @@ class Seiar:
         results = self.model(t)
 
         df = pd.DataFrame(results)
-        df = df.rename(columns={df.columns[0]: 'S', df.columns[1]: 'E', df.columns[2]: 'I', df.columns[3]: 'A', df.columns[4]: 'R'})
+        df = df.rename(columns={df.columns[0]: 'S', df.columns[1]: 'E', df.columns[2]: 'I', df.columns[3]: 'A',
+                                df.columns[4]: 'R'})
         dates = pd.date_range(start=self.start_date_simulation, end='05/01/2030')
         df_I_E = df[::100].reset_index(drop=True)
         df_I_E.index = dates[:len(df_I_E)]
 
-        df_I_E = df_I_E.rename(columns={'S': 'Susceptible', 'E': 'Exposed', 'I': 'Infected', 'A': 'Asymptomatic', 'R': 'Recovered'})
+        df_I_E = df_I_E.rename(
+            columns={'S': 'Susceptible', 'E': 'Exposed', 'I': 'Infected', 'A': 'Asymptomatic', 'R': 'Recovered'})
         infected_df = df_I_E[['Infected']] * self.N
         asymptomatic_df = df_I_E[['Asymptomatic']] * self.N
         recovered_df = df_I_E[['Recovered']] * self.N
@@ -252,14 +257,14 @@ class Seiar:
         exposed_df = df_I_E[['Exposed']] * self.N
 
         results = [
-                    infected_df.loc[:self.number_of_days],
-                    asymptomatic_df.loc[:self.number_of_days],
-                    recovered_df.loc[:self.number_of_days],
-                    susceptible_df.loc[:self.number_of_days],
-                    exposed_df.loc[:self.number_of_days]
-                   ]
+            infected_df.loc[:self.number_of_days],
+            asymptomatic_df.loc[:self.number_of_days],
+            recovered_df.loc[:self.number_of_days],
+            susceptible_df.loc[:self.number_of_days],
+            exposed_df.loc[:self.number_of_days]
+        ]
 
-        self.results = pd.concat(results, axis = 1)
+        self.results = pd.concat(results, axis=1)
         return 0
 
 
@@ -276,7 +281,6 @@ class OLG:
 
     def __init__(self, df, p: Parameters):
 
-
         self.detected = []
         self.r_adj = np.array([])
         self.r_values = np.array([])
@@ -289,7 +293,9 @@ class OLG:
     @staticmethod
     def next_gen(r0, tau, c0, ct):
         r0d = r0 / tau
-        return (ct - c0) * r0d + ct
+        return r0d * (ct - c0) + ct
+
+
 
     @staticmethod
     def true_a(fi, theta, d, d_prev):
@@ -308,7 +314,7 @@ class OLG:
     def iter_countries(self, df, p):
         for country in p.countries:
             df_tmp = df[df['country'] == country].copy()
-            self.process(detected=df_tmp['I'].values, init_infected=p.init_infected)
+            self.process(detected=df_tmp['total_cases'].values, init_infected=p.init_infected)
             self.calc_r(tau=p.tau, init_infected=p.init_infected)
             self.predict(tau=p.tau, scenario=p.scenario)
             self.calc_asymptomatic(fi=p.fi, theta=p.theta, init_infected=p.init_infected)
@@ -335,53 +341,42 @@ class OLG:
                 r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
             r_values = np.append(r_values, max(r_value, 0))
 
-        # r_values = np.convolve(r_values, np.ones(int(tau/2,)) / int(tau/2), mode='full')[:len(detected)]
-
         self.r_values = r_values
+        self.r_adj = np.convolve(r_values, np.ones(int(tau / 2, )) / int(tau / 2), mode='full')[:len(detected)]
 
     def predict(self, tau, scenario):
-        forcast_cnt = sum(scenario['t'].values())
+        forcast_cnt = sum(scenario['t'].values())# - 1
         t = len(self.detected) - 1
-        cnt, predicted_cnt = 0, 0
+        scenario_wgt, cnt = 0, 0
 
-        holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
+        holt_model = Holt(self.r_adj[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
+        #self.r0d = np.append(self.r_adj[-1], holt_model.forecast(forcast_cnt))
         self.r0d = holt_model.forecast(forcast_cnt)
 
-        # r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='valid')[:-tau + 1]
-
-        # exp_smot_model = SimpleExpSmoothing(self.r_values[-tau:]).fit()
-        # exp_smot = exp_smot_model.forecast(forcast_cnt)
-
-        self.r_adj = self.r_values
-        temp = 0
         for i in scenario['t'].keys():
-            predicted_cnt += cnt
-            cnt = 0
             while cnt < scenario['t'].get(i):
                 c0 = self.detected[t - tau] if t - tau >= 0 else 0
-                if cnt == 0:
-                    temp += self.r0d[predicted_cnt + cnt] * (scenario['R0D'].get(i))
-                self.r0d[predicted_cnt + cnt] = (self.r0d[predicted_cnt + cnt] + temp)
-                next_gen = self.next_gen(r0=self.r0d[predicted_cnt+cnt], tau=tau,
-                                         c0=c0, ct=self.detected[t])
-                # print(scenario['t'].get(i), cnt, c0, self.detected[t])
+                if cnt == 0 & scenario['R0D'].get(i) != 0:
+                    scenario_wgt += self.r0d[cnt] * scenario['R0D'].get(i)
+                self.r0d[cnt] = self.r0d[cnt] + scenario_wgt
+                next_gen = self.next_gen(r0=self.r0d[cnt], tau=tau, c0=c0, ct=self.detected[t])
                 self.detected.append(next_gen)
                 t += 1
                 cnt += 1
 
         # final decsecnt
-        # self.r0d.clip(min=0.0001, inplace=True)
         end_forecast = holt_model.forecast(tau)
         end_forecast_normed = end_forecast / end_forecast.max(axis=0)
-        end_r0d = end_forecast_normed * temp
+        end_r0d = end_forecast_normed * (scenario_wgt + self.r0d[-1])
+
+        end_r0d = end_r0d[end_r0d > 0]
         self.r0d = np.append(self.r0d, end_r0d)
 
-        cnt = 0
-        while cnt < tau:
-            c0 = self.detected[t - tau] if t - tau >= 0 else 0
-            next_gen = self.next_gen(r0=self.r0d[predicted_cnt + cnt], tau=tau,
+        # cnt = 0
+        while cnt < len(self.r0d):
+            c0 = self.detected[t - tau]
+            next_gen = self.next_gen(r0=self.r0d[cnt], tau=tau,
                                      c0=c0, ct=self.detected[t])
-            # print(predicted_cnt + cnt, self.r0d[predicted_cnt + cnt], t)
             self.detected.append(next_gen)
             t += 1
             cnt += 1
@@ -392,66 +387,65 @@ class OLG:
         for t in range(1, len(self.detected)):
             prev_asymptomatic_infected = self.true_a(fi=fi, theta=theta, d=self.detected[t],
                                                      d_prev=self.detected[t - 1])
-            # asymptomatic_infected.append(
-            #     max(prev_asymptomatic_infected, asymptomatic_infected[-1]))  # not in Michel's paper!!!!!!!
 
             asymptomatic_infected.append(prev_asymptomatic_infected)
         self.asymptomatic_infected = asymptomatic_infected
 
     def write(self, df_o, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
         forcast_cnt = len(self.detected) - len(self.r_adj)
-        df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex', ]].copy()
+        df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex', ]].reset_index(drop=True).copy()
 
         df['r_values'] = self.r_values
         df['R'] = self.r_adj
-        df['I'] = self.detected[:len(self.r_adj)]
-
+        df['total_cases'] = self.detected[:-forcast_cnt]
         predict_date = df['date'].max() + pd.to_timedelta(1, unit="D")
         prediction_dates = pd.date_range(start=predict_date.strftime('%Y-%m-%d'), periods=forcast_cnt)
 
         predicted = pd.DataFrame(
             {'date': prediction_dates,
-             'I': self.detected[-forcast_cnt:],
+             'total_cases': self.detected[-forcast_cnt:],
              'R': self.r0d,
              })
         df = df.append(predicted, ignore_index=True)
 
-        df['A'] = self.asymptomatic_infected
-        # df['A'] = df['A'].shift(periods=-1)
-        df['E'] = df['A'].shift(periods=-tau)
-        # df['A'] = df['A'] - df['I']
+        df['infected'] = self.asymptomatic_infected
+        df['exposed'] = df['infected'].shift(periods=-tau)
         df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
-        df['prediction_ind'] = np.where(df['corona_days'] <  len(self.r_adj), 0, 1)
+        df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
 
-        df['Currently Infected'] = np.where(df['corona_days'] < (critical_condition_time+recovery_time),
-                               df['I'],
-                               df['I'] - df['I'].shift(periods=+critical_condition_time+recovery_time))
+        df['Currently Infected'] = np.where(df['corona_days'] < (critical_condition_time + recovery_time),
+                                            df['total_cases'],
+                                            df['total_cases'] - df['total_cases'].shift(periods=(critical_condition_time + recovery_time)))
 
         df['Critical_condition'] = df['Currently Infected'] * critical_condition_rate
         df['Recovery_Critical'] = df['Critical_condition'] * recovery_rate
         df['Mortality_Critical'] = df['Critical_condition'] - df['Recovery_Critical']
 
         df['Critical_condition'] = df['Critical_condition'].shift(periods=critical_condition_time).round(0)
-        df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time+recovery_time).round(0)
+        # TODO Critical cnt is not calculated corectly
 
-        df['Doubling Time'] = np.log(2)/np.log(1+df['R']/tau)
-        # print(df_o.columns)
-        # df.loc[:len(self.r_adj), 'Critical_condition'] = df_o.loc[-len(self.r_adj):, 'serious_critical']
-        df['temp_cr'] =None
+        df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(
+            periods=critical_condition_time + recovery_time).round(0)
+
+        df['Doubling Time'] = np.log(2) / np.log(1 + df['R'] / tau)
+
+        df['temp_cr'] = None
         df_o = df_o.reset_index()
-        # df = df.reset_index()
-        # print(len(self.r_adj))
-        df['dI'] = df['I'] - df["I"].shift(1)
-        df['dA'] = df['A'] - df["A"].shift(1)
-        df['dE'] = df['E'] - df["E"].shift(1)
+        df['dI'] = df['total_cases'] - df['total_cases'].shift(1)
+        df['dA'] = df['infected'] - df['infected'].shift(1)
+        df['dE'] = df['exposed'] - df['exposed'].shift(1)
         df = df.merge(df_o[['date', 'serious_critical', 'new_cases', 'activecases']], "left")
-        df['Critical_condition'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition'])
-        df['dI'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
-        df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
-        df = df.rename(columns={'I': 'Total Detected', 'A': 'Total Infected', 'E': 'Total Exposed',
+
+        #fill
+        df['Critical_condition2'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition'])
+        df['dI2'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
+        df['Currently Infected2'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
+
+        df = df.rename(columns={'total_cases': 'Total Detected', 'infected': 'Total Infected', 'exposed': 'Total Exposed',
                                 'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
         self.df = pd.concat([self.df, df])
+
 
 class CountryData:
     def __init__(self, country_files):
@@ -469,7 +463,7 @@ class CountryData:
         # country_df['date'] = country_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
         # country_df['date'] = pd.to_datetime(country_df['date'],format="%d/%m/%Y")
         country_df['date'] = pd.to_datetime(country_df['date'], format="%Y-%m-%d")
-        country_df = country_df.rename(columns={'country' : 'Country'})
+        country_df = country_df.rename(columns={'country': 'Country'})
         country_df['new_deaths'] = country_df['new_deaths'].str.replace('+', '')
         country_df['new_deaths'] = country_df['new_deaths'].str.replace(',', '')
         country_df['new_deaths'] = country_df['new_deaths'].apply(lambda x: float(x))
@@ -492,7 +486,7 @@ class CountryData:
         # sir_df['date'] = pd.to_datetime(sir_df['date'],format="%d/%m/%Y")
         sir_df['date'] = pd.to_datetime(sir_df['date'], format="%Y-%m-%d")
         sir_df['country'] = sir_df['country'].str.capitalize()
-        sir_df = sir_df.rename(columns={'country':'Country'})
+        sir_df = sir_df.rename(columns={'country': 'Country'})
         return sir_df
 
     def get_jhopkins_confirmed(self):
@@ -559,6 +553,3 @@ class CountryData:
 #         df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
 #        # df = df.drop(columns="_id")
 #         return df
-
-
-
