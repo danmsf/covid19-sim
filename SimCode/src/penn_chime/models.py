@@ -274,7 +274,7 @@ class OLG:
 
     """
 
-    def __init__(self, df, p: Parameters):
+    def __init__(self, df, p: Parameters, have_serious_data=True):
         self.detected = []
         self.r_adj = np.array([])
         self.r_values = np.array([])
@@ -282,7 +282,7 @@ class OLG:
         self.asymptomatic_infected = []
         self.df = pd.DataFrame()
         self.tmp = None
-
+        self.have_serious_data = have_serious_data
         self.iter_countries(df, p)
 
     @staticmethod
@@ -307,8 +307,10 @@ class OLG:
 
     def iter_countries(self, df, p):
         for country in p.countries:
+            print(country)
             df_tmp = df[df['country'] == country].copy()
-            self.process(detected=df_tmp['I'].values, init_infected=p.init_infected)
+            print(df_tmp)
+            self.process(detected=df_tmp['total_cases'].values, init_infected=p.init_infected)
             self.calc_r(tau=p.tau, init_infected=p.init_infected, scenario=p.scenario)
             self.predict(tau=p.tau, scenario=p.scenario)
             self.calc_asymptomatic(fi=p.fi, theta=p.theta, init_infected=p.init_infected)
@@ -318,7 +320,7 @@ class OLG:
 
     def process(self, detected, init_infected):
         day_0 = np.argmax(detected > init_infected)
-        detected = detected[day_0 - 1:]
+        detected = detected[max(day_0 - 1,0):]
         self.detected = []
         for t in range(1, len(detected)):
             self.detected.append(max(detected[t - 1] + 1, detected[t]))
@@ -425,7 +427,7 @@ class OLG:
         # df['A'] = df['A'] - df['I']
         df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
-        df['prediction_ind'] = np.where(df['corona_days'] <  len(self.r_adj), 0, 1)
+        df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
 
         df['Currently Infected'] = np.where(df['corona_days'] < (critical_condition_time+recovery_time),
                                df['I'],
@@ -435,7 +437,7 @@ class OLG:
         df['Recovery_Critical'] = df['Critical_condition'] * recovery_rate
         df['Mortality_Critical'] = df['Critical_condition'] - df['Recovery_Critical']
 
-        df['Critical_condition'] = df['Critical_condition'].shift(periods=critical_condition_time).round(0)
+        df['Critical_condition'] = df['Critical_condition'].shift(periods=-critical_condition_time).round(0)
         df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time+recovery_time).round(0)
 
         df['Doubling Time'] = np.log(2)/np.log(1+df['R']/tau)
@@ -448,10 +450,11 @@ class OLG:
         df['dI'] = df['I'] - df["I"].shift(1)
         df['dA'] = df['A'] - df["A"].shift(1)
         df['dE'] = df['E'] - df["E"].shift(1)
-        df = df.merge(df_o[['date', 'serious_critical', 'new_cases', 'activecases']], "left")
-        df['Critical_condition'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition'])
-        df['dI'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
-        df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
+        if self.have_serious_data:
+            df = df.merge(df_o[['date', 'serious_critical', 'new_cases', 'activecases']], "left")
+            df['Critical_condition'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition'])
+            df['dI'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
+            df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
         df = df.rename(columns={'I': 'Total Detected', 'A': 'Total Infected', 'E': 'Total Exposed',
                                 'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
         self.df = pd.concat([self.df, df])
@@ -566,6 +569,7 @@ class IsraelData:
 
 def get_sir_country_file(sir_country_file):
     sir_country_df = pd.read_csv(sir_country_file, parse_dates=['date'])
+    # sir_country_df['I'] = sir_country_df['total_cases']
     return sir_country_df
 
 
