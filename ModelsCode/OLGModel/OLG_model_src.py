@@ -4,6 +4,7 @@ import altair as alt
 from statsmodels.tsa.api import SimpleExpSmoothing, Holt
 from SimCode.src.penn_chime.models import CountryData, OLG
 from penn_chime.settings import DEFAULTS
+# from ModelsCode.OLGModel.old_olg import OLG
 
 
 class Parameters:
@@ -38,9 +39,15 @@ p = Parameters(tau=14,
                )
 
 countrydata = CountryData(DEFAULTS.country_files)
+
 countrydata.country_df.drop('I', axis=1, inplace=True)
 countrydata.country_df.rename(columns={'Country': 'country'}, inplace=True)
 
-olg_model = OLG(countrydata.country_df, p)
+jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
 
-olg_model.df.to_excel('new.xlsx', index=False)
+
+
+
+olg_model = OLG(countrydata.country_df, p, jh_hubei)
+
+olg_model.df.to_excel('olg.xlsx', index=False)

@@ -169,7 +169,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
 
     countrydata = CountryData(DEFAULTS.country_files)
     countrydata.country_df.drop('I', axis=1, inplace=True)
-    countrydata.country_df.rename(columns={'total_cases': 'I', 'Country': 'country'}, inplace=True)
+    countrydata.country_df.rename(columns={'Country': 'country'}, inplace=True)
 
     country_dict = {'countries_list': set(countrydata.country_df['country'].values)}
     DEFAULTS.olg_params.update(country_dict)
