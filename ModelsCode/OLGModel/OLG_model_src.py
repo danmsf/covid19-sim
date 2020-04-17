@@ -43,11 +43,17 @@ countrydata = CountryData(DEFAULTS.country_files)
 countrydata.country_df.drop('I', axis=1, inplace=True)
 countrydata.country_df.rename(columns={'Country': 'country'}, inplace=True)
 
+
+
 jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
 
-
-
+# worldmeter_df = pd.read_csv('C:/Users/User/git/covid19-sim/ModelsCode/OLGModel/worldmeter.csv', sep=';')
+# worldmeter_df['date'] = pd.to_datetime(worldmeter_df['date'], format="%d/%m/%Y")
+# worldmeter_df.info()
 
 olg_model = OLG(countrydata.country_df, p, jh_hubei)
+
+# pp = olg_model.df[['Total Detected', 'Critical_condition2', 'Critical_condition', 'serious_critical']]
+
 
 olg_model.df.to_excel('olg.xlsx', index=False)
