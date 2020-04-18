@@ -288,6 +288,7 @@ class OLG:
         self.asymptomatic_infected = []
         self.df = pd.DataFrame()
         self.tmp = None
+
         self.iter_countries(df, p, jh_hubei)
 
     @staticmethod
@@ -298,8 +299,9 @@ class OLG:
     @staticmethod
     def true_a(fi, theta, d, d_prev, d_delta_ma):
         delta_detected = (d - d_prev)
-        prev_asymptomatic_infected = (1 / (1 - fi)) * ((delta_detected + d_delta_ma) / theta + d_prev)
+        prev_asymptomatic_infected = (1 / (1 - fi)) * ((d_delta_ma) / theta + d_prev)
         return prev_asymptomatic_infected
+
 
     @staticmethod
     def crystal_ball(r_prev, hubei_prev, hubei_prev_t2, s_prev_t7):
@@ -327,11 +329,10 @@ class OLG:
                        recovery_rate=p.recovery_rate, critical_condition_time=p.critical_condition_time,
                        recovery_time=p.recovery_time, r_hubei=r_hubei)
 
-
     def process(self, detected, init_infected):
-        day_0 = np.argmax(detected > init_infected)
-        detected = detected[max(0, day_0 - 1):]
-        self.detected = []
+        day_0 = np.argmax(detected >= init_infected)
+        detected = detected[day_0:]
+        self.detected = [detected[0]]
         for t in range(1, len(detected)):
             self.detected.append(max(detected[t - 1] + 1, detected[t]))
 
@@ -390,13 +391,13 @@ class OLG:
 
     def calc_asymptomatic(self, fi, theta, init_infected):
 
-        detected_deltas = [0]
+        detected_deltas = [self.detected[0]]
         for i in range(1, len(self.detected)):
             delta = self.detected[i] - self.detected[i-1]
             detected_deltas.append(delta)
 
         detected_deltas_ma = np.convolve(detected_deltas, np.ones(int(4, )) / int(4), mode='full')[:len(detected_deltas)]
-        asymptomatic_infected = [self.true_a(fi=fi, theta=theta, d=self.detected[0], d_prev=init_infected, d_delta_ma=detected_deltas_ma[0])]
+        asymptomatic_infected = [self.true_a(fi=fi, theta=theta, d=self.detected[0], d_prev=init_infected, d_delta_ma= detected_deltas_ma[0])]
 
         for t in range(1, len(self.detected)):
             prev_asymptomatic_infected = self.true_a(fi=fi, theta=theta, d=self.detected[t],  d_prev=self.detected[t - 1], d_delta_ma=detected_deltas_ma[i])
@@ -418,21 +419,17 @@ class OLG:
     def write(self, df_o, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time, r_hubei):
         forcast_cnt = len(self.detected) - len(self.r_adj)
         df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex', 'serious_critical', 'new_cases', 'activecases']].reset_index(drop=True).copy()
-        # df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex']].reset_index(drop=True).copy()
         df['r_values'] = self.r_values
 
-        df['total_cases'] = self.detected[:-forcast_cnt]
+        # pad df for predictions
         predict_date = df['date'].max() + pd.to_timedelta(1, unit="D")
         prediction_dates = pd.date_range(start=predict_date.strftime('%Y-%m-%d'), periods=forcast_cnt)
+        predicted = pd.DataFrame({'date': prediction_dates})
 
-        predicted = pd.DataFrame(
-            {'date': prediction_dates,
-             'total_cases': self.detected[-forcast_cnt:],
-             })
         df = df.append(predicted, ignore_index=True)
 
+        df['total_cases'] = self.detected
         df['R'] = self.r0d
-        df = self.calc_crystall_ball(df, r_hubei)
 
         df['infected'] = self.asymptomatic_infected
         df['exposed'] = df['infected'].shift(periods=-tau)
@@ -440,42 +437,41 @@ class OLG:
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
         df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
 
-        df['Currently Infected'] = np.where(df['corona_days'] < (critical_condition_time + recovery_time),
+        df = self.calc_crystall_ball(df, r_hubei)
+
+        df['Currently Infected'] = np.where(df['corona_days'] <= (critical_condition_time + recovery_time),
                                             df['total_cases'],
                                             df['total_cases'] - df['total_cases'].shift(periods=(critical_condition_time + recovery_time)))
-
-        df['Critical_condition'] = df['Currently Infected'] * critical_condition_rate
-        df['Recovery_Critical'] = df['Critical_condition'] * recovery_rate
-        df['Mortality_Critical'] = df['Critical_condition'] - df['Recovery_Critical']
-
-        df['Critical_condition_test'] = df['Currently Infected'].shift(periods=-(recovery_time)) - df['Currently Infected'].shift(periods=-(critical_condition_time + recovery_time))
-        df['Critical_condition_test'] = df['Critical_condition_test'] * critical_condition_rate
-
-
-
-        df['Critical_condition'] = df['Critical_condition'].shift(periods=critical_condition_time).round(0)
-
-        df['corona_days'] - df['Critical_condition'].shift(periods=critical_condition_time)
-
-        df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(
-            periods=critical_condition_time + recovery_time).round(0)
 
         df['Doubling Time'] = np.log(2) / np.log(1 + df['R'] / tau)
 
         df['dI'] = df['total_cases'] - df['total_cases'].shift(1)
         df['dA'] = df['infected'] - df['infected'].shift(1)
         df['dE'] = df['exposed'] - df['exposed'].shift(1)
-        # df = df.merge(df_o[['date', 'serious_critical', 'new_cases', 'activecases']], "left")
+
+        # critical condition calc
+        df['Critical_condition'] = df['Currently Infected'] * critical_condition_rate
+        df['Recovery_Critical'] = df['Critical_condition'] * recovery_rate
+        df['Mortality_Critical'] = df['Critical_condition'] - df['Recovery_Critical']
+
+        df['Critical_condition'] = df['Critical_condition'].shift(periods=critical_condition_time).round(0)
+        df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time + recovery_time).round(0)
+
+        # critical condition world_meter
+        df['Critical_condition_test'] = df['total_cases'].shift(periods=+recovery_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time))
+        df['Critical_condition_test'] = df['Critical_condition_test'] * critical_condition_rate
+
+        tmp = df[['date', 'R', 'total_cases', 'Critical_condition_test']]
 
         # fill with obsereved values
+        df['Critical_condition'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition'])
         df['Critical_condition_test'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition_test'])
-        df['Critical_condition'] = np.where(~df['serious_critical'].isna(), df['serious_critical'],
-                                            df['Critical_condition'])
-        df['dI'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
-        df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
+        df['dI2'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
+        df['Currently Infected2'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
 
         df = df.rename(columns={'total_cases': 'Total Detected', 'infected': 'Total Infected', 'exposed': 'Total Exposed',
                                 'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
+
         self.df = pd.concat([self.df, df])
 
 
