@@ -441,7 +441,7 @@ class OLG:
         df['exposed'] = df['infected'].shift(periods=-tau)
         df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
-        df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
+        df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
 
         df = self.calc_crystall_ball(df, r_hubei)
 
@@ -455,26 +455,26 @@ class OLG:
         df['dA'] = df['infected'] - df['infected'].shift(1)
         df['dE'] = df['exposed'] - df['exposed'].shift(1)
 
-        # critical condition calc
-        df['Critical_condition'] = df['Currently Infected'] * critical_condition_rate
-        df['Recovery_Critical'] = df['Critical_condition'] * recovery_rate
-        df['Mortality_Critical'] = df['Critical_condition'] - df['Recovery_Critical']
+        # critical condition
+        df['Critical_condition'] = df['total_cases'].shift(periods=+recovery_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
+        df['Critical_condition'] = df['Critical_condition'] * critical_condition_rate
 
-        df['Critical_condition'] = df['Critical_condition'].shift(periods=-critical_condition_time).round(0)
-        df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time + recovery_time).round(0)
+        df['Recovery_Critical'] = df['Critical_condition'].shift(periods=+recovery_time) * recovery_rate
+        df['Mortality_Critical'] = df['Critical_condition'].shift(periods=+recovery_time) * (1-recovery_rate)
 
-        # critical condition world_meter
-        df['Critical_condition_test'] = df['total_cases'].shift(periods=+recovery_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time))
-        df['Critical_condition_test'] = df['Critical_condition_test'] * critical_condition_rate
-
-        tmp = df[['date', 'R', 'total_cases', 'Critical_condition_test']]
+        # df['Critical_condition_test_p1'] = df['total_cases'].shift(periods=+recovery_time)
+        # df['Critical_condition_test_p2'] =df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
 
         # fill with obsereved values
         if self.have_serious_data:
             df['Critical_condition'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition'])
-            df['Critical_condition_test'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition_test'])
-            df['dI2'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
-            df['Currently Infected2'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
+            df['dI'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
+            df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
+
+        df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']]=  df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']].round(0)
+
+        # self.tmp = df[['date', 'total_cases','Critical_condition' , 'Critical_condition_test_p1',
+        #                'Critical_condition_test_p2', 'r_values', 'R', 'prediction_ind']]
 
         df = df.rename(columns={'total_cases': 'Total Detected', 'infected': 'Total Infected', 'exposed': 'Total Exposed',
                                 'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
