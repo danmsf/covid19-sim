@@ -279,7 +279,7 @@ class OLG:
 
     """
 
-    def __init__(self, df, p: Parameters):
+    def __init__(self, df, p: Parameters, jh_hubei, have_serious_data=True):
         self.detected = []
         self.r_adj = np.array([])
         self.r_values = np.array([])
@@ -319,9 +319,9 @@ class OLG:
         r_hubei = self.r_values
 
         for country in p.countries:
-            print(country)
+            # print(country)
             df_tmp = df[df['country'] == country].copy()
-            print(df_tmp)
+            # print(df_tmp)
             self.process(detected=df_tmp['total_cases'].values, init_infected=p.init_infected)
             self.calc_r(tau=p.tau, init_infected=p.init_infected)
             self.predict(tau=p.tau, scenario=p.scenario)
@@ -419,6 +419,11 @@ class OLG:
 
     def write(self, df_o, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time, r_hubei):
         forcast_cnt = len(self.detected) - len(self.r_adj)
+        if self.have_serious_data==False:
+            df_o['serious_critical'] = (df_o['total_cases'].shift(critical_condition_time)
+                                        - df_o['total_cases'].shift(recovery_time+critical_condition_time)) * critical_condition_rate
+            df_o['new_cases'] = df_o['total_cases'] - df_o['total_cases'].shift(1)
+            df_o['activecases'] = None
         df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex', 'serious_critical', 'new_cases', 'activecases']].reset_index(drop=True).copy()
         df['r_values'] = self.r_values
 
@@ -544,7 +549,7 @@ class IsraelData:
     def get_yishuv_data(self):
         df = pd.read_csv(self.filepath['yishuv_file'])
         df = df.drop(columns="Unnamed: 0")
-        id_vars = ['יישוב', 'אוכלוסייה נכון ל- 2018']
+        id_vars = ['יישוב', 'סוג מידע','אוכלוסייה נכון ל- 2018']
         colnames = [c for c in df.columns if c not in id_vars]
         df = df.melt(id_vars=id_vars, value_vars=colnames)
         df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')

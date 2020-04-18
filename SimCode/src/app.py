@@ -17,7 +17,7 @@ from penn_chime.presentation import(
     show_more_info_about_this_tool
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel#, IsraelData
+from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel, IsraelData
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
@@ -152,10 +152,14 @@ if st.sidebar.checkbox(label="Show Israel data"):
     st.markdown("""*Source: Israel Ministry of Health*""")
     # Yishuvim charts
     st.subheader("Cases by Yishuv")
-    yishuvim = st.multiselect("Select Yishuv:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
-    israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['Yishuv'].isin(yishuvim), :]
     israel_yishuv_df = israel_yishuv_df.merge(
         country_df.loc[country_df['Country'] == 'israel', ['date', 'StringencyIndex']], how='left')
+
+    yishuvim = st.multiselect("Select Yishuv:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
+    colvars = list(israel_yishuv_df['סוג מידע'].unique())
+    sel_vars = st.selectbox("Select Variable: ", colvars, 0)
+    israel_yishuv_df = israel_yishuv_df.loc[(israel_yishuv_df['Yishuv'].isin(yishuvim) &
+                                             israel_yishuv_df['סוג מידע'].isin([sel_vars])), :]
     if st.checkbox("Show per 1,000 inhabitants", True):
         st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
     else:
@@ -250,9 +254,8 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         st.markdown("Projected number of **daily** COVID-19 admissions")
         # Load model
 
-
-
-        olg = OLG(countrydata.country_df, p)
+        jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
+        olg = OLG(countrydata.country_df, p, jh_hubei)
         dd = olg.df.copy()
         # dd
         olg_cols = dd.columns
@@ -287,15 +290,16 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         israel_yishuv_df = israel_data.yishuv_df.copy()
         israel_yishuv_df = israel_yishuv_df.merge(
             dd.loc[dd['country'] == 'israel', ['date', 'StringencyIndex']], how='left')
+        israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['סוג מידע']=='מספר חולים מאומתים',:]
         israel_yishuv_df = israel_yishuv_df.rename(columns={'value':'total_cases', 'Yishuv':'country'})
         pil = p
         pil.countries = st.multiselect("Select Yishuv", list(israel_yishuv_df.country.unique()), ['בני ברק'])
         pil.init_infected = st.number_input("Select min corona cases for Yishuv", min_value=10, value=25)
-        olgil = OLG(israel_yishuv_df, pil, False)
+        olgil = OLG(israel_yishuv_df, pil, jh_hubei, False)
         ddil = olgil.df.copy()
         # ddil
         st.altair_chart(
-            olg_projections_chart(alt, ddil[['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
+            olg_projections_chart(alt, ddil.loc[ddil['prediction_ind']==0,['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
             use_container_width=True,
         )
         st.markdown("*Note: In this model treatment does not vary by Yishuv*")
@@ -305,13 +309,15 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         jh_confirmed_df = countrydata.jh_confirmed_df.copy()
         jh_confirmed_df = jh_confirmed_df.rename(columns={'Country': 'country', 'variable': 'date', 'value': 'total_cases'})
         jh_confirmed_df['country'] = jh_confirmed_df['country'].str.lower()
+        country_df = countrydata.country_df.copy()
+        country_df = country_df.rename(columns={'Country': 'country'})
         jh_confirmed_df = jh_confirmed_df.merge(
-            sir_country_df.loc[:, ['country', 'date', 'StringencyIndex']], how='left')
+            country_df.loc[:, ['country', 'date', 'StringencyIndex']], how='left')
         jh_confirmed_df['country'] = jh_confirmed_df['country'] + " - " + jh_confirmed_df['Province'].str.lower()
         pjh = p
-        pjh.countries = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()))
+        pjh.countries = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()), "israel - all")
         pjh.init_infected = st.number_input("Select min corona cases for Province", min_value=10, value=100)
-        olgjh = OLG(jh_confirmed_df, pjh, False)
+        olgjh = OLG(jh_confirmed_df, pjh, jh_hubei, False)
         ddjh = olgjh.df.copy()
         st.altair_chart(
             olg_projections_chart(alt, ddjh[['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
