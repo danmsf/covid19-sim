@@ -17,7 +17,7 @@ from penn_chime.presentation import(
     show_more_info_about_this_tool
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel, IsraelData
+from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel, IsraelData, StringencyIndex
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
@@ -323,6 +323,13 @@ if st.sidebar.checkbox("Show Israel Projections", False):
                                     ['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
             use_container_width=True,
         )
+
+        st.subheader("Calculate Oxford StringencyIndex")
+        sgidx = StringencyIndex()
+        sgidx.display_st(st)
+        sgidx.calculate_stringency()
+        sgidx.output_df
+
     if "SEIAR Model" in models_option:
         st.subheader("SEIAR Model")
 
