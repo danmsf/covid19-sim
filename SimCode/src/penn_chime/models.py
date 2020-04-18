@@ -279,7 +279,7 @@ class OLG:
 
     """
 
-    def __init__(self, df, p: Parameters, jh_hubei, have_serious_data=True):
+    def __init__(self, df, p: Parameters, jh_hubei , have_serious_data=True):
         self.detected = []
         self.r_adj = np.array([])
         self.r_values = np.array([])
