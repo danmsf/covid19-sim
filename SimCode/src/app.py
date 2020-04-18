@@ -301,7 +301,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         jh_confirmed_df['country'] = jh_confirmed_df['country'].str.lower()
         jh_confirmed_df = jh_confirmed_df.merge(
             sir_country_df.loc[:, ['country', 'date', 'StringencyIndex']], how='left')
-        jh_confirmed_df['country'] = jh_confirmed_df['country'] +" - "+ jh_confirmed_df['Province'].str.lower()
+        jh_confirmed_df['country'] = jh_confirmed_df['country'] + " - " + jh_confirmed_df['Province'].str.lower()
         pjh = p
         pjh.countries = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()))
         pjh.init_infected = st.number_input("Select min corona cases for Province", min_value=10, value=100)
