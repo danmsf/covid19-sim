@@ -6,58 +6,60 @@ Changes affecting results or their presentation should also update
 
 from .utils import RateLos
 
+
 class Parameters:
     """Parameters."""
 
     def __init__(
-        self,
-        *,
-        current_hospitalized: int,
-        doubling_time: float,
-        known_infected: int,
-        relative_contact_rate: float,
-        susceptible: int,
-        hospitalized: RateLos,
-        icu: RateLos,
-        ventilated: RateLos,
+            self,
+            *,
+            current_hospitalized: int,
+            doubling_time: float,
+            known_infected: int,
+            relative_contact_rate: float,
+            susceptible: int,
+            hospitalized: RateLos,
+            icu: RateLos,
+            ventilated: RateLos,
 
-        tau: int,
-        init_infected: int,
-        fi: float,
-        theta: float,
-        countries: list,
-        scenario: dict,
-        critical_condition_rate,
-        recovery_rate,
-        critical_condition_time,
-        recovery_time,
+            tau: int,
+            init_infected: int,
+            fi: float,
+            theta: float,
+            countries: list,
+            scenario: dict,
+            critical_condition_rate: float,
+            recovery_rate: float,
+            critical_condition_time: int,
+            recovery_time: int,
+            countries_list=None,
 
-        as_date: bool = False,
-        market_share: float = 1.0,
-        max_y_axis: int = None,
-        n_days: int = 60,
-        recovery_days: int = 14,
+            as_date: bool = False,
+            market_share: float = 1.0,
+            max_y_axis: int = None,
+            n_days: int = 60,
+            recovery_days: int = 14,
 
-        N_0: int = 7000000,
-        S_0: float = 0,
-        E_0: float = 0,
-        I_0: float = 0,
-        A_0: float = 0,
-        R_0: float = 0,
-        seiar_alpha: float = 0.0,
-        seiar_beta_ill: float = 0.0,
-        seiar_beta_asy: float = 0.0,
-        seiar_gamma_ill: float = 0.0,
-        seiar_gamma_asy: float = 0.0,
-        seiar_rho: float = 0.0,
-        seiar_theta: float = 0.0,
-        seiar_start_date_simulation,
-        seiar_number_of_days: int,
+            N_0: int = 7000000,
+            S_0: float = 0,
+            E_0: float = 0,
+            I_0: float = 0,
+            A_0: float = 0,
+            R_0: float = 0,
+            seiar_alpha: float = 0.0,
+            seiar_beta_ill: float = 0.0,
+            seiar_beta_asy: float = 0.0,
+            seiar_gamma_ill: float = 0.0,
+            seiar_gamma_asy: float = 0.0,
+            seiar_rho: float = 0.0,
+            seiar_theta: float = 0.0,
+            seiar_start_date_simulation,
+            seiar_number_of_days: int,
 
-        seirs_plus_params,
-        model_checkpoints,
-        country_file: str,
-        time_steps: int
+            seirs_plus_params,
+            model_checkpoints,
+            country_file: str,
+            time_steps: int
     ):
         self.current_hospitalized = current_hospitalized
         self.doubling_time = doubling_time
@@ -76,11 +78,11 @@ class Parameters:
         self.recovery_rate = recovery_rate
         self.critical_condition_time = critical_condition_time
         self.recovery_time = recovery_time
+        self.countries_list = countries_list
 
         self.hospitalized = hospitalized
         self.icu = icu
         self.ventilated = ventilated
-
 
         self.as_date = as_date
         self.market_share = market_share

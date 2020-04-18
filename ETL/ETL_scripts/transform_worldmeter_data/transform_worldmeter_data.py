@@ -10,15 +10,15 @@ from collections import namedtuple
 # Merge all seperate worldmeter files and join with outher data sources
 # --------------------
 
-def main(resource_dir:IO,
-         outpath:Optional[IO] = None,
+def main(indir:IO,
+         outdir:Optional[IO] = None,
          cutoffdate:Optional[str] ='2020-1-1')->Union[namedtuple ,None]:
 
     print(__file__, 'is running')
     conversion_dict= column_remapper.to_dict()
 
     # Iterate and read csv files into df
-    all_files = glob.glob(resource_dir + "/*.csv")
+    all_files = glob.glob(indir + "/*.csv")
     df_list = []
 
     for filename in all_files:
@@ -88,9 +88,9 @@ def main(resource_dir:IO,
     # --------------------
     # Output to file/variable
     # --------------------
-    if outpath:
-        all_data.to_csv(os.path.join(outpath,'all_dates.csv'))
-        all_data_seir.to_csv(os.path.join(outpath,'all_dates_seir.csv'))
+    if outdir:
+        all_data.to_csv(os.path.join(outdir, 'all_dates.csv'))
+        all_data_seir.to_csv(os.path.join(outdir, 'all_dates_seir.csv'))
         retval = None
     else:
         Container = namedtuple('dfs', 'all_data all_data_seir')

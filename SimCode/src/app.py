@@ -14,18 +14,15 @@ from penn_chime.presentation import(
     draw_raw_sir_simulation_table,
     hide_menu_style,
     show_additional_projections,
-    show_more_info_about_this_tool,
-    write_definitions,
-    write_footer,
+    show_more_info_about_this_tool
 )
 from penn_chime.settings import DEFAULTS
-from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel, get_sir_country_file, IsraelData
+from penn_chime.models import SimSirModel, OLG, Seiar, CountryData, SEIRSModel#, IsraelData
 from penn_chime.charts import (
     additional_projections_chart,
     admitted_patients_chart,
     new_admissions_chart,
     chart_descriptions,
-    admission_rma_chart,
     country_level_chart,
     yishuv_level_chart,
     test_results_chart,
@@ -170,6 +167,13 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         'Which models to show?',
         ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
 
+    countrydata = CountryData(DEFAULTS.country_files)
+    countrydata.country_df.drop('I', axis=1, inplace=True)
+    countrydata.country_df.rename(columns={'Country': 'country'}, inplace=True)
+
+    country_dict = {'countries_list': set(countrydata.country_df['country'].values)}
+    DEFAULTS.olg_params.update(country_dict)
+
     p = display_sidebar(st, DEFAULTS, models_option)
 
 
@@ -244,9 +248,11 @@ if st.sidebar.checkbox("Show Israel Projections", False):
 
         st.subheader("OLG Prediction")
         st.markdown("Projected number of **daily** COVID-19 admissions")
+        # Load model
 
-        sir_country_df = get_sir_country_file(DEFAULTS.sir_country_file)
-        olg = OLG(sir_country_df, p)
+
+
+        olg = OLG(countrydata.country_df, p)
         dd = olg.df.copy()
         # dd
         olg_cols = dd.columns

@@ -2,10 +2,14 @@ import numpy as np
 import pandas as pd
 import altair as alt
 from statsmodels.tsa.api import SimpleExpSmoothing, Holt
+from SimCode.src.penn_chime.models import CountryData, OLG
+from penn_chime.settings import DEFAULTS
+# from ModelsCode.OLGModel.old_olg import OLG
 
 
 class Parameters:
-    def __init__(self, tau, init_infected, fi, theta, scenario, countries, critical_condition_rate, recovery_rate, critical_condition_time,recovery_time):
+    def __init__(self, tau, init_infected, fi, theta, scenario, countries, critical_condition_rate, recovery_rate,
+                 critical_condition_time, recovery_time):
         self.tau = tau
         self.init_infected = init_infected
         self.fi = fi  # proportion of infectives are never diagnosed
@@ -19,195 +23,37 @@ class Parameters:
         self.recovery_time = recovery_time
 
 
+scenario = {'t': {0: 20},
+            'R0D': {0: 0}}  ## TODO t: == 20+
 
+p = Parameters(tau=14,
+               init_infected=100,
+               fi=0.25,
+               theta=0.0771,
+               countries=['israel'],
+               scenario=scenario,
+               critical_condition_rate=0.05,
+               recovery_rate=0.4,
+               critical_condition_time=10,
+               recovery_time=6
+               )
 
-class OLG:
-    """
-    calc_asymptomatic start from first case
-    exposed are the asymptomatic_infected with lag not only infected
-    asymptomatic_infected eq 10 does not always grow but uses two diferent R0
+countrydata = CountryData(DEFAULTS.country_files)
 
-    fi  # proportion of infectives are never diagnosed
-    theta = theta  # diagnosis daily rate
-
-    """
-
-    def __init__(self, df, p: Parameters):
-        self.detected = []
-        self.r_adj = np.array([])
-        self.r_values = np.array([])
-        self.r0d = int
-        self.asymptomatic_infected = []
-        self.df = pd.DataFrame()
-        self.tmp = None
-
-        self.iter_countries(df, p)
-
-    @staticmethod
-    def next_gen(r0, tau, c0, ct):
-        r0d = r0 / tau
-        # return ct * (1 + r0d) ** tau - c0 * r0d * (1 + r0d) ** (tau - 1) # Eq 2
-        return c0 * (r0d) + ct
-
-    @staticmethod
-    def true_a(fi, theta, d, d_prev):
-        delta_detected = (d - d_prev)
-        prev_asymptomatic_infected = (1 / (1 - fi)) * (delta_detected / theta + d_prev)
-        return prev_asymptomatic_infected
-
-    @staticmethod
-    def project_contagion(pi, r_prev, comparator_r_prev, comparator_r, s_prev, s, s_comparator_prev, s_comparator):
-        r_comparator_delta_ln = np.log(comparator_r) / np.log(comparator_r_prev) - 1
-        s_delta = s / s_prev - 1
-        s_comparator_delta = s_comparator / s_comparator_prev - 1
-        ln_r = np.log(r_prev) + r_comparator_delta_ln + pi * (s_delta - s_comparator_delta)
-        return np.exp(ln_r)
-
-    def iter_countries(self, df, p):
-        for country in p.countries:
-            df_tmp = df[df['country'] == country].copy()
-            self.process(detected=df_tmp['I'].values, init_infected=p.init_infected)
-            self.calc_r(tau=p.tau, init_infected=p.init_infected, scenario=p.scenario)
-            self.predict(tau=p.tau, scenario=p.scenario)
-            self.calc_asymptomatic(fi=p.fi, theta=p.theta, init_infected=p.init_infected)
-            self.write(df_tmp, tau=p.tau, critical_condition_rate=p.critical_condition_rate,
-                       recovery_rate=p.recovery_rate, critical_condition_time=p.critical_condition_time,
-                       recovery_time=p.recovery_time)
-
-    def process(self, detected, init_infected):
-        day_0 = np.argmax(detected > init_infected)
-        detected = detected[day_0 - 1:]
-        self.detected = []
-        print(detected[:3])
-        for t in range(1, len(detected)):
-            print(t, detected[t - 1], detected[t])
-            self.detected.append(max(detected[t - 1] + 1, detected[t]))
-
-    def calc_r(self, tau, init_infected, scenario):
-        epsilon = 1e-06
-        detected = self.detected
-        r_values = np.array([(detected[0] / (init_infected + epsilon) - 1) * tau])
-
-        for t in range(1, len(detected)):
-            if t <= tau:
-                r_value = (detected[t] / (detected[t - 1] + epsilon) - 1) * tau
-            elif t > tau:
-                r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
-            r_values = np.append(r_values, max(r_value, 0))
-        # print(len(holt_model), len(r_adj_model), len(exp_smot))
-        r_values = np.convolve(r_values, np.ones((int(tau/2),)) / int(tau/2), mode='full')[:len(detected)]
-
-        self.r_values = r_values
-
-    def predict(self, tau, scenario):
-        forcast_cnt = sum(scenario['t'].values())
-        t = len(self.detected) - 1
-        cnt, predicted_cnt = 0, 0
-
-        holt_model = Holt(self.r_values[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
-        self.r0d = holt_model.forecast(forcast_cnt)
-
-        r_adj_model = np.convolve(self.r_values, np.ones((tau,)) / tau, mode='full')[:-tau + 1]
-
-        exp_smot_model = SimpleExpSmoothing(self.r_values[-tau:]).fit()
-        exp_smot = exp_smot_model.forecast(forcast_cnt)
-        # self.r0d = np.linspace(self.r_values[-1], 0.05, forcast_cnt)[:forcast_cnt] #exp_smot_model.forecast(forcast_cnt)
-
-        self.r_adj = self.r_values
-
-        for i in scenario['t'].keys():
-            predicted_cnt += cnt
-            cnt = 0
-            while cnt < scenario['t'].get(i):
-                c0 = self.detected[t - tau] if t - tau >= 0 else 0
-                self.r0d[predicted_cnt+cnt] = self.r0d[predicted_cnt+cnt] * (scenario['R0D'].get(i) + 1)
-                next_gen = self.next_gen(r0=self.r0d[predicted_cnt+cnt], tau=tau,
-                                         c0=c0, ct=self.detected[t])
-
-                self.detected.append(next_gen)
-                t += 1
-                cnt += 1
-
-    def calc_asymptomatic(self, fi, theta, init_infected):
-        asymptomatic_infected = [self.true_a(fi=fi, theta=theta, d=self.detected[0], d_prev=init_infected)]
-
-        for t in range(1, len(self.detected)):
-            prev_asymptomatic_infected = self.true_a(fi=fi, theta=theta, d=self.detected[t],
-                                                     d_prev=self.detected[t - 1])
-            # asymptomatic_infected.append(
-            #     max(prev_asymptomatic_infected, asymptomatic_infected[-1]))  # not in Michel's paper!!!!!!!
-
-            asymptomatic_infected.append(prev_asymptomatic_infected)
-        self.asymptomatic_infected = asymptomatic_infected
-
-    def write(self, df_o, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
-        forcast_cnt = len(self.detected) - len(self.r_adj)
-        df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex']].copy()
-        print(df_o.columns)
-
-        df['r_values'] = self.r_values
-        df['R'] = self.r_adj
-        df['I'] = self.detected[:len(self.r_adj)]
-
-        predict_date = df['date'].max() + pd.to_timedelta(1, unit="D")
-        prediction_dates = pd.date_range(start=predict_date.strftime('%Y-%m-%d'), periods=forcast_cnt)
-
-        predicted = pd.DataFrame(
-            {'date': prediction_dates,
-             'I': self.detected[-forcast_cnt:],
-             'R': self.r0d,
-             })
-        df = df.append(predicted, ignore_index=True)
-
-        df['A'] = self.asymptomatic_infected
-        df['A'] = df['A'].shift(periods=-1)
-        df['E'] = df['A'].shift(periods=-tau -1)
-        # df['A'] = df['A'] - df['I']
-        df['corona_days'] = pd.Series(range(1, len(df) + 1))
-        df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
-        df['dI'] = df['I'] - df["I"].shift(1)
-        df['dA'] = df['A'] - df["A"].shift(1)
-        df['dE'] = df['E'] - df["E"].shift(1)
-        df['Currently Infected'] = np.where(df['corona_days'] < (critical_condition_time+recovery_time),
-                               df['I'],
-                               df['I'] - df['I'].shift(periods=+critical_condition_time+recovery_time))
-
-        df['country'].fillna(method='ffill', inplace=True)
-        df['Currently Infected'].fillna(method='ffill', inplace=True)
-        df['Critical_condition'] = df['Currently Infected'] * critical_condition_rate
-        df['Recovery_Critical'] = df['Critical_condition'] * recovery_rate
-        df['Mortality_Critical'] = df['Critical_condition'] - df['Recovery_Critical']
-
-
-        df['Critical_condition'] = df['Critical_condition'].shift(periods=critical_condition_time).round(0)
-        df[['Mortality_Critical', 'Recovery_Critical']] = df[['Mortality_Critical', 'Recovery_Critical']].shift(periods=critical_condition_time+recovery_time).round(0)
-
-        df['Critical_condition_roll_sum'] = df['Critical_condition'].rolling(recovery_time).sum()
-        df['Critical_condition_roll_sum'] = df['Critical_condition_roll_sum'].shift(periods=critical_condition_time).round(0)
-
-
-        df['Doubling Time'] = np.log(2)/np.log(1+df['R']/tau)
-        df.rename(columns={'I': 'Total Detected', 'A': 'Total Infected', 'E': 'Total Exposed',
-                                'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'}, inplace=True)
-        self.df = pd.concat([self.df, df])
+countrydata.country_df.drop('I', axis=1, inplace=True)
+countrydata.country_df.rename(columns={'Country': 'country'}, inplace=True)
 
 
 
-# scenario = {'t': {0: 20, 1: 90},
-#             'R0D': {0: 0, 1: 0}} ## TODO t: == 20+
-#
-# p = Parameters(tau=14,
-#                 init_infected=100,
-#                 fi=0.25,
-#                 theta=0.0771,
-#                 countries=['israel'],
-#                 scenario=scenario,
-#                 critical_condition_rate=0.05,
-#                        recovery_rate=0.4,
-#                 critical_condition_time=10,
-#                        recovery_time=6
-#                )
-#
-# countrydata_df = pd.read_csv('C:/Users/User/git/covid19-sim/Resources/all_dates.csv', parse_dates=['date'])[['country', 'StringencyIndex', 'date', 'total_cases']]
-# countrydata_df.rename(columns={'total_cases':'I'}, inplace=True)
-# olg_model = OLG(countrydata_df, p)
+jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
+
+# worldmeter_df = pd.read_csv('C:/Users/User/git/covid19-sim/ModelsCode/OLGModel/worldmeter.csv', sep=';')
+# worldmeter_df['date'] = pd.to_datetime(worldmeter_df['date'], format="%d/%m/%Y")
+# worldmeter_df.info()
+
+olg_model = OLG(countrydata.country_df, p, jh_hubei)
+
+# pp = olg_model.df[['Total Detected', 'Critical_condition2', 'Critical_condition', 'serious_critical']]
+
+
+olg_model.df.to_excel('olg.xlsx', index=False)

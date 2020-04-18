@@ -7,7 +7,6 @@ from typing import IO, Union, Optional
 from collections import namedtuple
 
 
-
 def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
 
     print(__file__, 'is running')
@@ -15,8 +14,9 @@ def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
 
     df = pd.read_csv(GOV_RESOURCE_CSV)
 
-    df['datastore_structure'] = df['resource_id'].apply(lambda x: {'resource_id': x,'limit':RECORDS_LIMIT})\
-                                            .apply(lambda x: str.encode(json.dumps(x)))
+    df['datastore_structure'] = df['resource_id'].apply(lambda resource_id: {'resource_id': resource_id,
+                                                                             'limit':RECORDS_LIMIT})        \
+                                                 .apply(lambda http_body: str.encode(json.dumps(http_body)))
 
     df_names = []
     for _, entry in df.iterrows():
