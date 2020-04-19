@@ -168,7 +168,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
 if st.sidebar.checkbox("Show Israel Projections", False):
     models_option = st.sidebar.multiselect(
         'Which models to show?',
-        ( 'OLG Model'), )
+        ['OLG Model'])
         # ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
 
     countrydata = CountryData(DEFAULTS.country_files)
@@ -255,7 +255,11 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         # Load model
 
         jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
-        olg = OLG(countrydata.country_df, p, jh_hubei)
+        country_df = countrydata.country_df.copy()
+        # p.countries = st.multiselect('Select countries',  list(country_df['country'].unique()), 'israel')
+        # if len(p.countries) == 0:
+        p.countries = ['israel']
+        olg = OLG(country_df, p, jh_hubei)
         dd = olg.df.copy()
         # dd
         olg_cols = dd.columns
@@ -296,16 +300,17 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['סוג מידע']=='מספר חולים מאומתים',:]
         israel_yishuv_df = israel_yishuv_df.rename(columns={'value':'total_cases', 'Yishuv':'country'})
         pil = p
-        pil.countries = st.multiselect("Select Yishuv", list(israel_yishuv_df.country.unique()), ['בני ברק'])
-        pil.init_infected = st.number_input("Select min corona cases for Yishuv", min_value=10, value=25)
-        olgil = OLG(israel_yishuv_df, pil, jh_hubei, False)
-        ddil = olgil.df.copy()
-        # ddil
-        st.altair_chart(
-            olg_projections_chart(alt, ddil.loc[ddil['prediction_ind']==0,['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
-            use_container_width=True,
-        )
-        st.markdown("*Note: In this model treatment does not vary by Yishuv*")
+        pil.countries = st.multiselect("Select Yishuv", list(israel_yishuv_df.country.unique()))
+        if len(pil.countries) > 0:
+            pil.init_infected = st.number_input("Select min corona cases for Yishuv", min_value=10, value=25)
+            olgil = OLG(israel_yishuv_df, pil, jh_hubei, False)
+            ddil = olgil.df.copy()
+            # ddil
+            st.altair_chart(
+                olg_projections_chart(alt, ddil.loc[ddil['prediction_ind']==0,['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
+                use_container_width=True,
+            )
+            st.markdown("*Note: In this model treatment does not vary by Yishuv*")
 
         st.subheader("Projection using Johns Hopkins Data")
         countrydata = CountryData(DEFAULTS.country_files)
@@ -318,15 +323,19 @@ if st.sidebar.checkbox("Show Israel Projections", False):
             country_df.loc[:, ['country', 'date', 'StringencyIndex']], how='left')
         jh_confirmed_df['country'] = jh_confirmed_df['country'] + " - " + jh_confirmed_df['Province'].str.lower()
         pjh = p
-        pjh.countries = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()), "israel - all")
-        pjh.init_infected = st.number_input("Select min corona cases for Province", min_value=10, value=100)
-        olgjh = OLG(jh_confirmed_df, pjh, jh_hubei, False)
-        ddjh = olgjh.df.copy()
-        st.altair_chart(
-            olg_projections_chart(alt, ddjh.loc[ddjh['prediction_ind']==0 ,
-                                    ['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
-            use_container_width=True,
-        )
+        pjh.countries = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()))
+        # jh_confirmed_df.loc[jh_confirmed_df['country'].isin(pjh.countries), :]
+        if len(pjh.countries) > 0:
+            pjh.init_infected = st.number_input("Select min corona cases for Province", min_value=10, value=100)
+            olgjh = OLG(jh_confirmed_df, pjh, jh_hubei, False)
+            ddjh = olgjh.df.copy()
+            st.altair_chart(
+                olg_projections_chart(alt, ddjh.loc[ddjh['prediction_ind']==0 ,
+                                        ['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
+                use_container_width=True,
+            )
+            if st.checkbox("Show Countries Data", False):
+                ddjh.loc[ddjh['prediction_ind']==0, :]
 
         st.subheader("Calculate Oxford StringencyIndex")
         sgidx = StringencyIndex()
