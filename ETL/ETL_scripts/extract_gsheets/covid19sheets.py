@@ -1,7 +1,9 @@
-from .utils.functions import *
 from .settings import *
-from typing import IO
+from .utils.functions import *
 import requests
+from typing import Union
+from os import PathLike
+
 
 # Set variables
 # Set scope of gsheet api
@@ -11,15 +13,14 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 # For the sheets api
 spreadsheet_id = info.get('gsheets').get('spreadsheetId')
 sheet_name = info.get('gsheets').get('sheet')
-range = info.get('gsheets').get('range')
-sample_range_name = f'{sheet_name}!{range}'
+sheet_range = info.get('gsheets').get('range')
+sample_range_name = f'{sheet_name}!{sheet_range}'
 
 # For gov ckan api
 pop_per_city_url = info.get('pop_per_city').get('url')
 
 
-def main(outdir:IO = None)->pd.DataFrame:
-
+def main(outdir: Union[PathLike] = None) -> pd.DataFrame:
     print(__file__, 'is running')
     # ---------------------
     # -- Get covid19 data from google sheets
@@ -36,13 +37,13 @@ def main(outdir:IO = None)->pd.DataFrame:
     # -- Get population data from gov.il
     # ----------------------
     response = requests.get(pop_per_city_url)
-    records= response.json().get('result').get('records')
-    pop_per_city_base = pd.DataFrame(records).drop('_id',axis = 1)
+    records = response.json().get('result').get('records')
+    pop_per_city_base = pd.DataFrame(records).drop('_id', axis=1)
 
     # ---------------------
     # -- Transform dataframes and merge
     # ----------------------
-    basecols = ['shk', 'gyl_0_6','gyl_6_18', 'gyl_19_45', 'gyl_46_55', 'gyl_56_64', 'gyl_65_plvs']
+    basecols = ['shk', 'gyl_0_6', 'gyl_6_18', 'gyl_19_45', 'gyl_46_55', 'gyl_56_64', 'gyl_65_plvs']
     city_col = 'SHm_ySHvb'
     distrct_col = 'mv`TSh_Azvryt'
 
@@ -50,13 +51,13 @@ def main(outdir:IO = None)->pd.DataFrame:
     #   one for cities
     #   and another aggregated for distrticts,
     # union them.
-    pop_per_city = pop_per_city_base[basecols+[city_col]]
-    pop_per_distrct = pop_per_city_base.groupby(distrct_col)[basecols]\
-                                        .sum().\
-                                        reset_index().\
-                                        rename({distrct_col:city_col},axis = 1)
+    pop_per_city = pop_per_city_base[basecols + [city_col]]
+    pop_per_distrct = pop_per_city_base.groupby(distrct_col)[basecols] \
+        .sum(). \
+        reset_index(). \
+        rename({distrct_col: city_col}, axis=1)
 
-    pop_per_city_district= pd.concat([pop_per_city,pop_per_distrct],sort=False).drop_duplicates(city_col)
+    pop_per_city_district = pd.concat([pop_per_city, pop_per_distrct], sort=False).drop_duplicates(city_col)
 
     # Some final data manifulations
     left_on = 'יישוב'
@@ -67,10 +68,10 @@ def main(outdir:IO = None)->pd.DataFrame:
 
     # Merge sets
     gsheet_df_unified = gsheet_df.merge(pop_per_city_district,
-                                        left_on = left_on,
-                                        right_on = right_on,
-                                        how ='left')\
-                        .drop(right_on,axis =1)
+                                        left_on=left_on,
+                                        right_on=right_on,
+                                        how='left') \
+        .drop(right_on, axis=1)
 
     # Dta output
     if outdir:
