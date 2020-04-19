@@ -298,25 +298,25 @@ if st.sidebar.checkbox("Show Israel Projections", False):
             use_container_width=True,
         )
 
-        # st.subheader("Projection for Israeli Yishuvim")
-        # israel_data = IsraelData(DEFAULTS.israel_files)
-        # israel_yishuv_df = israel_data.yishuv_df.copy()
-        # israel_yishuv_df = israel_yishuv_df.merge(
-        #     dd.loc[dd['country'] == 'israel', ['date', 'StringencyIndex']], how='left')
-        # israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['סוג מידע']=='מספר חולים מאומתים',:]
-        # israel_yishuv_df = israel_yishuv_df.rename(columns={'value':'total_cases', 'Yishuv':'country'})
-        # pil = p
-        # pil.countries = st.multiselect("Select Yishuv", list(israel_yishuv_df.country.unique()))
-        # if len(pil.countries) > 0:
-        #     pil.init_infected = st.number_input("Select min corona cases for Yishuv", min_value=10, value=25)
-        #     olgil = OLG(israel_yishuv_df, pil, jh_hubei, False)
-        #     ddil = olgil.df.copy()
-        #     # ddil
-        #     st.altair_chart(
-        #         olg_projections_chart(alt, ddil.loc[ddil['prediction_ind']==0,['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
-        #         use_container_width=True,
-        #     )
-        #     st.markdown("*Note: In this model treatment does not vary by Yishuv*")
+        st.subheader("Projection for Israeli Yishuvim")
+        israel_data = IsraelData(DEFAULTS.israel_files)
+        israel_yishuv_df = israel_data.yishuv_df.copy()
+        israel_yishuv_df = israel_yishuv_df.merge(
+            dd.loc[dd['country'] == 'israel', ['date', 'StringencyIndex']], how='left')
+        israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['סוג מידע']=='מספר חולים מאומתים',:]
+        israel_yishuv_df = israel_yishuv_df.rename(columns={'value':'total_cases', 'Yishuv':'country'})
+        pil = p
+        pil.countries = st.multiselect("Select Yishuv", list(israel_yishuv_df.country.unique()))
+        if len(pil.countries) > 0:
+            pil.init_infected = st.number_input("Select min corona cases for Yishuv", min_value=10, value=25)
+            olgil = OLG(israel_yishuv_df, pil, jh_hubei, False)
+            ddil = olgil.df.copy()
+            # ddil
+            st.altair_chart(
+                olg_projections_chart(alt, ddil.loc[ddil['prediction_ind']==0,['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
+                use_container_width=True,
+            )
+            st.markdown("*Note: In this model treatment does not vary by Yishuv*")
 
         st.subheader("Projection using Johns Hopkins Data")
         countrydata = CountryData(DEFAULTS.country_files)
@@ -341,13 +341,16 @@ if st.sidebar.checkbox("Show Israel Projections", False):
                 use_container_width=True,
             )
             if st.checkbox("Show Countries Data", False):
-                ddjh.loc[ddjh['prediction_ind']==0, :]
+                ddjh.loc[ddjh['prediction_ind'] == 0, :]
 
         st.subheader("Calculate Oxford StringencyIndex")
-        sgidx = StringencyIndex()
+        sgidx = StringencyIndex("Israel")
         sgidx.display_st(st)
         sgidx.calculate_stringency()
-        sgidx.output_df
+        sgidx_data = sgidx.output_df.copy()
+        sgidx_data
+        sgidx_data.to_csv("stringencyExample.csv")
+
 
     if "SEIAR Model" in models_option:
         st.subheader("SEIAR Model")
