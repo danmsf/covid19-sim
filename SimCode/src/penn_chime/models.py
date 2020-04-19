@@ -354,10 +354,11 @@ class OLG:
                 r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - detected[t - tau]) * tau
             r_values = np.append(r_values, max(r_value, 0))
 
-        self.r_values, self.r_adj = r_values, np.convolve(r_values, np.ones(int(tau / 2, )) / int(tau / 2), mode='full')[:len(detected)]
+        self.r_values, self.r_adj = r_values, np.convolve(r_values, np.ones(int(tau, )) / int(tau), mode='full')[:len(detected)]
 
 
     def predict_crystal_ball(self, tau, r_hubei, scenario):
+        self.r_adj = np.clip(self.r_adj, 0, 100)
         forcast_cnt = sum(scenario['t'].values()) - 1
 
         if self.df_tmp['country'].values[0] == 'israel':
