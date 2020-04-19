@@ -354,10 +354,11 @@ class OLG:
                 r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - detected[t - tau]) * tau
             r_values = np.append(r_values, max(r_value, 0))
 
-        self.r_values, self.r_adj = r_values, np.convolve(r_values, np.ones(int(tau / 2, )) / int(tau / 2), mode='full')[:len(detected)]
+        self.r_values, self.r_adj = r_values, np.convolve(r_values, np.ones(int(tau, )) / int(tau), mode='full')[:len(detected)]
 
 
     def predict_crystal_ball(self, tau, r_hubei, scenario):
+        self.r_adj = np.clip(self.r_adj, 0, 100)
         forcast_cnt = sum(scenario['t'].values()) - 1
 
         if self.df_tmp['country'].values[0] == 'israel':
@@ -436,6 +437,10 @@ class OLG:
         return df['Critical_condition']
 
     def write(self, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
+        if self.have_serious_data==False:
+            self.df_tmp['serious_critical'] = None
+            self.df_tmp['new_cases'] = self.df_tmp['total_cases'] - self.df_tmp['total_cases'].shift(1)
+            self.df_tmp['activecases'] = None
 
         forcast_cnt = len(self.detected) - len(self.r_adj)
         df = self.df_tmp[['date', 'country', 'StringencyIndex', 'serious_critical', 'new_cases', 'activecases']].reset_index(drop=True).copy()
@@ -505,7 +510,7 @@ class CountryData:
         country_df = country_df.rename(columns={'country': 'Country'})
         # country_df['new_deaths'] = country_df['new_deaths'].str.replace('+', '')
         # country_df['new_deaths'] = country_df['new_deaths'].str.replace(',', '')
-        country_df['new_deaths'] = country_df['new_deaths'].apply(lambda x: float(x))
+        # country_df['new_deaths'] = country_df['new_deaths'].apply(lambda x: float(x))
         return country_df
 
     def get_country_stringency(self):
@@ -601,16 +606,19 @@ def get_sir_country_file(sir_country_file):
 
 
 class StringencyIndex:
-    def __init__(self):
+    def __init__(self, countryname):
         OXDF = "OxCGRT_Download_180420_223736_Full.csv"
         self.filepath = os.path.join(os.getcwd(), "Resources", "Datasets", "CountryData", OXDF)
         self.oxford_df = pd.read_csv(os.path.join(os.getcwd(), "Resources", "Datasets", "CountryData", OXDF))
+        self.countryname = countryname
         self.input_df = pd.DataFrame()
         self.output_df = pd.DataFrame()
         self.max_val = {'S1': 2., 'S2': 2., 'S3': 2., 'S4': 2., 'S5': 1., 'S6': 2., 'S7': 3.}
         self.project_til = None
 
     def get_latest(self):
+        self.oxford_df = self.oxford_df.loc[self.oxford_df["CountryName"] == self.countryname, :]
+        self.oxford_df["date"] = pd.to_datetime(self.oxford_df["Date"], format="%Y%m%d")
         s1_7 = tuple("S" + str(i) + "_" for i in range(1, 8, 1))
         keep_cols = [c for c in self.oxford_df.columns if c.startswith(s1_7)]
         keep_cols = [c for c in keep_cols if c.find('Notes') == -1]
@@ -674,11 +682,12 @@ class StringencyIndex:
 
         cols = temp.columns
         score_cols = [c for c in cols if c.find("score") > -1]
-        temp['StringencyIndex'] = temp[score_cols].apply(lambda x: np.average(x), axis=1)
+        temp['StringencyIndex'] = temp[score_cols].apply(lambda x: np.average(x)*100, axis=1)
         cols = list(temp.columns)
         cols.insert(0, cols.pop(cols.index('StringencyIndex')))
         cols.insert(0, cols.pop(cols.index('date')))
         temp = temp.loc[:, cols]
+        # temp = pd.merge(temp, self.oxford_df.loc[:, ["StringencyIndex", "date"]], "outer")
         self.output_df = temp
         return temp
 
