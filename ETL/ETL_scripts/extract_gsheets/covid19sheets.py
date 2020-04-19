@@ -1,6 +1,7 @@
 from .utils.functions import *
 from .settings import *
 from typing import IO
+import requests
 
 # Enable sheets api at: https://developers.google.com/sheets/api/quickstart/python
 # Choose desktop app
@@ -25,14 +26,27 @@ def main(outdir:IO = None)->pd.DataFrame:
     result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
                                 range=SAMPLE_RANGE_NAME).execute()
 
-    df = values_to_df(result)
+    gsheet_df = values_to_df(result)
+
+    pop_per_city_url = 'https://data.gov.il/api/action/datastore_search?resource_id=64edd0ee-3d5d-43ce-8562-c336c24dbc1f&limit=100000'
+    response = requests.get(pop_per_city_url)
+    records= response.json().get('result').get('records')
+    pop_per_city = pd.DataFrame(records).drop('_id',axis = 1)
+
+    left_on = 'יישוב'
+    right_on = 'SHm_ySHvb'
+
+    gsheet_df[left_on] = gsheet_df[left_on].str.strip()
+    pop_per_city[right_on] = pop_per_city[right_on].str.strip()
+
+    gsheet_df = gsheet_df.merge(pop_per_city, left_on = left_on, right_on = right_on, how ='left')
 
     if outdir:
         outdir = os.path.join(outdir, 'gsheets.csv')
-        df.to_csv(outdir)
+        gsheet_df.to_csv(outdir)
         retval = None
     else:
-        retval = df
+        retval = gsheet_df
 
     return retval
 
