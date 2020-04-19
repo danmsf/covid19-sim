@@ -12,6 +12,9 @@ mapper = pd.read_csv(MAPPER_PATH, index_col ='key', usecols = ['key', 'value'])
 column_remapper = mapper.iloc[:,0]
 
 GOVERNMENT_RESPONSE_URL = 'https://ocgptweb.azurewebsites.net/CSVDownload'
+GOVERNMENT_RESPONSE_CSV = r'../../../Resources/Datasets/CountryData/OxCGRT_Download_190420_125856_Full.csv'
+GOVERNMENT_RESPONSE_CSV = os.path.join(current_dir,GOVERNMENT_RESPONSE_CSV)
+# GOVERNMENT_RESPONSE_CSV = os.path.normpath(os.path.join(current_dir, GOVERNMENT_RESPONSE_CSV))
 
 POPULATION_CSV_PATH = os.path.join(current_dir,'resources/csv/population_data.csv')
 

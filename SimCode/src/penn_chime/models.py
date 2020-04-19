@@ -508,6 +508,7 @@ class OLG:
         df['StringencyIndex'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
         df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
+        df['StringencyIndex'].fillna(method='ffill', inplace=True)
         if df['country'][0] == 'israel':
             df = self.calc_crystal_ball(df, r_hubei)
 
@@ -598,58 +599,58 @@ class CountryData:
         # df = df.rename(columns={'יישוב':'Yishuv', 'variable':'date'})
         return df
 
-# class IsraelData:
-#     def __init__(self, israel_files):
-#         self.filepath = israel_files
-#         self.yishuv_df = self.get_yishuv_data()
-#         self.isolation_df = self.get_isolation_df()
-#         self.lab_results_df = self.get_lab_results_df()
-#         self.tested_df = self.get_tested_df()
-#         self.patients_df = self.get_patients_df()
-#
-#     @st.cache
-#     def get_yishuv_data(self):
-#         df = pd.read_csv(self.filepath['yishuv_file'])
-#         df = df.drop(columns="Unnamed: 0")
-#         id_vars = ['יישוב', 'סוג מידע','אוכלוסייה נכון ל- 2018']
-#         colnames = [c for c in df.columns if c not in id_vars]
-#         df = df.melt(id_vars=id_vars, value_vars=colnames)
-#         df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
-#         df = df[df["variable"].dt.year>1677].dropna()
-#         df = df.rename(columns={'יישוב':'Yishuv','אוכלוסייה נכון ל- 2018':'pop2018', 'variable':'date'})
-#         return df
-#
-#     @st.cache
-#     def get_isolation_df(self):
-#         df = pd.read_csv(self.filepath['isolations_file'])
-#         df['date'] = pd.to_datetime(df['date'])
-#         df = df.set_index("date", drop=False)
-#         df = df.drop(columns="_id")
-#         return df
-#
-#     @st.cache
-#     def get_lab_results_df(self):
-#         df = pd.read_csv(self.filepath['lab_results_file'])
-#         df['result_date'] = pd.to_datetime(df['result_date'])
-#         return df
-#
-#     @st.cache
-#     def get_tested_df(self):
-#         df = pd.read_csv(self.filepath['tested_file'])
-#         df['None'] = df[df.columns[2:]].sum(axis=1)
-#         df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
-#         df['At Least One'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
-#         df['test_date'] = pd.to_datetime(df['test_date'])
-#         df = df.drop(columns="_id")
-#         return df
-#
-#     @st.cache
-#     def get_patients_df(self):
-#         df = pd.read_csv(self.filepath['patients_file'])
-#         df = df.dropna(subset=['New Patients Amount'])
-#         df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
-#        # df = df.drop(columns="_id")
-#         return df
+class IsraelData:
+    def __init__(self, israel_files):
+        self.filepath = israel_files
+        self.yishuv_df = self.get_yishuv_data()
+        self.isolation_df = self.get_isolation_df()
+        self.lab_results_df = self.get_lab_results_df()
+        self.tested_df = self.get_tested_df()
+        self.patients_df = self.get_patients_df()
+
+    @st.cache
+    def get_yishuv_data(self):
+        df = pd.read_csv(self.filepath['yishuv_file'])
+        df = df.drop(columns="Unnamed: 0")
+        id_vars = ['יישוב', 'סוג מידע','אוכלוסייה נכון ל- 2018']
+        colnames = [c for c in df.columns if c not in id_vars]
+        df = df.melt(id_vars=id_vars, value_vars=colnames)
+        df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
+        df = df[df["variable"].dt.year>1677].dropna()
+        df = df.rename(columns={'יישוב':'Yishuv','אוכלוסייה נכון ל- 2018':'pop2018', 'variable':'date'})
+        return df
+
+    @st.cache
+    def get_isolation_df(self):
+        df = pd.read_csv(self.filepath['isolations_file'])
+        df['date'] = pd.to_datetime(df['date'])
+        df = df.set_index("date", drop=False)
+        df = df.drop(columns="_id")
+        return df
+
+    @st.cache
+    def get_lab_results_df(self):
+        df = pd.read_csv(self.filepath['lab_results_file'])
+        df['result_date'] = pd.to_datetime(df['result_date'])
+        return df
+
+    @st.cache
+    def get_tested_df(self):
+        df = pd.read_csv(self.filepath['tested_file'])
+        df['None'] = df[df.columns[2:]].sum(axis=1)
+        df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
+        df['At Least One'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
+        df['test_date'] = pd.to_datetime(df['test_date'])
+        df = df.drop(columns="_id")
+        return df
+
+    @st.cache
+    def get_patients_df(self):
+        df = pd.read_csv(self.filepath['patients_file'])
+        df = df.dropna(subset=['New Patients Amount'])
+        df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
+       # df = df.drop(columns="_id")
+        return df
 
 
 def get_sir_country_file(sir_country_file):

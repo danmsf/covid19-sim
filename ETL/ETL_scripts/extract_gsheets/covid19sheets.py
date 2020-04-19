@@ -12,7 +12,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID = '1Y-ieLWMDzFzzeJKW-SygD90dBH80d4x0db8I3UFNj_c'
 
-SHEET_NAME = 'Patients/towns'
+SHEET_NAME = 'towns cases amounts'
 RANGE = 'A3:AB'
 SAMPLE_RANGE_NAME = f'{SHEET_NAME}!{RANGE}'
 
