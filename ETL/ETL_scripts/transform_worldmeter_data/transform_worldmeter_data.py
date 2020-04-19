@@ -42,8 +42,9 @@ def main(indir:IO,
 
     # Join df from all dates
     disease_data = pd.concat(df_list, ignore_index=True, sort=False)
-    # Remove plus sign from "New Cases" col
-    disease_data['New Cases'] = disease_data['New Cases'].str.extract('(\d+)')
+    # Remove plus sign from columns
+    disease_data['New Cases'] = disease_data['New Cases'].str.replace('[^\d]','')
+    disease_data['New Deaths'] = disease_data['New Deaths'].str.replace('[^\d]', '')
     # Sort df by date
     disease_data = disease_data.sort_values('date')
     # Remove the totalrow
@@ -59,7 +60,7 @@ def main(indir:IO,
     # --------------------
     # Read and format GOVERNMENT_RESPONSE raw_data
     # --------------------
-    response_data = pd.read_csv(GOVERNMENT_RESPONSE_URL)
+    response_data = pd.read_csv(GOVERNMENT_RESPONSE_CSV)
     response_data.CountryName = response_data.CountryName.str.lower()
     response_data.Date = pd.to_datetime(response_data.Date,format = '%Y%m%d')
     response_data = response_data.rename({'CountryName':'country',
