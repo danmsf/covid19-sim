@@ -133,7 +133,7 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
 
 if st.sidebar.checkbox(label="Show Israel data"):
     # TODO: Add ISRAEL R and yishuvim R
-    st.header('Israeli Data')
+    st.subheader('Israeli Data')
     israel_data = IsraelData(DEFAULTS.israel_files)
 
     # Load data
@@ -226,6 +226,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
         # st.markdown("*Note: Minimum 25 Cases for start out of outbreak*")
     st.markdown("""*Source: Self collection*""")
     st.markdown("-----------------------------")
+    st.subheader('Ministry of Health Data')
     # Isolation chart
     st.altair_chart(isolations_chart(alt, isolation_df), use_container_width=True)
     st.markdown("""*Source: Israel Ministry of Health*""")
