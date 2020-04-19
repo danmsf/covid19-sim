@@ -14,7 +14,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SPREADSHEET_ID = '1Y-ieLWMDzFzzeJKW-SygD90dBH80d4x0db8I3UFNj_c'
 
 SHEET_NAME = 'towns cases amounts'
-RANGE = 'A3:AB'
+RANGE = 'A3:AH'
 SAMPLE_RANGE_NAME = f'{SHEET_NAME}!{RANGE}'
 
 def main(outdir:IO = None)->pd.DataFrame:
