@@ -10,7 +10,6 @@ from .defaults import Constants, RateLos
 from .utils import add_date_column, dataframe_to_base64
 from .parameters import Parameters
 
-from .models import get_sir_country_file
 
 DATE_FORMAT = "%b, %d"  # see https://strftime.org
 
@@ -267,7 +266,10 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             format="%f",
         )
 
-        d.olg_params['countries'] = st.multiselect('Select countries', list(get_sir_country_file(d.sir_country_file)['country'].drop_duplicates().values), default='israel')
+        # d.olg_params['countries'] = st.multiselect('Select countries',  d.olg_params['countries'],
+        #                                            default='israel'
+        #                                            )
+
         d.olg_params['critical_condition_rate'] = st.sidebar.number_input(
             "Critical Condition Rate",
             min_value=0.0001,
@@ -308,12 +310,9 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             s_times = [int(s) for s in s_times]
             s_betas = [float(s) for s in s_betas]
 
-
             d.olg_params['scenario'] = {'t': {k: v for k, v in enumerate(s_times)},
                                         'R0D': {k: v for k, v in enumerate(s_betas)}}
 
-        # else:
-        #     d.olg_params['scenario'] = {'t': {0: 10, 1:10},  'R0D': {0: 0, 1:-0.4}}
 
     if "SEIAR Model" in models_option:
         st.sidebar.subheader("SEAIR Model parameters")
