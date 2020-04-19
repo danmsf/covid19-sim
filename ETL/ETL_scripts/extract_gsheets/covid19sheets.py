@@ -26,6 +26,7 @@ def main(outdir: Union[PathLike] = None) -> pd.DataFrame:
     # ---------------------
     # -- Get covid19 data from google sheets
     # ----------------------
+
     service = create_service(SCOPES, CREDS_PATH, TOKEN_PATH)
     sheet = service.spreadsheets()
     result = sheet.values().get(spreadsheetId=spreadsheet_id,
