@@ -60,7 +60,7 @@ def main(indir:IO,
     # --------------------
     # Read and format GOVERNMENT_RESPONSE raw_data
     # --------------------
-    response_data = pd.read_csv(GOVERNMENT_RESPONSE_URL)
+    response_data = pd.read_csv(GOVERNMENT_RESPONSE_CSV)
     response_data.CountryName = response_data.CountryName.str.lower()
     response_data.Date = pd.to_datetime(response_data.Date,format = '%Y%m%d')
     response_data = response_data.rename({'CountryName':'country',
