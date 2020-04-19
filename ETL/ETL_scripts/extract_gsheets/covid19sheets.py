@@ -11,11 +11,12 @@ import requests
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of a sample spreadsheet.
-SPREADSHEET_ID = '1Y-ieLWMDzFzzeJKW-SygD90dBH80d4x0db8I3UFNj_c'
 
-SHEET_NAME = 'towns cases amounts'
-RANGE = 'A3:AH'
-SAMPLE_RANGE_NAME = f'{SHEET_NAME}!{RANGE}'
+spreadsheet_id = info.get('gsheets').get('spreadsheetId')
+sheet_name = info.get('gsheets').get('sheet')
+range = info.get('gsheets').get('range')
+sample_range_name = f'{sheet_name}!{range}'
+pop_per_city_url = info.get('pop_per_city').get('url')
 
 def main(outdir:IO = None)->pd.DataFrame:
     print(__file__, 'is running')
@@ -23,12 +24,11 @@ def main(outdir:IO = None)->pd.DataFrame:
     service = create_service(SCOPES, CREDS_PATH, TOKEN_PATH)
     # Call the Sheets API
     sheet = service.spreadsheets()
-    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                range=SAMPLE_RANGE_NAME).execute()
+    result = sheet.values().get(spreadsheetId=spreadsheet_id,
+                                range=sample_range_name).execute()
 
     gsheet_df = values_to_df(result)
 
-    pop_per_city_url = 'https://data.gov.il/api/action/datastore_search?resource_id=64edd0ee-3d5d-43ce-8562-c336c24dbc1f&limit=100000'
     response = requests.get(pop_per_city_url)
     records= response.json().get('result').get('records')
     pop_per_city = pd.DataFrame(records).drop('_id',axis = 1)

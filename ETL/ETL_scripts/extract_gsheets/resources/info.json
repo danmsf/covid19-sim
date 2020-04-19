@@ -1,0 +1,4 @@
+{
+  "gsheets": {"type":"gsheet","spreadsheetId":"1Y-ieLWMDzFzzeJKW-SygD90dBH80d4x0db8I3UFNj_c","range":"A3:AH", "sheet": "towns cases amounts"},
+  "pop_per_city": {"type":"csv", "url": "https://data.gov.il/api/action/datastore_search?resource_id=64edd0ee-3d5d-43ce-8562-c336c24dbc1f&limit=1000"}
+}
