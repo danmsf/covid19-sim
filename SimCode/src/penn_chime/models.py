@@ -287,6 +287,7 @@ class OLG:
         self.r0d = np.array([])
         self.asymptomatic_infected = []
         self.df = pd.DataFrame()
+        self.df_tmp = pd.DataFrame()
         self.tmp = None
         self.have_serious_data = have_serious_data
         self.iter_countries(df, p, jh_hubei)
@@ -302,7 +303,6 @@ class OLG:
         prev_asymptomatic_infected = (1 / (1 - fi)) * ((d_delta_ma) / theta + d_prev)
         return prev_asymptomatic_infected
 
-
     @staticmethod
     def crystal_ball_regression(r_prev, hubei_prev, hubei_prev_t2, s_prev_t7):
         crystal_ball_coef = {'intercept': 1.462, 'r_prev': 0.915, 'hubei_prev': 0.05, 'hubei_prev_t2': 0.058, 's_prev_t7': 0.0152 }
@@ -315,28 +315,33 @@ class OLG:
 
     def iter_countries(self, df, p, jh_hubei):
 
-        self.process(detected=jh_hubei, init_infected=p.init_infected)
+        self.process(init_infected=p.init_infected, detected=jh_hubei)
         self.calc_r(tau=p.tau, init_infected=p.init_infected)
         r_hubei = self.r_values
 
         for country in p.countries:
-            # print(country)
-            df_tmp = df[df['country'] == country].copy()
-            # print(df_tmp)
-            self.process(detected=df_tmp['total_cases'].values, init_infected=p.init_infected)
+            self.df_tmp = df[df['country'] == country].copy()
+            self.process(init_infected=p.init_infected)
             self.calc_r(tau=p.tau, init_infected=p.init_infected)
+            self.predict_crystal_ball(r_hubei, p.scenario)
             self.predict(tau=p.tau, scenario=p.scenario)
             self.calc_asymptomatic(fi=p.fi, theta=p.theta, init_infected=p.init_infected)
-            self.write(df_tmp, tau=p.tau, critical_condition_rate=p.critical_condition_rate,
+            self.write(tau=p.tau, critical_condition_rate=p.critical_condition_rate,
                        recovery_rate=p.recovery_rate, critical_condition_time=p.critical_condition_time,
                        recovery_time=p.recovery_time, r_hubei=r_hubei)
 
-    def process(self, detected, init_infected):
+    def process(self, init_infected, detected=None):
+        if detected is None:
+            detected = self.df_tmp['total_cases'].values
+
         day_0 = np.argmax(detected >= init_infected)
         detected = detected[day_0:]
         self.detected = [detected[0]]
         for t in range(1, len(detected)):
             self.detected.append(max(detected[t - 1] + 1, detected[t]))
+
+        if detected is None:
+            self.tmp = self.tmp[day_0:]
 
     def calc_r(self, tau, init_infected):
         epsilon = 1e-06
@@ -351,7 +356,45 @@ class OLG:
 
         self.r_values, self.r_adj = r_values, np.convolve(r_values, np.ones(int(tau / 2, )) / int(tau / 2), mode='full')[:len(detected)]
 
+    def predict_crystal_ball(self, r_hubei, scenario):
+        forcast_cnt = sum(scenario['t'].values()) - 1
+        # fill hubei
+        add_to_hubei = forcast_cnt + len(self.r_adj) - len(r_hubei)
+        if 0 < add_to_hubei: ## TODO Shold use time series
+            r_hubei = r_hubei.append(r_hubei[-1] * (forcast_cnt - len(r_hubei)))
+
+        # StringencyIndex
+        self.df_tmp['StringencyIndex'].fillna(method='ffill', inplace=True)
+        stringency = self.df_tmp['StringencyIndex'].values
+
+        self.r0d = self.r_adj
+        cur_loc = -7
+        for t in range(len(self.r0d), len(self.r0d) + forcast_cnt+1):
+
+            cur_stringency = stringency[-1] if 0 < cur_loc else stringency[cur_loc]
+            projected_r = self.crystal_ball_regression(self.r0d[t-1], r_hubei[t-1], r_hubei[t-2], cur_stringency)
+            print(t, projected_r, self.r0d[t-1],  r_hubei[t-1], r_hubei[t-2], cur_stringency)
+            self.r0d = np.append(self.r0d, projected_r)
+            cur_loc += 1
+
     def predict(self, tau, scenario):
+        t = len(self.detected) - 1
+        scenario_wgt, cnt = 0, 0
+        next_gen = self.detected[-1]
+
+        for i in scenario['t'].keys():
+            while cnt < scenario['t'].get(i):
+                c0 = self.detected[t - tau] if t - tau >= 0 else 0
+                if cnt == 0 & scenario['R0D'].get(i) != 0:
+                    scenario_wgt += self.r0d[t] * scenario['R0D'].get(i)
+                    self.r0d[t] += scenario_wgt
+
+                next_gen = self.next_gen(r0=self.r0d[t], tau=tau, c0=c0, ct=next_gen)
+                self.detected.append(next_gen)
+                t += 1
+                cnt += 1
+
+    def predict_old(self, tau, scenario):
         forcast_cnt = sum(scenario['t'].values()) - 1
         t = len(self.detected) - 1
         scenario_wgt, cnt = 0, 0
@@ -405,26 +448,45 @@ class OLG:
             asymptomatic_infected.append(prev_asymptomatic_infected)
         self.asymptomatic_infected = asymptomatic_infected
 
-    def calc_crystall_ball(self, df, r_hubei):
+    def calc_crystal_ball(self, df, r_hubei):
         size = min(len(df), len(r_hubei))
         df.loc[:size, 'hubei_detected'] = r_hubei[:size]
-        crystall_ball_list = [self.r0d[0]]
+        crystal_ball_list = [self.r0d[0]]
 
         for t in range(1, len(df) - 1):
             projected_r = self.crystal_ball_regression(self.r0d[t-1], r_hubei[t-1], r_hubei[max(0, t-2)], df['StringencyIndex'][max(0, t-7)])
-            crystall_ball_list.append(projected_r)
+            crystal_ball_list.append(projected_r)
 
-        df.loc[:len(crystall_ball_list) - 1, 'crystal_ball'] = crystall_ball_list
+        df.loc[:len(crystal_ball_list) - 1, 'crystal_ball'] = crystal_ball_list
         return df
 
-    def write(self, df_o, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time, r_hubei):
-        forcast_cnt = len(self.detected) - len(self.r_adj)
+    def calc_critical_condition(self, df, critical_condition_time, recovery_time):
+        # calc critical rate
+        df['true_critical_rate'] = df['serious_critical'] / (
+                    df['total_cases'].shift(critical_condition_time) - df['total_cases'].shift(
+                critical_condition_time + recovery_time))
+        critical_rates = df['serious_critical'] / (
+                    df['total_cases'].shift(critical_condition_time) - df['total_cases'].shift(
+                critical_condition_time + recovery_time))
+        last_critical_rate = critical_rates.dropna().iloc[-7:].mean()
 
+        # critical condition
+        df['Critical_condition'] = (df['total_cases'].shift(critical_condition_time)
+                                    - df['total_cases'].shift(
+                    critical_condition_time + recovery_time + 1)) * last_critical_rate
+
+        return df['Critical_condition']
+
+    def write(self, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time, r_hubei):
+        df_o = self.df_tmp.copy()
+        forcast_cnt = len(self.detected) - len(self.r_adj)
         if self.have_serious_data==False:
-            df_o['serious_critical'] = (df_o['total_cases'].shift(critical_condition_time)
-                                        - df_o['total_cases'].shift(recovery_time+critical_condition_time)) * critical_condition_rate
+            # df_o['serious_critical'] = (df_o['total_cases'].shift(critical_condition_time)
+            #                             - df_o['total_cases'].shift(recovery_time+critical_condition_time + 1)) * critical_condition_rate
+            df_o['serious_critical'] = self.calc_critical_condition(df_o, critical_condition_time, recovery_time) ##TODO ask Dan why is it here
             df_o['new_cases'] = df_o['total_cases'] - df_o['total_cases'].shift(1)
             df_o['activecases'] = None
+
         df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex', 'serious_critical', 'new_cases', 'activecases']].reset_index(drop=True).copy()
         df['r_values'] = self.r_values
 
@@ -444,8 +506,8 @@ class OLG:
         df['StringencyIndex'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
         df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
-        if df['country'][0]=='israel':
-            df = self.calc_crystall_ball(df, r_hubei)
+        if df['country'][0] == 'israel':
+            df = self.calc_crystal_ball(df, r_hubei)
 
         df['Currently Infected'] = np.where(df['corona_days'] <= (critical_condition_time + recovery_time),
                                             df['total_cases'],
@@ -457,23 +519,14 @@ class OLG:
         df['dA'] = df['infected'] - df['infected'].shift(1)
         df['dE'] = df['exposed'] - df['exposed'].shift(1)
 
-        # critical condition
+        df['Critical_condition'] = self.calc_critical_condition(df, critical_condition_time, recovery_time)
 
-        df['true_critical_rate'] = df['serious_critical'] / (df['total_cases'].shift(periods=+critical_condition_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time)))
-        critical_rates = df['serious_critical'] / (df['total_cases'].shift(periods=+critical_condition_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time)))
-        last_critical_rate =critical_rates.dropna().iloc[-7:].mean()
+        df['Recovery_Critical'] = df['Critical_condition'].shift(recovery_time) * recovery_rate
+        df['Mortality_Critical'] = df['Critical_condition'].shift(recovery_time) * (1-recovery_rate)
 
-
-        df['Critical_condition'] = df['total_cases'].shift(periods=+critical_condition_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
-        df['Critical_condition'] = df['Critical_condition'] * last_critical_rate
-
-        df['Recovery_Critical'] = df['Critical_condition'].shift(periods=+recovery_time) * recovery_rate
-        df['Mortality_Critical'] = df['Critical_condition'].shift(periods=+recovery_time) * (1-recovery_rate)
-
-        self.tmp = df.query('prediction_ind==0')[['date', 'total_cases', 'true_critical_rate',  'serious_critical']]
-
-        df['Critical_condition_test_p1'] = df['total_cases'].shift(periods=+recovery_time)
-        df['Critical_condition_test_p2'] =df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
+        # self.tmp = df.query('prediction_ind==0')[['date', 'total_cases', 'true_critical_rate',  'serious_critical']]
+        # df['Critical_condition_test_p1'] = df['total_cases'].shift(periods=+recovery_time)
+        # df['Critical_condition_test_p2'] =df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
 
         # fill with obsereved values
         if self.have_serious_data:
@@ -482,8 +535,6 @@ class OLG:
             df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
 
         df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']]=  df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']].round(0)
-
-        tmp = df[['date', 'total_cases', 'r_values', 'Critical_condition', 'Critical_condition_test_p1', 'Critical_condition_test_p2', 'crystal_ball', 'StringencyIndex']]
 
         df = df.rename(columns={'total_cases': 'Total Detected', 'infected': 'Total Infected', 'exposed': 'Total Exposed',
                                 'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
@@ -545,58 +596,58 @@ class CountryData:
         # df = df.rename(columns={'יישוב':'Yishuv', 'variable':'date'})
         return df
 
-class IsraelData:
-    def __init__(self, israel_files):
-        self.filepath = israel_files
-        self.yishuv_df = self.get_yishuv_data()
-        self.isolation_df = self.get_isolation_df()
-        self.lab_results_df = self.get_lab_results_df()
-        self.tested_df = self.get_tested_df()
-        self.patients_df = self.get_patients_df()
-
-    @st.cache
-    def get_yishuv_data(self):
-        df = pd.read_csv(self.filepath['yishuv_file'])
-        df = df.drop(columns="Unnamed: 0")
-        id_vars = ['יישוב', 'סוג מידע','אוכלוסייה נכון ל- 2018']
-        colnames = [c for c in df.columns if c not in id_vars]
-        df = df.melt(id_vars=id_vars, value_vars=colnames)
-        df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
-        df = df[df["variable"].dt.year>1677].dropna()
-        df = df.rename(columns={'יישוב':'Yishuv','אוכלוסייה נכון ל- 2018':'pop2018', 'variable':'date'})
-        return df
-
-    @st.cache
-    def get_isolation_df(self):
-        df = pd.read_csv(self.filepath['isolations_file'])
-        df['date'] = pd.to_datetime(df['date'])
-        df = df.set_index("date", drop=False)
-        df = df.drop(columns="_id")
-        return df
-
-    @st.cache
-    def get_lab_results_df(self):
-        df = pd.read_csv(self.filepath['lab_results_file'])
-        df['result_date'] = pd.to_datetime(df['result_date'])
-        return df
-
-    @st.cache
-    def get_tested_df(self):
-        df = pd.read_csv(self.filepath['tested_file'])
-        df['None'] = df[df.columns[2:]].sum(axis=1)
-        df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
-        df['At Least One'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
-        df['test_date'] = pd.to_datetime(df['test_date'])
-        df = df.drop(columns="_id")
-        return df
-
-    @st.cache
-    def get_patients_df(self):
-        df = pd.read_csv(self.filepath['patients_file'])
-        df = df.dropna(subset=['New Patients Amount'])
-        df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
-       # df = df.drop(columns="_id")
-        return df
+# class IsraelData:
+#     def __init__(self, israel_files):
+#         self.filepath = israel_files
+#         self.yishuv_df = self.get_yishuv_data()
+#         self.isolation_df = self.get_isolation_df()
+#         self.lab_results_df = self.get_lab_results_df()
+#         self.tested_df = self.get_tested_df()
+#         self.patients_df = self.get_patients_df()
+#
+#     @st.cache
+#     def get_yishuv_data(self):
+#         df = pd.read_csv(self.filepath['yishuv_file'])
+#         df = df.drop(columns="Unnamed: 0")
+#         id_vars = ['יישוב', 'סוג מידע','אוכלוסייה נכון ל- 2018']
+#         colnames = [c for c in df.columns if c not in id_vars]
+#         df = df.melt(id_vars=id_vars, value_vars=colnames)
+#         df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
+#         df = df[df["variable"].dt.year>1677].dropna()
+#         df = df.rename(columns={'יישוב':'Yishuv','אוכלוסייה נכון ל- 2018':'pop2018', 'variable':'date'})
+#         return df
+#
+#     @st.cache
+#     def get_isolation_df(self):
+#         df = pd.read_csv(self.filepath['isolations_file'])
+#         df['date'] = pd.to_datetime(df['date'])
+#         df = df.set_index("date", drop=False)
+#         df = df.drop(columns="_id")
+#         return df
+#
+#     @st.cache
+#     def get_lab_results_df(self):
+#         df = pd.read_csv(self.filepath['lab_results_file'])
+#         df['result_date'] = pd.to_datetime(df['result_date'])
+#         return df
+#
+#     @st.cache
+#     def get_tested_df(self):
+#         df = pd.read_csv(self.filepath['tested_file'])
+#         df['None'] = df[df.columns[2:]].sum(axis=1)
+#         df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
+#         df['At Least One'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
+#         df['test_date'] = pd.to_datetime(df['test_date'])
+#         df = df.drop(columns="_id")
+#         return df
+#
+#     @st.cache
+#     def get_patients_df(self):
+#         df = pd.read_csv(self.filepath['patients_file'])
+#         df = df.dropna(subset=['New Patients Amount'])
+#         df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
+#        # df = df.drop(columns="_id")
+#         return df
 
 
 def get_sir_country_file(sir_country_file):
