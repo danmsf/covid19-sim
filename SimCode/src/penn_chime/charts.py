@@ -21,15 +21,11 @@ def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
                             fields=['date'], empty='none')
 
     line = alt.Chart(source).mark_line(interpolate='basis').encode(
-        x='date:T',
-        y='value',
-        color='Yishuv'
+        x=alt.X('date:T', title=""),
+        y=alt.Y('value',title=""),
+        color=alt.Color('Yishuv', title='Yishuv', legend=alt.Legend(orient="top", title=''))
     )
 
-    line2 = alt.Chart(df).mark_line(interpolate='basis', strokeDash=[1, 1]).encode(
-        x='date:T',
-        y='StringencyIndex'
-    )
 
     # Transparent selectors across the chart. This is what tells us
     # the x-value of the cursor
@@ -41,20 +37,18 @@ def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
     )
 
     # Draw points on the line, and highlight based on selection
+
     points = line.mark_point().encode(
         opacity=alt.condition(nearest, alt.value(1), alt.value(0)),
         y = alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
     )
+
     # Draw text labels near the points, and highlight based on selection
     text = line.mark_text(align='left', dx=5, dy=-5).encode(
         text=alt.condition(nearest, 'value', alt.value(' ')),
         y=alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
     )
 
-    text2 = line2.mark_text(align='left', dx=5, dy=-5).encode(
-        text=alt.condition(nearest, 'StringencyIndex', alt.value(' ')),
-        y=alt.Y('StringencyIndex', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
-    )
 
     # Draw a rule at the location of the selection
     rules = alt.Chart(source).mark_rule(color='gray').encode(
@@ -66,9 +60,9 @@ def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
     # Put the five layers into a chart and bind the data
 
     return (alt.layer(
-        line, line2, selectors, rules, text, text2
+        line, selectors, rules, text
     ).properties(
-        width=600, height=300, title="Total Cases by Yishuv"
+        width=600, height=300, title="Cases by Yishuv"
     ).resolve_scale(y='independent').interactive()
             )
 
@@ -277,14 +271,16 @@ def patients_status_chart(alt, df: pd.DataFrame,):
     ).interactive()
 
 @st.cache(allow_output_mutation=True)
-def olg_projections_chart(alt, df: pd.DataFrame, title: str, baseline=False):
+def olg_projections_chart(alt, df: pd.DataFrame, title: str, by_corona_time=True, baseline=False):
     olg_cols = df.columns
     olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'prediction_ind']]
     olg_df = df.melt(id_vars=['date', 'corona_days', 'country', 'prediction_ind'], value_vars=olg_cols).dropna()
+    if by_corona_time==False :
+        olg_df['corona_days'] = olg_df['date']
     line1 = alt.Chart(olg_df.loc[olg_df['prediction_ind'] == 0, :]).transform_calculate(
         cat="datum.country + '-' + datum.variable"
     ).mark_line(interpolate='linear', point=False, tooltip=True).encode(
-        x='corona_days:Q',
+        x='corona_days',
         y=alt.Y('value', title=""),
         color=alt.Color('cat:N', title=None, legend=alt.Legend(orient="top", title='')),
     )
@@ -292,7 +288,7 @@ def olg_projections_chart(alt, df: pd.DataFrame, title: str, baseline=False):
     line2 = alt.Chart(olg_df.loc[olg_df['prediction_ind'] == 1, :]).transform_calculate(
         cat="datum.country + '-' + datum.variable"
     ).mark_line(interpolate='basis', point=False, tooltip=True, strokeDash=[1, 1]).encode(
-        x='corona_days:Q',
+        x=alt.X('corona_days', title=""),
         y=alt.Y('value', title=""),
         color=alt.Color('cat:N', title=None, legend=alt.Legend(orient="top", title='')),
     )
