@@ -168,7 +168,8 @@ if st.sidebar.checkbox(label="Show Israel data"):
 if st.sidebar.checkbox("Show Israel Projections", False):
     models_option = st.sidebar.multiselect(
         'Which models to show?',
-        ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
+        ( 'OLG Model'), )
+        # ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
 
     countrydata = CountryData(DEFAULTS.country_files)
     countrydata.country_df.drop('I', axis=1, inplace=True)
@@ -272,7 +273,10 @@ if st.sidebar.checkbox("Show Israel Projections", False):
             olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
             use_container_width=True,
         )
-
+        st.altair_chart(
+            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'crystall_ball']], "crystal_ball"),
+            use_container_width=True,
+        )
         st.altair_chart(
             olg_projections_chart(alt, dd.loc[dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
             use_container_width=True,

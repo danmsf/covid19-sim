@@ -342,7 +342,6 @@ class OLG:
         epsilon = 1e-06
         detected = self.detected
         r_values = np.array([(detected[0] / (init_infected + epsilon) - 1) * tau])
-
         for t in range(1, len(detected)):
             if t <= tau:
                 r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - 1) * tau
@@ -443,6 +442,7 @@ class OLG:
         df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
         df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
+        df['StringencyIndex'].fillna(method='ffill', inplace=True)
         if df['country'][0]=='israel':
             df = self.calc_crystall_ball(df, r_hubei)
 
