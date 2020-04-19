@@ -280,7 +280,7 @@ class OLG:
 
     """
 
-    def __init__(self, df, p: Parameters, jh_hubei , have_serious_data=True):
+    def __init__(self, df, p: Parameters, jh_hubei, have_serious_data=True):
         self.detected = []
         self.r_adj = np.array([])
         self.r_values = np.array([])
@@ -304,14 +304,14 @@ class OLG:
 
 
     @staticmethod
-    def crystal_ball(r_prev, hubei_prev, hubei_prev_t2, s_prev_t7):
+    def crystal_ball_regression(r_prev, hubei_prev, hubei_prev_t2, s_prev_t7):
         crystal_ball_coef = {'intercept': 1.462, 'r_prev': 0.915, 'hubei_prev': 0.05, 'hubei_prev_t2': 0.058, 's_prev_t7': 0.0152 }
 
         ln_r = crystal_ball_coef.get('intercept') + crystal_ball_coef.get('r_prev') * np.log(1+r_prev)\
                                                    + crystal_ball_coef.get('hubei_prev') * np.log(1+hubei_prev)\
                                                    + crystal_ball_coef.get('hubei_prev_t2') * np.log(1+hubei_prev_t2)\
                                                    - crystal_ball_coef.get('s_prev_t7') * s_prev_t7
-        return np.exp(ln_r)
+        return np.exp(ln_r) - 1
 
     def iter_countries(self, df, p, jh_hubei):
 
@@ -342,7 +342,6 @@ class OLG:
         epsilon = 1e-06
         detected = self.detected
         r_values = np.array([(detected[0] / (init_infected + epsilon) - 1) * tau])
-
         for t in range(1, len(detected)):
             if t <= tau:
                 r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - 1) * tau
@@ -409,17 +408,18 @@ class OLG:
     def calc_crystall_ball(self, df, r_hubei):
         size = min(len(df), len(r_hubei))
         df.loc[:size, 'hubei_detected'] = r_hubei[:size]
-
         crystall_ball_list = [self.r0d[0]]
+
         for t in range(1, len(df) - 1):
-            projected_r = self.crystal_ball(self.r0d[t-1], r_hubei[t-1], r_hubei[max(0, t-2)], df['StringencyIndex'][max(0, t-7)])
+            projected_r = self.crystal_ball_regression(self.r0d[t-1], r_hubei[t-1], r_hubei[max(0, t-2)], df['StringencyIndex'][max(0, t-7)])
             crystall_ball_list.append(projected_r)
 
-        df.loc[:len(crystall_ball_list) - 1, 'crystall_ball'] = crystall_ball_list
+        df.loc[:len(crystall_ball_list) - 1, 'crystal_ball'] = crystall_ball_list
         return df
 
     def write(self, df_o, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time, r_hubei):
         forcast_cnt = len(self.detected) - len(self.r_adj)
+
         if self.have_serious_data==False:
             df_o['serious_critical'] = (df_o['total_cases'].shift(critical_condition_time)
                                         - df_o['total_cases'].shift(recovery_time+critical_condition_time)) * critical_condition_rate
@@ -441,8 +441,9 @@ class OLG:
         df['infected'] = self.asymptomatic_infected
         df['exposed'] = df['infected'].shift(periods=-tau)
         df['country'].fillna(method='ffill', inplace=True)
+        df['StringencyIndex'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
-        df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
+        df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
         if df['country'][0]=='israel':
             df = self.calc_crystall_ball(df, r_hubei)
 
@@ -457,14 +458,22 @@ class OLG:
         df['dE'] = df['exposed'] - df['exposed'].shift(1)
 
         # critical condition
-        df['Critical_condition'] = df['total_cases'].shift(periods=+recovery_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
-        df['Critical_condition'] = df['Critical_condition'] * critical_condition_rate
+
+        df['true_critical_rate'] = df['serious_critical'] / (df['total_cases'].shift(periods=+critical_condition_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time)))
+        critical_rates = df['serious_critical'] / (df['total_cases'].shift(periods=+critical_condition_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time)))
+        last_critical_rate =critical_rates.dropna().iloc[-7:].mean()
+
+
+        df['Critical_condition'] = df['total_cases'].shift(periods=+critical_condition_time) - df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
+        df['Critical_condition'] = df['Critical_condition'] * last_critical_rate
 
         df['Recovery_Critical'] = df['Critical_condition'].shift(periods=+recovery_time) * recovery_rate
         df['Mortality_Critical'] = df['Critical_condition'].shift(periods=+recovery_time) * (1-recovery_rate)
 
-        # df['Critical_condition_test_p1'] = df['total_cases'].shift(periods=+recovery_time)
-        # df['Critical_condition_test_p2'] =df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
+        self.tmp = df.query('prediction_ind==0')[['date', 'total_cases', 'true_critical_rate',  'serious_critical']]
+
+        df['Critical_condition_test_p1'] = df['total_cases'].shift(periods=+recovery_time)
+        df['Critical_condition_test_p2'] =df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
 
         # fill with obsereved values
         if self.have_serious_data:
@@ -474,8 +483,7 @@ class OLG:
 
         df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']]=  df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']].round(0)
 
-        # self.tmp = df[['date', 'total_cases','Critical_condition' , 'Critical_condition_test_p1',
-        #                'Critical_condition_test_p2', 'r_values', 'R', 'prediction_ind']]
+        tmp = df[['date', 'total_cases', 'r_values', 'Critical_condition', 'Critical_condition_test_p1', 'Critical_condition_test_p2', 'crystal_ball', 'StringencyIndex']]
 
         df = df.rename(columns={'total_cases': 'Total Detected', 'infected': 'Total Infected', 'exposed': 'Total Exposed',
                                 'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
