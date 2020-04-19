@@ -19,9 +19,11 @@ URL_REGEX_PATTERN = WAYBACK_URL_BASE + "/\d{8}/" + SITE_URL
 
 # Selenium options
 CHROMEDRIVER_PATH= os.path.join(RESOURCE_DIR, 'chromedriver.exe')
+prefs = {"profile.managed_default_content_settings.images": 2}
 options = webdriver.ChromeOptions()
 options.add_argument('— incognito')
-options.add_argument('--headless')
+# options.add_argument('--headless')
+options.add_experimental_option("prefs", prefs)
 
 # Webpage enteties
 XPATH = "//div[@class='calendar-day ']"
