@@ -175,8 +175,8 @@ if st.sidebar.checkbox(label="Show Israel data"):
 if st.sidebar.checkbox("Show Israel Projections", False):
     models_option = st.sidebar.multiselect(
         'Which models to show?',
-        ['OLG Model'])
-        # ('Penn Dashboard', 'OLG Model', 'SEIAR Model', 'SEIRSPlus'), )
+        ['GSTAT Model'])
+        # ('Penn Dashboard', 'GSTAT Model', 'SEIAR Model', 'SEIRSPlus'), )
 
     countrydata = CountryData(DEFAULTS.country_files)
     countrydata.country_df.drop('I', axis=1, inplace=True)
@@ -255,8 +255,8 @@ if st.sidebar.checkbox("Show Israel Projections", False):
             if st.checkbox("Show Raw SIR Simulation Data"):
                 draw_raw_sir_simulation_table(st, model=m, parameters=p)
 
-    if "OLG Model" in models_option:
-        # TODO: Change OLG Model to GSTAT Model
+    if "GSTAT Model" in models_option:
+        # TODO: Change GSTAT Model to GSTAT Model
         st.subheader("GSTAT Covid-19 Predictions for Israel")
         # Load model
 
