@@ -262,10 +262,12 @@ if st.sidebar.checkbox("Show Israel Projections", False):
 
         jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
         country_df = countrydata.country_df.copy()
+        stringency = pd.read_csv('stringencyExample.csv',
+                                 usecols=['date', 'StringencyIndex'], parse_dates=['date'])
         # p.countries = st.multiselect('Select countries',  list(country_df['country'].unique()), 'israel')
         # if len(p.countries) == 0:
         p.countries = ['israel']
-        olg = OLG(country_df, p, jh_hubei)
+        olg = OLG(country_df, p, jh_hubei, stringency)
         dd = olg.df.copy()
         # dd
         olg_cols = dd.columns
