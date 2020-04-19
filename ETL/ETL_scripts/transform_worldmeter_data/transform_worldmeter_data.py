@@ -43,7 +43,7 @@ def main(indir:IO,
     # Join df from all dates
     disease_data = pd.concat(df_list, ignore_index=True, sort=False)
     # Remove plus sign from "New Cases" col
-    disease_data['New Cases'] = disease_data['New Cases'].str.extract('(\d+)')
+    disease_data['New Cases'] = disease_data['New Cases'].str.replace('[^\d]','')
     # Sort df by date
     disease_data = disease_data.sort_values('date')
     # Remove the totalrow
