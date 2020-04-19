@@ -256,7 +256,6 @@ if st.sidebar.checkbox("Show Israel Projections", False):
                 draw_raw_sir_simulation_table(st, model=m, parameters=p)
 
     if "GSTAT Model" in models_option:
-        # TODO: Change GSTAT Model to GSTAT Model
         st.subheader("GSTAT Covid-19 Predictions for Israel")
         # Load model
 
@@ -429,7 +428,6 @@ if st.sidebar.checkbox("Show Israel Projections", False):
                 """
             )
         if st.checkbox(label="Detailed information on model", value=False):
-            # TODO: Fix images
             st.markdown(
                 """
                 <a href = https://github.com/ryansmcgee/seirsplus> Seirsplus </a>
