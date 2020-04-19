@@ -345,9 +345,9 @@ class OLG:
 
         for t in range(1, len(detected)):
             if t <= tau:
-                r_value = (detected[t] / (detected[t - 1] + epsilon) - 1) * tau
+                r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - 1) * tau
             elif t > tau:
-                r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
+                r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - detected[t - tau]) * tau
             r_values = np.append(r_values, max(r_value, 0))
 
         self.r_values, self.r_adj = r_values, np.convolve(r_values, np.ones(int(tau / 2, )) / int(tau / 2), mode='full')[:len(detected)]
