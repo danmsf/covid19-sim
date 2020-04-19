@@ -371,11 +371,13 @@ class OLG:
         cur_loc = -7
         for t in range(len(self.r0d), len(self.r0d) + forcast_cnt+1):
 
-            cur_stringency = stringency[-1] if 0 < cur_loc else stringency[cur_loc]
+            cur_stringency = stringency[-1] if 0 <= cur_loc else stringency[cur_loc]
             projected_r = self.crystal_ball_regression(self.r0d[t-1], r_hubei[t-1], r_hubei[t-2], cur_stringency)
-            print(t, projected_r, self.r0d[t-1],  r_hubei[t-1], r_hubei[t-2], cur_stringency)
             self.r0d = np.append(self.r0d, projected_r)
             cur_loc += 1
+
+        self.r0d = np.clip(self.r0d, 0, 100)
+
 
     def predict(self, tau, scenario):
         t = len(self.detected) - 1
