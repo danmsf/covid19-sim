@@ -14,7 +14,8 @@ import pandas as pd  # type: ignore
 import streamlit as st
 from penn_chime.parameters import Parameters
 from statsmodels.tsa.api import SimpleExpSmoothing, Holt
-
+import os
+import datetime
 from seirsplus.models import *
 import networkx
 
@@ -344,9 +345,9 @@ class OLG:
 
         for t in range(1, len(detected)):
             if t <= tau:
-                r_value = (detected[t] / (detected[t - 1] + epsilon) - 1) * tau
+                r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - 1) * tau
             elif t > tau:
-                r_value = (detected[t] / (detected[t - 1] - detected[t - tau] + detected[t - tau - 1]) - 1) * tau
+                r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - detected[t - tau]) * tau
             r_values = np.append(r_values, max(r_value, 0))
 
         self.r_values, self.r_adj = r_values, np.convolve(r_values, np.ones(int(tau / 2, )) / int(tau / 2), mode='full')[:len(detected)]
@@ -442,8 +443,8 @@ class OLG:
         df['country'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
         df['prediction_ind'] = np.where(df['corona_days'] < len(self.r_adj), 0, 1)
-
-        df = self.calc_crystall_ball(df, r_hubei)
+        if df['country'][0]=='israel':
+            df = self.calc_crystall_ball(df, r_hubei)
 
         df['Currently Infected'] = np.where(df['corona_days'] <= (critical_condition_time + recovery_time),
                                             df['total_cases'],
@@ -594,6 +595,89 @@ def get_sir_country_file(sir_country_file):
     sir_country_df = pd.read_csv(sir_country_file, parse_dates=['date'])
     # sir_country_df['I'] = sir_country_df['total_cases']
     return sir_country_df
+
+
+class StringencyIndex:
+    def __init__(self):
+        OXDF = "OxCGRT_Download_180420_223736_Full.csv"
+        self.filepath = os.path.join(os.getcwd(), "Resources", "Datasets", "CountryData", OXDF)
+        self.oxford_df = pd.read_csv(os.path.join(os.getcwd(), "Resources", "Datasets", "CountryData", OXDF))
+        self.input_df = pd.DataFrame()
+        self.output_df = pd.DataFrame()
+        self.max_val = {'S1': 2., 'S2': 2., 'S3': 2., 'S4': 2., 'S5': 1., 'S6': 2., 'S7': 3.}
+        self.project_til = None
+
+    def get_latest(self):
+        s1_7 = tuple("S" + str(i) + "_" for i in range(1, 8, 1))
+        keep_cols = [c for c in self.oxford_df.columns if c.startswith(s1_7)]
+        keep_cols = [c for c in keep_cols if c.find('Notes') == -1]
+        oxford_df = self.oxford_df.dropna(subset=['StringencyIndex'])
+        oxford_df = oxford_df.fillna('ffill')
+        oxford_df = oxford_df[keep_cols]
+        oxford_dict = oxford_df[-1:].to_dict('records')[0]
+        return oxford_dict
+
+    def display_st(self, st):
+        oxford_dict = self.get_latest()
+        st.sidebar.subheader("Oxford Index")
+        output = {}
+        oxford_start = oxford_dict.copy()
+        self.project_til = st.sidebar.date_input("Project until:")
+        max_val = self.max_val
+        for k, v in oxford_dict.items():
+            if k.find('IsGeneral') > -1:
+                output[k] = st.sidebar.checkbox(k, oxford_dict[k] * True) * 1.
+            else:
+                output[k] = st.sidebar.number_input(k.split("_")[1], value=oxford_dict[k], min_value=0.,
+                                                    max_value=max_val[k[:2]], step=1.)
+                output[k + '_date'] = st.sidebar.date_input("Date " + k.split("_")[1])
+                # add original date
+                oxford_start[k + '_date'] = datetime.date.today()
+        self.input_df = pd.DataFrame([oxford_start, output])
+
+    def calculate_stringency(self):
+        max_val = self.max_val
+        temp = self.input_df.copy()
+        cols = temp.columns
+        date_cols = [c for c in cols if c.find('_date') > -1]
+        temp[date_cols] = temp[date_cols].apply(lambda x: pd.to_datetime(x))
+        # dts = temp[date_cols].apply(lambda x: max(x), axis=1).values
+        # dts_range = pd.date_range(dts[0], dts[1])
+        dts_range = pd.date_range(datetime.date.today(),  self.project_til)
+        temp['times'] = None
+        temp['times'] = [1, len(dts_range) - 1]
+
+        temp = temp.loc[temp.index.repeat(temp.times)]
+        temp.drop(columns='times', inplace=True)
+        temp['date'] = dts_range
+        cols = temp.columns
+        cols = [c for c in cols if c.find('IsGeneral') == -1]
+        cols = [c for c in cols if c.find('date') == -1]
+        temp = temp.reset_index(drop=True)
+        for k in cols:
+            for i in temp.index:
+                if temp.loc[i, k + "_date"] != temp.loc[i, 'date']:
+                    temp.at[i, k] = temp.loc[i - 1, k]
+                    try:
+                        temp.at[i, k[:2] + "_IsGeneral"] = temp.loc[i - 1, k + "_IsGeneral"]
+                    except:
+                        pass
+
+        for k in cols:
+            if k[:2] != 'S7':
+                temp[k[:2] + '_score'] = (temp[k] + temp[k[:2] + "_IsGeneral"]) / (max_val[k[:2]] + 1)
+            else:
+                temp[k[:2] + '_score'] = temp[k] / (max_val[k[:2]])
+
+        cols = temp.columns
+        score_cols = [c for c in cols if c.find("score") > -1]
+        temp['StringencyIndex'] = temp[score_cols].apply(lambda x: np.average(x), axis=1)
+        cols = list(temp.columns)
+        cols.insert(0, cols.pop(cols.index('StringencyIndex')))
+        cols.insert(0, cols.pop(cols.index('date')))
+        temp = temp.loc[:, cols]
+        self.output_df = temp
+        return temp
 
 
 

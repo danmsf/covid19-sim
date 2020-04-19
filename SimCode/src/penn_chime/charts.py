@@ -298,7 +298,7 @@ def olg_projections_chart(alt, df: pd.DataFrame, title: str, baseline=False):
     )
 
     nearest = alt.selection(type='single', nearest=True, on='mouseover',
-                            fields=['date'], empty='none')
+                            fields=['corona_days'], empty='none')
 
 
     # Transparent selectors across the chart. This is what tells us
