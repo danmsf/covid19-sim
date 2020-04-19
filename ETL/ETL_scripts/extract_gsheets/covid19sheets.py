@@ -22,11 +22,11 @@ pop_per_city_url = info.get('pop_per_city').get('url')
 
 def main(outdir: Union[PathLike] = None) -> pd.DataFrame:
     print(__file__, 'is running')
+
     # ---------------------
     # -- Get covid19 data from google sheets
     # ----------------------
     service = create_service(SCOPES, CREDS_PATH, TOKEN_PATH)
-    # Call the Sheets API
     sheet = service.spreadsheets()
     result = sheet.values().get(spreadsheetId=spreadsheet_id,
                                 range=sample_range_name).execute()
