@@ -8,7 +8,7 @@ import pandas as pd  # type: ignore
 import datetime
 from .defaults import Constants, RateLos
 from .utils import add_date_column, dataframe_to_base64
-from .parameters import Parameters
+from .parameters import Parameters, OLGParameters
 
 
 DATE_FORMAT = "%b, %d"  # see https://strftime.org
@@ -24,7 +24,20 @@ hide_menu_style = """
 ########
 # Text #
 ########
+def init_olg_params(st, d: Constants) -> OLGParameters:
 
+    return OLGParameters(
+        tau=d.olg_params['tau'],
+        init_infected=d.olg_params['init_infected'],
+        fi=d.olg_params['fi'],
+        theta=d.olg_params['theta'],
+        countries=d.olg_params['countries'],
+        scenario=d.olg_params['scenario'],
+        critical_condition_rate=d.olg_params['critical_condition_rate'],
+        recovery_rate=d.olg_params['recovery_rate'],
+        critical_condition_time=d.olg_params['critical_condition_time'],
+        recovery_time=d.olg_params['recovery_time'],
+    )
 
 def display_header(st, m, p):
 
@@ -232,8 +245,8 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             max_y_axis = st.sidebar.number_input(
                 "Y-axis static value", value=500, format="%i", step=25,
             )
-    if "OLG Model" in models_option:
-        st.sidebar.subheader("OLG Model parameters")
+    if "GSTAT Model" in models_option:
+        st.sidebar.subheader("GSTAT Model parameters")
         d.olg_params['tau'] = st.sidebar.number_input(
             "Tau rate (number of days infectious)",
             min_value=2,
