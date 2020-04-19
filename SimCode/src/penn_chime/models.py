@@ -323,12 +323,12 @@ class OLG:
             self.df_tmp = df[df['country'] == country].copy()
             self.process(init_infected=p.init_infected)
             self.calc_r(tau=p.tau, init_infected=p.init_infected)
-            self.predict_crystal_ball(r_hubei, p.scenario)
-            self.predict(tau=p.tau, scenario=p.scenario)
+            self.predict_crystal_ball(p.tau, r_hubei, p.scenario)
+            self.predict_next_gen(tau=p.tau, scenario=p.scenario)
             self.calc_asymptomatic(fi=p.fi, theta=p.theta, init_infected=p.init_infected)
             self.write(tau=p.tau, critical_condition_rate=p.critical_condition_rate,
                        recovery_rate=p.recovery_rate, critical_condition_time=p.critical_condition_time,
-                       recovery_time=p.recovery_time, r_hubei=r_hubei)
+                       recovery_time=p.recovery_time)
 
     def process(self, init_infected, detected=None):
         if detected is None:
@@ -340,8 +340,8 @@ class OLG:
         for t in range(1, len(detected)):
             self.detected.append(max(detected[t - 1] + 1, detected[t]))
 
-        if detected is None:
-            self.tmp = self.tmp[day_0:]
+        if self.df_tmp is not None:
+            self.df_tmp = self.df_tmp[day_0:]
 
     def calc_r(self, tau, init_infected):
         epsilon = 1e-06
@@ -356,30 +356,36 @@ class OLG:
 
         self.r_values, self.r_adj = r_values, np.convolve(r_values, np.ones(int(tau / 2, )) / int(tau / 2), mode='full')[:len(detected)]
 
-    def predict_crystal_ball(self, r_hubei, scenario):
+
+    def predict_crystal_ball(self, tau, r_hubei, scenario):
         forcast_cnt = sum(scenario['t'].values()) - 1
-        # fill hubei
-        add_to_hubei = forcast_cnt + len(self.r_adj) - len(r_hubei)
-        if 0 < add_to_hubei: ## TODO Shold use time series
-            r_hubei = r_hubei.append(r_hubei[-1] * (forcast_cnt - len(r_hubei)))
 
-        # StringencyIndex
-        self.df_tmp['StringencyIndex'].fillna(method='ffill', inplace=True)
-        stringency = self.df_tmp['StringencyIndex'].values
+        if self.df_tmp['country'].values[0] == 'israel':
+            # fill hubei
+            add_to_hubei = forcast_cnt + len(self.r_adj) - len(r_hubei)
+            if 0 < add_to_hubei: ## TODO Shold use time series
+                r_hubei = r_hubei.append(r_hubei[-1] * (forcast_cnt - len(r_hubei)))
 
-        self.r0d = self.r_adj
-        cur_loc = -7
-        for t in range(len(self.r0d), len(self.r0d) + forcast_cnt+1):
+            # StringencyIndex
+            self.df_tmp['StringencyIndex'].fillna(method='ffill', inplace=True)
+            stringency = self.df_tmp['StringencyIndex'].values
 
-            cur_stringency = stringency[-1] if 0 <= cur_loc else stringency[cur_loc]
-            projected_r = self.crystal_ball_regression(self.r0d[t-1], r_hubei[t-1], r_hubei[t-2], cur_stringency)
-            self.r0d = np.append(self.r0d, projected_r)
-            cur_loc += 1
+            self.r0d = self.r_adj
+            cur_loc = -7
+            for t in range(len(self.r0d), len(self.r0d) + forcast_cnt+1):
+
+                cur_stringency = stringency[-1] if 0 <= cur_loc else stringency[cur_loc]
+                projected_r = self.crystal_ball_regression(self.r0d[t-1], r_hubei[t-1], r_hubei[t-2], cur_stringency)
+                self.r0d = np.append(self.r0d, projected_r)
+                cur_loc += 1
+
+        else:
+            holt_model = Holt(self.r_adj[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
+            self.r0d = np.append(self.r_adj, holt_model.forecast(forcast_cnt + 1))
 
         self.r0d = np.clip(self.r0d, 0, 100)
 
-
-    def predict(self, tau, scenario):
+    def predict_next_gen(self, tau, scenario):
         t = len(self.detected) - 1
         scenario_wgt, cnt = 0, 0
         next_gen = self.detected[-1]
@@ -396,45 +402,6 @@ class OLG:
                 t += 1
                 cnt += 1
 
-    def predict_old(self, tau, scenario):
-        forcast_cnt = sum(scenario['t'].values()) - 1
-        t = len(self.detected) - 1
-        scenario_wgt, cnt = 0, 0
-
-        holt_model = Holt(self.r_adj[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
-        self.r0d = np.append(self.r_adj[-1], holt_model.forecast(forcast_cnt))
-        # self.r0d = holt_model.forecast(forcast_cnt)
-
-        for i in scenario['t'].keys():
-            while cnt < scenario['t'].get(i):
-                c0 = self.detected[t - tau] if t - tau >= 0 else 0
-                if cnt == 0 & scenario['R0D'].get(i) != 0:
-                    scenario_wgt += self.r0d[cnt] * scenario['R0D'].get(i)
-                self.r0d[cnt] = self.r0d[cnt] + scenario_wgt
-                next_gen = self.next_gen(r0=self.r0d[cnt], tau=tau, c0=c0, ct=self.detected[t])
-                self.detected.append(next_gen)
-                t += 1
-                cnt += 1
-
-        # final decsecnt
-        end_forecast = holt_model.forecast(tau)
-        end_forecast_normed = end_forecast / end_forecast.max(axis=0)
-        end_r0d = end_forecast_normed * (scenario_wgt + self.r0d[-1])
-
-        end_r0d = end_r0d[end_r0d > 0]
-        self.r0d = np.append(self.r0d, end_r0d)
-
-        # cnt = 0
-        while cnt < len(self.r0d):
-            c0 = self.detected[t - tau]
-            next_gen = self.next_gen(r0=self.r0d[cnt], tau=tau,
-                                     c0=c0, ct=self.detected[t])
-            self.detected.append(next_gen)
-            t += 1
-            cnt += 1
-
-        self.r0d = np.append(self.r_adj, self.r0d)
-
     def calc_asymptomatic(self, fi, theta, init_infected):
 
         detected_deltas = [self.detected[0]]
@@ -450,17 +417,6 @@ class OLG:
             asymptomatic_infected.append(prev_asymptomatic_infected)
         self.asymptomatic_infected = asymptomatic_infected
 
-    def calc_crystal_ball(self, df, r_hubei):
-        size = min(len(df), len(r_hubei))
-        df.loc[:size, 'hubei_detected'] = r_hubei[:size]
-        crystal_ball_list = [self.r0d[0]]
-
-        for t in range(1, len(df) - 1):
-            projected_r = self.crystal_ball_regression(self.r0d[t-1], r_hubei[t-1], r_hubei[max(0, t-2)], df['StringencyIndex'][max(0, t-7)])
-            crystal_ball_list.append(projected_r)
-
-        df.loc[:len(crystal_ball_list) - 1, 'crystal_ball'] = crystal_ball_list
-        return df
 
     def calc_critical_condition(self, df, critical_condition_time, recovery_time):
         # calc critical rate
@@ -479,17 +435,10 @@ class OLG:
 
         return df['Critical_condition']
 
-    def write(self, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time, r_hubei):
-        df_o = self.df_tmp.copy()
-        forcast_cnt = len(self.detected) - len(self.r_adj)
-        if self.have_serious_data==False:
-            # df_o['serious_critical'] = (df_o['total_cases'].shift(critical_condition_time)
-            #                             - df_o['total_cases'].shift(recovery_time+critical_condition_time + 1)) * critical_condition_rate
-            df_o['serious_critical'] = self.calc_critical_condition(df_o, critical_condition_time, recovery_time) ##TODO ask Dan why is it here
-            df_o['new_cases'] = df_o['total_cases'] - df_o['total_cases'].shift(1)
-            df_o['activecases'] = None
+    def write(self, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
 
-        df = df_o[-len(self.r_adj):][['date', 'country', 'StringencyIndex', 'serious_critical', 'new_cases', 'activecases']].reset_index(drop=True).copy()
+        forcast_cnt = len(self.detected) - len(self.r_adj)
+        df = self.df_tmp[['date', 'country', 'StringencyIndex', 'serious_critical', 'new_cases', 'activecases']].reset_index(drop=True).copy()
         df['r_values'] = self.r_values
 
         # pad df for predictions
@@ -508,10 +457,6 @@ class OLG:
         df['StringencyIndex'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
         df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
-        df['StringencyIndex'].fillna(method='ffill', inplace=True)
-        if df['country'][0] == 'israel':
-            df = self.calc_crystal_ball(df, r_hubei)
-
         df['Currently Infected'] = np.where(df['corona_days'] <= (critical_condition_time + recovery_time),
                                             df['total_cases'],
                                             df['total_cases'] - df['total_cases'].shift(periods=(critical_condition_time + recovery_time)))
@@ -526,10 +471,6 @@ class OLG:
 
         df['Recovery_Critical'] = df['Critical_condition'].shift(recovery_time) * recovery_rate
         df['Mortality_Critical'] = df['Critical_condition'].shift(recovery_time) * (1-recovery_rate)
-
-        # self.tmp = df.query('prediction_ind==0')[['date', 'total_cases', 'true_critical_rate',  'serious_critical']]
-        # df['Critical_condition_test_p1'] = df['total_cases'].shift(periods=+recovery_time)
-        # df['Critical_condition_test_p2'] =df['total_cases'].shift(periods=+(critical_condition_time + recovery_time + 1))
 
         # fill with obsereved values
         if self.have_serious_data:
@@ -562,8 +503,8 @@ class CountryData:
         # country_df['date'] = pd.to_datetime(country_df['date'],format="%d/%m/%Y")
         country_df['date'] = pd.to_datetime(country_df['date'], format="%Y-%m-%d")
         country_df = country_df.rename(columns={'country': 'Country'})
-        country_df['new_deaths'] = country_df['new_deaths'].str.replace('+', '')
-        country_df['new_deaths'] = country_df['new_deaths'].str.replace(',', '')
+        # country_df['new_deaths'] = country_df['new_deaths'].str.replace('+', '')
+        # country_df['new_deaths'] = country_df['new_deaths'].str.replace(',', '')
         country_df['new_deaths'] = country_df['new_deaths'].apply(lambda x: float(x))
         return country_df
 
