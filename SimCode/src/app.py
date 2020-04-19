@@ -56,7 +56,6 @@ st.markdown(
 st.sidebar.subheader("General parameters")
 # TODO: Michaels model for S effect
 # TODO: get rid of S
-# TODO: add calendar days
 # TODO: add משרד המודיעין and GSTAT logo
 if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     st.subheader('Country Comparison Graphs')
@@ -82,7 +81,11 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     cols = temp.columns
     cols = [c for c in cols if c not in ['Country', 'date']]
     col_measure = st.selectbox("Chose comparison column", cols, 0)
+    caronadays = st.checkbox("Normalize x axis to start of Epidemic time", True)
+    # if caronadays:
+    # TODO: Fix This nor,alizing days
     st.line_chart(pivot_dataframe(temp, col_measure, countryname, normalize_day=int(total_cases_criteria)))
+
     if st.checkbox(label="Show table", value=False):
         temp
 
@@ -96,14 +99,14 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
         st.altair_chart(
             olg_projections_chart(alt, ddjh.loc[ddjh['prediction_ind'] == 0,
                                                 ['date', 'corona_days', 'country', 'prediction_ind', 'R']],
-                                  "Rate of Infection", False),
+                                  "Rate of Infection", caronadays),
             use_container_width=True,
         )
 
         st.altair_chart(
             olg_projections_chart(alt, ddjh.loc[
                 (ddjh['corona_days'] > 2) & (ddjh['prediction_ind'] == 0),
-                ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time", False),
+                ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time", caronadays),
             use_container_width=True,
         )
     st.markdown("-------------------------------------------------")
