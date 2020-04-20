@@ -4,7 +4,7 @@
 import altair as alt  # type: ignore
 import streamlit as st  # type: ignore
 import pandas as pd
-from penn_chime.utils import pivot_dataframe
+from penn_chime.utils import pivot_dataframe, get_table_download_link
 
 from penn_chime.presentation import(
     build_download_link,
@@ -89,6 +89,7 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     )
     if st.checkbox(label="Show table", value=False):
         temp
+        st.markdown(get_table_download_link(temp, "countrydata"), unsafe_allow_html=True)
 
     jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
     pjh = init_olg_params(st, DEFAULTS)
@@ -376,6 +377,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         )
         if st.checkbox("Show Projection Data", False):
             dd
+            st.markdown(get_table_download_link(dd, "gstat_prediciton"), unsafe_allow_html=True)
 
         st.altair_chart(
             olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
