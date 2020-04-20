@@ -280,7 +280,7 @@ class OLG:
 
     """
 
-    def __init__(self, df, p: Parameters, jh_hubei, have_serious_data=True):
+    def __init__(self, df, p: Parameters, jh_hubei, stringency, have_serious_data=True):
         self.detected = []
         self.r_adj = np.array([])
         self.r_values = np.array([])
@@ -290,7 +290,7 @@ class OLG:
         self.df_tmp = pd.DataFrame()
         self.tmp = None
         self.have_serious_data = have_serious_data
-        self.iter_countries(df, p, jh_hubei)
+        self.iter_countries(df, p, jh_hubei, stringency)
 
     @staticmethod
     def next_gen(r0, tau, c0, ct):
@@ -313,7 +313,7 @@ class OLG:
                                                    - crystal_ball_coef.get('s_prev_t7') * s_prev_t7
         return np.exp(ln_r) - 1
 
-    def iter_countries(self, df, p, jh_hubei):
+    def iter_countries(self, df, p, jh_hubei, stringency):
 
         self.process(init_infected=p.init_infected, detected=jh_hubei)
         self.calc_r(tau=p.tau, init_infected=p.init_infected)
@@ -323,12 +323,14 @@ class OLG:
             self.df_tmp = df[df['country'] == country].copy()
             self.process(init_infected=p.init_infected)
             self.calc_r(tau=p.tau, init_infected=p.init_infected)
-            self.predict_crystal_ball(p.tau, r_hubei, p.scenario)
-            self.predict_next_gen(tau=p.tau, scenario=p.scenario)
+            if country=='israel':
+                self.predict(country, p.tau, r_hubei, stringency)
+                self.predict_next_gen(tau=p.tau)
             self.calc_asymptomatic(fi=p.fi, theta=p.theta, init_infected=p.init_infected)
-            self.write(tau=p.tau, critical_condition_rate=p.critical_condition_rate,
+            self.write(stringency, tau=p.tau, critical_condition_rate=p.critical_condition_rate,
                        recovery_rate=p.recovery_rate, critical_condition_time=p.critical_condition_time,
                        recovery_time=p.recovery_time)
+
 
     def process(self, init_infected, detected=None):
         if detected is None:
@@ -349,36 +351,32 @@ class OLG:
         r_values = np.array([(detected[0] / (init_infected + epsilon) - 1) * tau])
         for t in range(1, len(detected)):
             if t <= tau:
-                r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - 1) * tau
+                r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - 1 + epsilon) * tau
             elif t > tau:
-                r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - detected[t - tau]) * tau
+                r_value = (detected[t] - detected[t - 1]) / (detected[t - 1] - detected[t - tau] + epsilon) * tau
             r_values = np.append(r_values, max(r_value, 0))
+            r_adj = np.convolve(r_values, np.ones(int(tau,)) / int(tau), mode='full')[:len(detected)]
+            r_adj = np.clip(r_adj, 0, 100)
 
-        self.r_values, self.r_adj = r_values, np.convolve(r_values, np.ones(int(tau, )) / int(tau), mode='full')[:len(detected)]
+        self.r_values, self.r_adj, self.r0d = r_values, r_adj, r_adj
 
-
-    def predict_crystal_ball(self, tau, r_hubei, scenario):
+    def predict(self, country, tau, r_hubei, stringency):
         self.r_adj = np.clip(self.r_adj, 0, 100)
-        forcast_cnt = sum(scenario['t'].values()) - 1
-
-        if self.df_tmp['country'].values[0] == 'israel':
+        forcast_cnt = len(stringency)
+        if country == 'israel':
             # fill hubei
-            add_to_hubei = forcast_cnt + len(self.r_adj) - len(r_hubei)
-            if 0 < add_to_hubei: ## TODO Shold use time series
+            if 0 < forcast_cnt + len(self.r_adj) - len(r_hubei): ## TODO Shold use time series
                 r_hubei = r_hubei.append(r_hubei[-1] * (forcast_cnt - len(r_hubei)))
 
             # StringencyIndex
             self.df_tmp['StringencyIndex'].fillna(method='ffill', inplace=True)
-            stringency = self.df_tmp['StringencyIndex'].values
+            cur_stringency = self.df_tmp['StringencyIndex'].values#[-7:]
+            stringency = stringency['StringencyIndex'].values
+            stringency = np.append(cur_stringency, stringency)
 
-            self.r0d = self.r_adj
-            cur_loc = -7
-            for t in range(len(self.r0d), len(self.r0d) + forcast_cnt+1):
-
-                cur_stringency = stringency[-1] if 0 <= cur_loc else stringency[cur_loc]
-                projected_r = self.crystal_ball_regression(self.r0d[t-1], r_hubei[t-1], r_hubei[t-2], cur_stringency)
+            for t in range(len(self.r0d), len(self.r0d) + forcast_cnt + 7):
+                projected_r = self.crystal_ball_regression(self.r0d[t-1], r_hubei[t-1], r_hubei[t-2], stringency[t-7])
                 self.r0d = np.append(self.r0d, projected_r)
-                cur_loc += 1
 
         else:
             holt_model = Holt(self.r_adj[-tau:], exponential=True).fit(smoothing_level=0.1, smoothing_slope=0.9)
@@ -386,26 +384,19 @@ class OLG:
 
         self.r0d = np.clip(self.r0d, 0, 100)
 
-    def predict_next_gen(self, tau, scenario):
-        t = len(self.detected) - 1
-        scenario_wgt, cnt = 0, 0
+    def predict_next_gen(self, tau):
+        t = len(self.detected)
         next_gen = self.detected[-1]
+        c0 = self.detected[t - tau] if t - tau >= 0 else 0
 
-        for i in scenario['t'].keys():
-            while cnt < scenario['t'].get(i):
-                c0 = self.detected[t - tau] if t - tau >= 0 else 0
-                if cnt == 0 & scenario['R0D'].get(i) != 0:
-                    scenario_wgt += self.r0d[t] * scenario['R0D'].get(i)
-                    self.r0d[t] += scenario_wgt
-
-                next_gen = self.next_gen(r0=self.r0d[t], tau=tau, c0=c0, ct=next_gen)
-                self.detected.append(next_gen)
-                t += 1
-                cnt += 1
+        while t <= len(self.r0d) - 1:
+            next_gen = self.next_gen(r0=self.r0d[t], tau=tau, c0=c0, ct=next_gen)
+            self.detected.append(next_gen)
+            t += 1
 
     def calc_asymptomatic(self, fi, theta, init_infected):
-
         detected_deltas = [self.detected[0]]
+
         for i in range(1, len(self.detected)):
             delta = self.detected[i] - self.detected[i-1]
             detected_deltas.append(delta)
@@ -436,22 +427,22 @@ class OLG:
 
         return df['Critical_condition']
 
-    def write(self, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
+    def write(self, stringency, tau, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
         if self.have_serious_data==False:
             self.df_tmp['serious_critical'] = None
             self.df_tmp['new_cases'] = self.df_tmp['total_cases'] - self.df_tmp['total_cases'].shift(1)
             self.df_tmp['activecases'] = None
 
-        forcast_cnt = len(self.detected) - len(self.r_adj)
         df = self.df_tmp[['date', 'country', 'StringencyIndex', 'serious_critical', 'new_cases', 'activecases']].reset_index(drop=True).copy()
         df['r_values'] = self.r_values
-
         # pad df for predictions
-        predict_date = df['date'].max() + pd.to_timedelta(1, unit="D")
-        prediction_dates = pd.date_range(start=predict_date.strftime('%Y-%m-%d'), periods=forcast_cnt)
-        predicted = pd.DataFrame({'date': prediction_dates})
-
-        df = df.append(predicted, ignore_index=True)
+        forcast_cnt = len(self.detected) - len(self.r_adj)
+        if forcast_cnt > 0:
+            predict_date = df['date'].max() + pd.to_timedelta(1, unit="D")
+            prediction_dates = pd.date_range(start=predict_date.strftime('%Y-%m-%d'), periods=forcast_cnt)
+            predicted = pd.DataFrame({'date': prediction_dates})
+            predicted.loc[:forcast_cnt - 8, 'StringencyIndex'] = stringency['StringencyIndex'].values
+            df = df.append(predicted, ignore_index=True)
 
         df['total_cases'] = self.detected
         df['R'] = self.r0d
@@ -459,7 +450,6 @@ class OLG:
         df['infected'] = self.asymptomatic_infected
         df['exposed'] = df['infected'].shift(periods=-tau)
         df['country'].fillna(method='ffill', inplace=True)
-        df['StringencyIndex'].fillna(method='ffill', inplace=True)
         df['corona_days'] = pd.Series(range(1, len(df) + 1))
         df['prediction_ind'] = np.where(df['corona_days'] <= len(self.r_adj), 0, 1)
         df['Currently Infected'] = np.where(df['corona_days'] <= (critical_condition_time + recovery_time),
@@ -483,7 +473,7 @@ class OLG:
             df['dI'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
             df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
 
-        df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']]=  df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']].round(0)
+        df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']] = df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']].round(0)
 
         df = df.rename(columns={'total_cases': 'Total Detected', 'infected': 'Total Infected', 'exposed': 'Total Exposed',
                                 'dI': 'New Detected', 'dA': 'New Infected', 'dE': 'New Exposed'})
@@ -628,20 +618,20 @@ class StringencyIndex:
         oxford_dict = oxford_df[-1:].to_dict('records')[0]
         return oxford_dict
 
-    def display_st(self, st):
+    def display_st(self, st, key=1):
         oxford_dict = self.get_latest()
         st.sidebar.subheader("Oxford Index")
         output = {}
         oxford_start = oxford_dict.copy()
-        self.project_til = st.sidebar.date_input("Project until:")
+        self.project_til = st.sidebar.date_input("Project until:", datetime.date.today() + datetime.timedelta(days=30), key=key)
         max_val = self.max_val
         for k, v in oxford_dict.items():
             if k.find('IsGeneral') > -1:
-                output[k] = st.sidebar.checkbox(k, oxford_dict[k] * True) * 1.
+                output[k] = st.sidebar.checkbox(k, oxford_dict[k] * True, key=key) * 1.
             else:
                 output[k] = st.sidebar.number_input(k.split("_")[1], value=oxford_dict[k], min_value=0.,
-                                                    max_value=max_val[k[:2]], step=1.)
-                output[k + '_date'] = st.sidebar.date_input("Date " + k.split("_")[1])
+                                                    max_value=max_val[k[:2]], step=1., key=key)
+                output[k + '_date'] = st.sidebar.date_input("Date " + k.split("_")[1], key=key)
                 # add original date
                 oxford_start[k + '_date'] = datetime.date.today()
         self.input_df = pd.DataFrame([oxford_start, output])

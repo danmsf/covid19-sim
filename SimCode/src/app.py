@@ -1,9 +1,10 @@
 """App."""
+# streamlit run ./SimCode/src/app.py
 
 import altair as alt  # type: ignore
 import streamlit as st  # type: ignore
 import pandas as pd
-from penn_chime.utils import pivot_dataframe
+from penn_chime.utils import pivot_dataframe, get_table_download_link
 
 from penn_chime.presentation import(
     build_download_link,
@@ -32,7 +33,8 @@ from penn_chime.charts import (
     test_indication_chart,
     patients_status_chart,
     jhopkins_level_chart,
-    olg_projections_chart
+    olg_projections_chart,
+    country_comparison_chart
 )
 
 # This is somewhat dangerous:
@@ -53,9 +55,10 @@ st.markdown(
     Model framework.*"""
 )
 
+# Load all tables:
+stringency_dummy = pd.DataFrame(data = {'date': [pd.datetime.today()], 'StringencyIndex': [100]})
+# TODO: update gov response source
 st.sidebar.subheader("General parameters")
-# TODO: Michaels model for S effect
-# TODO: get rid of S
 # TODO: add משרד המודיעין and GSTAT logo
 if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     st.subheader('Country Comparison Graphs')
@@ -65,16 +68,13 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     countrydata.get_sir()
     # 'total_cases', 'new_cases', 'total_deaths', 'new_deaths', 'total_recovered', 'activecases', 'serious_critical'
     countryname = st.multiselect("Select Countries", list(countrydata.country_df['Country'].sort_values().unique()), ['israel'])
-    # d = countrydata.country_df
-    # d
-    temp = countrydata.country_df.loc[countrydata.country_df.Country.isin(countryname), ['Country', 'date', 'total_cases', 'new_cases',
-                                                                         'total_deaths', 'new_deaths',
-                                                                         'total_recovered', 'activecases',
-                                                                         'serious_critical', 'StringencyIndex']]
-    # TODO: Add per million columns
-    # min_infected = st.sidebar.number_input("Minimum Infected for graphs", value=10)
-    # temp = temp.loc[temp['Total Cases'] >= min_infected, :]
 
+    keepcols = ['Country', 'total_cases', 'new_cases', 'total_deaths', 'new_deaths',
+     'total_recovered', 'activecases', 'serious_critical',
+     'tot_cases/1m_pop', 'deaths/1m_pop', 'date',
+     'totaltests', 'tests/_1m_pop', 'tot_deaths/1m_pop',
+     'population',  'StringencyIndexForDisplay', 'StringencyIndex']
+    temp = countrydata.country_df.loc[countrydata.country_df.Country.isin(countryname), keepcols]
     temp = temp.set_index("date", drop=False)
     total_cases_criteria = st.number_input(label='Minimum Infected for Start', value=10)
     temp = temp.loc[temp['total_cases'] >= total_cases_criteria, :]
@@ -82,19 +82,21 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     cols = [c for c in cols if c not in ['Country', 'date']]
     col_measure = st.selectbox("Chose comparison column", cols, 0)
     caronadays = st.checkbox("Normalize x axis to start of Epidemic time", True)
-    # if caronadays:
-    # TODO: Fix This nor,alizing days
-    st.line_chart(pivot_dataframe(temp, col_measure, countryname, normalize_day=int(total_cases_criteria)))
 
+    st.altair_chart(
+        country_comparison_chart(alt, temp[['date', 'Country'] + [col_measure]],caronadays),
+        use_container_width=True,
+    )
     if st.checkbox(label="Show table", value=False):
         temp
+        st.markdown(get_table_download_link(temp, "countrydata"), unsafe_allow_html=True)
 
     jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
     pjh = init_olg_params(st, DEFAULTS)
     pjh.countries = countryname
     if len(pjh.countries) > 0:
         pjh.init_infected = total_cases_criteria
-        olgjh = OLG(temp.rename(columns={"Country":"country"}), pjh, jh_hubei, False)
+        olgjh = OLG(temp.rename(columns={"Country":"country"}), pjh, jh_hubei, stringency_dummy, False)
         ddjh = olgjh.df.copy()
         st.altair_chart(
             olg_projections_chart(alt, ddjh.loc[ddjh['prediction_ind'] == 0,
@@ -110,7 +112,7 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
             use_container_width=True,
         )
     st.markdown("-------------------------------------------------")
-    st.subheader('Country Level Graphs')
+    st.subheader('Country Oxford Stringency Level vs Corona Data')
     col_measures = st.multiselect("Chose columns", [c for c in cols if c not in ['StringencyIndex']],['total_cases'] , key=2)
     for c in countryname:
         st.altair_chart(
@@ -135,7 +137,6 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     #         )
 
 if st.sidebar.checkbox(label="Show Israel data"):
-    # TODO: Add ISRAEL R and yishuvim R
     st.subheader('Israeli Data')
     israel_data = IsraelData(DEFAULTS.israel_files)
 
@@ -163,7 +164,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
     pil = init_olg_params(st, DEFAULTS)
     pil.countries = ['israel']
     pil.init_infected = 100
-    olgil = OLG(country_df, pil, jh_hubei, False)
+    olgil = OLG(country_df, pil, jh_hubei, stringency_dummy, False)
     ddil = olgil.df.copy()
     # ddil
     # coronadays = st.checkbox("Show axis as number of days since outbreak", True)
@@ -209,7 +210,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
     if len(pil.countries) > 0:
         # pil.init_infected = st.number_input("Select min corona cases for Yishuv", min_value=10, value=25)
         pil.init_infected = 25
-        olgil = OLG(israel_yishuv_df, pil, jh_hubei, False)
+        olgil = OLG(israel_yishuv_df, pil, jh_hubei,stringency_dummy, False)
         ddil = olgil.df.copy()
         # ddil
         # coronadays = st.checkbox("Show axis as number of days since outbreak", True)
@@ -254,8 +255,14 @@ if st.sidebar.checkbox(label="Show Israel data"):
 if st.sidebar.checkbox("Show Israel Projections", False):
     models_option = st.sidebar.multiselect(
         'Which models to show?',
-        ['GSTAT Model'])
+        ['GSTAT Model'], ['GSTAT Model'])
         # ('Penn Dashboard', 'GSTAT Model', 'SEIAR Model', 'SEIRSPlus'), )
+
+    if 'GSTAT Model' in models_option:
+        if st.sidebar.checkbox("Change Model Parameters", False):
+            p = display_sidebar(st, DEFAULTS, models_option)
+        else:
+            p = init_olg_params(st, DEFAULTS)
 
     countrydata = CountryData(DEFAULTS.country_files)
     countrydata.country_df.drop('I', axis=1, inplace=True)
@@ -264,7 +271,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
     country_dict = {'countries_list': set(countrydata.country_df['country'].values)}
     DEFAULTS.olg_params.update(country_dict)
 
-    p = display_sidebar(st, DEFAULTS, models_option)
+
 
 
     if "Penn Dashboard" in models_option:
@@ -337,55 +344,52 @@ if st.sidebar.checkbox("Show Israel Projections", False):
     if "GSTAT Model" in models_option:
         st.subheader("GSTAT Covid-19 Predictions for Israel")
         # Load model
+        # st.subheader("Calculate Oxford StringencyIndex")
+        sgidx = StringencyIndex("Israel")
+        sgidx.display_st(st)
+        sgidx.calculate_stringency()
+        sgidx_data = sgidx.output_df.copy()
+        # sgidx_data
+        # sgidx_data.to_csv("stringencyExample.csv")
 
         jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
         country_df = countrydata.country_df.copy()
-        # p.countries = st.multiselect('Select countries',  list(country_df['country'].unique()), 'israel')
-        # if len(p.countries) == 0:
+        stringency = sgidx_data[['date', 'StringencyIndex']]
+
         p.countries = ['israel']
-        olg = OLG(country_df, p, jh_hubei)
+        olg = OLG(country_df, p, jh_hubei, stringency)
         dd = olg.df.copy()
         # dd
-        olg_cols = dd.columns
-        olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R', 'Doubling Time', 'prediction_ind']]
-        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['Critical_condition'])
 
-        st.altair_chart(
-            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "OLG Projections", False),
-            use_container_width=True,
-        )
-        if st.checkbox("Show Projection Data", False):
-            dd
-
-        st.altair_chart(
-            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
-            use_container_width=True,
-        )
-        # st.altair_chart(
-        #     olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'crystal_ball']], "crystal_ball"),
-        #     use_container_width=True,
-        # )
-        st.altair_chart(
-            olg_projections_chart(alt, dd.loc[dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
-            use_container_width=True,
-        )
-        # st.line_chart(dd.loc[])
         st.altair_chart(
             olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind',
                                                                   'StringencyIndex']].ffill(), "Stringency Index"),
             use_container_width=True,
         )
+        # if st.checkbox("Download Stringency Calculation Data"):
+        st.markdown(get_table_download_link(sgidx_data, "stringency"), unsafe_allow_html=True)
 
+        olg_cols = dd.columns
+        olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R', 'Doubling Time', 'prediction_ind']]
+        olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Critical_condition'])
 
+        st.altair_chart(
+            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "GSTAT Model Projections", False),
+            use_container_width=True,
+        )
+        if st.checkbox("Show Projection Data", False):
+            dd
+            st.markdown(get_table_download_link(dd, "gstat_prediciton"), unsafe_allow_html=True)
 
+        st.altair_chart(
+            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R']], "Rate of Infection"),
+            use_container_width=True,
+        )
 
-        st.subheader("Calculate Oxford StringencyIndex")
-        sgidx = StringencyIndex("Israel")
-        sgidx.display_st(st)
-        sgidx.calculate_stringency()
-        sgidx_data = sgidx.output_df.copy()
-        sgidx_data
-        sgidx_data.to_csv("stringencyExample.csv")
+        st.altair_chart(
+            olg_projections_chart(alt, dd.loc[dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
+            use_container_width=True,
+        )
 
 
     if "SEIAR Model" in models_option:
