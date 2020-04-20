@@ -112,7 +112,7 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
             use_container_width=True,
         )
     st.markdown("-------------------------------------------------")
-    st.subheader('Country Level Graphs')
+    st.subheader('Country Oxford Stringency Level vs Corona Data')
     col_measures = st.multiselect("Chose columns", [c for c in cols if c not in ['StringencyIndex']],['total_cases'] , key=2)
     for c in countryname:
         st.altair_chart(
