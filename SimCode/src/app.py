@@ -1,4 +1,5 @@
 """App."""
+# streamlit run ./SimCode/src/app.py
 
 import altair as alt  # type: ignore
 import streamlit as st  # type: ignore
