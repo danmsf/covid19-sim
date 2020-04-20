@@ -56,6 +56,7 @@ def main(indir:IO,
     #
     disease_data.columns = disease_data.columns.str.lower().str.replace("\s+", "_")
 
+    disease_data['country'] = disease_data['country'].replace(population_data_mapper,regex = False)
 
     # --------------------
     # Read and format GOVERNMENT_RESPONSE raw_data
@@ -74,7 +75,7 @@ def main(indir:IO,
     # --------------------
     # Join raw_data
     # --------------------
-    all_data = disease_data.merge(population).fillna(0)
+    all_data = disease_data.merge(population, how='left').fillna(0)
 
     all_data['S'] = all_data['population']
     all_data['E'] = all_data.groupby('country')['activecases'].shift(4).fillna(0)
