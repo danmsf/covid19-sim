@@ -367,7 +367,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
             use_container_width=True,
         )
         # if st.checkbox("Download Stringency Calculation Data"):
-        st.markdown(get_table_download_link(stringency, "stringency"), unsafe_allow_html=True)
+        st.markdown(get_table_download_link(sgidx_data, "stringency"), unsafe_allow_html=True)
 
         olg_cols = dd.columns
         olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R', 'Doubling Time', 'prediction_ind']]
