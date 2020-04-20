@@ -56,8 +56,7 @@ st.markdown(
 )
 
 # Load all tables:
-stringency_dummy = pd.read_csv('stringencyExample2.csv',
-                     usecols=['date', 'StringencyIndex'], parse_dates=['date'])
+stringency_dummy = pd.DataFrame(data = {'date': [pd.datetime.today()], 'StringencyIndex': [100]})
 
 st.sidebar.subheader("General parameters")
 # TODO: add משרד המודיעין and GSTAT logo
