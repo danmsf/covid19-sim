@@ -1,1 +1,9 @@
-{"s. korea":"south korea"}
+{"s. korea":"south korea",
+  "usa":"united states",
+  "usa *":"united states",
+  "uk": "united kingdom",
+  "u.k.": "united kingdom",
+  "u.a.e.": "united arab emirates",
+  "uae": "united arab emirates",
+  "world": "",
+  "total": ""}
