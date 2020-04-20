@@ -44,3 +44,13 @@ def main(outdir: Union[PathLike] = None) -> pd.DataFrame:
 
 if __name__ == '__main__':
     main()
+
+
+from http.cookiejar import CookieJar
+from urllib.request import build_opener, HTTPCookieProcessor
+import pandas as pd
+
+DOC_URL =r'https://docs.google.com/spreadsheets/d/1Y-ieLWMDzFzzeJKW-SygD90dBH80d4x0db8I3UFNj_c/edit#gid=920403791'
+import requests
+csv_content = requests.get(DOC_URL).text
+df = pd.read_html(csv_content)
