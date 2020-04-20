@@ -16,12 +16,6 @@ sheet_name = info.get('gsheets').get('sheet')
 sheet_range = info.get('gsheets').get('range')
 sample_range_name = f'{sheet_name}!{sheet_range}'
 
-# For gov ckan api
-pop_per_city_url = info.get('pop_per_city').get('url')
-
-# Set map dictionaries
-covid19_gsheet_mapper = mapper.get('covid19_gsheet')
-district_mapper = mapper.get('gov_data')
 
 def main(outdir: Union[PathLike] = None) -> pd.DataFrame:
     print(__file__, 'is running')
@@ -37,51 +31,10 @@ def main(outdir: Union[PathLike] = None) -> pd.DataFrame:
 
     gsheet_df = values_to_df(result)
 
-    # ---------------------
-    # -- Get population data from gov.il
-    # ----------------------
-    response = requests.get(pop_per_city_url)
-    records = response.json().get('result').get('records')
-    pop_per_city_base = pd.DataFrame(records).drop('_id', axis=1)
-
-    # ---------------------
-    # -- Transform dataframes and merge
-    # ----------------------
-    basecols = ['shk', 'gyl_0_6', 'gyl_6_18', 'gyl_19_45', 'gyl_46_55', 'gyl_56_64', 'gyl_65_plvs']
-    city_col = 'SHm_ySHvb'
-    distrct_col = 'mv`TSh_Azvryt'
-
-    # Create two tables from the first df -
-    #   one for cities
-    #   and another aggregated for distrticts,
-    # union them.
-    pop_per_city = pop_per_city_base[basecols + [city_col]]
-    pop_per_distrct = pop_per_city_base.groupby(distrct_col)[basecols] \
-        .sum(). \
-        reset_index(). \
-        rename({distrct_col: city_col}, axis=1)
-
-    pop_per_city_district = pd.concat([pop_per_city, pop_per_distrct], sort=False).drop_duplicates(city_col)
-
-    # Some final data manifulations
-    left_on = 'יישוב'
-    right_on = 'SHm_ySHvb'
-
-    gsheet_df[left_on] = gsheet_df[left_on].str.strip().replace(covid19_gsheet_mapper)
-    pop_per_city_district[right_on] = pop_per_city_district[right_on].str.strip()\
-                                                                     .replace(district_mapper, regex=False)
-
-    # Merge sets
-    gsheet_df_unified = gsheet_df.merge(pop_per_city_district,
-                                        left_on=left_on,
-                                        right_on=right_on,
-                                        how='left') \
-        .drop(right_on, axis=1)
-
     # Dta output
     if outdir:
         outdir = os.path.join(outdir, 'gsheets.csv')
-        gsheet_df_unified.to_csv(outdir)
+        gsheet_df.to_csv(outdir)
         retval = None
     else:
         retval = gsheet_df
