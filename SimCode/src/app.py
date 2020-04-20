@@ -255,7 +255,7 @@ if st.sidebar.checkbox(label="Show Israel data"):
 if st.sidebar.checkbox("Show Israel Projections", False):
     models_option = st.sidebar.multiselect(
         'Which models to show?',
-        ['GSTAT Model'])
+        ['GSTAT Model'], ['GSTAT Model'])
         # ('Penn Dashboard', 'GSTAT Model', 'SEIAR Model', 'SEIRSPlus'), )
 
     if 'GSTAT Model' in models_option:
@@ -366,13 +366,15 @@ if st.sidebar.checkbox("Show Israel Projections", False):
                                                                   'StringencyIndex']].ffill(), "Stringency Index"),
             use_container_width=True,
         )
+        # if st.checkbox("Download Stringency Calculation Data"):
+        st.markdown(get_table_download_link(stringency, "stringency"), unsafe_allow_html=True)
 
         olg_cols = dd.columns
         olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R', 'Doubling Time', 'prediction_ind']]
-        olg_cols_select = st.multiselect('Select OLG Columns', olg_cols, ['Critical_condition'])
+        olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Critical_condition'])
 
         st.altair_chart(
-            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "OLG Projections", False),
+            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "GSTAT Model Projections", False),
             use_container_width=True,
         )
         if st.checkbox("Show Projection Data", False):
