@@ -33,7 +33,8 @@ from penn_chime.charts import (
     test_indication_chart,
     patients_status_chart,
     jhopkins_level_chart,
-    olg_projections_chart
+    olg_projections_chart,
+    country_comparison_chart
 )
 
 # This is somewhat dangerous:
@@ -59,8 +60,6 @@ stringency_dummy = pd.read_csv('stringencyExample2.csv',
                      usecols=['date', 'StringencyIndex'], parse_dates=['date'])
 
 st.sidebar.subheader("General parameters")
-# TODO: Michaels model for S effect
-# TODO: get rid of S
 # TODO: add משרד המודיעין and GSTAT logo
 if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     st.subheader('Country Comparison Graphs')
@@ -70,16 +69,13 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     countrydata.get_sir()
     # 'total_cases', 'new_cases', 'total_deaths', 'new_deaths', 'total_recovered', 'activecases', 'serious_critical'
     countryname = st.multiselect("Select Countries", list(countrydata.country_df['Country'].sort_values().unique()), ['israel'])
-    # d = countrydata.country_df
-    # d
-    temp = countrydata.country_df.loc[countrydata.country_df.Country.isin(countryname), ['Country', 'date', 'total_cases', 'new_cases',
-                                                                         'total_deaths', 'new_deaths',
-                                                                         'total_recovered', 'activecases',
-                                                                         'serious_critical', 'StringencyIndex']]
-    # TODO: Add per million columns
-    # min_infected = st.sidebar.number_input("Minimum Infected for graphs", value=10)
-    # temp = temp.loc[temp['Total Cases'] >= min_infected, :]
 
+    keepcols = ['Country', 'total_cases', 'new_cases', 'total_deaths', 'new_deaths',
+     'total_recovered', 'activecases', 'serious_critical',
+     'tot_cases/1m_pop', 'deaths/1m_pop', 'date',
+     'totaltests', 'tests/_1m_pop', 'tot_deaths/1m_pop',
+     'population',  'StringencyIndexForDisplay', 'StringencyIndex']
+    temp = countrydata.country_df.loc[countrydata.country_df.Country.isin(countryname), keepcols]
     temp = temp.set_index("date", drop=False)
     total_cases_criteria = st.number_input(label='Minimum Infected for Start', value=10)
     temp = temp.loc[temp['total_cases'] >= total_cases_criteria, :]
@@ -87,10 +83,11 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     cols = [c for c in cols if c not in ['Country', 'date']]
     col_measure = st.selectbox("Chose comparison column", cols, 0)
     caronadays = st.checkbox("Normalize x axis to start of Epidemic time", True)
-    # if caronadays:
-    # TODO: Fix This nor,alizing days
-    st.line_chart(pivot_dataframe(temp, col_measure, countryname, normalize_day=int(total_cases_criteria)))
 
+    st.altair_chart(
+        country_comparison_chart(alt, temp[['date', 'Country'] + [col_measure]],caronadays),
+        use_container_width=True,
+    )
     if st.checkbox(label="Show table", value=False):
         temp
 
@@ -140,7 +137,6 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     #         )
 
 if st.sidebar.checkbox(label="Show Israel data"):
-    # TODO: Add ISRAEL R and yishuvim R
     st.subheader('Israeli Data')
     israel_data = IsraelData(DEFAULTS.israel_files)
 

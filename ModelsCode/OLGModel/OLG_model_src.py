@@ -24,7 +24,7 @@ class Parameters:
 
 
 scenario = {'t': {0: 20},
-            'R0D': {0: 0}}  ## TODO t: == 20+
+            'R0D': {0: 0}}
 
 p = Parameters(tau=14,
                init_infected=100,
