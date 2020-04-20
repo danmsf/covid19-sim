@@ -43,7 +43,7 @@ async def to_file(url,session,outdir) -> None:
 
 async def to_pd(html,url,outdir ):
     container = pd.read_html(html, match=READ_HTML_MATCH_PARAM)
-    df = container[-1]
+    df = container[0]
     df['ref'] = url
     date_str = re.search('\d{8}', url).group()
     date_obj = datetime.strptime(date_str, '%Y%m%d')
