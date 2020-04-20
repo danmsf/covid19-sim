@@ -432,8 +432,10 @@ class OLG:
             self.df_tmp['serious_critical'] = None
             self.df_tmp['new_cases'] = self.df_tmp['total_cases'] - self.df_tmp['total_cases'].shift(1)
             self.df_tmp['activecases'] = None
+            self.df_tmp['total_deaths'] = None
+            self.df_tmp['new_deaths'] = None
 
-        df = self.df_tmp[['date', 'country', 'StringencyIndex', 'serious_critical', 'new_cases', 'activecases']].reset_index(drop=True).copy()
+        df = self.df_tmp[['date', 'country', 'StringencyIndex', 'serious_critical', 'new_cases', 'activecases','new_deaths', 'total_deaths']].reset_index(drop=True).copy()
         df['r_values'] = self.r_values
         # pad df for predictions
         forcast_cnt = len(self.detected) - len(self.r_adj)
@@ -466,12 +468,21 @@ class OLG:
 
         df['Recovery_Critical'] = df['Critical_condition'].shift(recovery_time) * recovery_rate
         df['Mortality_Critical'] = df['Critical_condition'].shift(recovery_time) * (1-recovery_rate)
+        df['Recovery_Critical'] = df['Recovery_Critical'] - df['Recovery_Critical'].shift(1)
+        df['Mortality_Critical'] = df['Mortality_Critical'] - df['Mortality_Critical'].shift(1)
+        df['Recovery_Critical'] = df['Recovery_Critical'].apply(lambda x: max(x, 0)).fillna(0).astype(int)
+        df['Mortality_Critical'] = df['Mortality_Critical'].apply(lambda x: max(x, 0)).fillna(0).astype(int)
+
+        df['Total_Mortality'] = df['Mortality_Critical'].cumsum()
+        df['Total_Critical_Recovery'] = df['Recovery_Critical'].cumsum()
 
         # fill with obsereved values
         if self.have_serious_data:
             df['Critical_condition'] = np.where(~df['serious_critical'].isna(), df['serious_critical'], df['Critical_condition'])
             df['dI'] = np.where(~df['new_cases'].isna(), df['new_cases'], df['dI'])
             df['Currently Infected'] = np.where(~df['activecases'].isna(), df['activecases'], df['Currently Infected'])
+            df['Total_Mortality'] = np.where(~df['total_deaths'].isna(), df['total_deaths'], df['Total_Mortality'])
+            df['Mortality_Critical'] = np.where(~df['new_deaths'].isna(), df['new_deaths'], df['Mortality_Critical'])
 
         df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']] = df[['Critical_condition', 'Currently Infected', 'total_cases', 'exposed', 'Recovery_Critical', 'Mortality_Critical']].round(0)
 
