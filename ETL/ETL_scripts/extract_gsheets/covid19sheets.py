@@ -19,6 +19,9 @@ sample_range_name = f'{sheet_name}!{sheet_range}'
 # For gov ckan api
 pop_per_city_url = info.get('pop_per_city').get('url')
 
+# Set map dictionaries
+covid19_gsheet_mapper = mapper.get('covid19_gsheet')
+district_mapper = mapper.get('gov_data')
 
 def main(outdir: Union[PathLike] = None) -> pd.DataFrame:
     print(__file__, 'is running')
@@ -64,8 +67,9 @@ def main(outdir: Union[PathLike] = None) -> pd.DataFrame:
     left_on = 'יישוב'
     right_on = 'SHm_ySHvb'
 
-    gsheet_df[left_on] = gsheet_df[left_on].str.strip()
-    pop_per_city_district[right_on] = pop_per_city_district[right_on].str.strip()
+    gsheet_df[left_on] = gsheet_df[left_on].str.strip().replace(covid19_gsheet_mapper)
+    pop_per_city_district[right_on] = pop_per_city_district[right_on].str.strip()\
+                                                                     .replace(district_mapper, regex=False)
 
     # Merge sets
     gsheet_df_unified = gsheet_df.merge(pop_per_city_district,
