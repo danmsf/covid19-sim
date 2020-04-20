@@ -618,20 +618,20 @@ class StringencyIndex:
         oxford_dict = oxford_df[-1:].to_dict('records')[0]
         return oxford_dict
 
-    def display_st(self, st):
+    def display_st(self, st, key=1):
         oxford_dict = self.get_latest()
         st.sidebar.subheader("Oxford Index")
         output = {}
         oxford_start = oxford_dict.copy()
-        self.project_til = st.sidebar.date_input("Project until:")
+        self.project_til = st.sidebar.date_input("Project until:", datetime.date.today() + datetime.timedelta(days=30), key=key)
         max_val = self.max_val
         for k, v in oxford_dict.items():
             if k.find('IsGeneral') > -1:
-                output[k] = st.sidebar.checkbox(k, oxford_dict[k] * True) * 1.
+                output[k] = st.sidebar.checkbox(k, oxford_dict[k] * True, key=key) * 1.
             else:
                 output[k] = st.sidebar.number_input(k.split("_")[1], value=oxford_dict[k], min_value=0.,
-                                                    max_value=max_val[k[:2]], step=1.)
-                output[k + '_date'] = st.sidebar.date_input("Date " + k.split("_")[1])
+                                                    max_value=max_val[k[:2]], step=1., key=key)
+                output[k + '_date'] = st.sidebar.date_input("Date " + k.split("_")[1], key=key)
                 # add original date
                 oxford_start[k + '_date'] = datetime.date.today()
         self.input_df = pd.DataFrame([oxford_start, output])
