@@ -35,11 +35,11 @@ DEFAULTS = Constants(
     icu=RateLos(0.0075, 9),
     ventilated=RateLos(0.005, 10),
 
-    olg_params={'tau': 14, 'init_infected': 100, 'fi': 0.25, 'theta': 0.0771,
+    olg_params={'tau': 8, 'init_infected': 50, 'fi': 0.25, 'theta': 0.0771,
                 'countries': ['israel'],
                 'scenario': {'t': {0: 20}, 'R0D': {0: 0}},
                 'critical_condition_rate': 0.05,
-                'recovery_rate': 0.4,
+                'recovery_rate': 0.5,
                 'critical_condition_time': 10,
                 'recovery_time': 6,
                 'countries_list': ['israel', 'china']},

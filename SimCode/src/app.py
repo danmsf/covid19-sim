@@ -56,7 +56,7 @@ st.markdown(
 )
 
 # Load all tables:
-stringency_dummy = pd.DataFrame(data = {'date': [pd.datetime.today()], 'StringencyIndex': [100]})
+stringency_dummy = pd.DataFrame(data={'date': [pd.datetime.today()], 'StringencyIndex': [100]})
 
 # TODO: update gov response source
 st.sidebar.subheader("General parameters")
@@ -124,18 +124,40 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
 
     st.markdown("""*Source: Worldmeter, Oxford University*""")
     # total_cases_criteria
-    # st.subheader("Johns Hopkins Data")
-    # jh_confirmed_df = countrydata.jh_confirmed_df.copy()
-    # jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
-    # jh_confirmed_df['min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
-    # jh_confirmed_df['date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
-    # jh_confirmed_df['country'] = jh_confirmed_df['Country'] + " - " + jh_confirmed_df['Province'].str.lower()
-    # province = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()), "Israel - all")
+    st.subheader("Johns Hopkins Data")
+    jh_confirmed_df = countrydata.jh_confirmed_df.copy()
+    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
+    jh_confirmed_df['min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
+    jh_confirmed_df['date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
+    jh_confirmed_df['country'] = jh_confirmed_df['Country'] + " - " + jh_confirmed_df['Province'].str.lower()
+    province = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()), "Israel - all")
     #
-    # jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['country'].isin(province), :]
+    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['country'].isin(province), :]
+    st.altair_chart(
+        jhopkins_level_chart(alt, jh_confirmed_df), use_container_width=True,
+            )
+    pjh.init_infected = 100
+    jh_confirmed_df = countrydata.jh_confirmed_df.copy()
+    jh_confirmed_df['date'] = jh_confirmed_df['variable']
+    jh_confirmed_df = jh_confirmed_df.merge(
+        countrydata.country_df.loc[:,['Country','date','StringencyIndex']],how='left',
+    )
+    jh_confirmed_df['country'] = jh_confirmed_df['Country'] + " - " + jh_confirmed_df['Province'].str.lower()
+    temp = jh_confirmed_df.loc[jh_confirmed_df['country'].isin(province), :]
+    temp = temp.rename(columns={'value' : 'total_cases'})
+    # temp['Country'] = 'israel'
+    #
+    # temp['country'] = 'israel'
+    # temp
+    # temp['StringencyIndex'] = 100
+    # olgjh = OLG(temp, pjh, jh_hubei, stringency_dummy, False)
+    # ddjh = olgjh.df.copy()
     # st.altair_chart(
-    #     jhopkins_level_chart(alt, jh_confirmed_df), use_container_width=True,
-    #         )
+    #    olg_projections_chart(alt, ddjh.loc[ddjh['prediction_ind'] == 0, ['date', 'corona_days', 'country', 'prediction_ind', 'R']],
+    #                          "Rate of Infection", caronadays),
+    #     use_container_width=True,
+    #  )
+
 
 if st.sidebar.checkbox(label="Show Israel data"):
     st.subheader('Israeli Data')
@@ -371,8 +393,8 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         st.markdown(get_table_download_link(sgidx_data, "stringency"), unsafe_allow_html=True)
 
         olg_cols = dd.columns
-        olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'R', 'Doubling Time', 'prediction_ind']]
-        olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Critical_condition'])
+        olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values','prediction_ind']]
+        olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted'])
 
         st.altair_chart(
             olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "GSTAT Model Projections", False),
@@ -391,7 +413,18 @@ if st.sidebar.checkbox("Show Israel Projections", False):
             olg_projections_chart(alt, dd.loc[dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time"),
             use_container_width=True,
         )
-
+    # temp = pd.read_csv('C:\\Users\\User\\PycharmProjects\\covad19-sim\\michaels_data.csv', parse_dates=['date'])
+    # temp['total_cases'] = temp['total_cases'].fillna(0).astype(int)
+    # temp['StringencyIndex'] = temp['StringencyIndex'].fillna(0).astype(float)
+    #
+    # p.countries = ['israel']
+    # olg = OLG(temp, p, temp[temp['country']=='hubei']['total_cases'].values, stringency, False)
+    # dd = olg.df.copy()
+    # st.altair_chart(
+    # olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R', 'r_predicted']],
+    #                           "Rate of Infection"),
+    #     use_container_width=True,
+    # )
 
     if "SEIAR Model" in models_option:
         st.subheader("SEIAR Model")
