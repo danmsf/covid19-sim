@@ -57,6 +57,7 @@ st.markdown(
 
 # Load all tables:
 stringency_dummy = pd.DataFrame(data = {'date': [pd.datetime.today()], 'StringencyIndex': [100]})
+
 # TODO: update gov response source
 st.sidebar.subheader("General parameters")
 # TODO: add משרד המודיעין and GSTAT logo
