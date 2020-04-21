@@ -37,6 +37,9 @@ from penn_chime.charts import (
     country_comparison_chart
 )
 
+from PIL import Image
+logo = Image.open("SimCode/src/gstat_logo.png")
+st.sidebar.image(logo)
 # This is somewhat dangerous:
 # Hide the download_dfs menu with "Rerun", "run on Save", "clear cache", and "record a screencast"
 # This should not be hidden in prod, but removed
@@ -61,6 +64,7 @@ stringency_dummy = pd.DataFrame(data={'date': [pd.datetime.today()], 'Stringency
 # TODO: update gov response source
 st.sidebar.subheader("General parameters")
 # TODO: add משרד המודיעין and GSTAT logo
+# TODO: move table loading up here
 if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     st.subheader('Country Comparison Graphs')
     countrydata = CountryData(DEFAULTS.country_files)
