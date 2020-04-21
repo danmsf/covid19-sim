@@ -20,3 +20,4 @@ id,key,value
 19,^Country.*Territory,Country
 20,^Total Cured$,Total Recovered
 21,^1stcase$,Reported1st case
+22,'^Tot Deaths/1M pop$','Deaths/1M pop'
