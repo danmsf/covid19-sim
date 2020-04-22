@@ -525,4 +525,14 @@ if st.sidebar.checkbox("Show Israel Projections", False):
                 <a href = https://github.com/ryansmcgee/seirsplus> Seirsplus </a>
                 """, unsafe_allow_html=True
             )
-
+if st.sidebar.checkbox("About", False):
+    st.sidebar.markdown("This app was developed in pure python utilizing the awesome [streamlit](https:\\streamlit.io) library.  "
+                        "For other inspiring ideas see [Penn University Covid](https://penn-chime.phl.io) "
+                        "or for more general applications [Awesome Streamlit](https://awesome-streamlit.org/)")
+    st.sidebar.info("Thanks to everyone who volounteered to help develop and mantain this app, including (but not limited to):  "
+            "Elisar Chodorov, "
+            "Oz Mizrahi, "
+            "Roy Assis, "
+            "Dan Feldman, "
+            "Ephraim Goldin, "
+            "Annia Sorokin")
