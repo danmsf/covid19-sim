@@ -1,4 +1,8 @@
 import streamlit as st
+from gstat_app.src.shared.charts.charts_il import *
+from gstat_app.src.shared.charts.charts_olg import olg_projections_chart
+from gstat_app.src.shared.models.model_olg import *
+from gstat_app.src.shared.models.data import IsraelData, CountryData
 
 def write():
     st.subheader('Israeli Data')
@@ -28,7 +32,7 @@ def write():
     pil = init_olg_params(st, DEFAULTS)
     pil.countries = ['israel']
     pil.init_infected = 100
-    olgil = OLG(country_df, pil, jh_hubei, stringency_dummy, False)
+    olgil = OLG(country_df, pil, False)
     ddil = olgil.df.copy()
     # ddil
     # coronadays = st.checkbox("Show axis as number of days since outbreak", True)

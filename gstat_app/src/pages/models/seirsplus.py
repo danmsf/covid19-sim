@@ -2,6 +2,7 @@ import streamlit as st
 from seirsplus.models import SEIRSModel
 import pandas as pd
 
+
 def write():
     st.subheader("SEIRSPlus")
     seirs_params = p.seirs_plus_params

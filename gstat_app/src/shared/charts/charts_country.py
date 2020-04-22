@@ -1,3 +1,8 @@
+from altair import Chart  # type: ignore
+# import altair as alt
+import pandas as pd  # type: ignore
+import streamlit as st
+
 
 
 @st.cache(allow_output_mutation=True)

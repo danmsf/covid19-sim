@@ -1,9 +1,5 @@
 
 def write():
-    models_option = st.sidebar.multiselect(
-        'Which models to show?',
-        ['GSTAT Model'], ['GSTAT Model'])
-    # ('Penn Dashboard', 'GSTAT Model', 'SEIAR Model', 'SEIRSPlus'), )
 
     if 'GSTAT Model' in models_option:
         if st.sidebar.checkbox("Change Model Parameters", False):
