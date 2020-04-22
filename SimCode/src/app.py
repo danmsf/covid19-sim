@@ -535,4 +535,5 @@ if st.sidebar.checkbox("About", False):
             "Roy Assis, "
             "Dan Feldman, "
             "Ephraim Goldin, "
-            "Annia Sorokin")
+            "Annia Sorokin, "
+            "Laura Lerner, and anyone else I missed :) ")
