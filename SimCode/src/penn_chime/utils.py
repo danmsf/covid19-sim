@@ -4,7 +4,7 @@ from collections import namedtuple
 from datetime import datetime, timedelta
 from typing import Optional
 from base64 import b64encode
-
+import io
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
@@ -102,6 +102,13 @@ def get_table_download_link(df, name):
     """
     csv = df.to_csv(index=False)
     b64 = b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-    href = f'<a href="data:file/csv;base64,{b64}" download="{name}.csv">Download csv file</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="{name}.docx">Download file</a>'
     return href
 
+def get_repo_download_link(filename, desc):
+    """Generates a link allowing the data in a given panda dataframe to be downloaded
+    in:  dataframe
+    out: href string
+    """
+    href = f'<a href="https://github.com/gstat-gcloud/covid19-sim/raw/master/Resources/{filename}" download  >Download {desc}</a>'
+    return href

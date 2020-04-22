@@ -4,7 +4,7 @@
 import altair as alt  # type: ignore
 import streamlit as st  # type: ignore
 import pandas as pd
-from penn_chime.utils import pivot_dataframe, get_table_download_link
+from penn_chime.utils import pivot_dataframe, get_table_download_link, get_repo_download_link
 
 from penn_chime.presentation import(
     build_download_link,
@@ -37,9 +37,6 @@ from penn_chime.charts import (
     country_comparison_chart
 )
 
-from PIL import Image
-logo = Image.open("SimCode/src/gstat_logo.png")
-st.sidebar.image(logo)
 # This is somewhat dangerous:
 # Hide the download_dfs menu with "Rerun", "run on Save", "clear cache", and "record a screencast"
 # This should not be hidden in prod, but removed
@@ -52,6 +49,17 @@ st.markdown(
     </div>
     """, unsafe_allow_html=True)
 
+# st.write(
+#     "# GSTAT Impact Model for Epidemics  "
+#     "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/SimCode/src/gstat_logo.png)]"
+#     "(https://g-stat.com)"
+# )
+h="36px"
+w="36px"
+st.sidebar.markdown(
+    "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/SimCode/src/gstat_logo.png)]"
+    "(https://g-stat.com)"
+)
 st.markdown(
     """*This tool was developed to aid government in policy making. It enables rapid simulation of multiple models for 
     forecasting the effects of government policies on the spread of Covid-19 virus. Most models are framed in the SIR 
@@ -370,6 +378,11 @@ if st.sidebar.checkbox("Show Israel Projections", False):
 
     if "GSTAT Model" in models_option:
         st.subheader("GSTAT Covid-19 Predictions for Israel")
+        # pdf_file = "Natural_and_Unnatural_Histories_of_Covid19.pdf"
+        # st.markdown(get_repo_download_link(pdf_file, " latest paper"), unsafe_allow_html=True)
+        st.info("Models are based on *Natural and Unnatural Histories of Covid-19 Contagion*"   
+                "by Professor Michael Beenstock and Dai Xieer "
+                "[download paper](https://github.com/gstat-gcloud/covid19-sim/raw/master/Resources/Natural_and_Unnatural_Histories_of_Covid19.pdf)")
         # Load model
         # st.subheader("Calculate Oxford StringencyIndex")
         sgidx = StringencyIndex("Israel")
