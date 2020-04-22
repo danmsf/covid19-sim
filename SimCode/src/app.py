@@ -386,6 +386,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         # Load model
         # st.subheader("Calculate Oxford StringencyIndex")
         sgidx = StringencyIndex("Israel")
+        st.sidebar.info("We are currently updating the projection models, so changing the Oxford Index won't have any effect")
         sgidx.display_st(st)
         sgidx.calculate_stringency()
         sgidx_data = sgidx.output_df.copy()
@@ -397,7 +398,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         stringency = sgidx_data[['date', 'StringencyIndex']]
 
         p.countries = ['israel']
-        olg = OLG(country_df, p, jh_hubei, stringency)
+        olg = OLG(country_df, p, jh_hubei, stringency_dummy)
         dd = olg.df.copy()
         # dd
 
