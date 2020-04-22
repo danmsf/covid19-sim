@@ -50,12 +50,12 @@ st.markdown(
     """, unsafe_allow_html=True)
 
 # st.write(
-#     "# GSTAT Impact Model for Epidemics  "
+#     "# GSTAT Impact Tool for Epidemics  "
 #     "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/SimCode/src/gstat_logo.png)]"
 #     "(https://g-stat.com)"
 # )
-h="36px"
-w="36px"
+# h="36px"
+# w="36px"
 st.sidebar.markdown(
     "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/SimCode/src/gstat_logo.png)]"
     "(https://g-stat.com)"
@@ -380,7 +380,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         st.subheader("GSTAT Covid-19 Predictions for Israel")
         # pdf_file = "Natural_and_Unnatural_Histories_of_Covid19.pdf"
         # st.markdown(get_repo_download_link(pdf_file, " latest paper"), unsafe_allow_html=True)
-        st.info("Models are based on *Natural and Unnatural Histories of Covid-19 Contagion*"   
+        st.info("Models are based on *Natural and Unnatural Histories of Covid-19 Contagion * "   
                 "by Professor Michael Beenstock and Dai Xieer "
                 "[download paper](https://github.com/gstat-gcloud/covid19-sim/raw/master/Resources/Natural_and_Unnatural_Histories_of_Covid19.pdf)")
         # Load model
