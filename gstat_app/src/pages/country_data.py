@@ -1,32 +1,35 @@
 import streamlit as st
-from gstat_app.src.shared.models.data import CountryData
-from gstat_app.src.shared.charts.charts_country import *
-from gstat_app.src.shared.charts.charts_olg import *
-from gstat_app.src.shared.utils import get_table_download_link
-from gstat_app.src.shared.models.model_olg import OLG, init_olg_params
+from src.shared.models.data import CountryData
+from src.shared.charts.charts_country import *
+from src.shared.charts.charts_olg import *
+from src.shared.utils import get_table_download_link
+from src.shared.models.model_olg import OLG, init_olg_params
+from src.shared.settings import DEFAULTS, datasets
+import altair as alt
 
 
 def write():
     st.subheader('Country Comparison Graphs')
-    countrydata = CountryData(DEFAULTS.country_files)
-    countrydata.get_country_data()
-    countrydata.get_country_stringency()
-    countrydata.get_sir()
+    countrydata = CountryData(DEFAULTS['FILES']['country_files'])
+    country_df, jh_confirmed_df, _, _, _, _ = datasets
+    # countrydata.get_country_data()
+    # countrydata.get_country_stringency()
+    # countrydata.get_sir()
     # 'total_cases', 'new_cases', 'total_deaths', 'new_deaths', 'total_recovered', 'activecases', 'serious_critical'
-    countryname = st.multiselect("Select Countries", list(countrydata.country_df['Country'].sort_values().unique()),
+    countryname = st.multiselect("Select Countries", list(country_df['Country'].sort_values().unique()),
                                  ['israel'])
 
-    keepcols = ['Country', 'total_cases', 'new_cases', 'total_deaths', 'new_deaths',
+    keepcols = ['Country', 'country', 'total_cases', 'new_cases', 'total_deaths', 'new_deaths',
                 'total_recovered', 'activecases', 'serious_critical',
                 'tot_cases/1m_pop', 'deaths/1m_pop', 'date',
                 'totaltests', 'tests/_1m_pop', 'tot_deaths/1m_pop',
                 'population', 'StringencyIndexForDisplay', 'StringencyIndex']
-    temp = countrydata.country_df.loc[countrydata.country_df.Country.isin(countryname), keepcols]
+    temp = country_df.loc[country_df.Country.isin(countryname), keepcols]
     temp = temp.set_index("date", drop=False)
     total_cases_criteria = st.number_input(label='Minimum Infected for Start', value=10)
     temp = temp.loc[temp['total_cases'] >= total_cases_criteria, :]
     cols = temp.columns
-    cols = [c for c in cols if c not in ['Country', 'date']]
+    cols = [c for c in cols if c not in ['Country', 'country', 'date']]
     col_measure = st.selectbox("Chose comparison column", cols, 0)
     caronadays = st.checkbox("Normalize x axis to start of Epidemic time", True)
 
@@ -35,15 +38,14 @@ def write():
         use_container_width=True,
     )
     if st.checkbox(label="Show table", value=False):
-        temp
+        st.dataframe(temp)
         st.markdown(get_table_download_link(temp, "countrydata"), unsafe_allow_html=True)
 
-    jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
-    pjh = init_olg_params(st, DEFAULTS)
+    pjh = init_olg_params(DEFAULTS['MODELS']['olg_params'])
     pjh.countries = countryname
     if len(pjh.countries) > 0:
         pjh.init_infected = total_cases_criteria
-        olgjh = OLG(temp.rename(columns={"Country": "country"}), pjh)
+        olgjh = OLG(temp, pjh)
         ddjh = olgjh.df.copy()
         st.altair_chart(
             olg_projections_chart(alt, ddjh.loc[ddjh['prediction_ind'] == 0,
@@ -74,7 +76,7 @@ def write():
     st.markdown("""*Source: Worldmeter, Oxford University*""")
     # total_cases_criteria
     st.subheader("Johns Hopkins Data")
-    jh_confirmed_df = countrydata.jh_confirmed_df.copy()
+    # jh_confirmed_df = countrydata.jh_confirmed_df.copy()
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
     jh_confirmed_df['min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
     jh_confirmed_df['date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days

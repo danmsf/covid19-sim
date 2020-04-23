@@ -1,238 +1,159 @@
+import streamlit as st
+from src.shared.models.model_olg import *
+from src.shared.models.data import CountryData
+from src.shared.charts.charts_olg import *
+from src.shared.utils import get_table_download_link
+import altair as alt
+from src.shared.settings import DEFAULTS, datasets
+
+def display_sidebar(olg_params):
+        st.sidebar.subheader("GSTAT Model parameters")
+        olg_params['tau'] = st.sidebar.number_input(
+            "Tau rate (number of days infectious)",
+            min_value=2,
+            value=olg_params['tau'],
+            step=1,
+            format="%i",
+        )
+
+        olg_params['init_infected'] = st.sidebar.number_input(
+            "Minimum cases for calculation",
+            min_value=0,
+            value=olg_params['init_infected'],
+            step=10,
+            format="%i",
+        )
+
+        olg_params['fi'] = st.sidebar.number_input(
+            "Proportion of asymptomatic",
+            min_value=0.01,
+            value=olg_params['fi'],
+            step=0.025,
+            format="%f",
+        )
+
+        olg_params['theta'] = st.sidebar.number_input(
+            "Daily diagnosis rate",
+            min_value=0.0001,
+            value=olg_params['theta'],
+            step=0.01,
+            format="%f",
+        )
+
+        olg_params['critical_condition_rate'] = st.sidebar.number_input(
+            "Critical Condition Rate",
+            min_value=0.0001,
+            value=olg_params['critical_condition_rate'],
+            step=0.0005,
+            format="%f",
+        )
+
+        olg_params['recovery_rate'] = st.sidebar.number_input(
+            "Recovery Rate",
+            min_value=0.01,
+            value=olg_params['recovery_rate'],
+            step=0.025,
+            format="%f",
+        )
+
+        olg_params['critical_condition_time'] = st.sidebar.number_input(
+            "Critical Condition Time",
+            min_value=1,
+            value=olg_params['critical_condition_time'],
+            step=1,
+            format="%i",
+        )
+
+        olg_params['recovery_time'] = st.sidebar.number_input(
+            "Recovery Time",
+            min_value=1,
+            value=olg_params['recovery_time'],
+            step=1,
+            format="%i",
+        )
+
+        return olg_params
+
 
 def write():
+    #-------------------Init Data and Params------------------
+    olg_params = DEFAULTS['MODELS']['olg_params']
+    sgidx = StringencyIndex("Israel")
+    # countrydata = CountryData(DEFAULTS['FILES']['country_files'])
+    country_df, _, _, _, _, _ = datasets
+    # -------------------Sidebar logic-------------------------
+    if st.sidebar.checkbox("Change Model Parameters", False):
+        olg_params = display_sidebar(olg_params)
 
-    if 'GSTAT Model' in models_option:
-        if st.sidebar.checkbox("Change Model Parameters", False):
-            p = display_sidebar(st, DEFAULTS, models_option)
-        else:
-            p = init_olg_params(st, DEFAULTS)
+    p = OLGParameters(**olg_params)
 
-    countrydata = CountryData(DEFAULTS.country_files)
-    countrydata.country_df.drop('I', axis=1, inplace=True)
-    countrydata.country_df.rename(columns={'Country': 'country'}, inplace=True)
+    # Display Oxford Index
+    st.sidebar.info(
+        "We are currently updating the projection models, so changing the Oxford Index won't have any effect")
+    sgidx.display_st(st)
 
-    country_dict = {'countries_list': set(countrydata.country_df['country'].values)}
-    DEFAULTS.olg_params.update(country_dict)
+    # -------------------Main Logic -----------------------------
+    st.subheader("GSTAT Covid-19 Predictions for Israel")
 
-    if "Penn Dashboard" in models_option:
-        m = SimSirModel(p)
-        display_header(st, m, p)
-        if st.checkbox("Show more info about this tool"):
-            notes = "The total size of the susceptible population will be the entire catchment area for Penn Medicine entities (HUP, PAH, PMC, CCH)"
-            show_more_info_about_this_tool(st=st, model=m, parameters=p, defaults=DEFAULTS, notes=notes)
+    st.info("Models are based on *Natural and Unnatural Histories of Covid-19 Contagion * "
+            "by Professor Michael Beenstock and Dai Xieer "
+            "[download paper](https://github.com/gstat-gcloud/covid19-sim/raw/master/Resources/Natural_and_Unnatural_Histories_of_Covid19.pdf)")
 
-        st.subheader("New Admissions")
-        st.markdown("Projected number of **daily** COVID-19 admissions at Penn hospitals")
-        new_admit_chart = new_admissions_chart(alt, m.admits_df, parameters=p)
-        st.altair_chart(
-            new_admissions_chart(alt, m.admits_df, parameters=p),
-            use_container_width=True,
-        )
+    # Calculate Stringency
+    sgidx.calculate_stringency()
+    # sgidx_data = sgidx.output_df.copy()
 
-        st.markdown(chart_descriptions(new_admit_chart, p.labels))
+    stringency = sgidx.output_df[['date', 'StringencyIndex']]
 
-        if st.checkbox("Show Projected Admissions in tabular form"):
-            if st.checkbox("Show Daily Counts"):
-                draw_projected_admissions_table(st, m.admits_df, p.labels, 1, as_date=p.as_date)
-            else:
-                admissions_day_range = st.slider(
-                    'Interval of Days for Projected Admissions',
-                    1, 10, 7
-                )
-                draw_projected_admissions_table(st, m.admits_df, p.labels, admissions_day_range, as_date=p.as_date)
-            build_download_link(st,
-                                filename="projected_admissions.csv",
-                                df=m.admits_df,
-                                parameters=p
-                                )
-        st.subheader("Admitted Patients (Census)")
-        st.markdown(
-            "Projected **census** of COVID-19 patients, accounting for arrivals and discharges at Penn hospitals"
-        )
-        census_chart = admitted_patients_chart(alt=alt, census=m.census_df, parameters=p)
-        st.altair_chart(
-            admitted_patients_chart(alt=alt, census=m.census_df, parameters=p),
-            use_container_width=True,
-        )
-        st.markdown(chart_descriptions(census_chart, p.labels, suffix=" Census"))
-        if st.checkbox("Show Projected Census in tabular form"):
-            if st.checkbox("Show Daily Census Counts"):
-                draw_census_table(st, m.census_df, p.labels, 1, as_date=p.as_date)
-            else:
-                census_day_range = st.slider(
-                    'Interval of Days for Projected Census',
-                    1, 10, 7
-                )
-                draw_census_table(st, m.census_df, p.labels, census_day_range, as_date=p.as_date)
-            build_download_link(st,
-                                filename="projected_census.csv",
-                                df=m.census_df,
-                                parameters=p
-                                )
+    p.countries = ['israel']
+    olg = OLG(country_df, p, have_serious_data=True)
+    dd = olg.df.copy()
+    # dd
 
-        st.markdown(
-            """**Click the checkbox below to view additional data generated by this simulation**"""
-        )
-        if st.checkbox("Show Additional Projections"):
-            show_additional_projections(
-                st, alt, additional_projections_chart, model=m, parameters=p
-            )
-            if st.checkbox("Show Raw SIR Simulation Data"):
-                draw_raw_sir_simulation_table(st, model=m, parameters=p)
+    st.altair_chart(
+        olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind',
+                                              'StringencyIndex']].ffill(), "Stringency Index"),
+        use_container_width=True,
+    )
+    # if st.checkbox("Download Stringency Calculation Data"):
+    st.markdown(get_table_download_link(sgidx.output_df, "stringency"), unsafe_allow_html=True)
 
-    if "GSTAT Model" in models_option:
-        st.subheader("GSTAT Covid-19 Predictions for Israel")
-        # pdf_file = "Natural_and_Unnatural_Histories_of_Covid19.pdf"
-        # st.markdown(get_repo_download_link(pdf_file, " latest paper"), unsafe_allow_html=True)
-        st.info("Models are based on *Natural and Unnatural Histories of Covid-19 Contagion * "
-                "by Professor Michael Beenstock and Dai Xieer "
-                "[download paper](https://github.com/gstat-gcloud/covid19-sim/raw/master/Resources/Natural_and_Unnatural_Histories_of_Covid19.pdf)")
-        # Load model
-        # st.subheader("Calculate Oxford StringencyIndex")
-        sgidx = StringencyIndex("Israel")
-        st.sidebar.info(
-            "We are currently updating the projection models, so changing the Oxford Index won't have any effect")
-        sgidx.display_st(st)
-        sgidx.calculate_stringency()
-        sgidx_data = sgidx.output_df.copy()
-        # sgidx_data
-        # sgidx_data.to_csv("stringencyExample.csv")
+    olg_cols = dd.columns
+    olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'prediction_ind']]
+    olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted'])
 
-        jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
-        country_df = countrydata.country_df.copy()
-        stringency = sgidx_data[['date', 'StringencyIndex']]
+    st.altair_chart(
+        olg_projections_chart(alt,
+                              dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select],
+                              "GSTAT Model Projections", False),
+        use_container_width=True,
+    )
+    if st.checkbox("Show Projection Data", False):
+        st.write(dd)
+        st.markdown(get_table_download_link(dd, "gstat_prediciton"), unsafe_allow_html=True)
 
-        p.countries = ['israel']
-        olg = OLG(country_df, p, jh_hubei, stringency_dummy)
-        dd = olg.df.copy()
-        # dd
+    st.altair_chart(
+        olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R']],
+                              "Rate of Infection"),
+        use_container_width=True,
+    )
 
-        st.altair_chart(
-            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind',
-                                                  'StringencyIndex']].ffill(), "Stringency Index"),
-            use_container_width=True,
-        )
-        # if st.checkbox("Download Stringency Calculation Data"):
-        st.markdown(get_table_download_link(sgidx_data, "stringency"), unsafe_allow_html=True)
+    st.altair_chart(
+        olg_projections_chart(alt, dd.loc[
+            dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']],
+                              "Doubling Time"),
+        use_container_width=True,
+    )
 
-        olg_cols = dd.columns
-        olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_values', 'prediction_ind']]
-        olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted'])
-
-        st.altair_chart(
-            olg_projections_chart(alt,
-                                  dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select],
-                                  "GSTAT Model Projections", False),
-            use_container_width=True,
-        )
-        if st.checkbox("Show Projection Data", False):
-            dd
-            st.markdown(get_table_download_link(dd, "gstat_prediciton"), unsafe_allow_html=True)
-
-        st.altair_chart(
-            olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R']],
-                                  "Rate of Infection"),
-            use_container_width=True,
-        )
-
-        st.altair_chart(
-            olg_projections_chart(alt, dd.loc[
-                dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']],
-                                  "Doubling Time"),
-            use_container_width=True,
-        )
-    # temp = pd.read_csv('C:\\Users\\User\\PycharmProjects\\covad19-sim\\michaels_data.csv', parse_dates=['date'])
-    # temp['total_cases'] = temp['total_cases'].fillna(0).astype(int)
-    # temp['StringencyIndex'] = temp['StringencyIndex'].fillna(0).astype(float)
-    #
-    # p.countries = ['israel']
-    # olg = OLG(temp, p, temp[temp['country']=='hubei']['total_cases'].values, stringency, False)
-    # dd = olg.df.copy()
-    # st.altair_chart(
-    # olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R', 'r_predicted']],
-    #                           "Rate of Infection"),
-    #     use_container_width=True,
-    # )
-
-    if "SEIAR Model" in models_option:
-        st.subheader("SEIAR Model")
-
-        mseiar = Seiar(p)
-        mseiar.run_simulation()
-        mseiar_results = mseiar.results.copy()
-        p.model_checkpoints
-        if st.sidebar.checkbox(label="Plot as percentages", value=False):
-            mseiar_results = mseiar_results / mseiar.N
-
-        if st.sidebar.checkbox(label="Present result as dates instead of days ", value=False):
-            mseiar_results = mseiar_results
-        else:
-            mseiar_results = mseiar_results.reset_index(drop=True)
-
-        if st.checkbox(label="Present result as table", value=False):
-            mseiar_results
-        else:
-            st.line_chart(mseiar_results[['Asymptomatic', 'Infected']])
-
-    if "SEIRSPlus" in models_option:
-        st.subheader("SEIRSPlus")
-        seirs_params = p.seirs_plus_params
-        model = SEIRSModel(**p.seirs_plus_params)
-        p.model_checkpoints
-        p.time_steps
-        if p.model_checkpoints:
-            model.run(T=p.time_steps, checkpoints=p.model_checkpoints)
-        else:
-            model.run(T=p.time_steps)
-
-        # df = pd.DataFrame(
-        #     {'S': model.numS, 'E': model.numE, 'I': model.numI, 'D_E': model.numD_E, 'D_I': model.numD_I, 'R': model.numR,
-        #      'F': model.numF}, index=model.tseries)
-        df = pd.DataFrame(
-            {'E': model.numE, 'I': model.numI}, index=model.tseries)
-        st.line_chart(df)
-
-        model.figure_basic()
-        st.markdown(
-            """*Graph generated from `SEIRSPlus` package*"""
-        )
-        if st.checkbox(label="Model Parameters", value=False):
-            st.markdown(
-                """### Model Parameters"""
-            )
-            st.markdown(
-                """
-
-                Constructor Argument | Parameter Description | Data Type | Default Value
-                -----|-----|-----|-----
-                ```beta   ``` | rate of transmission | float | REQUIRED
-                ```sigma  ``` | rate of progression | float | REQUIRED
-                ```gamma  ``` | rate of recovery | float | REQUIRED
-                ```xi     ``` | rate of re-susceptibility | float | 0
-                ```mu_I   ``` | rate of infection-related mortality | float | 0
-                ```mu_0   ``` | rate of baseline mortality | float | 0
-                ```nu     ``` | rate of baseline birth | float | 0
-                ```beta_D ``` | rate of transmission for detected cases | float | None (set equal to ```beta```)
-                ```sigma_D``` | rate of progression for detected cases | float | None (set equal to ```sigma```)
-                ```gamma_D``` | rate of recovery for detected cases | float | None (set equal to ```gamma```)
-                ```mu_D   ``` | rate of infection-related mortality for detected cases | float | None (set equal to ```mu_I```)
-                ```theta_E``` | rate of testing for exposed individuals | float | 0
-                ```theta_I``` | rate of testing for infectious individuals | float | 0
-                ```psi_E  ``` | probability of positive tests for exposed individuals | float | 0
-                ```psi_I  ``` | probability of positive tests for infectious individuals | float | 0
-                ```initN  ``` | initial total number of individuals | int | 10
-                ```initI  ``` | initial number of infectious individuals | int | 10
-                ```initE  ``` | initial number of exposed individuals | int | 0
-                ```initD_E``` | initial number of detected exposed individuals | int | 0
-                ```initD_I``` | initial number of detected infectious individuals | int | 0
-                ```initR  ``` | initial number of recovered individuals | int | 0
-                ```initF  ``` | initial number of deceased individuals | int | 0
-
-                """
-            )
-        if st.checkbox(label="Detailed information on model", value=False):
-            st.markdown(
-                """
-                <a href = https://github.com/ryansmcgee/seirsplus> Seirsplus </a>
-                """, unsafe_allow_html=True
-            )
+# temp = pread_csv('C:\\Users\\User\\PycharmProjects\\covad19-sim\\michaels_data.csv', parse_dates=['date'])
+# temp['total_cases'] = temp['total_cases'].fillna(0).astype(int)
+# temp['StringencyIndex'] = temp['StringencyIndex'].fillna(0).astype(float)
+#
+# p.countries = ['israel']
+# olg = OLG(temp, p, temp[temp['country']=='hubei']['total_cases'].values, stringency, False)
+# dd = olg.df.copy()
+# st.altair_chart(
+# olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R', 'r_predicted']],
+#                           "Rate of Infection"),
+#     use_container_width=True,
+# )

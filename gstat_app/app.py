@@ -1,19 +1,19 @@
 """Main module for the streamlit app"""
+# streamlit run ./gstat_app/src/app.py
 
-# import awesome_streamlit as ast
-import src as gst
 import src.pages.israel_data
 import src.pages.country_data
 import src.pages.projections
-"""App."""
-# streamlit run ./SimCode/src/app.py
+
 
 import streamlit as st  # type: ignore
+from src.shared.components import components
+from src.shared.settings import hide_menu_style
+from src.shared.utils import display_about
+from src.shared.settings import DEFAULTS, load_data
 
-from penn_chime.presentation import hide_menu_style
-
-from penn_chime.settings import DEFAULTS
-
+# country_df, lab_tests, israel_yishuv_df, israel_patients, isolation_df = load_data(DEFAULTS)
+datasets = load_data(DEFAULTS)
 
 # This is somewhat dangerous:
 # Hide the download_dfs menu with "Rerun", "run on Save", "clear cache", and "record a screencast"
@@ -56,26 +56,21 @@ PAGES = {
 def main():
     """Main function of the App"""
     st.sidebar.title("Navigation")
-    selection = st.sidebar.radio("Go to", list(PAGES.keys()))
+    selection = st.sidebar.radio("", list(PAGES.keys()))
 
     page = PAGES[selection]
 
     with st.spinner(f"Loading {selection} ..."):
-        gst.shared.components.components.write_page(page)
+        components.write_page(page)
 
-    if st.sidebar.checkbox("About", False):
-        st.sidebar.markdown("This app was developed in pure python utilizing the awesome [streamlit](https:\\streamlit.io) library.  "
-                            "For other inspiring ideas see [Penn University Covid](https://penn-chime.phl.io) "
-                            "or for more general applications [Awesome Streamlit](https://awesome-streamlit.org/)")
-        st.sidebar.info("Thanks to everyone who volounteered to help develop and mantain this app, including (but not limited to):  "
-                "Elisar Chodorov, "
-                "Oz Mizrahi, "
-                "Roy Assis, "
-                "Dan Feldman, "
-                "Ephraim Goldin, "
-                "Annia Sorokin, "
-                "Laura Lerner, and anyone else I missed :) ")
-
+    st.sidebar.markdown("----------------")
+    display_about(st)
+    st.sidebar.info(
+                    """
+                    This tool is maintained by `dan.feldman@g-stat.com`  
+                    Feel free to contact me for explanations or if you encounter any problems.
+                    """
+                    )
 
 if __name__ == "__main__":
     main()

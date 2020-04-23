@@ -1,20 +1,55 @@
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-from src.shared.parameters import Parameters, OLGParameters
+# from src.shared.parameters import Parameters
 import datetime
+from statsmodels.tsa.api import SimpleExpSmoothing, Holt
+import os
 
-def init_olg_params(st, d: Constants) -> OLGParameters:
+class OLGParameters:
+    """Parameters."""
+
+    def __init__(
+            self,
+            *,
+            tau: int,
+            init_infected: int,
+            fi: float,
+            theta: float,
+            countries: list,
+            scenario: dict,
+            critical_condition_rate: float,
+            recovery_rate: float,
+            critical_condition_time: int,
+            recovery_time: int,
+            countries_list=None,
+
+    ):
+        # OLG
+        self.tau = tau
+        self.init_infected = init_infected
+        self.fi = fi
+        self.theta = theta
+        self.countries = countries
+        self.scenario = scenario
+        self.critical_condition_rate = critical_condition_rate
+        self.recovery_rate = recovery_rate
+        self.critical_condition_time = critical_condition_time
+        self.recovery_time = recovery_time
+        self.countries_list = countries_list
+
+
+def init_olg_params(olg_params) -> OLGParameters:
     return OLGParameters(
-        tau=d.olg_params['tau'],
-        init_infected=d.olg_params['init_infected'],
-        fi=d.olg_params['fi'],
-        theta=d.olg_params['theta'],
-        countries=d.olg_params['countries'],
-        scenario=d.olg_params['scenario'],
-        critical_condition_rate=d.olg_params['critical_condition_rate'],
-        recovery_rate=d.olg_params['recovery_rate'],
-        critical_condition_time=d.olg_params['critical_condition_time'],
-        recovery_time=d.olg_params['recovery_time'],
+        tau=olg_params['tau'],
+        init_infected=olg_params['init_infected'],
+        fi=olg_params['fi'],
+        theta=olg_params['theta'],
+        countries=olg_params['countries'],
+        scenario=olg_params['scenario'],
+        critical_condition_rate=olg_params['critical_condition_rate'],
+        recovery_rate=olg_params['recovery_rate'],
+        critical_condition_time=olg_params['critical_condition_time'],
+        recovery_time=olg_params['recovery_time'],
     )
 
 
@@ -31,7 +66,7 @@ class OLG:
 
     """
 
-    def __init__(self, df, p: Parameters, stringency=None, have_serious_data=False):
+    def __init__(self, df, p: OLGParameters, stringency=None, have_serious_data=False):
         self.detected = []
         self.jh_hubei = self.get_hubei()
         self.stringency = self.get_stringency(stringency)
@@ -56,13 +91,13 @@ class OLG:
     @staticmethod
     def get_hubei():
 
-        return [41, 41, 41, 41, 41, 45, 62, 121, 198, 270, 375, 444, 444, 549, 761, 1058, 1423, 3554, 3554, 4903, 5806,
+        return np.array([41, 41, 41, 41, 41, 45, 62, 121, 198, 270, 375, 444, 444, 549, 761, 1058, 1423, 3554, 3554, 4903, 5806,
                 7153, 11177, 13522, 16678, 19665, 22112, 24953, 27100, 29631, 31728, 33366, 33366, 48206, 54406, 56249,
                 58182, 59989, 61682, 62031, 62442, 62662, 64084, 64084, 64287, 64786, 65187, 65596, 65914, 66337, 66907,
                 67103, 67217, 67332, 67466, 67592, 67666, 67707, 67743, 67760, 67773, 67781, 67786, 67790, 67794, 67798,
                 67799, 67800, 67800, 67800, 67800, 67800, 67800, 67801, 67801, 67801, 67801, 67801, 67801, 67801, 67801,
                 67802, 67802, 67802, 67803, 67803, 67803, 67803, 67803, 67803, 67803, 67803, 67803, 67803, 67803, 67803,
-                67803, 68128, 68128]
+                67803, 68128, 68128])
 
     @staticmethod
     def get_stringency(stringency):

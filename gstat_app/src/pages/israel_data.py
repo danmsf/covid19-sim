@@ -1,24 +1,27 @@
 import streamlit as st
-from gstat_app.src.shared.charts.charts_il import *
-from gstat_app.src.shared.charts.charts_olg import olg_projections_chart
-from gstat_app.src.shared.models.model_olg import *
-from gstat_app.src.shared.models.data import IsraelData, CountryData
+from src.shared.charts.charts_il import *
+from src.shared.charts.charts_olg import olg_projections_chart
+from src.shared.models.model_olg import *
+from src.shared.models.data import IsraelData, CountryData
+from src.shared.settings import DEFAULTS, datasets
+import altair as alt
+
 
 def write():
+    country_df, _, lab_tests, israel_yishuv_df, israel_patients, isolation_df = datasets
     st.subheader('Israeli Data')
-    israel_data = IsraelData(DEFAULTS.israel_files)
+    # israel_data = IsraelData(DEFAULTS['FILES']['israel_files'])
 
     # Load data
-    countrydata = CountryData(DEFAULTS.country_files)
-    country_df = countrydata.get_country_data()
-    country_df = countrydata.country_df.copy()
-    lab_tests = israel_data.lab_results_df.copy()
-    israel_data.get_yishuv_data()
-    israel_yishuv_df = israel_data.yishuv_df.copy()
-    israel_patients = israel_data.patients_df.copy()
-    isolation_df = israel_data.isolation_df.copy()
-    jh_hubei = countrydata.jh_confirmed_df.query('Province=="Hubei"')['value'].values
-    country_df = country_df.rename(columns={"Country":"country"})
+    # countrydata = CountryData(DEFAULTS['FILES']['country_files'])
+    # country_df = countrydata.get_country_data()
+    # country_df = countrydata.country_df.copy()
+    # lab_tests = israel_data.lab_results_df.copy()
+    # israel_data.get_yishuv_data()
+    # israel_yishuv_df = israel_data.yishuv_df.copy()
+    # israel_patients = israel_data.patients_df.copy()
+    # isolation_df = israel_data.isolation_df.copy()
+
     # Patients graph
     patient_cols = ['New Patients Amount', 'Total Patients',
                     'Current Serious Condition Patients',
@@ -29,10 +32,10 @@ def write():
     israel_patients = israel_patients.loc[:, ['Date'] + patient_cols_selected]
     st.altair_chart(patients_status_chart(alt, israel_patients), use_container_width=True)
 
-    pil = init_olg_params(st, DEFAULTS)
+    pil = init_olg_params(DEFAULTS['MODELS']['olg_params'])
     pil.countries = ['israel']
     pil.init_infected = 100
-    olgil = OLG(country_df, pil, False)
+    olgil = OLG(country_df, pil, have_serious_data=False)
     ddil = olgil.df.copy()
     # ddil
     # coronadays = st.checkbox("Show axis as number of days since outbreak", True)
@@ -67,18 +70,18 @@ def write():
     else:
         st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df, by_pop=False), use_container_width=True)
 
-    israel_data = IsraelData(DEFAULTS.israel_files)
+    israel_data = IsraelData(DEFAULTS['FILES']['israel_files'])
     israel_yishuv_df = israel_data.yishuv_df.copy()
     israel_yishuv_df['StringencyIndex'] = 1.
     israel_yishuv_df = israel_yishuv_df.loc[israel_yishuv_df['סוג מידע'] == 'מספר חולים מאומתים', :]
     israel_yishuv_df = israel_yishuv_df.rename(columns={'value': 'total_cases', 'Yishuv': 'country'})
 
-    pil = init_olg_params(st, DEFAULTS)
+    pil = init_olg_params(DEFAULTS['MODELS']['olg_params'])
     pil.countries = yishuvim
     if len(pil.countries) > 0:
         # pil.init_infected = st.number_input("Select min corona cases for Yishuv", min_value=10, value=25)
         pil.init_infected = 25
-        olgil = OLG(israel_yishuv_df, pil, jh_hubei,stringency_dummy, False)
+        olgil = OLG(israel_yishuv_df, pil, have_serious_data=False)
         ddil = olgil.df.copy()
         # ddil
         # coronadays = st.checkbox("Show axis as number of days since outbreak", True)

@@ -1,21 +1,18 @@
 import streamlit as st
 import src.pages.models.olg_model
-import gstat_app.src as gst
+import src.pages.models.seirsplus
 
 MODELS = {
-    "GSTAT Model": src.pages.models.olg_model,
-    "SEAIRs Plus Model": src.pages.models.seirsplus,
+    "GSTAT Model (Beta Version)": src.pages.models.olg_model,
+    "SEIRs Plus Model": src.pages.models.seirsplus
+    # "SEIAR Model" : src.pages.models.seair_model
 }
 
 
 def write():
-    selection = st.sidebar.radio("Go to model", list(MODELS.keys()))
-    # models_option = st.sidebar.multiselect(
-    #     'Which models to show?',
-    #     ['GSTAT Model'], ['GSTAT Model'])
-    # # ('Penn Dashboard', 'GSTAT Model', 'SEIAR Model', 'SEIRSPlus'), )
+    selection = st.sidebar.selectbox("Go to model", list(MODELS.keys()), 0)
 
     page = MODELS[selection]
 
     with st.spinner(f"Loading {selection} ..."):
-        gst.shared.components.components.write_page(page)
+        src.shared.components.components.write_page(page)
