@@ -6,7 +6,7 @@ import streamlit as st
 current_directory = os.path.dirname(os.path.abspath(__file__))
 project_path = os.path.dirname(os.path.dirname(os.path.dirname(current_directory)))
 project_path = os.getcwd()
-defaults_file = os.path.join(project_path, "gstat_app\\src\\shared\\defaults.yaml")
+defaults_file = os.path.join(project_path, "gstat_app/src/shared/defaults.yaml")
 
 hide_menu_style = """
         <style>
