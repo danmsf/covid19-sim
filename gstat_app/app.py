@@ -64,13 +64,9 @@ def main():
         components.write_page(page)
 
     st.sidebar.markdown("----------------")
+    st.sidebar.subheader("About")
     display_about(st)
-    st.sidebar.info(
-                    """
-                    This tool is maintained by `dan.feldman@g-stat.com`  
-                    Feel free to contact me for explanations or if you encounter any problems.
-                    """
-                    )
+
 
 if __name__ == "__main__":
     main()

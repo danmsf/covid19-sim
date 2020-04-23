@@ -114,16 +114,23 @@ def get_repo_download_link(filename, desc):
     return href
 
 def display_about(st):
-    if st.sidebar.checkbox("About", False):
-        st.sidebar.markdown("This app was developed in pure python utilizing the awesome [streamlit](https:\\streamlit.io) library.  "
-                            "For other inspiring ideas see [Penn University Covid](https://penn-chime.phl.io) "
-                            "or for more general applications [Awesome Streamlit](https://awesome-streamlit.org/)")
-        st.sidebar.info("Thanks to everyone who volounteered to help develop and mantain this app, including (but not limited to):  "
-                "Elisar Chodorov, "
-                "Oz Mizrahi, "
-                "Roy Assis, "
-                "Dan Feldman, "
-                "Ephraim Goldin, "
-                "Annia Sorokin, "
-                "Laura Lerner, and anyone else I missed :) ")
+
+    st.sidebar.markdown("This app was developed in pure python utilizing the awesome [streamlit](https:\\streamlit.io) library.  "
+                        "For other inspiring ideas see [Penn University Covid](https://penn-chime.phl.io) "
+                        "or for more general applications [Awesome Streamlit](https://awesome-streamlit.org/)")
+
+    st.sidebar.info(
+        """
+        This tool is maintained by `dan.feldman@g-stat.com`  
+        Feel free to contact me for explanations or if you encounter any problems.
+        """
+    )
+    st.sidebar.info("Thanks to everyone who volounteered to help develop and mantain this app, including (but not limited to):  "
+            "Elisar Chodorov, "
+            "Oz Mizrahi, "
+            "Roy Assis, "
+            "Dan Feldman, "
+            "Ephraim Goldin, "
+            "Annia Sorokin, "
+            "Laura Lerner, and anyone else I missed :) ")
 
