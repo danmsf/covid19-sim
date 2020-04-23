@@ -1,6 +1,7 @@
 import yaml
 import os
 from src.shared.models.data import *
+import streamlit as st
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 project_path = os.path.dirname(os.path.dirname(os.path.dirname(current_directory)))

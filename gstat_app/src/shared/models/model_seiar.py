@@ -1,5 +1,6 @@
 import pandas as pd
 
+# TODO: implement this again as option
 
 class Seiar:
     def __init__(self, p: Parameters):

@@ -70,10 +70,12 @@ st.markdown(
 stringency_dummy = pd.DataFrame(data={'date': [pd.datetime.today()], 'StringencyIndex': [100]})
 
 # TODO: update gov response source
-st.sidebar.subheader("General parameters")
-# TODO: add משרד המודיעין and GSTAT logo
+st.sidebar.subheader("Navigation")
 # TODO: move table loading up here
-if st.sidebar.checkbox(label="Compare Countries Corona Data"):
+options = ["Compare Countries Corona Data", "Show Israel data", "Show Israel Projections"]
+selection = st.sidebar.radio("", options)
+
+if selection == "Compare Countries Corona Data":
     st.subheader('Country Comparison Graphs')
     countrydata = CountryData(DEFAULTS.country_files)
     countrydata.get_country_data()
@@ -171,7 +173,7 @@ if st.sidebar.checkbox(label="Compare Countries Corona Data"):
     #  )
 
 
-if st.sidebar.checkbox(label="Show Israel data"):
+if selection == "Show Israel data":
     st.subheader('Israeli Data')
     israel_data = IsraelData(DEFAULTS.israel_files)
 
@@ -287,13 +289,13 @@ if st.sidebar.checkbox(label="Show Israel data"):
     st.markdown("""*Source: Israel Ministry of Health*""")
 
 
-if st.sidebar.checkbox("Show Israel Projections", False):
-    models_option = st.sidebar.multiselect(
+if selection == "Show Israel Projections":
+    models_option = st.sidebar.selectbox(
         'Which models to show?',
-        ['GSTAT Model'], ['GSTAT Model'])
-        # ('Penn Dashboard', 'GSTAT Model', 'SEIAR Model', 'SEIRSPlus'), )
+        ['GSTAT Model (Beta Version)'], 0)
+        # ('Penn Dashboard', 'GSTAT Model (Beta Version)', 'SEIAR Model', 'SEIRSPlus'), )
 
-    if 'GSTAT Model' in models_option:
+    if 'GSTAT Model (Beta Version)' in models_option:
         if st.sidebar.checkbox("Change Model Parameters", False):
             p = display_sidebar(st, DEFAULTS, models_option)
         else:
@@ -376,7 +378,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
             if st.checkbox("Show Raw SIR Simulation Data"):
                 draw_raw_sir_simulation_table(st, model=m, parameters=p)
 
-    if "GSTAT Model" in models_option:
+    if "GSTAT Model (Beta Version)" in models_option:
         st.subheader("GSTAT Covid-19 Predictions for Israel")
         # pdf_file = "Natural_and_Unnatural_Histories_of_Covid19.pdf"
         # st.markdown(get_repo_download_link(pdf_file, " latest paper"), unsafe_allow_html=True)
@@ -415,7 +417,7 @@ if st.sidebar.checkbox("Show Israel Projections", False):
         olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted'])
 
         st.altair_chart(
-            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "GSTAT Model Projections", False),
+            olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select], "GSTAT Model (Beta Version) Projections", False),
             use_container_width=True,
         )
         if st.checkbox("Show Projection Data", False):
@@ -538,3 +540,10 @@ if st.sidebar.checkbox("About", False):
             "Ephraim Goldin, "
             "Annia Sorokin, "
             "Laura Lerner, and anyone else I missed :) ")
+
+st.sidebar.info(
+    """
+    This tool is maintained by `dan.feldman@g-stat.com`  
+    Feel free to contact me for explanations or if you encounter any problems.
+    """
+)

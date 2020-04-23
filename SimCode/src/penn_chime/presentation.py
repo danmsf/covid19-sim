@@ -245,7 +245,7 @@ def display_sidebar(st, d: Constants, models_option=None) -> Parameters:
             max_y_axis = st.sidebar.number_input(
                 "Y-axis static value", value=500, format="%i", step=25,
             )
-    if "GSTAT Model" in models_option:
+    if "GSTAT Model (Beta Version)" in models_option:
         st.sidebar.subheader("GSTAT Model parameters")
         d.olg_params['tau'] = st.sidebar.number_input(
             "Tau rate (number of days infectious)",
