@@ -3,7 +3,7 @@ from src.shared.charts.charts_il import *
 from src.shared.charts.charts_olg import olg_projections_chart
 from src.shared.models.model_olg import *
 from src.shared.models.data import IsraelData, CountryData
-from src.shared.settings import DEFAULTS, load_data
+from src.shared.settings import DEFAULTS
 import altair as alt
 
 def write(datasets):
