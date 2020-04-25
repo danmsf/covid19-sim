@@ -108,7 +108,7 @@ def patients_status_chart(alt, df: pd.DataFrame,):
         nearest
     )
 
-    return alt.layer(line,selectors, text, rules ).properties(
+    return alt.layer(line, selectors, text, rules ).properties(
         width=600, height=300, title="Patients Condition"
     ).interactive()
 
