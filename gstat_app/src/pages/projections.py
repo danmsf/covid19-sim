@@ -9,10 +9,10 @@ MODELS = {
 }
 
 
-def write(datasets):
+def write():
     selection = st.sidebar.selectbox("Go to model", list(MODELS.keys()), 0)
 
     page = MODELS[selection]
 
     with st.spinner(f"Loading {selection} ..."):
-        src.shared.components.components.write_page(page, datasets)
+        src.shared.components.components.write_page(page)

@@ -56,7 +56,7 @@ def display_sidebar(st, d):
     return SEIRSParamaters(seirs_plus_params=seirs_plus_params, model_checkpoints=projection_path, time_steps=time_steps)
 
 
-def write(datasets):
+def write():
     # -------------------Sidebar logic-------------------------
     seirs_plus = DEFAULTS['MODELS']['seirs_plus']
     p = SEIRSParamaters(**seirs_plus)

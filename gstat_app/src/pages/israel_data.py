@@ -3,11 +3,11 @@ from src.shared.charts.charts_il import *
 from src.shared.charts.charts_olg import olg_projections_chart
 from src.shared.models.model_olg import *
 from src.shared.models.data import IsraelData, CountryData
-from src.shared.settings import DEFAULTS
+from src.shared.settings import DEFAULTS, load_data
 import altair as alt
 
-def write(datasets):
-    country_df, _, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df = datasets
+def write():
+    country_df, _, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df = load_data(DEFAULTS)
     st.subheader('Israeli Data')
 
     # Patients graph

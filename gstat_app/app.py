@@ -13,8 +13,8 @@ from src.shared.utils import display_about
 from src.shared.settings import DEFAULTS, load_data
 
 # country_df, lab_tests, israel_yishuv_df, israel_patients, isolation_df = load_data(DEFAULTS)
-datasets_o = load_data(DEFAULTS)
-datasets = (i.copy() for i in datasets_o)
+# datasets_o = load_data(DEFAULTS)
+# datasets = (i.copy() for i in datasets_o)
 # This is somewhat dangerous:
 # Hide the download_dfs menu with "Rerun", "run on Save", "clear cache", and "record a screencast"
 # This should not be hidden in prod, but removed
@@ -61,7 +61,7 @@ def main():
     page = PAGES[selection]
 
     with st.spinner(f"Loading {selection} ..."):
-        components.write_page(page, datasets)
+        components.write_page(page)
 
     st.sidebar.markdown("----------------")
     st.sidebar.subheader("About")

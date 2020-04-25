@@ -74,11 +74,11 @@ def display_sidebar(olg_params):
 
         return olg_params
 
-def write(datasets):
+def write():
     #-------------------Init Data and Params------------------
     olg_params = DEFAULTS['MODELS']['olg_params']
     sgidx = StringencyIndex("Israel")
-    country_df, _, _, _, _, _, _ = datasets
+    country_df, _, _, _, _, _, _ = load_data(DEFAULTS)
     # -------------------Sidebar logic-------------------------
     if st.sidebar.checkbox("Change Model Parameters", False):
         olg_params = display_sidebar(olg_params)

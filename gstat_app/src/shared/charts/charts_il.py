@@ -21,32 +21,28 @@ def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True, stacked='normali
     sym_cols = symptoms.columns
     sym_cols = [c for c in sym_cols if c not in ['test_date', 'corona_result', 'test_indication']]
     symptoms = symptoms.melt(id_vars=['test_date', 'test_indication', 'corona_result'], value_vars=sym_cols).dropna()
-    agg_data = symptoms.groupby(['test_date', 'corona_result', 'test_indication', 'variable'], as_index=False).sum()
-    # agg_data = agg_data.loc[agg_data['corona_result'] != 'אחר', :]
-    area = alt.Chart(agg_data).mark_area(tooltip=True, line=True).\
-        encode(x=alt.X('test_date', title=None, axis=alt.Axis(labels=True)),
-               y=alt.Y('value', title=None, stack=stacked),
-               color=alt.Color('corona_result', title='', legend=alt.Legend(orient="top", title='')),
-               column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
-               row=alt.Row('variable', title='Symptom')).\
-        properties(
-        width=200, height=150, title="Symptoms vs Test Indication by Date"
-    ).interactive()
-    agg_data = symptoms.groupby(['corona_result', 'test_indication', 'variable'], as_index=False)['value'].sum()
-    bar = alt.Chart(agg_data).mark_bar(tooltip=True, line=True).\
-        encode(x=alt.X('test_indication', title=None, axis=alt.Axis(labels=True, labelAngle=0, orient="top")),
-               y=alt.Y('value', title=None, stack=stacked),
-               color=alt.Color('corona_result', title='', legend=alt.Legend(orient="top", title='')),
-               # column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
-               row=alt.Row('variable', title='Symptom')).\
-        properties(
-        width=600, height=150, title="Symptoms vs Test Indication"
-    ).interactive()
-
     if drill_down:
-        return area
+        agg_data = symptoms.groupby(['test_date', 'corona_result', 'test_indication', 'variable'], as_index=False).sum()
+        return alt.Chart(agg_data).mark_area(tooltip=True, line=True).\
+            encode(x=alt.X('test_date', title=None, axis=alt.Axis(labels=True)),
+                   y=alt.Y('value', title=None, stack=stacked),
+                   color=alt.Color('corona_result', title='', legend=alt.Legend(orient="top", title='')),
+                   column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
+                   row=alt.Row('variable', title='Symptom')).\
+            properties(
+            width=200, height=150, title="Symptoms vs Test Indication by Date"
+        ).interactive()
     else:
-        return bar
+        agg_data = symptoms.groupby(['corona_result', 'test_indication', 'variable'], as_index=False)['value'].sum()
+        return alt.Chart(agg_data).mark_bar(tooltip=True, line=True).\
+            encode(x=alt.X('test_indication', title=None, axis=alt.Axis(labels=True, labelAngle=0, orient="top")),
+                   y=alt.Y('value', title=None, stack=stacked),
+                   color=alt.Color('corona_result', title='', legend=alt.Legend(orient="top", title='')),
+                   # column=alt.Column('test_indication', header=alt.Header(labelOrient='top'), title='Test Indication'),
+                   row=alt.Row('variable', title='Symptom')).\
+            properties(
+            width=600, height=150, title="Symptoms vs Test Indication"
+        ).interactive()
 
 # @st.cache(allow_output_mutation=True)
 def test_indication_chart(alt, df: pd.DataFrame,):

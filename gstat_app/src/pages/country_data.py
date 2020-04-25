@@ -7,10 +7,10 @@ from src.shared.models.model_olg import OLG, init_olg_params
 from src.shared.settings import DEFAULTS, load_data
 import altair as alt
 
-def write(datasets):
+def write():
     st.subheader('Country Comparison Graphs')
 
-    country_df, jh_confirmed_df, _, _, _, _, _ = datasets
+    country_df, jh_confirmed_df, _, _, _, _, _ = load_data(DEFAULTS)
     countryname = st.multiselect("Select Countries", list(country_df['Country'].sort_values().unique()),
                                  ['israel'])
 
