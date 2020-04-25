@@ -2,7 +2,7 @@ from altair import Chart  # type: ignore
 import pandas as pd  # type: ignore
 import streamlit as st
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def olg_projections_chart(alt, df: pd.DataFrame, title: str, by_corona_time=True, baseline=False):
     olg_cols = df.columns
     olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'prediction_ind']]

@@ -4,7 +4,7 @@ import streamlit as st
 
 
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def isolations_chart(alt, df: pd.DataFrame, stacked='zero'):
     isolations = df.melt(id_vars='date', value_vars=df.columns[1:]).dropna()
     return alt.Chart(isolations).mark_area(tooltip=True, line=True).encode(alt.X('date', title='Isolation Date'),
@@ -13,7 +13,7 @@ def isolations_chart(alt, df: pd.DataFrame, stacked='zero'):
         width=600, height=300, title="Isolation"
     ).interactive()
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True, stacked='normalize'):
 
     symptoms = df
@@ -48,7 +48,7 @@ def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True, stacked='normali
     else:
         return bar
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def test_indication_chart(alt, df: pd.DataFrame,):
 
     agg_data = df.groupby(['test_date', 'corona_result', 'test_indication'], as_index=False).size().reset_index(name='counts')
@@ -77,7 +77,7 @@ def test_indication_chart(alt, df: pd.DataFrame,):
     # ).interactive()
     return line1
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def patients_status_chart(alt, df: pd.DataFrame,):
     patients = df.melt(id_vars='Date', value_vars=df.columns[1:]).dropna()
     line = alt.Chart(patients).mark_line(interpolate='basis', point=False, tooltip=True).encode(
@@ -112,7 +112,7 @@ def patients_status_chart(alt, df: pd.DataFrame,):
         width=600, height=300, title="Patients Condition"
     ).interactive()
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def test_results_chart(alt, df: pd.DataFrame, stacked='zero'):
     cond = (df['is_first_test'] == "Yes")
     lab_tests = df.loc[cond, ['result_date', 'corona_result']]
@@ -125,7 +125,7 @@ def test_results_chart(alt, df: pd.DataFrame, stacked='zero'):
         width=600, height=300, title="Lab Test Results"
     ).interactive()
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
     source = df
     if by_pop:

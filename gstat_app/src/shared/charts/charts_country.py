@@ -5,7 +5,7 @@ import streamlit as st
 
 
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def country_comparison_chart(alt, df: pd.DataFrame, caronadays=False):
 
     source = df.dropna()
@@ -63,7 +63,7 @@ def country_comparison_chart(alt, df: pd.DataFrame, caronadays=False):
     ).interactive()
             )
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def country_level_chart(alt, df: pd.DataFrame,):
     colnames = df.columns
     colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
@@ -128,7 +128,7 @@ def country_level_chart(alt, df: pd.DataFrame,):
     ).resolve_scale(y='independent').interactive()
             )
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def jhopkins_level_chart(alt, df: pd.DataFrame,):
     # colnames = df.columns
     # colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
