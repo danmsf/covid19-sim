@@ -96,13 +96,13 @@ def write(datasets):
     else:
         st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
     st.markdown("""*Source: Israel Ministry of Health*""")
-    # st.markdown("-----------------------------")
-    # # st.altair_chart(test_indication_chart(alt, israel_data.tested_df), use_container_width=False)
-    # if st.checkbox("Show as percentage", True, key=2):
-    #     st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=False), use_container_width=False)
-    # else:
-    #     st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=False, stacked='zero'), use_container_width=False)
-    # if st.checkbox("Drill down symptoms by date", value=False):
-    #     st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=True), use_container_width=False)
-    # st.markdown("""*Source: Israel Ministry of Health*""")
+    st.markdown("-----------------------------")
+    # st.altair_chart(test_indication_chart(alt, israel_data.tested_df), use_container_width=False)
+    if st.checkbox("Show as percentage", True, key=2):
+        st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=False), use_container_width=False)
+    else:
+        st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=False, stacked='zero'), use_container_width=False)
+    if st.checkbox("Drill down symptoms by date", value=False):
+        st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=True), use_container_width=False)
+    st.markdown("""*Source: Israel Ministry of Health*""")
 

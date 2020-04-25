@@ -13,15 +13,15 @@ def isolations_chart(alt, df: pd.DataFrame, stacked='zero'):
         width=600, height=300, title="Isolation"
     ).interactive()
 
-# @st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True)
 def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True, stacked='normalize'):
 
     symptoms = df.copy()
     symptoms = symptoms.drop(columns=['age_60_and_above', 'gender'])
     sym_cols = symptoms.columns
     sym_cols = [c for c in sym_cols if c not in ['test_date', 'corona_result', 'test_indication']]
-    symptoms = symptoms.melt(id_vars=['test_date', 'test_indication','corona_result'], value_vars=sym_cols).dropna()
-    agg_data = symptoms.groupby(['test_date', 'corona_result', 'test_indication','variable'], as_index=False).sum()
+    symptoms = symptoms.melt(id_vars=['test_date', 'test_indication', 'corona_result'], value_vars=sym_cols).dropna()
+    agg_data = symptoms.groupby(['test_date', 'corona_result', 'test_indication', 'variable'], as_index=False).sum()
     # agg_data = agg_data.loc[agg_data['corona_result'] != 'אחר', :]
     area = alt.Chart(agg_data).mark_area(tooltip=True, line=True).\
         encode(x=alt.X('test_date', title=None, axis=alt.Axis(labels=True)),
