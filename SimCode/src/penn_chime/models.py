@@ -374,10 +374,12 @@ class OLG:
             self.df_tmp['StringencyIndex'].fillna(method='ffill', inplace=True)
             tmp = self.df_tmp.copy()
             # normalize to day_0 and then shift forward 7 days so dont need to lag in regression
-            tmp['StringencyIndex'].shift(periods= -(self.day_0 - 7)).fillna(method='ffill', inplace=True)
+            # tmp['StringencyIndex'] = tmp['StringencyIndex'].shift(periods= -(self.day_0 - 7)).fillna(method='ffill', inplace=True)
             cur_stringency = tmp['StringencyIndex'].values
             stringency = stringency['StringencyIndex'].values
+            print(cur_stringency)
             stringency = np.append(cur_stringency, stringency)
+            # stringency = np.append([0,0,0,0,0,0,0], stringency)
             self.r_predicted = [0]
             for t in range(1, len(self.r0d) + forcast_cnt+7):
                 if t <= 2:

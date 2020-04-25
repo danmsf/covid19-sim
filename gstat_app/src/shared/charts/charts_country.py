@@ -14,10 +14,10 @@ def country_comparison_chart(alt, df: pd.DataFrame, caronadays=False):
     colnames = [c if c in ['date', 'Country'] else 'value' for c in colnames]
     source.columns = colnames
     if caronadays:
-        source['date'] = pd.to_datetime(source['date'])
-        source['min_date'] = source.groupby('Country')['date'].transform('min')
-        source['date'] = source['date'] - source['min_date']
-        source['date'] = source['date'].dt.days
+        source.loc[:, 'date'] = pd.to_datetime(source['date'])
+        source.loc[:, 'min_date'] = source.groupby('Country')['date'].transform('min')
+        source.loc[:, 'date'] = source['date'] - source['min_date']
+        source.loc[:, 'date'] = source['date'].dt.days
         source.drop(columns='min_date', inplace=True)
     nearest = alt.selection(type='single', nearest=True, on='mouseover',
                             fields=['date'], empty='none')
@@ -69,9 +69,9 @@ def country_level_chart(alt, df: pd.DataFrame,):
     colnames = [c for c in colnames if c not in ['date', 'StringencyIndex', 'Country']]
     source = df.melt(id_vars=['date', 'Country'], value_vars=colnames).dropna()
     source = source.reset_index()
-    source['value'] = source['value'].astype('int64')
+    source.loc[:, 'value'] = source['value'].astype('int64')
 
-    source['value'] = source['value'].astype('int64')
+    source.loc[:, 'value'] = source['value'].astype('int64')
 
     nearest = alt.selection(type='single', nearest=True, on='mouseover',
                             fields=['date'], empty='none')
@@ -99,7 +99,7 @@ def country_level_chart(alt, df: pd.DataFrame,):
     # Draw points on the line, and highlight based on selection
     points = line.mark_point().encode(
         opacity=alt.condition(nearest, alt.value(1), alt.value(0)),
-        y = alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
+        y=alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
     )
     # Draw text labels near the points, and highlight based on selection
     text = line.mark_text(align='left', dx=5, dy=-5).encode(

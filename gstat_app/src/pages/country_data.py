@@ -4,25 +4,20 @@ from src.shared.charts.charts_country import *
 from src.shared.charts.charts_olg import *
 from src.shared.utils import get_table_download_link
 from src.shared.models.model_olg import OLG, init_olg_params
-from src.shared.settings import DEFAULTS, datasets
+from src.shared.settings import DEFAULTS, load_data
 import altair as alt
-
 
 def write():
     st.subheader('Country Comparison Graphs')
-    countrydata = CountryData(DEFAULTS['FILES']['country_files'])
-    country_df, jh_confirmed_df, _, _, _, _ = datasets
-    # countrydata.get_country_data()
-    # countrydata.get_country_stringency()
-    # countrydata.get_sir()
-    # 'total_cases', 'new_cases', 'total_deaths', 'new_deaths', 'total_recovered', 'activecases', 'serious_critical'
+
+    country_df, jh_confirmed_df, _, _, _, _, _ = load_data(DEFAULTS)
     countryname = st.multiselect("Select Countries", list(country_df['Country'].sort_values().unique()),
                                  ['israel'])
 
     keepcols = ['Country', 'country', 'total_cases', 'new_cases', 'total_deaths', 'new_deaths',
                 'total_recovered', 'activecases', 'serious_critical',
                 'tot_cases/1m_pop', 'deaths/1m_pop', 'date',
-                'totaltests', 'tests/_1m_pop', 'tot_deaths/1m_pop',
+                'totaltests', 'tests/_1m_pop',
                 'population', 'StringencyIndexForDisplay', 'StringencyIndex']
     temp = country_df.loc[country_df.Country.isin(countryname), keepcols]
     temp = temp.set_index("date", drop=False)
@@ -78,24 +73,23 @@ def write():
     st.subheader("Johns Hopkins Data")
     # jh_confirmed_df = countrydata.jh_confirmed_df.copy()
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
-    jh_confirmed_df['min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
-    jh_confirmed_df['date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
-    jh_confirmed_df['country'] = jh_confirmed_df['Country'] + " - " + jh_confirmed_df['Province'].str.lower()
+    jh_confirmed_df.loc[:, 'min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
+    jh_confirmed_df.loc[:, 'date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
+    jh_confirmed_df.loc[:, 'country'] = jh_confirmed_df['Country'] + " - " + jh_confirmed_df['Province'].str.lower()
     province = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()), "Israel - all")
     #
     jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['country'].isin(province), :]
     st.altair_chart(
         jhopkins_level_chart(alt, jh_confirmed_df), use_container_width=True,
     )
-    pjh.init_infected = 100
-    jh_confirmed_df = countrydata.jh_confirmed_df.copy()
-    jh_confirmed_df['date'] = jh_confirmed_df['variable']
-    jh_confirmed_df = jh_confirmed_df.merge(
-        countrydata.country_df.loc[:, ['Country', 'date', 'StringencyIndex']], how='left',
-    )
-    jh_confirmed_df['country'] = jh_confirmed_df['Country'] + " - " + jh_confirmed_df['Province'].str.lower()
-    temp = jh_confirmed_df.loc[jh_confirmed_df['country'].isin(province), :]
-    temp = temp.rename(columns={'value': 'total_cases'})
+    # pjh.init_infected = 100
+    # jh_confirmed_df['date'] = jh_confirmed_df['variable']
+    # jh_confirmed_df = jh_confirmed_df.merge(
+    #     country_df.loc[:, ['Country', 'date', 'StringencyIndex']], how='left',
+    # )
+    # jh_confirmed_df['country'] = jh_confirmed_df['Country'] + " - " + jh_confirmed_df['Province'].str.lower()
+    # temp = jh_confirmed_df.loc[jh_confirmed_df['country'].isin(province), :]
+    # temp = temp.rename(columns={'value': 'total_cases'})
     # temp['Country'] = 'israel'
     #
     # temp['country'] = 'israel'

@@ -1,4 +1,4 @@
-
+import streamlit as st
 
 def write_page(page):  # pylint: disable=redefined-outer-name
     """Writes the specified page/module

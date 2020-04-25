@@ -74,9 +74,10 @@ class IsraelData:
         id_vars = ['יישוב', 'סוג מידע', 'אוכלוסייה נכון ל- 2018']
         colnames = [c for c in df.columns if c not in id_vars]
         df = df.melt(id_vars=id_vars, value_vars=colnames)
-        df['variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
+        df.loc[:, 'variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
         df = df[df["variable"].dt.year > 1677].dropna()
         df = df.rename(columns={'יישוב': 'Yishuv', 'אוכלוסייה נכון ל- 2018': 'pop2018', 'variable': 'date'})
+        df.loc[:, 'StringencyIndex'] = 1.
         return df
 
     @st.cache
@@ -107,6 +108,6 @@ class IsraelData:
     def get_patients_df(self):
         df = pd.read_csv(self.filepath['patients_file'])
         df = df.dropna(subset=['New Patients Amount'])
-        df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
+        df.loc[:, 'Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
         # df = df.drop(columns="_id")
         return df

@@ -4,6 +4,7 @@ import pandas as pd  # type: ignore
 import datetime
 from statsmodels.tsa.api import SimpleExpSmoothing, Holt
 import os
+import streamlit as st
 
 class OLGParameters:
     """Parameters."""
@@ -54,7 +55,7 @@ def init_olg_params(olg_params) -> OLGParameters:
 
 
 
-
+@st.cache
 class OLG:
     """
     calc_asymptomatic start from first case

@@ -19,20 +19,21 @@ with open(defaults_file) as file:
     # scalar values to Python the dictionary format
     DEFAULTS = yaml.load(file, Loader=yaml.FullLoader)
 
-st.cache
+@st.cache
 def load_data(DEFAULTS):
     israel_data = IsraelData(DEFAULTS['FILES']['israel_files'])
 
     # Load data
     countrydata = CountryData(DEFAULTS['FILES']['country_files'])
-    country_df = countrydata.get_country_data()
+    countrydata.get_country_data()
     country_df = countrydata.country_df.copy()
     lab_tests = israel_data.lab_results_df.copy()
     israel_data.get_yishuv_data()
     israel_yishuv_df = israel_data.yishuv_df.copy()
     israel_patients = israel_data.patients_df.copy()
     isolation_df = israel_data.isolation_df.copy()
+    tested_df = israel_data.tested_df.copy()
     jh_confirmed_df = countrydata.jh_confirmed_df
-    return country_df, jh_confirmed_df, lab_tests, israel_yishuv_df, israel_patients, isolation_df
+    return country_df, jh_confirmed_df, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df
 
-datasets = load_data(DEFAULTS)
+# datasets = load_data(DEFAULTS)
