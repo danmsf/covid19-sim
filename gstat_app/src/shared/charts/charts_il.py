@@ -16,7 +16,7 @@ def isolations_chart(alt, df: pd.DataFrame, stacked='zero'):
 # @st.cache(allow_output_mutation=True)
 def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True, stacked='normalize'):
 
-    symptoms = df
+    symptoms = df.copy()
     symptoms = symptoms.drop(columns=['age_60_and_above', 'gender'])
     sym_cols = symptoms.columns
     sym_cols = [c for c in sym_cols if c not in ['test_date', 'corona_result', 'test_indication']]
@@ -127,7 +127,7 @@ def test_results_chart(alt, df: pd.DataFrame, stacked='zero'):
 
 # @st.cache(allow_output_mutation=True)
 def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
-    source = df
+    source = df.copy()
     if by_pop:
         source['value'] = source['value'].astype('int64')/(source['pop2018']/1000)
     else:
