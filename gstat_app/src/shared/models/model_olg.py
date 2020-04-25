@@ -55,7 +55,7 @@ def init_olg_params(olg_params) -> OLGParameters:
 
 
 
-@st.cache
+# @st.cache
 class OLG:
     """
     calc_asymptomatic start from first case
