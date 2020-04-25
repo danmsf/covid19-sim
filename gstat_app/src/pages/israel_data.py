@@ -51,13 +51,13 @@ def write():
     yishuvim = st.multiselect("Select Yishuv:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
     colvars = list(israel_yishuv_df['סוג מידע'].unique())
     sel_vars = st.selectbox("Select Variable: ", colvars, 0)
-    israel_yishuv_olg_df = israel_yishuv_df.loc[israel_yishuv_df['סוג מידע'] == 'מספר חולים מאומתים', :]
-    israel_yishuv_df = israel_yishuv_df.loc[(israel_yishuv_df['Yishuv'].isin(yishuvim) &
-                                             israel_yishuv_df['סוג מידע'].isin([sel_vars])), :]
+    israel_yishuv_olg_df = israel_yishuv_df.loc[israel_yishuv_df['סוג מידע'] == 'מספר חולים מאומתים', :].copy()
+    israel_yishuv_df_plot = israel_yishuv_df.loc[(israel_yishuv_df['Yishuv'].isin(yishuvim) &
+                                             israel_yishuv_df['סוג מידע'].isin([sel_vars])), :].copy()
     if st.checkbox("Show per 1,000 inhabitants", True):
-        st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df), use_container_width=True)
+        st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df_plot), use_container_width=True)
     else:
-        st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df, by_pop=False), use_container_width=True)
+        st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df_plot, by_pop=False), use_container_width=True)
 
     israel_yishuv_olg_df = israel_yishuv_olg_df.rename(columns={'value': 'total_cases', 'Yishuv': 'country'})
 
