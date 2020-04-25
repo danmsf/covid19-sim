@@ -13,7 +13,7 @@ def isolations_chart(alt, df: pd.DataFrame, stacked='zero'):
         width=600, height=300, title="Isolation"
     ).interactive()
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True, stacked='normalize'):
 
     symptoms = df.copy()
