@@ -7,7 +7,8 @@ from src.shared.settings import DEFAULTS, load_data
 import altair as alt
 
 def write():
-    country_df, _, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df = load_data(DEFAULTS)
+    country_dfo, _, lab_testso, israel_yishuv_dfo, israel_patientso, isolation_dfo, tested_dfo = load_data(DEFAULTS)
+    country_df, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df = country_dfo.copy(), lab_testso.copy(), israel_yishuv_dfo.copy(), israel_patientso.copy(), isolation_dfo.copy(), tested_dfo.copy()
     st.subheader('Israeli Data')
 
     # Patients graph
