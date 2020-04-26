@@ -9,12 +9,12 @@ def main(outdir=None):
 
     if outdir:
         for entry in entries_loaded:
-            outpath = os.path.join(outdir,entry.name+'.csv')
+            outpath = os.path.join(outdir, entry.name+'.csv')
             entry.df.to_csv(outpath)
         result = None
     else:
         entries = Entries(**d)
-        result= entries
+        result = entries
 
     return result
 

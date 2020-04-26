@@ -4,6 +4,7 @@ import re
 import glob
 import pandas as pd
 from typing import Iterable, Union, List, Pattern, IO
+import numpy as np
 
 # Impored for scraping TheWaybackMachine
 from selenium.webdriver.common.by import By
@@ -86,6 +87,16 @@ def get_fresh_urls(all_urls:Iterable[str],
 
     return retval
 
+def exclude_prev_dates(all_urls:Iterable[str],
+                   exluded_urls:Iterable[str]) -> Union[List[str],None]:
+    prev_dates = [pd.to_datetime(re.findall(r'\d+', c)[0]) for c in excluded_urls]
+    last_date = np.max(prev_dates)
+    out_urls = [c for c in all_urls if pd.to_datetime(re.findall(r'\d+', c)[0])<last_date]
+    retval = out_urls
+    if len(out_urls) == 0:
+        retval = None
+
+    return retval
 
 def get_prev_urls(path:IO)->List[str]:
     """Read all downloaded csv's and make a list of all old urls"""

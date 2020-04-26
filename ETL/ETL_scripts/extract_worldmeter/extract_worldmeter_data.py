@@ -23,11 +23,14 @@ def main(outdir:IO)->None:
     prev_urls = get_prev_urls(outdir)
     all_urls = get_all_urls_matching_regex(browser, URL_REGEX_PATTERN)
     new_urls = get_fresh_urls(all_urls, prev_urls, excluded_urls)
-
+    new_urls = exclude_prev_dates(new_urls, excluded_urls)
     # Iterate over hrefs and download tables from site
     if new_urls:
         logger.info(f'>>Downloading data from links: {len(new_urls)} files')
-        dfs = download_async(new_urls,outdir)
+        dfs = download_async(new_urls, outdir)
+        with open(EXLUDED_URLS_PATH) as fd:
+            for read_url in new_urls:
+                fd.write(read_url)
     else:
         logger.info('>>No new links')
 

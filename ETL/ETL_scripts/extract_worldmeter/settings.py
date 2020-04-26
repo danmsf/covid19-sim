@@ -6,13 +6,12 @@ from datetime import date
 import configparser
 
 current_dir = os.path.dirname(__file__)
-
-
+project_dir = os.path.dirname(os.path.dirname(current_dir))
 # Paths and Dirs
-OUTPUT_PATH = r'D:\PycharmProjects\covid19ETL\DW\raw_data\worldmeter'
+OUTPUT_PATH = os.path.join(project_dir, "DW", "raw_data", "worldmeter")
 SITE_URL = 'https://www.worldometers.info/coronavirus/'
 
-RESOURCE_DIR = os.path.join(current_dir,'resources')
+RESOURCE_DIR = os.path.join(current_dir, 'resources')
 WAYBACK_URL_BASE = r'https://web.archive.org/web'
 WAYBACK_FULLPATH = WAYBACK_URL_BASE + "/*/" + SITE_URL
 URL_REGEX_PATTERN = WAYBACK_URL_BASE + "/\d{8}/" + SITE_URL
