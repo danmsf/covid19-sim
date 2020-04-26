@@ -19,7 +19,7 @@ with open(defaults_file) as file:
     # scalar values to Python the dictionary format
     DEFAULTS = yaml.load(file, Loader=yaml.FullLoader)
 
-@st.cache
+# @st.cache
 def load_data(DEFAULTS):
     israel_data = IsraelData(DEFAULTS['FILES']['israel_files'])
 

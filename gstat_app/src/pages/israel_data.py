@@ -6,6 +6,7 @@ from src.shared.models.data import IsraelData, CountryData
 from src.shared.settings import DEFAULTS, load_data
 import altair as alt
 
+
 def write():
     country_df, _, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df = load_data(DEFAULTS)
     st.subheader('Israeli Data')
