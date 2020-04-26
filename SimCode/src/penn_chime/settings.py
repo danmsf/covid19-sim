@@ -99,6 +99,7 @@ DEFAULTS = Constants(
     },
     israel_files={
         'yishuv_file': os.path.join(israel_data_path, "gsheets.csv"),
+        'yishuv_file2': os.path.join(israel_data_path, "yishuv_file.csv"),
         'lab_results_file': os.path.join(israel_data_path, "lab_tests.csv"),
         'isolations_file': os.path.join(israel_data_path, "isolations.csv"),
         'tested_file': os.path.join(israel_data_path, "symptoms.csv"),
