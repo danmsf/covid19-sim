@@ -21,9 +21,11 @@ with open(defaults_file) as file:
     DEFAULTS = yaml.load(file, Loader=yaml.FullLoader)
 
 user_session_id = get_session_id()
-
-@fancy_cache(ttl=10, unique_to_session=False)
-def load_data(DEFAULTS, user_session_id):
+print(user_session_id)
+# @fancy_cache(ttl=10, unique_to_session=False)
+@st.cache(ttl=10, show_spinner=True, max_entries=2)
+def load_data(DEFAULTS,user_session_id):
+    print(user_session_id)
     israel_data = IsraelData(DEFAULTS['FILES']['israel_files'])
 
     # Load data

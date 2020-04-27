@@ -142,38 +142,33 @@ def display_about(st):
 
 
 
+# Copied from tvst's great gist:
+# https://gist.github.com/tvst/6ef6287b2f3363265d51531c62a84f51
 def get_session_id():
     # Hack to get the session object from Streamlit.
 
     ctx = ReportThread.get_report_ctx()
 
-    this_session = None
-
-    current_server = Server.get_current()
-    if hasattr(current_server, '_session_infos'):
-        # Streamlit < 0.56
-        session_infos = Server.get_current()._session_infos.values()
-    else:
-        session_infos = Server.get_current()._session_info_by_id.values()
+    session = None
+    session_infos = Server.get_current()._session_infos.values()
 
     for session_info in session_infos:
         s = session_info.session
         if (
-                # Streamlit < 0.54.0
-                (hasattr(s, '_main_dg') and s._main_dg == ctx.main_dg)
-                or
-                # Streamlit >= 0.54.0
-                (not hasattr(s, '_main_dg') and s.enqueue == ctx.enqueue)
+            (hasattr(s, '_main_dg') and s._main_dg == ctx.main_dg)
+            # Streamlit < 0.54.0
+            or
+            # Streamlit >= 0.54.0
+            (not hasattr(s, '_main_dg') and s.enqueue == ctx.enqueue)
         ):
-            this_session = s
+            session = session_info.session
 
-    if this_session is None:
+    if session is None:
         raise RuntimeError(
             "Oh noes. Couldn't get your Streamlit Session object"
             'Are you doing something fancy with threads?')
 
-    return id(this_session)
-
+    return id(session)
 
 def fancy_cache(func=None, ttl=None, unique_to_session=False, **cache_kwargs):
     """A fancier cache decorator which allows items to expire after a certain time
@@ -224,24 +219,27 @@ def fancy_cache(func=None, ttl=None, unique_to_session=False, **cache_kwargs):
         return dummy_func(ttl_token, session_token, *func_args, **func_kwargs)
     return fancy_cached_func
 
-# def fancy_cache_demo():
-#     """Shows how to use the @fancy_cache decorator."""
+def fancy_cache_demo():
+    """Shows how to use the @fancy_cache decorator."""
+
+    st.write('## ttl example')
+
+    @fancy_cache(ttl=1)
+    def get_current_time():
+        return time.time()
+    for i in range(10):
+        st.write("This number should change once a second: `%s` (iter: `%i`)" %
+            (get_current_time(), i))
+        time.sleep(0.2)
+
+    st.write('## unique_to_session example')
+
+    @fancy_cache(unique_to_session=True)
+    def random_string(string_len):
+        return ''.join(random.sample(string.ascii_lowercase, string_len))
+    for i in range(3):
+        st.write("This string shouldn't change, but should differ by session: `%s` (iter: `%i`)" %
+            (random_string(10), i))
 #
-#     st.write('## ttl example')
-#
-#     @fancy_cache(ttl=1)
-#     def get_current_time():
-#         return time.time()
-#     for i in range(10):
-#         st.write("This number should change once a second: `%s` (iter: `%i`)" %
-#             (get_current_time(), i))
-#         time.sleep(0.2)
-#
-#     st.write('## unique_to_session example')
-#
-#     @fancy_cache(unique_to_session=True)
-#     def random_string(string_len):
-#         return ''.join(random.sample(string.ascii_lowercase, string_len))
-#     for i in range(3):
-#         st.write("This string shouldn't change, but should differ by session: `%s` (iter: `%i`)" %
-#             (random_string(10), i))
+# if __name__ == '__main__':
+#     fancy_cache_demo()
