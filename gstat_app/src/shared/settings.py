@@ -2,6 +2,7 @@ import yaml
 import os
 from src.shared.models.data import *
 import streamlit as st
+from .utils import get_session_id, fancy_cache
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 project_path = os.path.dirname(os.path.dirname(os.path.dirname(current_directory)))
@@ -19,8 +20,10 @@ with open(defaults_file) as file:
     # scalar values to Python the dictionary format
     DEFAULTS = yaml.load(file, Loader=yaml.FullLoader)
 
-@st.cache
-def load_data(DEFAULTS):
+user_session_id = get_session_id()
+
+@fancy_cache(ttl=20, unique_to_session=True)
+def load_data(DEFAULTS, user_session_id):
     israel_data = IsraelData(DEFAULTS['FILES']['israel_files'])
 
     # Load data

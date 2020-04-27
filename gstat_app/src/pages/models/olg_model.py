@@ -4,7 +4,7 @@ from src.shared.models.data import CountryData
 from src.shared.charts.charts_olg import *
 from src.shared.utils import get_table_download_link
 import altair as alt
-from src.shared.settings import DEFAULTS, load_data
+from src.shared.settings import DEFAULTS, load_data, user_session_id
 
 def display_sidebar(olg_params):
         st.sidebar.subheader("GSTAT Model parameters")
@@ -78,7 +78,7 @@ def write():
     #-------------------Init Data and Params------------------
     olg_params = DEFAULTS['MODELS']['olg_params']
     sgidx = StringencyIndex("Israel")
-    country_df, _, _, _, _, _, _ = load_data(DEFAULTS)
+    country_df, _, _, _, _, _, _ = load_data(DEFAULTS, user_session_id)
     # -------------------Sidebar logic-------------------------
     if st.sidebar.checkbox("Change Model Parameters", False):
         olg_params = display_sidebar(olg_params)
