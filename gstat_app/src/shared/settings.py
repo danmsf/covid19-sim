@@ -3,6 +3,7 @@ import os
 from src.shared.models.data import *
 import streamlit as st
 from .utils import get_session_id, fancy_cache
+import datetime
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 project_path = os.path.dirname(os.path.dirname(os.path.dirname(current_directory)))
@@ -22,10 +23,13 @@ with open(defaults_file) as file:
 
 user_session_id = get_session_id()
 print(user_session_id)
-# @fancy_cache(ttl=10, unique_to_session=False)
-@st.cache(ttl=2, show_spinner=True , persist=True, max_entries=1)
+
+@st.cache(ttl=2, show_spinner=False , persist=True, max_entries=1)
 def load_data(DEFAULTS,user_session_id):
-    print(user_session_id)
+    print(user_session_id, datetime.datetime.now())
+    with open('./logs/session_ids.csv', 'a') as fd:
+        fd.write(str(user_session_id) + ",")
+        fd.write(str(datetime.datetime.now()))
     israel_data = IsraelData(DEFAULTS['FILES']['israel_files'])
 
     # Load data

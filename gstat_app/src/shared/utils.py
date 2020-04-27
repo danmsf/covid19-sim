@@ -219,27 +219,25 @@ def fancy_cache(func=None, ttl=None, unique_to_session=False, **cache_kwargs):
         return dummy_func(ttl_token, session_token, *func_args, **func_kwargs)
     return fancy_cached_func
 
-def fancy_cache_demo():
-    """Shows how to use the @fancy_cache decorator."""
-
-    st.write('## ttl example')
-
-    @fancy_cache(ttl=1)
-    def get_current_time():
-        return time.time()
-    for i in range(10):
-        st.write("This number should change once a second: `%s` (iter: `%i`)" %
-            (get_current_time(), i))
-        time.sleep(0.2)
-
-    st.write('## unique_to_session example')
-
-    @fancy_cache(unique_to_session=True)
-    def random_string(string_len):
-        return ''.join(random.sample(string.ascii_lowercase, string_len))
-    for i in range(3):
-        st.write("This string shouldn't change, but should differ by session: `%s` (iter: `%i`)" %
-            (random_string(10), i))
+# def fancy_cache_demo():
+#     """Shows how to use the @fancy_cache decorator."""
 #
-# if __name__ == '__main__':
-#     fancy_cache_demo()
+#     st.write('## ttl example')
+#
+#     @fancy_cache(ttl=1)
+#     def get_current_time():
+#         return time.time()
+#     for i in range(10):
+#         st.write("This number should change once a second: `%s` (iter: `%i`)" %
+#             (get_current_time(), i))
+#         time.sleep(0.2)
+#
+#     st.write('## unique_to_session example')
+#
+#     @fancy_cache(unique_to_session=True)
+#     def random_string(string_len):
+#         return ''.join(random.sample(string.ascii_lowercase, string_len))
+#     for i in range(3):
+#         st.write("This string shouldn't change, but should differ by session: `%s` (iter: `%i`)" %
+#             (random_string(10), i))
+#

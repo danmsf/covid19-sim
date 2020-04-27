@@ -124,6 +124,7 @@ class OLG:
                - crystal_ball_coef.get('s_prev_t7') * s_prev_t7
         return np.exp(ln_r) - 1
 
+    @st.cache()
     def iter_countries(self, df, p, jh_hubei, stringency):
 
         self.process(init_infected=250, detected=jh_hubei)
