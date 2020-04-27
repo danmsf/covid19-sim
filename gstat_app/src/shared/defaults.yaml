@@ -80,6 +80,7 @@ FILES:
 
   israel_files:
     yishuv_file: "Resources/Datasets/IsraelData/gsheets.csv"
+    yishuv_file2: "Resources/Datasets/IsraelData/yishuv_file.csv"
     lab_results_file: "Resources/Datasets/IsraelData/lab_tests.csv"
     isolations_file: "Resources/Datasets/IsraelData/isolations.csv"
     tested_file: "Resources/Datasets/IsraelData/symptoms.csv"

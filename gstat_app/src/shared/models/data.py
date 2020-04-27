@@ -77,7 +77,14 @@ class IsraelData:
         df.loc[:, 'variable'] = pd.to_datetime(df['variable'], format="%d/%m/%Y", errors='coerce')
         df = df[df["variable"].dt.year > 1677].dropna()
         df = df.rename(columns={'יישוב': 'Yishuv', 'אוכלוסייה נכון ל- 2018': 'pop2018', 'variable': 'date'})
-        df.loc[:, 'StringencyIndex'] = 1.
+        df2 = self.get_yishuv2()
+        df = pd.concat([df, df2])
+        return df
+
+    def get_yishuv2(self):
+        df = pd.read_csv(self.filepath['yishuv_file2'])
+        df['date'] = pd.to_datetime(df['date'])
+        df = df.rename(columns={'יישוב': 'Yishuv'})
         return df
 
     # @st.cache
