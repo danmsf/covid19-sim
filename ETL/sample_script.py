@@ -3,7 +3,7 @@ import os
 
 # lxml, chronium, aiohttp
 country_data_dir = '../Resources/Datasets/CountryData'
-worldmeter_data_dir = 'DW/raw_data/worldmeter'
+worldmeter_data_dir = './DW/raw_data/worldmeter'
 israel_data_dir = '../Resources/Datasets/IsraelData'
 worldmeter_data_dir1 = os.path.join(os.getcwd(), worldmeter_data_dir)
 

@@ -28,7 +28,7 @@ def main(outdir:IO)->None:
     if new_urls:
         logger.info(f'>>Downloading data from links: {len(new_urls)} files')
         dfs = download_async(new_urls, outdir)
-        with open(EXLUDED_URLS_PATH) as fd:
+        with open(EXLUDED_URLS_PATH, 'a') as fd:
             for read_url in new_urls:
                 fd.write(read_url)
     else:

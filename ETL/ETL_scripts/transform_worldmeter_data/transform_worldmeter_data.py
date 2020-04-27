@@ -40,11 +40,22 @@ def main(indir: IO,
         # Append to df list
         df_list.append(df)
 
-    # Join df from all dates
-    disease_data = pd.concat(df_list, ignore_index=True, sort=False)
+    if len(df_list)>1:
+        # Join df from all dates
+        disease_data = pd.concat(df_list, ignore_index=True, sort=False)
+    else:
+        disease_data = df_list[0]
     # Remove plus sign from columns
-    disease_data['New Cases'] = disease_data['New Cases'].str.replace('[^\d]', '')
-    # disease_data['New Deaths'] = disease_data['New Deaths'].astype(str).str.replace('[^\d]', '')
+    try:
+        disease_data['New Cases'] = disease_data['New Cases'].str.replace('[^\d]', '')
+    except:
+        print("No + sign found in New Cases")
+        pass
+    try:
+        disease_data['New Deaths'] = disease_data['New Deaths'].str.replace('[^\d]', '')
+    except:
+        print("No + sign found in New Deaths")
+        pass
     # disease_data['Deaths/1M pop'] = disease_data['Deaths/1M pop'].astype(str)
     # Sort df by date
     disease_data = disease_data.sort_values('date')
@@ -92,8 +103,11 @@ def main(indir: IO,
     # Output to file/variable
     # --------------------
     if outdir:
-        all_data.to_csv(os.path.join(outdir, 'all_dates.csv'), mode='a', header=False)
-        all_data_seir.to_csv(os.path.join(outdir, 'all_dates_seir.csv'), mode='a', header=False)
+        all_data_c = pd.read_csv(os.path.join(outdir, 'all_dates.csv'))
+        all_data = pd.concat([all_data_c, all_data])
+        all_data.to_csv(os.path.join(outdir, 'all_dates.csv'),mode='o', header=False)
+        # all_data.to_csv(os.path.join(outdir, 'all_dates.csv'), mode='a', header=False)
+        # all_data_seir.to_csv(os.path.join(outdir, 'all_dates_seir.csv'), mode='a', header=False)
         retval = None
     else:
         Container = namedtuple('dfs', 'all_data all_data_seir')

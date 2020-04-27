@@ -91,7 +91,7 @@ def exclude_prev_dates(all_urls:Iterable[str],
                    exluded_urls:Iterable[str]) -> Union[List[str],None]:
     prev_dates = [pd.to_datetime(re.findall(r'\d+', c)[0]) for c in excluded_urls]
     last_date = np.max(prev_dates)
-    out_urls = [c for c in all_urls if pd.to_datetime(re.findall(r'\d+', c)[0])<last_date]
+    out_urls = [c for c in all_urls if pd.to_datetime(re.findall(r'\d+', c)[0]) > last_date]
     retval = out_urls
     if len(out_urls) == 0:
         retval = None
