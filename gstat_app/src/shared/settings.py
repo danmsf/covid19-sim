@@ -22,7 +22,7 @@ with open(defaults_file) as file:
 
 user_session_id = get_session_id()
 
-@fancy_cache(ttl=20, unique_to_session=True)
+@fancy_cache(ttl=10, unique_to_session=False)
 def load_data(DEFAULTS, user_session_id):
     israel_data = IsraelData(DEFAULTS['FILES']['israel_files'])
 
