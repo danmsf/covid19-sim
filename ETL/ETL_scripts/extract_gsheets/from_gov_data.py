@@ -31,5 +31,19 @@ t.loc[:, 'StringencyIndex'] = 1.
 t.to_csv(path_out + 'yishuv_' + dt + ".csv", index=False)
 
 kl = ['20200426', '20200424', '20200420']
-joined = pd.concat([pd.read_csv(path_out + 'yishuv_' + x + ".csv") for x in kl])
+p21 = pd.read_csv(path_out + 'yishuv_' + '20200420' + ".csv")
+p21['date'] = pd.to_datetime('20200421')
+p22 = p21.copy()
+p22['date'] = pd.to_datetime('20200422')
+p23 = p22.copy()
+p23['date'] = pd.to_datetime('20200423')
+
+p24 = pd.read_csv(path_out + 'yishuv_' + '20200424' + ".csv")
+p24['date'] = pd.to_datetime('20200424')
+p25 = p24.copy()
+p25['date'] = pd.to_datetime('20200425')
+p26 = pd.read_csv(path_out + 'yishuv_' + '20200426' + ".csv")
+
+joined = pd.concat([p21,p22,p23,p24,p25,p26])
 joined.to_csv(path_out + 'yishuv_file.csv', index=False)
+temp = pd.read_csv("C:\\Users\\User\\PycharmProjects\\covad19-sim\\Resources\\Datasets\\IsraelData\\gsheets.csv")
