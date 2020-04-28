@@ -117,9 +117,16 @@ class IsraelData:
         return df
 
     # @st.cache
+    # def get_patients_df(self):
+    #     df = pd.read_csv(self.filepath['patients_file'])
+    #     df = df.dropna(subset=['New Patients Amount'])
+    #     df.loc[:, 'Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
+    #     # df = df.drop(columns="_id")
+    #     return df
+
     def get_patients_df(self):
-        df = pd.read_csv(self.filepath['patients_file'])
-        df = df.dropna(subset=['New Patients Amount'])
-        df.loc[:, 'Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
+        df = pd.read_excel(self.filepath['patients_path'])
+        # df = df.dropna(subset=['New Patients Amount'])
+        df['Date'] = df['תאריך']
         # df = df.drop(columns="_id")
         return df

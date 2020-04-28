@@ -10,16 +10,24 @@ import altair as alt
 def write():
     country_df, _, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df = load_data(DEFAULTS, user_session_id)
     st.subheader('Israeli Data')
+    st.markdown(
+        """
+        <iframe src="https://www.govmap.gov.il/sites/coronamap.html" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+        """,
+        unsafe_allow_html=True
+    )
 
     # Patients graph
-    patient_cols = ['New Patients Amount', 'Total Patients',
-                    'Current Serious Condition Patients',
-                    'Total Serious Condition Patients', 'New Dead Patients Amount',
-                    'Total Dead Patients', 'Total Serious + Dead Patients',
-                    'Lab Test Amount']
-    patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols, ['Current Serious Condition Patients'])
-    israel_patients = israel_patients.loc[:, ['Date'] + patient_cols_selected]
-    st.altair_chart(patients_status_chart(alt, israel_patients), use_container_width=True)
+    # patient_cols = ['New Patients Amount', 'Total Patients',
+    #                 'Current Serious Condition Patients',
+    #                 'Total Serious Condition Patients', 'New Dead Patients Amount',
+    #                 'Total Dead Patients', 'Total Serious + Dead Patients',
+    #                 'Lab Test Amount']
+    patient_cols = [c for c in list(israel_patients.columns) if c not in ['Date', 'תאריך']]
+    patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols,['מספר חולים במצב קשה'])
+    st.altair_chart(patients_status_chart(alt, israel_patients.loc[:, ['Date'] + patient_cols_selected]),
+                    use_container_width=True)
+    st.markdown("*הערה: הנתונים מעודכנים שבוע אחורה בהתאם למדיניות הפרסום של משרד הבריאות*")
 
     pil = init_olg_params(DEFAULTS['MODELS']['olg_params'])
     pil.countries = ['israel']

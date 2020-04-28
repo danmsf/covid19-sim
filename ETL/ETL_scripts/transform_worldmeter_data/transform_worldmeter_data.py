@@ -5,11 +5,15 @@ import datetime
 import pandas as pd
 from typing import IO, Union, Optional
 from collections import namedtuple
-
+import os
 
 # --------------------
-# Merge all seperate worldmeter files and join with outher data sources
+# Merge all separate worldmeter files and join with other data sources
 # --------------------
+def delete_files(all_files):
+    for filename in all_files:
+        if os.path.isfile(filename):  # this makes the code more robust
+            os.remove(filename)
 
 def main(indir: IO,
          outdir: Optional[IO] = None,
@@ -20,6 +24,9 @@ def main(indir: IO,
     # Iterate and read csv files into df
     all_files = glob.glob(indir + "/*.csv")
     df_list = []
+    if len(all_files) == 0:
+        print("No new files found!")
+        return None
 
     for filename in all_files:
 
@@ -105,10 +112,12 @@ def main(indir: IO,
     if outdir:
         all_data_c = pd.read_csv(os.path.join(outdir, 'all_dates.csv'))
         all_data = pd.concat([all_data_c, all_data])
-        all_data.to_csv(os.path.join(outdir, 'all_dates.csv'),mode='o', header=False)
+        all_data.to_csv(os.path.join(outdir, 'all_dates.csv'), header=True)
         # all_data.to_csv(os.path.join(outdir, 'all_dates.csv'), mode='a', header=False)
         # all_data_seir.to_csv(os.path.join(outdir, 'all_dates_seir.csv'), mode='a', header=False)
         retval = None
+        delete_files(all_files)
+
     else:
         Container = namedtuple('dfs', 'all_data all_data_seir')
         continer = Container(all_data, all_data_seir)

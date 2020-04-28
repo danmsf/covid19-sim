@@ -27,13 +27,7 @@ st.markdown(
     </div>
     """, unsafe_allow_html=True)
 
-# st.write(
-#     "# GSTAT Impact Tool for Epidemics  "
-#     "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/SimCode/src/gstat_logo.png)]"
-#     "(https://g-stat.com)"
-# )
-# h="36px"
-# w="36px"
+
 st.sidebar.markdown(
     "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/SimCode/src/gstat_logo.png)]"
     "(https://g-stat.com)"

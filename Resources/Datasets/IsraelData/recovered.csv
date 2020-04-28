@@ -1,0 +1,3828 @@
+_id,days_between_pos_and_neg,total_tests_count,age_group,gender,test_indication
+1,8,9.0,40-49,נקבה,Contact with confirmed
+2,19,9.0,30-39,זכר,Contact with confirmed
+3,33,9.0,60+,זכר,Abroad
+4,25,9.0,30-39,נקבה,Abroad
+5,20,9.0,40-49,זכר,Abroad
+6,32,9.0,40-49,נקבה,Abroad
+7,27,9.0,60+,זכר,Contact with confirmed
+8,21,9.0,0-19,זכר,Contact with confirmed
+9,12,9.0,0-19,נקבה,Contact with confirmed
+10,17,9.0,30-39,זכר,Abroad
+11,20,9.0,20-29,זכר,Contact with confirmed
+12,17,9.0,20-29,נקבה,Other
+13,38,9.0,40-49,זכר,Other
+14,10,9.0,30-39,זכר,Abroad
+15,14,9.0,60+,נקבה,Contact with confirmed
+16,20,9.0,30-39,זכר,Abroad
+17,22,9.0,50-59,זכר,Contact with confirmed
+18,18,9.0,30-39,נקבה,Abroad
+19,22,9.0,0-19,נקבה,NULL
+20,18,9.0,50-59,נקבה,Abroad
+21,20,9.0,40-49,זכר,Contact with confirmed
+22,25,9.0,20-29,נקבה,Contact with confirmed
+23,18,9.0,20-29,זכר,Contact with confirmed
+24,27,9.0,60+,נקבה,Contact with confirmed
+25,26,9.0,20-29,זכר,Contact with confirmed
+26,23,9.0,20-29,נקבה,Abroad
+27,23,9.0,30-39,נקבה,Contact with confirmed
+28,22,9.0,50-59,זכר,Other
+29,17,8.0,30-39,נקבה,Other
+30,21,8.0,50-59,נקבה,Contact with confirmed
+31,19,8.0,20-29,נקבה,Contact with confirmed
+32,23,8.0,50-59,זכר,Other
+33,21,8.0,60+,נקבה,Other
+34,14,8.0,40-49,זכר,Contact with confirmed
+35,17,8.0,50-59,זכר,Other
+36,19,8.0,60+,זכר,Other
+37,26,8.0,50-59,זכר,Other
+38,23,8.0,20-29,זכר,Abroad
+39,20,8.0,30-39,נקבה,Contact with confirmed
+40,24,8.0,50-59,זכר,Other
+41,24,8.0,40-49,נקבה,Other
+42,17,8.0,40-49,זכר,Contact with confirmed
+43,13,8.0,20-29,זכר,Contact with confirmed
+44,17,8.0,60+,זכר,Other
+45,24,8.0,20-29,נקבה,Abroad
+46,13,8.0,20-29,זכר,Contact with confirmed
+47,15,8.0,30-39,זכר,Contact with confirmed
+48,17,8.0,20-29,זכר,Other
+49,22,8.0,40-49,זכר,Abroad
+50,27,8.0,20-29,נקבה,Contact with confirmed
+51,16,8.0,50-59,נקבה,Contact with confirmed
+52,23,8.0,40-49,נקבה,Abroad
+53,19,8.0,50-59,נקבה,Abroad
+54,14,8.0,60+,נקבה,Abroad
+55,16,8.0,50-59,זכר,Abroad
+56,11,8.0,20-29,זכר,Contact with confirmed
+57,19,8.0,20-29,זכר,Abroad
+58,19,8.0,60+,נקבה,Contact with confirmed
+59,27,8.0,60+,נקבה,Other
+60,12,8.0,20-29,נקבה,Abroad
+61,19,8.0,30-39,זכר,Abroad
+62,17,8.0,40-49,נקבה,Contact with confirmed
+63,20,8.0,20-29,זכר,Contact with confirmed
+64,13,8.0,30-39,זכר,Contact with confirmed
+65,25,8.0,30-39,נקבה,Abroad
+66,21,8.0,20-29,זכר,Contact with confirmed
+67,27,8.0,60+,זכר,Other
+68,14,8.0,60+,נקבה,Contact with confirmed
+69,16,8.0,60+,זכר,Contact with confirmed
+70,27,8.0,40-49,זכר,Abroad
+71,23,8.0,40-49,זכר,Other
+72,28,8.0,30-39,זכר,Other
+73,17,8.0,50-59,זכר,Other
+74,16,8.0,50-59,זכר,Abroad
+75,21,8.0,0-19,נקבה,Contact with confirmed
+76,23,8.0,60+,נקבה,Contact with confirmed
+77,19,8.0,20-29,נקבה,Contact with confirmed
+78,8,8.0,20-29,זכר,Abroad
+79,21,8.0,30-39,נקבה,Contact with confirmed
+80,22,8.0,30-39,זכר,Contact with confirmed
+81,19,8.0,30-39,זכר,Abroad
+82,18,8.0,40-49,נקבה,Abroad
+83,19,8.0,30-39,זכר,Other
+84,18,8.0,40-49,נקבה,Abroad
+85,21,8.0,30-39,זכר,Contact with confirmed
+86,13,8.0,0-19,זכר,Contact with confirmed
+87,13,8.0,50-59,זכר,Abroad
+88,23,8.0,0-19,זכר,Contact with confirmed
+89,14,8.0,20-29,זכר,Contact with confirmed
+90,21,8.0,60+,זכר,Contact with confirmed
+91,18,8.0,60+,נקבה,Contact with confirmed
+92,20,8.0,50-59,זכר,Contact with confirmed
+93,19,8.0,20-29,זכר,Other
+94,19,8.0,20-29,זכר,Contact with confirmed
+95,22,7.0,30-39,זכר,Other
+96,15,7.0,60+,נקבה,Contact with confirmed
+97,19,7.0,50-59,נקבה,Contact with confirmed
+98,21,7.0,50-59,זכר,Contact with confirmed
+99,24,7.0,40-49,נקבה,Contact with confirmed
+100,21,7.0,40-49,נקבה,Contact with confirmed
+101,16,7.0,60+,נקבה,Contact with confirmed
+102,23,7.0,20-29,נקבה,Contact with confirmed
+103,12,7.0,40-49,זכר,Abroad
+104,13,7.0,60+,נקבה,Contact with confirmed
+105,12,7.0,50-59,נקבה,Other
+106,13,7.0,60+,זכר,Abroad
+107,19,7.0,20-29,זכר,Contact with confirmed
+108,22,7.0,60+,זכר,Other
+109,17,7.0,20-29,נקבה,Other
+110,19,7.0,30-39,זכר,Abroad
+111,18,7.0,60+,זכר,Abroad
+112,10,7.0,30-39,זכר,Abroad
+113,19,7.0,40-49,זכר,Abroad
+114,19,7.0,20-29,זכר,Abroad
+115,19,7.0,20-29,זכר,Abroad
+116,19,7.0,30-39,זכר,Abroad
+117,16,7.0,40-49,זכר,Abroad
+118,20,7.0,30-39,זכר,Abroad
+119,21,7.0,20-29,זכר,Contact with confirmed
+120,21,7.0,0-19,נקבה,Contact with confirmed
+121,23,7.0,20-29,זכר,Contact with confirmed
+122,20,7.0,30-39,נקבה,Contact with confirmed
+123,16,7.0,20-29,זכר,Abroad
+124,28,7.0,60+,זכר,Abroad
+125,19,7.0,50-59,זכר,Abroad
+126,15,7.0,30-39,זכר,Abroad
+127,15,7.0,0-19,נקבה,Contact with confirmed
+128,16,7.0,30-39,זכר,Other
+129,15,7.0,60+,זכר,Abroad
+130,19,7.0,0-19,נקבה,Contact with confirmed
+131,16,7.0,60+,זכר,Other
+132,17,7.0,30-39,נקבה,Other
+133,22,7.0,40-49,זכר,Other
+134,24,7.0,0-19,נקבה,Contact with confirmed
+135,21,7.0,40-49,זכר,Other
+136,26,7.0,40-49,נקבה,Contact with confirmed
+137,20,7.0,50-59,זכר,Abroad
+138,23,7.0,40-49,זכר,Other
+139,25,7.0,60+,נקבה,Contact with confirmed
+140,20,7.0,0-19,נקבה,Contact with confirmed
+141,14,7.0,20-29,זכר,Abroad
+142,25,7.0,60+,זכר,Contact with confirmed
+143,22,7.0,20-29,זכר,Abroad
+144,25,7.0,20-29,זכר,Contact with confirmed
+145,13,7.0,60+,זכר,Contact with confirmed
+146,18,7.0,40-49,זכר,Contact with confirmed
+147,19,7.0,40-49,נקבה,Contact with confirmed
+148,32,7.0,30-39,זכר,Abroad
+149,34,7.0,30-39,נקבה,Contact with confirmed
+150,13,7.0,40-49,זכר,Abroad
+151,14,7.0,20-29,נקבה,Other
+152,18,7.0,20-29,זכר,Contact with confirmed
+153,18,7.0,40-49,נקבה,Contact with confirmed
+154,11,7.0,20-29,זכר,Abroad
+155,18,7.0,20-29,זכר,Contact with confirmed
+156,15,7.0,50-59,נקבה,Contact with confirmed
+157,14,7.0,30-39,נקבה,Contact with confirmed
+158,16,7.0,30-39,זכר,Contact with confirmed
+211,18,6.0,20-29,זכר,Other
+159,19,7.0,50-59,נקבה,Contact with confirmed
+160,26,7.0,50-59,זכר,Other
+161,14,7.0,30-39,זכר,Contact with confirmed
+162,28,7.0,50-59,זכר,Abroad
+163,29,7.0,20-29,זכר,Contact with confirmed
+164,25,7.0,60+,זכר,Abroad
+165,28,7.0,60+,זכר,Other
+166,16,7.0,50-59,נקבה,Other
+167,16,7.0,50-59,נקבה,Contact with confirmed
+168,15,7.0,60+,זכר,Abroad
+169,23,7.0,30-39,זכר,Other
+170,28,7.0,0-19,נקבה,Contact with confirmed
+171,23,7.0,50-59,נקבה,Other
+172,23,7.0,40-49,נקבה,Contact with confirmed
+173,22,7.0,40-49,זכר,Contact with confirmed
+174,14,7.0,20-29,זכר,Contact with confirmed
+175,19,7.0,20-29,זכר,Other
+176,24,7.0,20-29,זכר,Contact with confirmed
+177,24,7.0,30-39,נקבה,Abroad
+178,22,7.0,50-59,נקבה,Contact with confirmed
+179,27,7.0,20-29,זכר,Abroad
+180,23,7.0,20-29,זכר,Abroad
+181,18,7.0,20-29,נקבה,Contact with confirmed
+182,19,7.0,0-19,זכר,NULL
+183,26,7.0,60+,נקבה,Contact with confirmed
+184,16,7.0,0-19,זכר,Contact with confirmed
+185,12,7.0,60+,נקבה,Other
+186,21,7.0,0-19,זכר,Contact with confirmed
+187,18,7.0,20-29,נקבה,Abroad
+188,21,7.0,20-29,נקבה,Contact with confirmed
+189,16,7.0,60+,זכר,Contact with confirmed
+190,20,7.0,50-59,נקבה,Other
+191,11,7.0,50-59,נקבה,Other
+192,13,7.0,40-49,זכר,Abroad
+193,12,7.0,20-29,זכר,Contact with confirmed
+194,13,7.0,20-29,נקבה,Contact with confirmed
+195,23,7.0,0-19,נקבה,Contact with confirmed
+196,18,7.0,50-59,נקבה,Contact with confirmed
+197,16,7.0,0-19,זכר,NULL
+198,14,7.0,50-59,נקבה,Other
+199,9,6.0,30-39,נקבה,Contact with confirmed
+200,23,6.0,40-49,זכר,Contact with confirmed
+201,19,6.0,30-39,נקבה,Abroad
+202,20,6.0,30-39,זכר,Abroad
+203,16,6.0,40-49,זכר,Other
+204,20,6.0,30-39,נקבה,Contact with confirmed
+205,20,6.0,60+,זכר,Contact with confirmed
+206,18,6.0,20-29,נקבה,Other
+207,23,6.0,20-29,נקבה,Contact with confirmed
+208,23,6.0,20-29,זכר,Contact with confirmed
+209,14,6.0,20-29,זכר,Contact with confirmed
+210,18,6.0,50-59,נקבה,Other
+212,22,6.0,60+,זכר,Contact with confirmed
+213,11,6.0,60+,נקבה,Abroad
+214,16,6.0,40-49,נקבה,Other
+215,15,6.0,20-29,נקבה,Abroad
+216,16,6.0,40-49,זכר,Abroad
+217,19,6.0,40-49,זכר,Other
+218,18,6.0,20-29,זכר,Contact with confirmed
+219,15,6.0,60+,זכר,Other
+220,15,6.0,20-29,זכר,Abroad
+221,21,6.0,0-19,נקבה,NULL
+222,18,6.0,30-39,זכר,Contact with confirmed
+223,19,6.0,0-19,נקבה,Contact with confirmed
+224,13,6.0,20-29,זכר,Contact with confirmed
+225,13,6.0,60+,זכר,Other
+226,14,6.0,60+,נקבה,Contact with confirmed
+227,15,6.0,60+,זכר,Other
+228,17,6.0,50-59,זכר,Contact with confirmed
+229,19,6.0,20-29,נקבה,Other
+230,8,6.0,0-19,זכר,Contact with confirmed
+231,16,6.0,40-49,זכר,Contact with confirmed
+232,16,6.0,60+,זכר,Contact with confirmed
+233,16,6.0,60+,זכר,Contact with confirmed
+234,15,6.0,30-39,נקבה,Contact with confirmed
+235,15,6.0,20-29,זכר,Other
+236,17,6.0,0-19,זכר,Contact with confirmed
+237,14,6.0,50-59,זכר,Other
+238,12,6.0,60+,נקבה,Other
+239,17,6.0,60+,נקבה,Contact with confirmed
+240,16,6.0,50-59,זכר,Other
+241,14,6.0,40-49,נקבה,Other
+242,10,6.0,60+,זכר,Contact with confirmed
+243,22,6.0,0-19,זכר,Contact with confirmed
+244,26,6.0,60+,זכר,Contact with confirmed
+245,8,6.0,60+,זכר,Other
+246,19,6.0,0-19,נקבה,Contact with confirmed
+247,20,6.0,60+,זכר,Other
+248,17,6.0,20-29,זכר,Abroad
+249,23,6.0,40-49,זכר,Contact with confirmed
+250,18,6.0,40-49,נקבה,Abroad
+251,18,6.0,20-29,זכר,Abroad
+252,21,6.0,20-29,זכר,Abroad
+253,21,6.0,20-29,זכר,Abroad
+254,16,6.0,20-29,זכר,Abroad
+255,22,6.0,20-29,נקבה,Contact with confirmed
+256,22,6.0,20-29,נקבה,Contact with confirmed
+257,22,6.0,20-29,נקבה,Contact with confirmed
+258,19,6.0,0-19,זכר,Contact with confirmed
+259,24,6.0,30-39,זכר,Other
+260,21,6.0,40-49,זכר,Other
+261,24,6.0,60+,זכר,Other
+262,21,6.0,50-59,נקבה,Other
+263,20,6.0,20-29,נקבה,Other
+264,11,6.0,50-59,נקבה,Other
+265,26,6.0,60+,זכר,Contact with confirmed
+266,16,6.0,30-39,זכר,Other
+267,21,6.0,40-49,זכר,Contact with confirmed
+268,19,6.0,40-49,נקבה,Abroad
+269,15,6.0,20-29,זכר,Contact with confirmed
+270,11,6.0,20-29,זכר,Abroad
+271,14,6.0,60+,זכר,Contact with confirmed
+272,15,6.0,20-29,זכר,Other
+273,22,6.0,50-59,זכר,Other
+274,29,6.0,60+,נקבה,Abroad
+275,27,6.0,20-29,נקבה,Contact with confirmed
+276,25,6.0,30-39,זכר,Contact with confirmed
+277,11,6.0,60+,זכר,Other
+278,12,6.0,20-29,זכר,Abroad
+279,23,6.0,20-29,זכר,Abroad
+280,12,6.0,60+,זכר,Other
+281,15,6.0,30-39,זכר,Abroad
+282,26,6.0,20-29,נקבה,Other
+283,22,6.0,20-29,נקבה,Other
+284,5,6.0,20-29,נקבה,Contact with confirmed
+285,7,6.0,30-39,נקבה,Contact with confirmed
+286,9,6.0,30-39,נקבה,Abroad
+287,7,6.0,60+,זכר,Abroad
+288,22,6.0,50-59,זכר,Contact with confirmed
+289,23,6.0,40-49,נקבה,Contact with confirmed
+290,10,6.0,20-29,זכר,Contact with confirmed
+291,17,6.0,30-39,זכר,Abroad
+292,14,6.0,0-19,נקבה,NULL
+293,20,6.0,60+,זכר,Contact with confirmed
+294,30,6.0,30-39,זכר,Abroad
+295,26,6.0,30-39,זכר,Abroad
+296,17,6.0,20-29,זכר,Contact with confirmed
+297,19,6.0,50-59,נקבה,Abroad
+298,15,6.0,30-39,נקבה,Contact with confirmed
+299,18,6.0,50-59,זכר,Abroad
+300,18,6.0,60+,זכר,Contact with confirmed
+301,19,6.0,50-59,נקבה,Contact with confirmed
+302,18,6.0,60+,נקבה,Abroad
+303,12,6.0,50-59,זכר,Abroad
+304,14,6.0,60+,זכר,Other
+305,17,6.0,20-29,זכר,Contact with confirmed
+306,20,6.0,60+,זכר,Contact with confirmed
+307,16,6.0,40-49,זכר,Other
+308,16,6.0,0-19,נקבה,NULL
+309,17,6.0,20-29,נקבה,Contact with confirmed
+310,15,6.0,20-29,נקבה,Contact with confirmed
+311,16,6.0,20-29,נקבה,Contact with confirmed
+312,16,6.0,20-29,זכר,Contact with confirmed
+313,16,6.0,60+,זכר,Other
+314,14,6.0,60+,זכר,Abroad
+315,16,6.0,60+,זכר,Abroad
+316,26,6.0,60+,נקבה,Abroad
+317,27,6.0,0-19,נקבה,Contact with confirmed
+318,23,6.0,60+,נקבה,Contact with confirmed
+319,12,6.0,20-29,זכר,Contact with confirmed
+372,23,6.0,20-29,נקבה,Other
+320,23,6.0,50-59,זכר,Contact with confirmed
+321,17,6.0,0-19,זכר,Contact with confirmed
+322,16,6.0,20-29,נקבה,Contact with confirmed
+323,21,6.0,60+,זכר,Contact with confirmed
+324,7,6.0,20-29,זכר,Abroad
+325,23,6.0,60+,נקבה,Abroad
+326,23,6.0,0-19,זכר,Contact with confirmed
+327,11,6.0,50-59,זכר,Other
+328,16,6.0,50-59,נקבה,Other
+329,21,6.0,30-39,זכר,Contact with confirmed
+330,17,6.0,30-39,זכר,Contact with confirmed
+331,13,6.0,60+,נקבה,Other
+332,11,6.0,30-39,זכר,Contact with confirmed
+333,23,6.0,20-29,זכר,Contact with confirmed
+334,18,6.0,20-29,נקבה,Other
+335,23,6.0,20-29,זכר,Abroad
+336,20,6.0,20-29,נקבה,Contact with confirmed
+337,20,6.0,60+,נקבה,Contact with confirmed
+338,20,6.0,50-59,זכר,Contact with confirmed
+339,19,6.0,20-29,נקבה,Abroad
+340,16,6.0,40-49,נקבה,Other
+341,13,6.0,30-39,זכר,Contact with confirmed
+342,12,6.0,20-29,זכר,Contact with confirmed
+343,27,6.0,40-49,זכר,Contact with confirmed
+344,14,6.0,20-29,זכר,Contact with confirmed
+345,21,6.0,30-39,נקבה,Contact with confirmed
+346,22,6.0,60+,זכר,Contact with confirmed
+347,22,6.0,50-59,זכר,Abroad
+348,15,6.0,50-59,זכר,Abroad
+349,29,6.0,20-29,זכר,Contact with confirmed
+350,19,6.0,20-29,זכר,Contact with confirmed
+351,22,6.0,60+,נקבה,Contact with confirmed
+352,25,6.0,40-49,זכר,Contact with confirmed
+353,16,6.0,30-39,זכר,Contact with confirmed
+354,14,6.0,50-59,נקבה,Abroad
+355,9,6.0,30-39,נקבה,Contact with confirmed
+356,14,6.0,40-49,זכר,Abroad
+357,19,6.0,30-39,נקבה,Contact with confirmed
+358,19,6.0,20-29,זכר,Abroad
+359,28,6.0,40-49,זכר,Abroad
+360,32,6.0,60+,זכר,Abroad
+361,20,6.0,60+,זכר,Contact with confirmed
+362,15,6.0,40-49,נקבה,Other
+363,16,6.0,20-29,נקבה,Other
+364,21,6.0,20-29,נקבה,Contact with confirmed
+365,16,6.0,20-29,זכר,Contact with confirmed
+366,20,6.0,50-59,נקבה,Contact with confirmed
+367,20,6.0,20-29,זכר,Contact with confirmed
+368,20,6.0,0-19,זכר,NULL
+369,14,6.0,60+,זכר,Other
+370,5,6.0,60+,זכר,Other
+371,20,6.0,0-19,זכר,Contact with confirmed
+373,15,6.0,50-59,זכר,Other
+374,17,6.0,50-59,זכר,Contact with confirmed
+375,18,6.0,60+,זכר,Other
+376,21,6.0,20-29,נקבה,Contact with confirmed
+377,16,6.0,60+,זכר,Contact with confirmed
+378,23,6.0,50-59,זכר,Contact with confirmed
+379,17,6.0,30-39,נקבה,Contact with confirmed
+380,12,6.0,60+,נקבה,Other
+381,22,6.0,50-59,זכר,Other
+382,25,6.0,60+,נקבה,Contact with confirmed
+383,18,6.0,20-29,זכר,Abroad
+384,24,6.0,0-19,זכר,Contact with confirmed
+385,18,6.0,60+,זכר,Contact with confirmed
+386,16,6.0,20-29,זכר,Abroad
+387,16,6.0,30-39,זכר,Abroad
+388,19,6.0,40-49,נקבה,Abroad
+389,10,6.0,50-59,נקבה,Other
+390,16,6.0,30-39,נקבה,Contact with confirmed
+391,15,6.0,60+,זכר,Other
+392,20,6.0,60+,זכר,Contact with confirmed
+393,20,6.0,50-59,זכר,Abroad
+394,23,6.0,20-29,נקבה,Other
+395,22,6.0,20-29,זכר,Abroad
+396,12,6.0,20-29,נקבה,Contact with confirmed
+397,19,6.0,20-29,נקבה,Abroad
+398,17,5.0,20-29,זכר,Contact with confirmed
+399,21,5.0,40-49,זכר,Contact with confirmed
+400,21,5.0,40-49,זכר,Contact with confirmed
+401,11,5.0,60+,זכר,Contact with confirmed
+402,20,5.0,0-19,נקבה,Contact with confirmed
+403,15,5.0,30-39,זכר,Contact with confirmed
+404,19,5.0,60+,זכר,Other
+405,14,5.0,60+,נקבה,Other
+406,16,5.0,20-29,נקבה,Contact with confirmed
+407,16,5.0,40-49,זכר,Contact with confirmed
+408,17,5.0,30-39,נקבה,Contact with confirmed
+409,17,5.0,60+,זכר,Contact with confirmed
+410,17,5.0,40-49,זכר,Abroad
+411,19,5.0,20-29,זכר,Abroad
+412,22,5.0,30-39,זכר,Other
+413,14,5.0,40-49,נקבה,Contact with confirmed
+414,12,5.0,20-29,נקבה,Abroad
+415,16,5.0,60+,נקבה,Other
+416,16,5.0,60+,זכר,Other
+417,13,5.0,40-49,זכר,Contact with confirmed
+418,11,5.0,60+,זכר,Abroad
+419,20,5.0,20-29,זכר,Other
+420,12,5.0,60+,זכר,Contact with confirmed
+421,16,5.0,60+,זכר,Other
+422,19,5.0,40-49,נקבה,Contact with confirmed
+423,7,5.0,60+,זכר,Abroad
+424,9,5.0,20-29,נקבה,Contact with confirmed
+425,11,5.0,60+,נקבה,Abroad
+426,18,5.0,20-29,זכר,Other
+427,15,5.0,0-19,זכר,Contact with confirmed
+428,9,5.0,50-59,זכר,Other
+429,7,5.0,60+,זכר,Other
+430,24,5.0,60+,זכר,Contact with confirmed
+431,19,5.0,30-39,זכר,Other
+432,17,5.0,50-59,זכר,Abroad
+433,20,5.0,20-29,זכר,Contact with confirmed
+434,12,5.0,30-39,זכר,Other
+435,21,5.0,20-29,זכר,Contact with confirmed
+436,17,5.0,50-59,זכר,Other
+437,16,5.0,40-49,נקבה,Contact with confirmed
+438,17,5.0,50-59,זכר,Contact with confirmed
+439,16,5.0,0-19,נקבה,Contact with confirmed
+440,18,5.0,40-49,נקבה,Other
+441,14,5.0,50-59,זכר,Abroad
+442,18,5.0,0-19,נקבה,Contact with confirmed
+443,18,5.0,30-39,זכר,Contact with confirmed
+444,17,5.0,20-29,זכר,Contact with confirmed
+445,21,5.0,60+,זכר,Other
+446,16,5.0,30-39,זכר,Other
+447,18,5.0,20-29,זכר,Other
+448,18,5.0,30-39,נקבה,Contact with confirmed
+449,15,5.0,60+,זכר,Abroad
+450,15,5.0,30-39,זכר,Other
+451,22,5.0,40-49,זכר,Contact with confirmed
+452,22,5.0,40-49,נקבה,Contact with confirmed
+453,17,5.0,0-19,זכר,Contact with confirmed
+454,17,5.0,20-29,זכר,Contact with confirmed
+455,16,5.0,30-39,נקבה,Other
+456,18,5.0,30-39,נקבה,Contact with confirmed
+457,20,5.0,40-49,זכר,Other
+458,13,5.0,20-29,נקבה,Contact with confirmed
+459,17,5.0,60+,זכר,Abroad
+460,21,5.0,60+,זכר,Other
+461,18,5.0,20-29,נקבה,Contact with confirmed
+462,18,5.0,30-39,זכר,Contact with confirmed
+463,14,5.0,20-29,נקבה,Contact with confirmed
+464,13,5.0,40-49,זכר,Contact with confirmed
+465,14,5.0,60+,זכר,Contact with confirmed
+466,24,5.0,60+,נקבה,Abroad
+467,8,5.0,50-59,זכר,Abroad
+468,10,5.0,60+,זכר,Abroad
+469,16,5.0,30-39,זכר,Contact with confirmed
+470,25,5.0,60+,נקבה,Contact with confirmed
+471,15,5.0,30-39,נקבה,Abroad
+472,14,5.0,30-39,נקבה,Abroad
+473,15,5.0,40-49,זכר,Contact with confirmed
+474,22,5.0,20-29,נקבה,Contact with confirmed
+475,12,5.0,30-39,זכר,Abroad
+476,25,5.0,40-49,נקבה,Contact with confirmed
+477,14,5.0,50-59,זכר,Contact with confirmed
+478,17,5.0,30-39,זכר,Other
+479,15,5.0,60+,זכר,Contact with confirmed
+480,14,5.0,30-39,נקבה,Contact with confirmed
+481,20,5.0,40-49,זכר,Abroad
+482,20,5.0,0-19,נקבה,Contact with confirmed
+483,21,5.0,60+,זכר,Contact with confirmed
+484,30,5.0,50-59,נקבה,Abroad
+485,21,5.0,60+,זכר,Contact with confirmed
+486,19,5.0,20-29,זכר,Abroad
+487,15,5.0,40-49,זכר,Abroad
+488,23,5.0,0-19,נקבה,Contact with confirmed
+489,21,5.0,20-29,נקבה,Abroad
+490,10,5.0,0-19,נקבה,Contact with confirmed
+491,11,5.0,20-29,זכר,Abroad
+492,13,5.0,20-29,נקבה,Other
+493,24,5.0,20-29,נקבה,Contact with confirmed
+494,23,5.0,40-49,נקבה,Contact with confirmed
+495,15,5.0,40-49,זכר,Other
+496,10,5.0,0-19,נקבה,NULL
+497,24,5.0,20-29,זכר,Contact with confirmed
+498,18,5.0,30-39,זכר,Contact with confirmed
+499,23,5.0,20-29,זכר,Contact with confirmed
+500,27,5.0,50-59,זכר,Abroad
+501,17,5.0,20-29,זכר,Contact with confirmed
+502,28,5.0,40-49,זכר,Abroad
+503,21,5.0,20-29,זכר,Other
+504,22,5.0,20-29,זכר,Contact with confirmed
+505,20,5.0,60+,זכר,Abroad
+506,17,5.0,20-29,נקבה,Contact with confirmed
+507,13,5.0,20-29,זכר,Contact with confirmed
+508,20,5.0,0-19,זכר,Contact with confirmed
+509,14,5.0,20-29,נקבה,Contact with confirmed
+510,21,5.0,40-49,זכר,Other
+511,13,5.0,20-29,נקבה,Contact with confirmed
+512,11,5.0,40-49,זכר,Abroad
+513,19,5.0,20-29,זכר,Contact with confirmed
+514,18,5.0,50-59,זכר,Other
+515,26,5.0,30-39,זכר,Contact with confirmed
+516,12,5.0,60+,זכר,Contact with confirmed
+517,11,5.0,60+,נקבה,Contact with confirmed
+518,12,5.0,40-49,זכר,Other
+519,9,5.0,50-59,זכר,Contact with confirmed
+520,5,5.0,20-29,זכר,Abroad
+521,15,5.0,50-59,זכר,Abroad
+522,18,5.0,60+,זכר,Abroad
+523,23,5.0,30-39,נקבה,Other
+524,14,5.0,30-39,זכר,Contact with confirmed
+525,14,5.0,20-29,נקבה,Abroad
+526,27,5.0,50-59,זכר,Contact with confirmed
+527,10,5.0,30-39,זכר,Abroad
+528,14,5.0,20-29,זכר,Abroad
+529,18,5.0,30-39,זכר,Abroad
+530,15,5.0,0-19,נקבה,Contact with confirmed
+531,25,5.0,60+,נקבה,Abroad
+532,18,5.0,40-49,נקבה,Contact with confirmed
+533,17,5.0,40-49,זכר,Abroad
+534,19,5.0,50-59,זכר,Abroad
+535,17,5.0,60+,נקבה,Contact with confirmed
+536,24,5.0,20-29,נקבה,Contact with confirmed
+537,18,5.0,0-19,נקבה,Contact with confirmed
+538,24,5.0,20-29,נקבה,Abroad
+539,9,5.0,20-29,נקבה,Abroad
+540,16,5.0,40-49,נקבה,Other
+541,22,5.0,40-49,נקבה,Contact with confirmed
+542,20,5.0,30-39,זכר,Abroad
+543,29,5.0,20-29,נקבה,Other
+544,16,5.0,30-39,נקבה,Contact with confirmed
+545,19,5.0,20-29,זכר,Abroad
+546,25,5.0,30-39,נקבה,Contact with confirmed
+547,8,5.0,50-59,זכר,Contact with confirmed
+548,10,5.0,20-29,זכר,Contact with confirmed
+549,11,5.0,50-59,זכר,Contact with confirmed
+550,18,5.0,40-49,נקבה,Contact with confirmed
+551,19,5.0,50-59,נקבה,Contact with confirmed
+552,15,5.0,0-19,נקבה,Contact with confirmed
+553,15,5.0,40-49,נקבה,Contact with confirmed
+554,6,5.0,30-39,נקבה,Other
+555,17,5.0,40-49,נקבה,Other
+556,16,5.0,0-19,זכר,Contact with confirmed
+557,15,5.0,20-29,זכר,Contact with confirmed
+558,17,5.0,0-19,נקבה,NULL
+559,10,5.0,40-49,נקבה,Other
+560,11,5.0,40-49,זכר,Other
+561,17,5.0,20-29,זכר,Other
+562,13,5.0,40-49,נקבה,Contact with confirmed
+563,11,5.0,50-59,זכר,Other
+564,19,5.0,60+,נקבה,Contact with confirmed
+565,9,5.0,60+,נקבה,Other
+566,15,5.0,20-29,זכר,Abroad
+567,18,5.0,50-59,זכר,Other
+568,10,5.0,60+,נקבה,Contact with confirmed
+569,16,5.0,60+,זכר,Other
+570,17,5.0,60+,זכר,Other
+571,20,5.0,60+,זכר,Other
+572,16,5.0,0-19,זכר,Contact with confirmed
+573,17,5.0,0-19,זכר,Contact with confirmed
+574,14,5.0,20-29,זכר,Other
+575,15,5.0,20-29,זכר,Contact with confirmed
+576,18,5.0,0-19,נקבה,Contact with confirmed
+577,14,5.0,50-59,נקבה,Contact with confirmed
+578,17,5.0,20-29,נקבה,Contact with confirmed
+579,16,5.0,60+,נקבה,Other
+580,15,5.0,0-19,זכר,Contact with confirmed
+581,17,5.0,60+,זכר,Contact with confirmed
+582,9,5.0,50-59,נקבה,Contact with confirmed
+583,11,5.0,50-59,זכר,Abroad
+584,12,5.0,40-49,נקבה,Contact with confirmed
+585,8,5.0,20-29,זכר,Contact with confirmed
+586,14,5.0,60+,זכר,Other
+587,18,5.0,60+,זכר,Contact with confirmed
+588,20,5.0,0-19,נקבה,Contact with confirmed
+589,12,5.0,30-39,זכר,Contact with confirmed
+590,19,5.0,60+,זכר,Contact with confirmed
+591,11,5.0,40-49,נקבה,Abroad
+592,16,5.0,50-59,נקבה,Abroad
+593,13,5.0,60+,זכר,Abroad
+594,10,5.0,20-29,זכר,Abroad
+595,25,5.0,40-49,זכר,Contact with confirmed
+596,25,5.0,40-49,נקבה,Contact with confirmed
+597,13,5.0,20-29,זכר,Contact with confirmed
+598,14,5.0,60+,נקבה,Other
+599,19,5.0,50-59,זכר,Abroad
+600,17,5.0,40-49,זכר,Contact with confirmed
+601,9,5.0,60+,זכר,Contact with confirmed
+602,12,5.0,30-39,זכר,Abroad
+603,12,5.0,30-39,זכר,Contact with confirmed
+604,20,5.0,60+,נקבה,Contact with confirmed
+605,23,5.0,20-29,זכר,Abroad
+606,23,5.0,20-29,נקבה,Other
+607,19,5.0,30-39,זכר,Contact with confirmed
+608,19,5.0,30-39,נקבה,Other
+609,22,5.0,50-59,זכר,Contact with confirmed
+610,24,5.0,50-59,נקבה,Abroad
+611,14,5.0,30-39,זכר,Contact with confirmed
+612,16,5.0,20-29,זכר,Contact with confirmed
+613,14,5.0,40-49,זכר,Contact with confirmed
+614,10,5.0,60+,נקבה,Abroad
+615,20,5.0,20-29,נקבה,Contact with confirmed
+616,17,5.0,50-59,נקבה,Abroad
+617,11,5.0,20-29,נקבה,Contact with confirmed
+618,13,5.0,30-39,זכר,Abroad
+619,3,5.0,30-39,נקבה,Contact with confirmed
+620,11,5.0,20-29,נקבה,Contact with confirmed
+621,15,5.0,50-59,נקבה,Other
+622,20,5.0,20-29,נקבה,Contact with confirmed
+623,27,5.0,40-49,נקבה,Contact with confirmed
+624,23,5.0,60+,נקבה,Contact with confirmed
+625,15,5.0,60+,נקבה,Contact with confirmed
+626,16,5.0,50-59,נקבה,Contact with confirmed
+627,22,5.0,20-29,זכר,Contact with confirmed
+628,21,5.0,50-59,זכר,Other
+629,24,5.0,40-49,זכר,Other
+630,24,5.0,50-59,זכר,Other
+631,22,5.0,60+,נקבה,Contact with confirmed
+632,25,5.0,60+,זכר,Other
+633,19,5.0,20-29,זכר,Abroad
+634,18,5.0,20-29,זכר,Abroad
+635,16,5.0,20-29,זכר,Abroad
+636,21,5.0,50-59,זכר,Other
+637,25,5.0,50-59,נקבה,Abroad
+638,18,5.0,0-19,זכר,Contact with confirmed
+639,18,5.0,30-39,נקבה,Contact with confirmed
+640,18,5.0,30-39,נקבה,Other
+641,22,5.0,20-29,נקבה,Abroad
+642,18,5.0,20-29,זכר,Other
+643,20,5.0,30-39,נקבה,Contact with confirmed
+644,18,5.0,60+,זכר,Contact with confirmed
+645,24,5.0,30-39,נקבה,Contact with confirmed
+646,18,5.0,60+,זכר,Contact with confirmed
+647,15,5.0,60+,זכר,Contact with confirmed
+648,22,5.0,60+,זכר,Abroad
+649,26,5.0,20-29,זכר,Contact with confirmed
+650,17,5.0,30-39,זכר,Contact with confirmed
+651,16,5.0,60+,זכר,Contact with confirmed
+652,22,5.0,0-19,זכר,Contact with confirmed
+653,16,5.0,60+,זכר,Contact with confirmed
+654,23,5.0,50-59,זכר,Abroad
+655,10,5.0,40-49,זכר,Abroad
+656,19,5.0,20-29,נקבה,Abroad
+657,9,5.0,40-49,זכר,Other
+658,17,5.0,40-49,זכר,Contact with confirmed
+659,17,5.0,20-29,זכר,Abroad
+660,16,5.0,30-39,זכר,Contact with confirmed
+661,19,5.0,60+,נקבה,Contact with confirmed
+662,23,5.0,30-39,זכר,Other
+663,15,5.0,60+,נקבה,Contact with confirmed
+664,19,5.0,30-39,נקבה,Contact with confirmed
+665,9,5.0,40-49,זכר,Contact with confirmed
+666,21,5.0,60+,נקבה,Contact with confirmed
+667,13,5.0,50-59,נקבה,Contact with confirmed
+668,10,5.0,50-59,נקבה,Contact with confirmed
+669,21,5.0,30-39,זכר,Contact with confirmed
+670,12,5.0,20-29,זכר,Abroad
+671,23,5.0,20-29,זכר,Abroad
+672,11,5.0,60+,זכר,Other
+673,16,5.0,20-29,זכר,Abroad
+674,24,5.0,20-29,זכר,Abroad
+675,27,5.0,50-59,זכר,Contact with confirmed
+676,19,5.0,50-59,זכר,Other
+677,9,5.0,20-29,זכר,Contact with confirmed
+678,15,5.0,40-49,נקבה,Other
+679,17,5.0,60+,זכר,Abroad
+680,15,5.0,40-49,זכר,Contact with confirmed
+681,18,5.0,40-49,זכר,Other
+682,23,5.0,30-39,זכר,Abroad
+683,25,5.0,60+,זכר,Other
+684,24,5.0,20-29,זכר,Abroad
+685,22,5.0,60+,זכר,Contact with confirmed
+686,20,5.0,60+,זכר,Other
+687,17,5.0,30-39,נקבה,Other
+688,12,5.0,60+,נקבה,Other
+902,12,4.0,50-59,זכר,Abroad
+689,16,5.0,20-29,נקבה,Contact with confirmed
+690,11,5.0,0-19,זכר,Contact with confirmed
+691,8,5.0,30-39,זכר,Contact with confirmed
+692,5,5.0,50-59,נקבה,Other
+693,20,5.0,0-19,נקבה,Contact with confirmed
+694,13,5.0,60+,זכר,Contact with confirmed
+695,20,5.0,0-19,זכר,Contact with confirmed
+696,14,5.0,30-39,נקבה,Contact with confirmed
+697,13,5.0,0-19,זכר,Contact with confirmed
+698,17,5.0,60+,זכר,Other
+699,11,5.0,0-19,נקבה,Contact with confirmed
+700,16,5.0,30-39,זכר,Other
+701,13,5.0,20-29,נקבה,Contact with confirmed
+702,16,5.0,40-49,נקבה,Contact with confirmed
+703,7,5.0,60+,נקבה,Other
+704,17,5.0,60+,זכר,Other
+705,17,5.0,30-39,זכר,Other
+706,5,5.0,60+,נקבה,Other
+707,16,5.0,20-29,נקבה,Contact with confirmed
+708,12,5.0,20-29,נקבה,Contact with confirmed
+709,14,5.0,50-59,זכר,Contact with confirmed
+710,15,5.0,20-29,נקבה,Other
+711,22,5.0,30-39,זכר,Other
+712,19,5.0,20-29,זכר,Abroad
+713,16,5.0,60+,זכר,Other
+714,12,5.0,30-39,זכר,Contact with confirmed
+715,5,5.0,20-29,זכר,Contact with confirmed
+716,3,5.0,0-19,זכר,NULL
+717,16,5.0,60+,נקבה,Other
+718,15,5.0,40-49,זכר,Other
+719,5,5.0,40-49,זכר,Other
+720,15,5.0,50-59,זכר,Other
+721,14,5.0,40-49,נקבה,Other
+722,14,5.0,30-39,זכר,Contact with confirmed
+723,13,5.0,0-19,זכר,Contact with confirmed
+724,11,5.0,60+,זכר,Other
+725,16,5.0,0-19,זכר,Contact with confirmed
+726,16,5.0,60+,זכר,Contact with confirmed
+727,15,5.0,60+,זכר,Other
+728,14,5.0,30-39,זכר,Contact with confirmed
+729,13,5.0,20-29,זכר,Contact with confirmed
+730,9,5.0,40-49,זכר,Other
+731,6,5.0,40-49,נקבה,Other
+732,13,5.0,40-49,זכר,Contact with confirmed
+733,17,5.0,50-59,נקבה,Contact with confirmed
+734,15,5.0,20-29,נקבה,Contact with confirmed
+735,14,5.0,50-59,זכר,Contact with confirmed
+736,18,5.0,20-29,נקבה,Contact with confirmed
+737,16,5.0,50-59,נקבה,Contact with confirmed
+738,14,5.0,60+,נקבה,Other
+739,19,5.0,40-49,זכר,Contact with confirmed
+740,7,5.0,50-59,נקבה,Other
+741,13,5.0,40-49,זכר,Other
+742,14,5.0,60+,זכר,Other
+743,14,5.0,50-59,זכר,Contact with confirmed
+744,19,5.0,0-19,נקבה,Contact with confirmed
+745,16,5.0,60+,זכר,Contact with confirmed
+746,19,5.0,50-59,נקבה,Contact with confirmed
+747,17,5.0,20-29,זכר,Contact with confirmed
+748,14,5.0,20-29,זכר,Contact with confirmed
+749,13,5.0,40-49,זכר,Contact with confirmed
+750,17,5.0,20-29,זכר,Abroad
+751,17,5.0,20-29,זכר,Other
+752,13,5.0,40-49,נקבה,Contact with confirmed
+753,18,5.0,30-39,נקבה,Other
+754,15,5.0,0-19,נקבה,Contact with confirmed
+755,6,5.0,50-59,זכר,Contact with confirmed
+756,14,5.0,40-49,נקבה,Contact with confirmed
+757,15,5.0,20-29,זכר,Contact with confirmed
+758,5,5.0,60+,נקבה,Other
+759,15,5.0,60+,נקבה,Contact with confirmed
+760,12,5.0,50-59,נקבה,Other
+761,5,5.0,40-49,זכר,Abroad
+762,11,5.0,20-29,זכר,Contact with confirmed
+763,11,5.0,20-29,זכר,Contact with confirmed
+764,17,5.0,20-29,זכר,Other
+765,16,5.0,50-59,נקבה,Contact with confirmed
+766,13,5.0,50-59,זכר,Other
+767,15,5.0,20-29,זכר,Contact with confirmed
+768,11,5.0,50-59,זכר,Abroad
+769,16,5.0,20-29,זכר,Contact with confirmed
+770,20,5.0,0-19,זכר,Contact with confirmed
+771,21,5.0,20-29,נקבה,Contact with confirmed
+772,19,5.0,50-59,זכר,Other
+773,16,5.0,50-59,זכר,Abroad
+774,11,5.0,40-49,זכר,Other
+775,18,5.0,50-59,נקבה,Contact with confirmed
+776,13,5.0,60+,זכר,Contact with confirmed
+777,21,5.0,40-49,נקבה,Other
+778,21,5.0,60+,זכר,Contact with confirmed
+779,21,5.0,60+,זכר,Other
+780,11,5.0,60+,זכר,Other
+781,11,5.0,50-59,זכר,Contact with confirmed
+782,18,5.0,40-49,נקבה,Other
+783,16,5.0,0-19,נקבה,Contact with confirmed
+784,13,5.0,20-29,נקבה,Abroad
+785,17,5.0,50-59,זכר,Contact with confirmed
+786,15,5.0,40-49,זכר,Contact with confirmed
+787,17,5.0,20-29,נקבה,Contact with confirmed
+788,18,5.0,20-29,זכר,Contact with confirmed
+789,15,5.0,50-59,זכר,Contact with confirmed
+790,14,4.0,20-29,זכר,Contact with confirmed
+791,16,4.0,60+,זכר,Other
+792,11,4.0,20-29,זכר,Abroad
+793,12,4.0,20-29,זכר,Contact with confirmed
+794,7,4.0,20-29,נקבה,Abroad
+795,10,4.0,30-39,זכר,Contact with confirmed
+796,13,4.0,20-29,זכר,Other
+797,19,4.0,60+,זכר,Other
+798,20,4.0,30-39,נקבה,Other
+799,17,4.0,60+,זכר,Contact with confirmed
+800,12,4.0,20-29,זכר,Abroad
+801,21,4.0,40-49,זכר,Abroad
+802,18,4.0,60+,נקבה,Contact with confirmed
+803,8,4.0,50-59,זכר,Other
+804,13,4.0,20-29,נקבה,Contact with confirmed
+805,19,4.0,60+,נקבה,Contact with confirmed
+806,12,4.0,50-59,נקבה,Abroad
+807,13,4.0,60+,זכר,Other
+808,17,4.0,50-59,זכר,Contact with confirmed
+809,18,4.0,50-59,זכר,Other
+810,17,4.0,0-19,נקבה,Contact with confirmed
+811,16,4.0,20-29,נקבה,Abroad
+812,17,4.0,0-19,נקבה,Contact with confirmed
+813,18,4.0,60+,זכר,Other
+814,12,4.0,20-29,נקבה,Contact with confirmed
+815,9,4.0,20-29,זכר,Contact with confirmed
+816,12,4.0,40-49,נקבה,Abroad
+817,14,4.0,20-29,נקבה,Contact with confirmed
+818,14,4.0,50-59,נקבה,Other
+819,18,4.0,50-59,נקבה,Other
+820,14,4.0,60+,זכר,Contact with confirmed
+821,12,4.0,40-49,זכר,Other
+822,21,4.0,30-39,נקבה,Contact with confirmed
+823,18,4.0,50-59,נקבה,Contact with confirmed
+824,17,4.0,40-49,זכר,Other
+825,10,4.0,60+,זכר,Abroad
+826,17,4.0,30-39,זכר,Contact with confirmed
+827,13,4.0,0-19,זכר,NULL
+828,16,4.0,40-49,נקבה,Other
+829,16,4.0,20-29,נקבה,Other
+830,15,4.0,20-29,זכר,Abroad
+831,14,4.0,20-29,נקבה,Other
+832,15,4.0,60+,זכר,Other
+833,18,4.0,30-39,זכר,Other
+834,20,4.0,0-19,זכר,Contact with confirmed
+835,20,4.0,0-19,זכר,Contact with confirmed
+836,17,4.0,40-49,זכר,Contact with confirmed
+837,17,4.0,50-59,זכר,Abroad
+838,17,4.0,40-49,זכר,Abroad
+839,17,4.0,60+,זכר,Contact with confirmed
+840,16,4.0,40-49,זכר,Contact with confirmed
+841,11,4.0,0-19,זכר,Contact with confirmed
+842,17,4.0,30-39,זכר,Contact with confirmed
+843,12,4.0,20-29,נקבה,Contact with confirmed
+844,13,4.0,20-29,זכר,Contact with confirmed
+845,15,4.0,0-19,נקבה,Contact with confirmed
+846,13,4.0,40-49,זכר,Contact with confirmed
+847,8,4.0,30-39,זכר,Contact with confirmed
+848,16,4.0,40-49,זכר,Contact with confirmed
+849,14,4.0,60+,נקבה,Abroad
+850,10,4.0,40-49,זכר,Contact with confirmed
+851,14,4.0,0-19,זכר,Contact with confirmed
+852,8,4.0,40-49,זכר,Other
+853,17,4.0,60+,זכר,Abroad
+854,10,4.0,50-59,זכר,Other
+855,15,4.0,0-19,זכר,Contact with confirmed
+856,18,4.0,50-59,זכר,Abroad
+857,8,4.0,40-49,זכר,Abroad
+858,19,4.0,0-19,זכר,NULL
+859,15,4.0,60+,זכר,Abroad
+860,17,4.0,50-59,נקבה,Contact with confirmed
+861,16,4.0,50-59,זכר,Contact with confirmed
+862,9,4.0,60+,נקבה,Other
+863,13,4.0,60+,נקבה,Other
+864,16,4.0,40-49,נקבה,Abroad
+865,23,4.0,50-59,זכר,Abroad
+866,19,4.0,20-29,זכר,Contact with confirmed
+867,15,4.0,0-19,זכר,Contact with confirmed
+868,15,4.0,20-29,זכר,Other
+869,15,4.0,30-39,זכר,Contact with confirmed
+870,16,4.0,50-59,נקבה,Contact with confirmed
+871,12,4.0,20-29,נקבה,Contact with confirmed
+872,20,4.0,0-19,נקבה,NULL
+873,13,4.0,20-29,נקבה,Contact with confirmed
+874,11,4.0,30-39,זכר,Other
+875,19,4.0,30-39,זכר,Other
+876,17,4.0,60+,זכר,Contact with confirmed
+877,14,4.0,20-29,נקבה,Abroad
+878,12,4.0,20-29,נקבה,Abroad
+879,17,4.0,50-59,זכר,Contact with confirmed
+880,13,4.0,60+,נקבה,Abroad
+881,14,4.0,50-59,נקבה,Contact with confirmed
+882,21,4.0,40-49,נקבה,Contact with confirmed
+883,14,4.0,30-39,זכר,Abroad
+884,16,4.0,20-29,זכר,Other
+885,14,4.0,20-29,זכר,Other
+886,19,4.0,20-29,נקבה,Other
+887,14,4.0,20-29,זכר,Contact with confirmed
+888,18,4.0,60+,נקבה,Contact with confirmed
+889,12,4.0,20-29,זכר,Abroad
+890,13,4.0,20-29,נקבה,Contact with confirmed
+891,9,4.0,50-59,נקבה,Contact with confirmed
+892,13,4.0,50-59,נקבה,Other
+893,20,4.0,0-19,זכר,Contact with confirmed
+894,8,4.0,0-19,נקבה,Contact with confirmed
+895,17,4.0,60+,נקבה,Other
+896,6,4.0,60+,זכר,Other
+897,9,4.0,20-29,זכר,Contact with confirmed
+898,17,4.0,0-19,זכר,Contact with confirmed
+899,17,4.0,60+,נקבה,Other
+900,14,4.0,40-49,נקבה,Other
+901,11,4.0,40-49,נקבה,Contact with confirmed
+903,11,4.0,30-39,נקבה,Contact with confirmed
+904,20,4.0,40-49,זכר,Other
+905,9,4.0,20-29,זכר,Other
+906,19,4.0,40-49,זכר,Other
+907,17,4.0,20-29,נקבה,Contact with confirmed
+908,16,4.0,20-29,זכר,Contact with confirmed
+909,14,4.0,0-19,נקבה,Contact with confirmed
+910,12,4.0,40-49,זכר,Other
+911,18,4.0,20-29,זכר,Contact with confirmed
+912,18,4.0,40-49,זכר,Other
+913,14,4.0,20-29,זכר,Contact with confirmed
+914,15,4.0,50-59,זכר,Other
+915,19,4.0,60+,נקבה,Abroad
+916,15,4.0,60+,זכר,Other
+917,6,4.0,30-39,זכר,Contact with confirmed
+918,13,4.0,50-59,נקבה,Contact with confirmed
+919,13,4.0,60+,זכר,Contact with confirmed
+920,17,4.0,50-59,זכר,Other
+921,18,4.0,0-19,זכר,Contact with confirmed
+922,18,4.0,20-29,נקבה,Contact with confirmed
+923,9,4.0,60+,נקבה,Other
+924,6,4.0,60+,נקבה,Abroad
+925,9,4.0,50-59,זכר,Contact with confirmed
+926,17,4.0,50-59,זכר,Other
+927,10,4.0,50-59,זכר,Other
+928,18,4.0,40-49,נקבה,Contact with confirmed
+929,16,4.0,20-29,נקבה,Contact with confirmed
+930,4,4.0,50-59,נקבה,Contact with confirmed
+931,7,4.0,40-49,זכר,Contact with confirmed
+932,12,4.0,40-49,נקבה,Contact with confirmed
+933,8,4.0,60+,נקבה,Other
+934,15,4.0,20-29,זכר,Contact with confirmed
+935,14,4.0,60+,נקבה,Contact with confirmed
+936,14,4.0,0-19,נקבה,Contact with confirmed
+937,12,4.0,0-19,זכר,Contact with confirmed
+938,7,4.0,60+,זכר,Other
+939,15,4.0,50-59,נקבה,Contact with confirmed
+940,17,4.0,0-19,נקבה,Contact with confirmed
+941,15,4.0,0-19,זכר,Contact with confirmed
+942,18,4.0,30-39,זכר,Other
+943,13,4.0,20-29,זכר,Abroad
+944,19,4.0,20-29,נקבה,Contact with confirmed
+945,15,4.0,20-29,נקבה,Contact with confirmed
+946,11,4.0,60+,זכר,Other
+947,5,4.0,50-59,נקבה,Contact with confirmed
+948,11,4.0,0-19,נקבה,Contact with confirmed
+949,17,4.0,0-19,זכר,Contact with confirmed
+950,16,4.0,50-59,זכר,Contact with confirmed
+951,17,4.0,0-19,נקבה,Contact with confirmed
+952,17,4.0,0-19,זכר,Contact with confirmed
+953,15,4.0,0-19,זכר,Contact with confirmed
+1009,17,4.0,30-39,נקבה,Other
+954,15,4.0,30-39,נקבה,Contact with confirmed
+955,9,4.0,50-59,נקבה,Other
+956,15,4.0,20-29,זכר,Other
+957,14,4.0,0-19,נקבה,Contact with confirmed
+958,11,4.0,50-59,זכר,Other
+959,14,4.0,30-39,זכר,Other
+960,15,4.0,60+,נקבה,Other
+961,14,4.0,50-59,נקבה,Other
+962,12,4.0,20-29,נקבה,Abroad
+963,15,4.0,20-29,נקבה,Contact with confirmed
+964,13,4.0,30-39,זכר,Other
+965,13,4.0,40-49,זכר,Other
+966,15,4.0,50-59,נקבה,Other
+967,10,4.0,60+,זכר,Other
+968,13,4.0,60+,נקבה,Contact with confirmed
+969,16,4.0,50-59,נקבה,Contact with confirmed
+970,13,4.0,20-29,זכר,Abroad
+971,9,4.0,0-19,נקבה,NULL
+972,7,4.0,30-39,זכר,Other
+973,9,4.0,50-59,זכר,Other
+974,14,4.0,50-59,זכר,Other
+975,5,4.0,20-29,זכר,Abroad
+976,12,4.0,60+,זכר,Other
+977,7,4.0,20-29,זכר,Abroad
+978,5,4.0,20-29,זכר,Abroad
+979,12,4.0,0-19,זכר,Contact with confirmed
+980,13,4.0,20-29,נקבה,Contact with confirmed
+981,13,4.0,0-19,נקבה,Contact with confirmed
+982,14,4.0,0-19,זכר,Contact with confirmed
+983,10,4.0,0-19,נקבה,Contact with confirmed
+984,16,4.0,40-49,נקבה,Contact with confirmed
+985,12,4.0,30-39,זכר,Abroad
+986,5,4.0,60+,זכר,Other
+987,13,4.0,50-59,זכר,Other
+988,15,4.0,60+,זכר,Other
+989,16,4.0,40-49,זכר,Contact with confirmed
+990,14,4.0,0-19,נקבה,Contact with confirmed
+991,11,4.0,40-49,נקבה,Other
+992,15,4.0,20-29,זכר,Contact with confirmed
+993,12,4.0,30-39,זכר,Contact with confirmed
+994,11,4.0,50-59,נקבה,Contact with confirmed
+995,8,4.0,60+,זכר,Other
+996,14,4.0,0-19,נקבה,Contact with confirmed
+997,10,4.0,0-19,נקבה,Contact with confirmed
+998,9,4.0,30-39,זכר,Other
+999,17,4.0,0-19,זכר,NULL
+1000,7,4.0,40-49,נקבה,Contact with confirmed
+1001,14,4.0,20-29,זכר,Abroad
+1002,11,4.0,20-29,זכר,Other
+1003,12,4.0,40-49,זכר,Other
+1004,12,4.0,60+,נקבה,Other
+1005,13,4.0,0-19,זכר,Contact with confirmed
+1006,13,4.0,0-19,זכר,Contact with confirmed
+1007,11,4.0,0-19,זכר,NULL
+1008,16,4.0,60+,נקבה,Contact with confirmed
+1010,14,4.0,30-39,זכר,Other
+1011,13,4.0,20-29,זכר,Other
+1012,16,4.0,30-39,זכר,Other
+1013,12,4.0,20-29,זכר,Other
+1014,18,4.0,20-29,נקבה,Contact with confirmed
+1015,11,4.0,0-19,נקבה,Contact with confirmed
+1016,10,4.0,60+,נקבה,Abroad
+1017,9,4.0,30-39,זכר,Contact with confirmed
+1018,14,4.0,30-39,זכר,Contact with confirmed
+1019,6,4.0,30-39,זכר,Abroad
+1020,2,4.0,60+,נקבה,Other
+1021,4,4.0,20-29,זכר,Abroad
+1022,14,4.0,20-29,זכר,Contact with confirmed
+1023,11,4.0,20-29,נקבה,Contact with confirmed
+1024,7,4.0,20-29,זכר,Other
+1025,15,4.0,0-19,נקבה,NULL
+1026,14,4.0,60+,זכר,Other
+1027,9,4.0,20-29,נקבה,Contact with confirmed
+1028,6,4.0,60+,זכר,Contact with confirmed
+1029,9,4.0,20-29,זכר,Contact with confirmed
+1030,9,4.0,40-49,נקבה,Other
+1031,13,4.0,0-19,זכר,NULL
+1032,17,4.0,40-49,נקבה,Other
+1033,10,4.0,20-29,נקבה,Contact with confirmed
+1034,14,4.0,0-19,זכר,Contact with confirmed
+1035,15,4.0,60+,נקבה,Contact with confirmed
+1036,15,4.0,60+,נקבה,Contact with confirmed
+1037,12,4.0,0-19,זכר,NULL
+1038,17,4.0,30-39,זכר,Contact with confirmed
+1039,12,4.0,60+,זכר,Contact with confirmed
+1040,15,4.0,20-29,זכר,Contact with confirmed
+1041,12,4.0,40-49,זכר,Other
+1042,11,4.0,20-29,נקבה,Contact with confirmed
+1043,13,4.0,30-39,נקבה,Contact with confirmed
+1044,13,4.0,0-19,נקבה,Contact with confirmed
+1045,15,4.0,50-59,נקבה,Other
+1046,11,4.0,30-39,זכר,Other
+1047,17,4.0,20-29,זכר,Other
+1048,14,4.0,60+,זכר,Contact with confirmed
+1049,8,4.0,0-19,זכר,Contact with confirmed
+1050,12,4.0,0-19,נקבה,Contact with confirmed
+1051,3,4.0,40-49,זכר,Contact with confirmed
+1052,3,4.0,60+,נקבה,Other
+1053,10,4.0,40-49,זכר,Contact with confirmed
+1054,12,4.0,30-39,נקבה,Contact with confirmed
+1055,16,4.0,40-49,זכר,Other
+1056,8,4.0,60+,נקבה,Other
+1057,15,4.0,40-49,זכר,Other
+1058,12,4.0,20-29,זכר,Other
+1059,13,4.0,30-39,נקבה,Other
+1060,12,4.0,20-29,זכר,Contact with confirmed
+1061,10,4.0,20-29,זכר,Contact with confirmed
+1062,11,4.0,20-29,נקבה,Abroad
+1063,15,4.0,20-29,זכר,Other
+1064,12,4.0,30-39,זכר,Other
+1065,19,4.0,0-19,זכר,Contact with confirmed
+1066,3,4.0,30-39,זכר,Contact with confirmed
+1067,16,4.0,0-19,נקבה,Contact with confirmed
+1068,12,4.0,0-19,זכר,Contact with confirmed
+1069,16,4.0,30-39,נקבה,Other
+1070,9,4.0,20-29,זכר,Other
+1071,15,4.0,0-19,זכר,Contact with confirmed
+1072,13,4.0,0-19,נקבה,Contact with confirmed
+1073,18,4.0,0-19,זכר,Contact with confirmed
+1074,14,4.0,30-39,זכר,Contact with confirmed
+1075,14,4.0,0-19,זכר,Contact with confirmed
+1076,9,4.0,0-19,זכר,NULL
+1077,10,4.0,20-29,זכר,Contact with confirmed
+1078,15,4.0,30-39,זכר,Other
+1079,12,4.0,60+,נקבה,Contact with confirmed
+1080,10,4.0,60+,נקבה,Other
+1081,9,4.0,20-29,נקבה,Contact with confirmed
+1082,9,4.0,60+,זכר,Contact with confirmed
+1083,10,4.0,50-59,זכר,Other
+1084,7,4.0,50-59,נקבה,Other
+1085,5,4.0,30-39,נקבה,Abroad
+1086,14,4.0,20-29,נקבה,Other
+1087,11,4.0,20-29,נקבה,Contact with confirmed
+1088,17,4.0,20-29,נקבה,Contact with confirmed
+1089,9,4.0,0-19,נקבה,Contact with confirmed
+1090,16,4.0,0-19,זכר,Contact with confirmed
+1091,6,4.0,30-39,זכר,Other
+1092,11,4.0,40-49,זכר,Other
+1093,10,4.0,60+,נקבה,Contact with confirmed
+1094,11,4.0,50-59,נקבה,Other
+1095,16,4.0,20-29,זכר,Contact with confirmed
+1096,16,4.0,0-19,נקבה,Contact with confirmed
+1097,11,4.0,30-39,נקבה,Contact with confirmed
+1098,13,4.0,20-29,זכר,Other
+1099,11,4.0,30-39,נקבה,Other
+1100,9,4.0,60+,זכר,Contact with confirmed
+1101,10,4.0,60+,נקבה,Other
+1102,7,4.0,40-49,נקבה,Abroad
+1103,11,4.0,0-19,זכר,Contact with confirmed
+1104,12,4.0,60+,זכר,Other
+1105,18,4.0,20-29,זכר,Contact with confirmed
+1106,14,4.0,40-49,זכר,Other
+1107,13,4.0,60+,נקבה,Abroad
+1108,10,4.0,50-59,זכר,Abroad
+1109,14,4.0,50-59,נקבה,Other
+1110,16,4.0,60+,נקבה,Contact with confirmed
+1111,21,4.0,40-49,זכר,Other
+1112,10,4.0,50-59,זכר,Abroad
+1113,15,4.0,60+,נקבה,Contact with confirmed
+1114,7,4.0,30-39,נקבה,Other
+1115,20,4.0,20-29,זכר,Contact with confirmed
+1116,19,4.0,20-29,זכר,Contact with confirmed
+1117,17,4.0,60+,זכר,Contact with confirmed
+1118,17,4.0,20-29,זכר,Abroad
+1119,17,4.0,30-39,נקבה,Abroad
+1120,10,4.0,60+,זכר,Contact with confirmed
+1121,16,4.0,30-39,זכר,Contact with confirmed
+1122,18,4.0,40-49,נקבה,Abroad
+1123,14,4.0,30-39,זכר,Contact with confirmed
+1124,8,4.0,30-39,נקבה,Contact with confirmed
+1125,15,4.0,50-59,נקבה,Abroad
+1126,19,4.0,40-49,זכר,Contact with confirmed
+1127,20,4.0,30-39,נקבה,Other
+1128,18,4.0,0-19,זכר,Contact with confirmed
+1129,17,4.0,60+,זכר,Other
+1130,22,4.0,60+,נקבה,Abroad
+1131,6,4.0,20-29,נקבה,Other
+1132,14,4.0,60+,זכר,Contact with confirmed
+1133,11,4.0,20-29,זכר,Abroad
+1134,11,4.0,20-29,זכר,Abroad
+1135,11,4.0,20-29,זכר,Abroad
+1136,20,4.0,20-29,זכר,Abroad
+1137,11,4.0,20-29,זכר,Abroad
+1138,11,4.0,20-29,זכר,Abroad
+1139,11,4.0,20-29,זכר,Abroad
+1140,11,4.0,20-29,זכר,Abroad
+1141,11,4.0,20-29,זכר,Abroad
+1142,12,4.0,20-29,זכר,Abroad
+1143,11,4.0,20-29,זכר,Abroad
+1144,11,4.0,20-29,נקבה,Abroad
+1145,11,4.0,20-29,זכר,Abroad
+1146,21,4.0,20-29,זכר,Abroad
+1147,19,4.0,20-29,נקבה,Contact with confirmed
+1148,21,4.0,30-39,זכר,Contact with confirmed
+1149,27,4.0,30-39,זכר,Abroad
+1150,17,4.0,30-39,זכר,Abroad
+1151,12,4.0,20-29,זכר,Abroad
+1152,15,4.0,60+,זכר,Abroad
+1153,11,4.0,20-29,זכר,Abroad
+1154,11,4.0,20-29,זכר,Other
+1155,15,4.0,30-39,נקבה,Contact with confirmed
+1156,11,4.0,20-29,נקבה,Contact with confirmed
+1157,10,4.0,0-19,זכר,Contact with confirmed
+1158,15,4.0,20-29,נקבה,Contact with confirmed
+1159,24,4.0,20-29,זכר,Abroad
+1160,13,4.0,60+,זכר,Contact with confirmed
+1161,17,4.0,30-39,זכר,Other
+1162,24,4.0,60+,זכר,Other
+1163,15,4.0,40-49,נקבה,Contact with confirmed
+1164,15,4.0,40-49,זכר,Contact with confirmed
+1165,19,4.0,20-29,זכר,Abroad
+1166,14,4.0,30-39,נקבה,Contact with confirmed
+1167,9,4.0,20-29,נקבה,Other
+1168,17,4.0,0-19,נקבה,Contact with confirmed
+1169,17,4.0,50-59,נקבה,Contact with confirmed
+1170,18,4.0,40-49,זכר,Abroad
+1171,16,4.0,40-49,נקבה,Abroad
+1172,7,4.0,60+,זכר,Other
+1173,15,4.0,20-29,זכר,Abroad
+1174,15,4.0,60+,נקבה,Abroad
+1175,17,4.0,60+,זכר,Contact with confirmed
+1176,15,4.0,0-19,זכר,NULL
+1177,17,4.0,20-29,זכר,Abroad
+1178,7,4.0,60+,זכר,Abroad
+1179,10,4.0,50-59,זכר,Other
+1180,9,4.0,60+,זכר,Other
+1181,12,4.0,60+,נקבה,Contact with confirmed
+1182,12,4.0,30-39,נקבה,Abroad
+1183,14,4.0,20-29,זכר,Contact with confirmed
+1184,14,4.0,20-29,זכר,Abroad
+1185,12,4.0,50-59,זכר,Contact with confirmed
+1186,16,4.0,0-19,זכר,Contact with confirmed
+1187,20,4.0,30-39,נקבה,Other
+1188,16,4.0,60+,נקבה,Contact with confirmed
+1189,12,4.0,20-29,נקבה,Abroad
+1190,16,4.0,20-29,זכר,Contact with confirmed
+1191,16,4.0,40-49,זכר,Other
+1192,18,4.0,50-59,זכר,Contact with confirmed
+1193,11,4.0,60+,זכר,Other
+1194,15,4.0,20-29,זכר,Contact with confirmed
+1195,16,4.0,60+,נקבה,Other
+1196,14,4.0,20-29,זכר,Abroad
+1197,14,4.0,30-39,זכר,Contact with confirmed
+1198,14,4.0,50-59,זכר,Abroad
+1199,17,4.0,60+,זכר,Other
+1200,21,4.0,60+,נקבה,Contact with confirmed
+1201,16,4.0,60+,זכר,Contact with confirmed
+1202,20,4.0,20-29,זכר,Other
+1203,22,4.0,50-59,זכר,Abroad
+1204,14,4.0,40-49,זכר,Other
+1205,15,4.0,20-29,זכר,Contact with confirmed
+1206,21,4.0,50-59,נקבה,Contact with confirmed
+1207,17,4.0,20-29,זכר,Abroad
+1208,23,4.0,60+,זכר,Other
+1209,19,4.0,0-19,זכר,NULL
+1210,15,4.0,20-29,זכר,Contact with confirmed
+1211,15,4.0,60+,זכר,Contact with confirmed
+1212,25,4.0,50-59,זכר,Contact with confirmed
+1213,21,4.0,60+,נקבה,Abroad
+1214,19,4.0,30-39,נקבה,Abroad
+1215,21,4.0,60+,זכר,Abroad
+1216,4,4.0,60+,זכר,Other
+1217,22,4.0,50-59,זכר,Abroad
+1218,15,4.0,20-29,זכר,Contact with confirmed
+1219,20,4.0,60+,זכר,Other
+1220,8,4.0,60+,נקבה,Contact with confirmed
+1221,21,4.0,20-29,זכר,Contact with confirmed
+1222,16,4.0,40-49,נקבה,Other
+1223,18,4.0,50-59,זכר,Abroad
+1224,11,4.0,20-29,זכר,Contact with confirmed
+1225,15,4.0,20-29,זכר,Abroad
+1330,18,4.0,20-29,נקבה,Other
+1226,25,4.0,30-39,זכר,Contact with confirmed
+1227,13,4.0,30-39,נקבה,Contact with confirmed
+1228,11,4.0,50-59,זכר,Contact with confirmed
+1229,13,4.0,40-49,זכר,Contact with confirmed
+1230,18,4.0,20-29,נקבה,Contact with confirmed
+1231,21,4.0,20-29,זכר,Contact with confirmed
+1232,4,4.0,30-39,זכר,Other
+1233,29,4.0,20-29,זכר,Contact with confirmed
+1234,23,4.0,20-29,זכר,Contact with confirmed
+1235,12,4.0,40-49,זכר,Contact with confirmed
+1236,12,4.0,20-29,נקבה,Contact with confirmed
+1237,15,4.0,50-59,זכר,Abroad
+1238,18,4.0,40-49,זכר,Contact with confirmed
+1239,6,4.0,50-59,זכר,Abroad
+1240,12,4.0,40-49,נקבה,Abroad
+1241,20,4.0,20-29,זכר,Contact with confirmed
+1242,10,4.0,0-19,נקבה,Contact with confirmed
+1243,13,4.0,20-29,נקבה,Abroad
+1244,10,4.0,20-29,נקבה,Contact with confirmed
+1245,17,4.0,30-39,נקבה,Contact with confirmed
+1246,6,4.0,0-19,זכר,Contact with confirmed
+1247,16,4.0,40-49,זכר,Other
+1248,17,4.0,60+,זכר,Contact with confirmed
+1249,21,4.0,30-39,נקבה,Contact with confirmed
+1250,12,4.0,50-59,זכר,Abroad
+1251,19,4.0,40-49,זכר,Abroad
+1252,19,4.0,50-59,נקבה,Other
+1253,12,4.0,30-39,זכר,Other
+1254,5,4.0,60+,נקבה,Contact with confirmed
+1255,22,4.0,20-29,זכר,Other
+1256,14,4.0,0-19,זכר,NULL
+1257,17,4.0,30-39,נקבה,Contact with confirmed
+1258,24,4.0,50-59,נקבה,Contact with confirmed
+1259,8,4.0,20-29,נקבה,Contact with confirmed
+1260,11,4.0,30-39,זכר,Abroad
+1261,16,4.0,20-29,נקבה,Contact with confirmed
+1262,13,4.0,0-19,זכר,NULL
+1263,9,4.0,40-49,זכר,Abroad
+1264,16,4.0,40-49,זכר,Contact with confirmed
+1265,20,4.0,60+,נקבה,Other
+1266,10,4.0,20-29,זכר,Contact with confirmed
+1267,9,4.0,0-19,זכר,Contact with confirmed
+1268,9,4.0,20-29,נקבה,Other
+1269,5,4.0,0-19,נקבה,Contact with confirmed
+1270,12,4.0,20-29,זכר,Other
+1271,20,4.0,20-29,נקבה,Contact with confirmed
+1272,16,4.0,0-19,נקבה,Contact with confirmed
+1273,18,4.0,30-39,נקבה,Contact with confirmed
+1274,9,4.0,50-59,נקבה,Contact with confirmed
+1275,8,4.0,40-49,זכר,Other
+1276,13,4.0,40-49,נקבה,Other
+1277,10,4.0,0-19,נקבה,NULL
+1278,12,4.0,40-49,נקבה,Contact with confirmed
+1279,10,4.0,0-19,זכר,Contact with confirmed
+1280,11,4.0,60+,נקבה,Other
+1281,8,4.0,30-39,נקבה,Contact with confirmed
+1282,5,4.0,30-39,נקבה,Other
+1283,8,4.0,20-29,נקבה,Other
+1284,11,4.0,20-29,זכר,Abroad
+1285,2,4.0,40-49,נקבה,Other
+1286,21,4.0,40-49,זכר,Contact with confirmed
+1287,13,4.0,60+,זכר,Contact with confirmed
+1288,4,4.0,30-39,נקבה,Contact with confirmed
+1289,16,4.0,30-39,נקבה,Abroad
+1290,18,4.0,0-19,נקבה,Contact with confirmed
+1291,20,4.0,0-19,זכר,Contact with confirmed
+1292,19,4.0,0-19,זכר,Contact with confirmed
+1293,15,4.0,60+,נקבה,Abroad
+1294,7,4.0,60+,זכר,Abroad
+1295,21,4.0,40-49,זכר,Abroad
+1296,10,4.0,60+,זכר,Abroad
+1297,9,4.0,50-59,זכר,Abroad
+1298,22,4.0,60+,נקבה,Contact with confirmed
+1299,11,4.0,30-39,נקבה,Contact with confirmed
+1300,4,4.0,20-29,זכר,Other
+1301,7,4.0,20-29,נקבה,Other
+1302,16,4.0,40-49,זכר,Other
+1303,10,4.0,20-29,נקבה,Contact with confirmed
+1304,4,4.0,20-29,נקבה,Abroad
+1305,7,4.0,20-29,נקבה,Contact with confirmed
+1306,16,4.0,30-39,זכר,Contact with confirmed
+1307,16,4.0,40-49,זכר,Other
+1308,9,4.0,60+,נקבה,Other
+1309,11,4.0,0-19,נקבה,Contact with confirmed
+1310,10,4.0,0-19,זכר,Contact with confirmed
+1311,4,4.0,60+,נקבה,Other
+1312,15,4.0,30-39,זכר,Other
+1313,17,4.0,60+,נקבה,Abroad
+1314,10,4.0,40-49,נקבה,Contact with confirmed
+1315,6,4.0,0-19,נקבה,Contact with confirmed
+1316,4,4.0,60+,זכר,Other
+1317,3,4.0,60+,זכר,Contact with confirmed
+1318,3,4.0,50-59,זכר,Abroad
+1319,15,4.0,20-29,זכר,Contact with confirmed
+1320,12,4.0,60+,נקבה,Contact with confirmed
+1321,5,4.0,60+,זכר,Other
+1322,9,4.0,50-59,נקבה,Other
+1323,3,4.0,20-29,נקבה,Contact with confirmed
+1324,11,4.0,0-19,זכר,Contact with confirmed
+1325,17,4.0,30-39,זכר,Other
+1326,13,4.0,20-29,נקבה,Contact with confirmed
+1327,13,4.0,40-49,נקבה,Other
+1328,15,4.0,50-59,נקבה,Contact with confirmed
+1329,11,4.0,20-29,נקבה,Contact with confirmed
+1331,16,4.0,20-29,נקבה,Other
+1332,14,4.0,30-39,נקבה,Contact with confirmed
+1333,13,4.0,20-29,זכר,Contact with confirmed
+1334,16,4.0,20-29,זכר,Other
+1335,13,4.0,40-49,זכר,Other
+1336,16,4.0,30-39,זכר,Contact with confirmed
+1337,10,4.0,60+,נקבה,Other
+1338,14,4.0,60+,נקבה,Other
+1339,17,4.0,0-19,זכר,Contact with confirmed
+1340,12,4.0,60+,נקבה,Other
+1341,16,4.0,0-19,נקבה,Contact with confirmed
+1342,12,4.0,40-49,זכר,Contact with confirmed
+1343,16,4.0,50-59,זכר,Other
+1344,16,4.0,0-19,זכר,NULL
+1345,15,4.0,50-59,זכר,Contact with confirmed
+1346,15,4.0,50-59,זכר,Other
+1347,22,4.0,40-49,נקבה,Abroad
+1348,12,4.0,20-29,נקבה,Contact with confirmed
+1349,15,4.0,20-29,זכר,Contact with confirmed
+1350,12,4.0,20-29,זכר,Contact with confirmed
+1351,15,4.0,30-39,זכר,Other
+1352,19,4.0,30-39,זכר,Other
+1353,13,4.0,60+,זכר,Contact with confirmed
+1354,3,4.0,30-39,זכר,Other
+1355,12,4.0,60+,זכר,Abroad
+1356,22,4.0,40-49,נקבה,Other
+1357,12,4.0,0-19,נקבה,Contact with confirmed
+1358,14,4.0,20-29,נקבה,Contact with confirmed
+1359,18,4.0,20-29,זכר,Abroad
+1360,13,4.0,20-29,נקבה,Contact with confirmed
+1361,9,4.0,60+,זכר,Other
+1362,11,4.0,50-59,זכר,Contact with confirmed
+1363,15,4.0,50-59,זכר,Other
+1364,10,4.0,50-59,זכר,Other
+1365,5,4.0,60+,נקבה,Other
+1366,13,4.0,20-29,זכר,Contact with confirmed
+1367,16,4.0,60+,זכר,Other
+1368,19,4.0,0-19,נקבה,Contact with confirmed
+1369,19,4.0,0-19,זכר,Contact with confirmed
+1370,15,4.0,40-49,נקבה,Abroad
+1371,15,4.0,0-19,נקבה,NULL
+1372,15,4.0,0-19,נקבה,NULL
+1373,12,4.0,20-29,נקבה,Contact with confirmed
+1374,15,4.0,0-19,נקבה,NULL
+1375,13,4.0,20-29,נקבה,Contact with confirmed
+1376,13,4.0,50-59,זכר,Abroad
+1377,13,4.0,0-19,זכר,Contact with confirmed
+1378,4,4.0,60+,זכר,Other
+1379,15,4.0,60+,זכר,Contact with confirmed
+1380,12,4.0,60+,זכר,Other
+1381,16,4.0,20-29,זכר,Other
+1382,14,4.0,50-59,נקבה,Contact with confirmed
+1383,12,4.0,0-19,זכר,Contact with confirmed
+1384,16,4.0,30-39,זכר,Contact with confirmed
+1385,10,4.0,50-59,נקבה,Contact with confirmed
+1386,10,4.0,50-59,זכר,Other
+1387,12,4.0,30-39,זכר,Contact with confirmed
+1388,6,4.0,50-59,נקבה,Other
+1389,26,4.0,60+,זכר,Abroad
+1390,17,4.0,40-49,זכר,Contact with confirmed
+1391,20,4.0,60+,זכר,Abroad
+1392,13,4.0,50-59,זכר,Other
+1393,8,4.0,60+,נקבה,Contact with confirmed
+1394,9,4.0,20-29,זכר,Contact with confirmed
+1395,15,4.0,20-29,זכר,Contact with confirmed
+1396,16,4.0,30-39,זכר,Contact with confirmed
+1397,11,4.0,40-49,נקבה,Contact with confirmed
+1398,9,4.0,0-19,נקבה,Contact with confirmed
+1399,17,4.0,30-39,נקבה,Abroad
+1400,25,4.0,40-49,זכר,Other
+1401,17,4.0,30-39,זכר,Contact with confirmed
+1402,16,4.0,20-29,זכר,Abroad
+1403,10,4.0,20-29,זכר,Contact with confirmed
+1404,15,4.0,20-29,נקבה,Contact with confirmed
+1405,17,4.0,0-19,זכר,Contact with confirmed
+1406,13,4.0,50-59,נקבה,Contact with confirmed
+1407,16,4.0,30-39,זכר,Contact with confirmed
+1408,15,4.0,20-29,זכר,Abroad
+1409,15,4.0,20-29,נקבה,Abroad
+1410,17,4.0,60+,זכר,Contact with confirmed
+1411,10,4.0,0-19,זכר,Contact with confirmed
+1412,16,4.0,0-19,נקבה,Contact with confirmed
+1413,14,4.0,20-29,זכר,Abroad
+1414,16,4.0,20-29,נקבה,Contact with confirmed
+1415,19,4.0,60+,נקבה,Abroad
+1416,23,4.0,20-29,זכר,Abroad
+1417,13,4.0,60+,זכר,Contact with confirmed
+1418,14,4.0,0-19,נקבה,NULL
+1419,11,4.0,0-19,נקבה,Contact with confirmed
+1420,14,4.0,0-19,זכר,NULL
+1421,19,4.0,0-19,נקבה,Contact with confirmed
+1422,19,4.0,60+,זכר,Contact with confirmed
+1423,15,4.0,60+,זכר,Contact with confirmed
+1424,15,4.0,40-49,זכר,Other
+1425,15,4.0,60+,נקבה,Abroad
+1426,14,4.0,40-49,נקבה,Abroad
+1427,14,4.0,20-29,זכר,Other
+1428,15,4.0,0-19,נקבה,Contact with confirmed
+1429,21,4.0,50-59,נקבה,Other
+1430,9,4.0,20-29,נקבה,Contact with confirmed
+1431,13,4.0,20-29,זכר,Contact with confirmed
+1432,22,4.0,60+,נקבה,Contact with confirmed
+1433,17,4.0,60+,זכר,Other
+1434,13,4.0,60+,נקבה,Abroad
+1435,13,4.0,60+,זכר,Abroad
+1436,18,4.0,50-59,נקבה,Abroad
+1437,18,4.0,40-49,זכר,Contact with confirmed
+1438,18,4.0,40-49,זכר,Contact with confirmed
+1439,26,4.0,30-39,נקבה,Contact with confirmed
+1440,23,4.0,40-49,נקבה,Abroad
+1441,20,4.0,20-29,זכר,Abroad
+1442,17,4.0,0-19,זכר,Contact with confirmed
+1443,14,4.0,20-29,נקבה,Contact with confirmed
+1444,13,4.0,60+,זכר,Other
+1445,26,4.0,20-29,זכר,Contact with confirmed
+1446,14,4.0,20-29,זכר,Abroad
+1447,17,4.0,60+,זכר,Contact with confirmed
+1448,10,4.0,40-49,נקבה,Other
+1449,19,4.0,0-19,נקבה,Contact with confirmed
+1450,11,4.0,50-59,זכר,Contact with confirmed
+1451,17,4.0,0-19,זכר,Contact with confirmed
+1452,19,4.0,50-59,זכר,Abroad
+1453,6,4.0,60+,נקבה,Contact with confirmed
+1454,17,4.0,0-19,נקבה,Contact with confirmed
+1455,10,4.0,20-29,זכר,Abroad
+1456,12,4.0,20-29,זכר,Other
+1457,12,4.0,40-49,זכר,Contact with confirmed
+1458,21,4.0,0-19,זכר,Contact with confirmed
+1459,17,4.0,30-39,זכר,Other
+1460,16,4.0,30-39,נקבה,Abroad
+1461,18,4.0,50-59,זכר,Contact with confirmed
+1462,8,4.0,60+,זכר,Contact with confirmed
+1463,21,4.0,60+,זכר,Abroad
+1464,18,4.0,60+,נקבה,Contact with confirmed
+1465,21,4.0,20-29,נקבה,Contact with confirmed
+1466,23,4.0,30-39,זכר,Other
+1467,17,4.0,20-29,נקבה,Contact with confirmed
+1468,20,4.0,60+,נקבה,Abroad
+1469,15,4.0,30-39,זכר,Contact with confirmed
+1470,15,4.0,50-59,זכר,Contact with confirmed
+1471,16,4.0,0-19,נקבה,Contact with confirmed
+1472,19,4.0,50-59,זכר,Contact with confirmed
+1473,16,4.0,40-49,זכר,Contact with confirmed
+1474,19,4.0,50-59,זכר,Contact with confirmed
+1475,23,4.0,20-29,זכר,Contact with confirmed
+1476,25,4.0,50-59,נקבה,Contact with confirmed
+1477,15,4.0,40-49,זכר,Abroad
+1478,12,4.0,20-29,זכר,Abroad
+1479,19,4.0,20-29,נקבה,Contact with confirmed
+1480,18,4.0,30-39,זכר,Contact with confirmed
+1481,16,4.0,60+,נקבה,Other
+1482,11,4.0,30-39,זכר,Contact with confirmed
+1483,20,4.0,60+,זכר,Abroad
+1484,16,4.0,0-19,זכר,Contact with confirmed
+1485,26,4.0,40-49,נקבה,Contact with confirmed
+1486,19,4.0,50-59,נקבה,Contact with confirmed
+1487,18,4.0,20-29,זכר,Contact with confirmed
+1488,16,4.0,50-59,זכר,Contact with confirmed
+1489,9,4.0,30-39,זכר,Contact with confirmed
+1490,11,4.0,20-29,זכר,Contact with confirmed
+1491,14,4.0,60+,זכר,Other
+1492,13,4.0,30-39,זכר,Other
+1493,20,4.0,50-59,זכר,Abroad
+1494,24,4.0,30-39,זכר,Contact with confirmed
+1495,11,4.0,40-49,זכר,Contact with confirmed
+1496,28,4.0,20-29,זכר,Contact with confirmed
+1497,23,4.0,20-29,נקבה,Contact with confirmed
+1498,9,4.0,40-49,זכר,Other
+1499,20,4.0,40-49,נקבה,Other
+1500,6,4.0,50-59,זכר,Contact with confirmed
+1501,14,4.0,40-49,זכר,Contact with confirmed
+1502,16,4.0,50-59,נקבה,Contact with confirmed
+1503,11,4.0,30-39,נקבה,Contact with confirmed
+1504,7,4.0,40-49,זכר,Contact with confirmed
+1505,14,4.0,20-29,זכר,Abroad
+1506,11,4.0,20-29,נקבה,Contact with confirmed
+1507,14,4.0,50-59,נקבה,Abroad
+1508,16,4.0,20-29,זכר,Abroad
+1509,7,4.0,20-29,נקבה,Abroad
+1510,17,4.0,30-39,זכר,Abroad
+1511,13,4.0,60+,זכר,Other
+1512,20,4.0,60+,זכר,Abroad
+1513,22,4.0,0-19,נקבה,NULL
+1514,3,4.0,40-49,נקבה,Contact with confirmed
+1515,14,4.0,20-29,נקבה,Other
+1516,15,4.0,60+,נקבה,Contact with confirmed
+1517,12,4.0,20-29,נקבה,Contact with confirmed
+1518,11,4.0,20-29,זכר,Other
+1519,9,4.0,50-59,נקבה,Contact with confirmed
+1520,11,4.0,40-49,זכר,Abroad
+1521,15,4.0,40-49,זכר,Contact with confirmed
+1522,9,4.0,60+,זכר,Abroad
+1523,20,4.0,50-59,נקבה,Contact with confirmed
+1524,8,4.0,60+,נקבה,Abroad
+1525,16,4.0,20-29,זכר,Abroad
+1526,15,4.0,50-59,זכר,Abroad
+1527,17,4.0,0-19,זכר,Contact with confirmed
+1528,7,4.0,30-39,זכר,Contact with confirmed
+1529,9,4.0,30-39,נקבה,Abroad
+1530,3,4.0,0-19,נקבה,Contact with confirmed
+1531,12,4.0,60+,נקבה,Abroad
+1532,12,4.0,50-59,נקבה,Abroad
+1533,18,4.0,0-19,זכר,Contact with confirmed
+1534,21,4.0,40-49,זכר,Other
+1535,16,4.0,40-49,נקבה,Contact with confirmed
+1536,15,4.0,20-29,נקבה,Contact with confirmed
+1537,14,4.0,20-29,נקבה,Contact with confirmed
+1538,20,4.0,60+,זכר,Other
+1539,14,4.0,30-39,זכר,Other
+2164,14,3.0,60+,זכר,Other
+1540,16,4.0,30-39,זכר,Contact with confirmed
+1541,14,4.0,0-19,נקבה,Contact with confirmed
+1542,14,4.0,40-49,זכר,Other
+1543,8,4.0,40-49,זכר,Contact with confirmed
+1544,17,4.0,40-49,זכר,Other
+1545,14,4.0,50-59,זכר,Abroad
+1546,6,4.0,30-39,זכר,Contact with confirmed
+1547,13,4.0,60+,זכר,Other
+1548,14,4.0,0-19,זכר,Contact with confirmed
+1549,16,4.0,50-59,זכר,Other
+1550,15,4.0,0-19,זכר,Contact with confirmed
+1551,17,4.0,60+,זכר,Contact with confirmed
+1552,16,4.0,20-29,נקבה,Contact with confirmed
+1553,11,4.0,50-59,נקבה,Other
+1554,17,4.0,20-29,זכר,Contact with confirmed
+1555,15,4.0,0-19,זכר,Contact with confirmed
+1556,16,4.0,0-19,נקבה,Contact with confirmed
+1557,18,4.0,50-59,נקבה,Contact with confirmed
+1558,16,4.0,30-39,נקבה,Contact with confirmed
+1559,18,4.0,60+,זכר,Other
+1560,11,4.0,40-49,נקבה,Other
+1561,4,4.0,50-59,זכר,Other
+1562,12,4.0,40-49,נקבה,Contact with confirmed
+1563,11,4.0,40-49,זכר,Other
+1564,19,4.0,0-19,נקבה,Contact with confirmed
+1565,22,4.0,40-49,זכר,Other
+1566,19,4.0,20-29,נקבה,Contact with confirmed
+1567,17,4.0,20-29,זכר,Abroad
+1568,18,4.0,30-39,זכר,Other
+1569,19,4.0,60+,נקבה,Other
+1570,14,4.0,60+,נקבה,Abroad
+1571,16,4.0,60+,זכר,Contact with confirmed
+1572,18,4.0,50-59,נקבה,Contact with confirmed
+1573,13,4.0,30-39,נקבה,Contact with confirmed
+1574,24,4.0,30-39,נקבה,Other
+1575,21,4.0,20-29,זכר,Contact with confirmed
+1576,11,4.0,50-59,נקבה,Contact with confirmed
+1577,10,4.0,30-39,זכר,Other
+1578,14,4.0,40-49,נקבה,Other
+1579,16,4.0,60+,זכר,Other
+1580,13,4.0,60+,זכר,Contact with confirmed
+1581,13,4.0,60+,נקבה,Contact with confirmed
+1582,21,4.0,60+,זכר,Contact with confirmed
+1583,19,4.0,50-59,נקבה,Contact with confirmed
+1584,18,4.0,0-19,זכר,NULL
+1585,15,4.0,50-59,זכר,Other
+1586,18,4.0,0-19,זכר,NULL
+1587,12,4.0,60+,זכר,Contact with confirmed
+1588,22,4.0,0-19,נקבה,NULL
+1589,11,4.0,40-49,זכר,Contact with confirmed
+1590,15,4.0,40-49,זכר,Contact with confirmed
+1591,16,4.0,20-29,נקבה,Other
+1592,15,4.0,0-19,זכר,Contact with confirmed
+1593,21,4.0,20-29,זכר,Contact with confirmed
+1594,16,4.0,60+,זכר,Contact with confirmed
+1595,11,4.0,20-29,זכר,Contact with confirmed
+1596,15,4.0,60+,נקבה,Contact with confirmed
+1597,16,4.0,20-29,נקבה,Contact with confirmed
+1598,17,4.0,60+,זכר,Contact with confirmed
+1599,12,4.0,60+,זכר,Other
+1600,15,4.0,0-19,נקבה,Contact with confirmed
+1601,11,4.0,20-29,זכר,Contact with confirmed
+1602,21,4.0,40-49,נקבה,Contact with confirmed
+1603,12,4.0,50-59,נקבה,Contact with confirmed
+1604,17,4.0,0-19,נקבה,Contact with confirmed
+1605,21,4.0,30-39,נקבה,Contact with confirmed
+1606,22,4.0,20-29,זכר,Other
+1607,23,4.0,30-39,נקבה,Contact with confirmed
+1608,13,4.0,20-29,נקבה,Contact with confirmed
+1609,21,4.0,20-29,נקבה,Other
+1610,22,4.0,60+,נקבה,Abroad
+1611,12,4.0,50-59,נקבה,Contact with confirmed
+1612,12,4.0,20-29,זכר,Contact with confirmed
+1613,12,4.0,20-29,זכר,Contact with confirmed
+1614,12,4.0,20-29,נקבה,Contact with confirmed
+1615,16,4.0,60+,זכר,Abroad
+1616,12,4.0,20-29,זכר,Other
+1617,14,4.0,60+,זכר,Abroad
+1618,21,4.0,60+,נקבה,Contact with confirmed
+1619,12,4.0,60+,נקבה,Contact with confirmed
+1620,16,4.0,40-49,זכר,Contact with confirmed
+1621,23,4.0,60+,נקבה,Contact with confirmed
+1622,3,4.0,60+,נקבה,Other
+1623,16,4.0,30-39,זכר,Contact with confirmed
+1624,13,4.0,60+,זכר,Other
+1625,12,4.0,0-19,נקבה,NULL
+1626,17,4.0,40-49,זכר,Contact with confirmed
+1627,21,4.0,20-29,זכר,Abroad
+1628,12,4.0,20-29,נקבה,Abroad
+1629,14,4.0,50-59,זכר,Contact with confirmed
+1630,16,4.0,20-29,זכר,Contact with confirmed
+1631,11,4.0,20-29,זכר,Abroad
+1632,17,4.0,20-29,נקבה,Other
+1633,21,4.0,50-59,זכר,Contact with confirmed
+1634,17,4.0,20-29,נקבה,Contact with confirmed
+1635,17,4.0,40-49,זכר,Abroad
+1636,12,4.0,30-39,נקבה,Other
+1637,12,4.0,20-29,זכר,Contact with confirmed
+1638,10,4.0,0-19,נקבה,Contact with confirmed
+1639,12,4.0,20-29,נקבה,Other
+1640,19,4.0,20-29,נקבה,Other
+1641,21,4.0,0-19,זכר,Contact with confirmed
+1642,14,4.0,0-19,נקבה,Contact with confirmed
+1643,18,4.0,20-29,זכר,Abroad
+1644,16,4.0,60+,זכר,Abroad
+1645,19,4.0,50-59,נקבה,Contact with confirmed
+1646,15,4.0,20-29,זכר,Contact with confirmed
+1647,14,4.0,40-49,נקבה,Other
+1648,17,4.0,40-49,זכר,Other
+1649,17,4.0,60+,זכר,Abroad
+1650,13,4.0,50-59,נקבה,Other
+1651,19,4.0,60+,זכר,Other
+1652,17,4.0,30-39,נקבה,Abroad
+1653,13,4.0,60+,זכר,Other
+1654,16,4.0,30-39,זכר,Abroad
+1655,14,4.0,40-49,נקבה,Abroad
+1656,14,4.0,20-29,נקבה,Contact with confirmed
+1657,14,4.0,0-19,נקבה,NULL
+1658,19,4.0,40-49,זכר,Abroad
+1659,13,4.0,20-29,זכר,Contact with confirmed
+1660,18,4.0,20-29,זכר,Abroad
+1661,18,4.0,30-39,נקבה,Abroad
+1662,5,4.0,50-59,זכר,Other
+1663,19,4.0,40-49,זכר,Other
+1664,16,4.0,60+,זכר,Abroad
+1665,22,4.0,40-49,זכר,Contact with confirmed
+1666,15,4.0,20-29,זכר,Contact with confirmed
+1667,15,4.0,20-29,נקבה,Abroad
+1668,13,4.0,30-39,נקבה,Contact with confirmed
+1669,4,4.0,50-59,נקבה,Other
+1670,14,4.0,0-19,זכר,Contact with confirmed
+1671,14,4.0,0-19,נקבה,Contact with confirmed
+1672,14,4.0,0-19,נקבה,Contact with confirmed
+1673,15,4.0,50-59,זכר,Other
+1674,13,4.0,40-49,נקבה,Other
+1675,21,4.0,50-59,זכר,Abroad
+1676,11,4.0,40-49,זכר,Other
+1677,16,4.0,20-29,זכר,Abroad
+1678,19,4.0,0-19,זכר,Contact with confirmed
+1679,17,3.0,0-19,זכר,NULL
+1680,12,3.0,40-49,זכר,Other
+1681,12,3.0,30-39,נקבה,Contact with confirmed
+1682,12,3.0,50-59,זכר,Contact with confirmed
+1683,13,3.0,50-59,זכר,Contact with confirmed
+1684,4,3.0,20-29,זכר,Contact with confirmed
+1685,5,3.0,20-29,זכר,Contact with confirmed
+1686,16,3.0,50-59,נקבה,Contact with confirmed
+1687,17,3.0,50-59,זכר,Contact with confirmed
+1688,12,3.0,60+,זכר,Other
+1689,19,3.0,40-49,זכר,Contact with confirmed
+1690,13,3.0,50-59,זכר,Contact with confirmed
+1691,7,3.0,20-29,נקבה,Other
+1692,7,3.0,50-59,נקבה,Abroad
+1693,14,3.0,50-59,זכר,Abroad
+1694,12,3.0,0-19,נקבה,Contact with confirmed
+1695,12,3.0,0-19,זכר,Contact with confirmed
+1696,12,3.0,40-49,נקבה,Contact with confirmed
+1697,13,3.0,40-49,זכר,Contact with confirmed
+1698,4,3.0,60+,נקבה,Contact with confirmed
+1699,16,3.0,0-19,נקבה,Contact with confirmed
+1700,7,3.0,30-39,זכר,Abroad
+1701,15,3.0,50-59,נקבה,Other
+1702,10,3.0,40-49,זכר,Contact with confirmed
+1703,11,3.0,40-49,נקבה,Contact with confirmed
+1704,10,3.0,0-19,נקבה,Contact with confirmed
+1705,14,3.0,50-59,זכר,Contact with confirmed
+1706,6,3.0,20-29,זכר,Abroad
+1707,18,3.0,60+,זכר,Other
+1708,15,3.0,0-19,זכר,Contact with confirmed
+1709,13,3.0,20-29,זכר,Contact with confirmed
+1710,13,3.0,30-39,זכר,Contact with confirmed
+1711,20,3.0,40-49,נקבה,Abroad
+1712,11,3.0,40-49,זכר,Abroad
+1713,8,3.0,20-29,זכר,Other
+1714,8,3.0,20-29,זכר,Other
+1715,10,3.0,30-39,זכר,Other
+1716,7,3.0,20-29,נקבה,Contact with confirmed
+1717,11,3.0,40-49,זכר,Contact with confirmed
+1718,18,3.0,40-49,נקבה,Abroad
+1719,9,3.0,50-59,זכר,Contact with confirmed
+1720,22,3.0,20-29,נקבה,Contact with confirmed
+1721,11,3.0,20-29,זכר,Contact with confirmed
+1722,14,3.0,20-29,זכר,Abroad
+1723,14,3.0,20-29,נקבה,Other
+1724,8,3.0,0-19,זכר,Contact with confirmed
+1725,8,3.0,20-29,זכר,Contact with confirmed
+1726,10,3.0,50-59,נקבה,Contact with confirmed
+1727,12,3.0,30-39,זכר,Other
+1728,20,3.0,40-49,זכר,Other
+1729,14,3.0,0-19,נקבה,NULL
+1730,9,3.0,0-19,זכר,NULL
+1731,8,3.0,20-29,זכר,Abroad
+1732,7,3.0,60+,זכר,Abroad
+1733,3,3.0,20-29,זכר,Other
+1734,5,3.0,30-39,זכר,Contact with confirmed
+1735,10,3.0,30-39,זכר,Other
+1736,12,3.0,0-19,זכר,Contact with confirmed
+1737,14,3.0,30-39,נקבה,Abroad
+1738,3,3.0,50-59,נקבה,Abroad
+1739,13,3.0,50-59,נקבה,Contact with confirmed
+1740,14,3.0,60+,זכר,Contact with confirmed
+1741,11,3.0,60+,זכר,Contact with confirmed
+1742,19,3.0,40-49,זכר,Abroad
+1743,13,3.0,50-59,זכר,Other
+1744,12,3.0,60+,זכר,Contact with confirmed
+1745,11,3.0,20-29,זכר,Contact with confirmed
+1746,20,3.0,0-19,נקבה,NULL
+1747,18,3.0,60+,נקבה,Other
+1748,13,3.0,0-19,זכר,NULL
+1749,13,3.0,50-59,זכר,Contact with confirmed
+1750,11,3.0,20-29,זכר,Other
+1751,9,3.0,0-19,זכר,NULL
+1752,14,3.0,20-29,נקבה,Abroad
+1753,11,3.0,0-19,זכר,NULL
+1754,16,3.0,50-59,נקבה,Abroad
+1755,10,3.0,0-19,זכר,Contact with confirmed
+1756,14,3.0,20-29,זכר,Abroad
+1757,22,3.0,40-49,נקבה,Contact with confirmed
+1758,8,3.0,60+,נקבה,Contact with confirmed
+1759,14,3.0,40-49,זכר,Other
+1760,12,3.0,50-59,נקבה,Contact with confirmed
+1761,13,3.0,50-59,זכר,Other
+1762,2,3.0,20-29,זכר,Contact with confirmed
+1763,13,3.0,20-29,זכר,Abroad
+1764,1,3.0,0-19,זכר,Contact with confirmed
+1765,4,3.0,40-49,זכר,Contact with confirmed
+1766,15,3.0,30-39,נקבה,Abroad
+1767,3,3.0,50-59,נקבה,Other
+1768,15,3.0,50-59,זכר,Contact with confirmed
+1769,10,3.0,50-59,זכר,Abroad
+1770,3,3.0,30-39,נקבה,Other
+1771,22,3.0,20-29,זכר,Contact with confirmed
+1772,15,3.0,40-49,נקבה,Other
+1773,9,3.0,50-59,זכר,Contact with confirmed
+1774,10,3.0,20-29,זכר,Other
+1775,6,3.0,30-39,נקבה,Abroad
+1776,21,3.0,30-39,נקבה,Contact with confirmed
+1777,19,3.0,60+,זכר,Abroad
+1778,7,3.0,30-39,זכר,Abroad
+1779,16,3.0,40-49,זכר,Contact with confirmed
+1780,10,3.0,40-49,זכר,Other
+1781,18,3.0,60+,נקבה,Contact with confirmed
+1782,14,3.0,40-49,זכר,Abroad
+1783,16,3.0,30-39,זכר,Contact with confirmed
+1784,10,3.0,20-29,נקבה,Contact with confirmed
+1785,16,3.0,30-39,נקבה,Abroad
+1786,6,3.0,20-29,זכר,Contact with confirmed
+1787,11,3.0,0-19,זכר,NULL
+1788,11,3.0,20-29,נקבה,Other
+1789,5,3.0,0-19,נקבה,NULL
+1790,10,3.0,20-29,נקבה,Contact with confirmed
+1791,12,3.0,0-19,זכר,Contact with confirmed
+1792,13,3.0,50-59,זכר,Contact with confirmed
+1793,14,3.0,30-39,נקבה,Contact with confirmed
+1794,14,3.0,60+,זכר,Contact with confirmed
+1795,15,3.0,20-29,זכר,Contact with confirmed
+1796,17,3.0,20-29,זכר,Contact with confirmed
+1797,6,3.0,20-29,נקבה,Contact with confirmed
+1798,6,3.0,30-39,זכר,Contact with confirmed
+1799,10,3.0,50-59,נקבה,Abroad
+1800,16,3.0,40-49,זכר,Contact with confirmed
+1801,11,3.0,50-59,נקבה,Contact with confirmed
+1802,14,3.0,40-49,זכר,Contact with confirmed
+1803,7,3.0,20-29,נקבה,Contact with confirmed
+1804,9,3.0,50-59,נקבה,Contact with confirmed
+1805,10,3.0,0-19,נקבה,Contact with confirmed
+1806,8,3.0,30-39,נקבה,Contact with confirmed
+1807,11,3.0,30-39,נקבה,Contact with confirmed
+1808,2,3.0,0-19,זכר,Contact with confirmed
+1809,21,3.0,20-29,נקבה,Contact with confirmed
+1810,16,3.0,40-49,זכר,Contact with confirmed
+1811,12,3.0,20-29,זכר,Contact with confirmed
+1812,16,3.0,20-29,זכר,Other
+1813,6,3.0,30-39,נקבה,Other
+1814,18,3.0,60+,זכר,Contact with confirmed
+1815,7,3.0,20-29,זכר,Contact with confirmed
+1816,6,3.0,0-19,נקבה,Contact with confirmed
+1817,17,3.0,40-49,זכר,Contact with confirmed
+1818,6,3.0,40-49,זכר,Contact with confirmed
+1819,20,3.0,0-19,זכר,Contact with confirmed
+1820,13,3.0,30-39,נקבה,Contact with confirmed
+1821,13,3.0,30-39,זכר,Contact with confirmed
+1822,8,3.0,40-49,זכר,Abroad
+1823,10,3.0,20-29,זכר,Contact with confirmed
+1824,4,3.0,20-29,זכר,Abroad
+1825,15,3.0,30-39,זכר,Contact with confirmed
+1826,20,3.0,60+,זכר,Other
+1827,12,3.0,40-49,זכר,Abroad
+1828,13,3.0,50-59,נקבה,Contact with confirmed
+1829,13,3.0,50-59,נקבה,Other
+1830,15,3.0,30-39,זכר,Contact with confirmed
+1831,11,3.0,50-59,זכר,Contact with confirmed
+1832,18,3.0,40-49,נקבה,Contact with confirmed
+1833,14,3.0,30-39,זכר,Contact with confirmed
+1834,19,3.0,30-39,זכר,Contact with confirmed
+1835,9,3.0,50-59,זכר,Abroad
+1836,17,3.0,40-49,נקבה,Abroad
+1837,17,3.0,0-19,נקבה,Contact with confirmed
+1838,17,3.0,20-29,נקבה,Abroad
+1839,17,3.0,0-19,זכר,NULL
+1840,11,3.0,20-29,נקבה,Abroad
+1841,12,3.0,0-19,זכר,Contact with confirmed
+1842,15,3.0,20-29,זכר,Contact with confirmed
+1843,17,3.0,20-29,זכר,Abroad
+1844,14,3.0,60+,זכר,Other
+1845,13,3.0,0-19,זכר,Contact with confirmed
+1846,12,3.0,50-59,נקבה,Abroad
+1847,13,3.0,0-19,נקבה,Contact with confirmed
+1848,9,3.0,30-39,נקבה,Contact with confirmed
+1849,10,3.0,20-29,נקבה,Contact with confirmed
+1850,10,3.0,30-39,זכר,Abroad
+1851,13,3.0,50-59,זכר,Contact with confirmed
+1852,12,3.0,50-59,זכר,Contact with confirmed
+1853,12,3.0,50-59,זכר,Contact with confirmed
+1854,7,3.0,60+,זכר,Other
+1855,8,3.0,40-49,זכר,Contact with confirmed
+1856,13,3.0,0-19,נקבה,Contact with confirmed
+1857,13,3.0,0-19,נקבה,Contact with confirmed
+1858,15,3.0,60+,נקבה,Other
+1859,15,3.0,60+,נקבה,Other
+1860,14,3.0,50-59,נקבה,Contact with confirmed
+1861,13,3.0,50-59,נקבה,Contact with confirmed
+1862,13,3.0,30-39,נקבה,Other
+1863,14,3.0,50-59,נקבה,Contact with confirmed
+1864,12,3.0,0-19,זכר,NULL
+1865,12,3.0,30-39,זכר,Contact with confirmed
+1866,15,3.0,50-59,זכר,Other
+1867,15,3.0,50-59,נקבה,Other
+1868,16,3.0,20-29,זכר,Contact with confirmed
+1869,16,3.0,50-59,נקבה,Contact with confirmed
+1870,11,3.0,0-19,זכר,NULL
+1871,15,3.0,60+,זכר,Other
+1872,19,3.0,50-59,זכר,Contact with confirmed
+1873,15,3.0,50-59,זכר,Contact with confirmed
+1874,7,3.0,50-59,זכר,Contact with confirmed
+1875,10,3.0,30-39,זכר,Contact with confirmed
+1876,11,3.0,30-39,נקבה,Other
+1877,12,3.0,0-19,זכר,NULL
+1878,12,3.0,50-59,נקבה,Contact with confirmed
+1879,12,3.0,0-19,זכר,NULL
+1880,12,3.0,0-19,נקבה,NULL
+1881,4,3.0,30-39,זכר,Contact with confirmed
+1882,13,3.0,50-59,זכר,Other
+1883,9,3.0,20-29,נקבה,Abroad
+1884,12,3.0,30-39,נקבה,Contact with confirmed
+1885,5,3.0,50-59,זכר,Contact with confirmed
+1886,10,3.0,40-49,זכר,Other
+1887,10,3.0,0-19,זכר,Contact with confirmed
+1888,10,3.0,0-19,זכר,Contact with confirmed
+1889,11,3.0,0-19,נקבה,Contact with confirmed
+1890,10,3.0,20-29,זכר,Contact with confirmed
+1891,10,3.0,30-39,נקבה,Contact with confirmed
+1892,15,3.0,30-39,נקבה,Contact with confirmed
+1893,14,3.0,20-29,זכר,Other
+1894,13,3.0,30-39,זכר,Contact with confirmed
+1895,11,3.0,60+,נקבה,Contact with confirmed
+1896,11,3.0,50-59,זכר,Abroad
+1897,16,3.0,30-39,נקבה,Contact with confirmed
+1898,17,3.0,20-29,זכר,Contact with confirmed
+1899,4,3.0,30-39,זכר,Contact with confirmed
+1900,17,3.0,20-29,נקבה,Contact with confirmed
+1901,8,3.0,50-59,זכר,Abroad
+1902,6,3.0,40-49,זכר,Contact with confirmed
+1903,13,3.0,40-49,נקבה,Contact with confirmed
+1904,11,3.0,0-19,זכר,Contact with confirmed
+1905,14,3.0,50-59,זכר,Other
+1906,8,3.0,50-59,נקבה,Abroad
+1907,16,3.0,50-59,זכר,Other
+1908,14,3.0,60+,נקבה,Contact with confirmed
+1909,18,3.0,50-59,נקבה,Contact with confirmed
+1910,15,3.0,40-49,זכר,Contact with confirmed
+1911,14,3.0,50-59,נקבה,Other
+1912,13,3.0,60+,נקבה,Other
+1913,7,3.0,50-59,זכר,Contact with confirmed
+1914,3,3.0,0-19,זכר,Contact with confirmed
+1915,12,3.0,40-49,זכר,Contact with confirmed
+1916,13,3.0,20-29,נקבה,Other
+1917,14,3.0,0-19,זכר,Contact with confirmed
+1918,7,3.0,0-19,נקבה,Contact with confirmed
+1919,6,3.0,40-49,זכר,Other
+1920,10,3.0,50-59,נקבה,Abroad
+1921,15,3.0,0-19,זכר,Contact with confirmed
+1922,12,3.0,20-29,זכר,Contact with confirmed
+1923,10,3.0,0-19,נקבה,NULL
+1924,13,3.0,60+,זכר,Other
+1925,7,3.0,50-59,זכר,Other
+1926,17,3.0,60+,נקבה,Other
+1927,10,3.0,30-39,נקבה,Abroad
+1928,14,3.0,50-59,זכר,Contact with confirmed
+1929,17,3.0,40-49,זכר,Other
+1930,11,3.0,0-19,נקבה,Contact with confirmed
+1931,10,3.0,0-19,נקבה,Contact with confirmed
+1932,16,3.0,60+,נקבה,Abroad
+1933,17,3.0,60+,זכר,Abroad
+1934,7,3.0,50-59,זכר,Other
+1935,17,3.0,30-39,נקבה,Other
+1936,15,3.0,30-39,זכר,Other
+1937,15,3.0,30-39,זכר,Contact with confirmed
+1938,11,3.0,50-59,נקבה,Contact with confirmed
+1939,10,3.0,30-39,זכר,Contact with confirmed
+1940,9,3.0,60+,זכר,Contact with confirmed
+1941,8,3.0,0-19,נקבה,Contact with confirmed
+1942,10,3.0,20-29,זכר,Contact with confirmed
+1943,11,3.0,0-19,זכר,Contact with confirmed
+1944,2,3.0,50-59,זכר,Other
+1945,10,3.0,30-39,נקבה,Contact with confirmed
+1946,8,3.0,50-59,נקבה,Contact with confirmed
+1947,17,3.0,0-19,נקבה,NULL
+1948,15,3.0,30-39,זכר,Contact with confirmed
+1949,5,3.0,20-29,נקבה,Contact with confirmed
+1950,11,3.0,60+,נקבה,Contact with confirmed
+1951,13,3.0,20-29,נקבה,Contact with confirmed
+1952,12,3.0,20-29,זכר,Contact with confirmed
+1953,14,3.0,20-29,זכר,Abroad
+1954,11,3.0,30-39,זכר,Contact with confirmed
+1955,9,3.0,50-59,זכר,Other
+2165,10,3.0,60+,זכר,Abroad
+1956,12,3.0,60+,נקבה,Contact with confirmed
+1957,11,3.0,60+,זכר,Contact with confirmed
+1958,5,3.0,40-49,נקבה,Other
+1959,13,3.0,60+,זכר,Other
+1960,15,3.0,60+,זכר,Abroad
+1961,12,3.0,20-29,זכר,Other
+1962,12,3.0,40-49,זכר,Abroad
+1963,16,3.0,0-19,זכר,Contact with confirmed
+1964,18,3.0,0-19,זכר,Contact with confirmed
+1965,12,3.0,20-29,זכר,Other
+1966,14,3.0,50-59,נקבה,Other
+1967,16,3.0,50-59,זכר,Contact with confirmed
+1968,15,3.0,60+,זכר,Other
+1969,4,3.0,20-29,נקבה,Other
+1970,5,3.0,50-59,זכר,Abroad
+1971,11,3.0,30-39,נקבה,Contact with confirmed
+1972,9,3.0,60+,נקבה,Other
+1973,8,3.0,40-49,זכר,Contact with confirmed
+1974,7,3.0,20-29,זכר,Other
+1975,12,3.0,30-39,זכר,Contact with confirmed
+1976,13,3.0,40-49,זכר,Abroad
+1977,12,3.0,30-39,זכר,Contact with confirmed
+1978,12,3.0,50-59,זכר,Contact with confirmed
+1979,10,3.0,50-59,זכר,Contact with confirmed
+1980,9,3.0,40-49,זכר,Contact with confirmed
+1981,16,3.0,60+,זכר,Abroad
+1982,13,3.0,60+,זכר,Other
+1983,13,3.0,0-19,זכר,Contact with confirmed
+1984,8,3.0,20-29,זכר,Contact with confirmed
+1985,12,3.0,20-29,נקבה,Contact with confirmed
+1986,13,3.0,60+,זכר,Abroad
+1987,13,3.0,50-59,נקבה,Contact with confirmed
+1988,16,3.0,50-59,זכר,Other
+1989,15,3.0,0-19,נקבה,Contact with confirmed
+1990,6,3.0,30-39,זכר,Contact with confirmed
+1991,9,3.0,30-39,זכר,Other
+1992,9,3.0,60+,נקבה,Contact with confirmed
+1993,21,3.0,0-19,נקבה,Contact with confirmed
+1994,13,3.0,50-59,זכר,Other
+1995,14,3.0,40-49,נקבה,Other
+1996,2,3.0,60+,זכר,Abroad
+1997,18,3.0,30-39,נקבה,Other
+1998,14,3.0,50-59,זכר,Contact with confirmed
+1999,11,3.0,50-59,נקבה,Other
+2000,13,3.0,20-29,זכר,Other
+2001,11,3.0,20-29,זכר,Other
+2002,9,3.0,60+,נקבה,Contact with confirmed
+2003,12,3.0,20-29,נקבה,Contact with confirmed
+2004,14,3.0,20-29,זכר,Contact with confirmed
+2005,9,3.0,30-39,נקבה,Contact with confirmed
+2006,8,3.0,30-39,זכר,Contact with confirmed
+2007,4,3.0,30-39,נקבה,Contact with confirmed
+2008,13,3.0,30-39,נקבה,Contact with confirmed
+2009,13,3.0,60+,זכר,Other
+2010,12,3.0,40-49,זכר,Contact with confirmed
+2011,18,3.0,0-19,נקבה,Contact with confirmed
+2012,14,3.0,20-29,זכר,Contact with confirmed
+2013,10,3.0,30-39,זכר,Contact with confirmed
+2014,9,3.0,60+,זכר,Other
+2015,16,3.0,20-29,נקבה,Other
+2016,16,3.0,0-19,נקבה,Contact with confirmed
+2017,5,3.0,50-59,זכר,Abroad
+2018,14,3.0,30-39,נקבה,Abroad
+2019,13,3.0,40-49,זכר,Abroad
+2020,13,3.0,60+,נקבה,Contact with confirmed
+2021,21,3.0,30-39,נקבה,Contact with confirmed
+2022,12,3.0,40-49,נקבה,Abroad
+2023,6,3.0,40-49,נקבה,Abroad
+2024,9,3.0,0-19,נקבה,Contact with confirmed
+2025,9,3.0,30-39,נקבה,Contact with confirmed
+2026,9,3.0,0-19,זכר,Contact with confirmed
+2027,9,3.0,0-19,זכר,Contact with confirmed
+2028,18,3.0,40-49,נקבה,Contact with confirmed
+2029,3,3.0,60+,נקבה,Contact with confirmed
+2030,18,3.0,20-29,נקבה,Abroad
+2031,7,3.0,20-29,זכר,Other
+2032,20,3.0,50-59,נקבה,Contact with confirmed
+2033,13,3.0,0-19,נקבה,Contact with confirmed
+2034,15,3.0,60+,נקבה,Contact with confirmed
+2035,13,3.0,40-49,זכר,Contact with confirmed
+2036,8,3.0,30-39,זכר,Contact with confirmed
+2037,8,3.0,60+,זכר,Contact with confirmed
+2038,6,3.0,50-59,נקבה,Contact with confirmed
+2039,14,3.0,60+,זכר,Contact with confirmed
+2040,14,3.0,60+,נקבה,Abroad
+2041,14,3.0,30-39,נקבה,Contact with confirmed
+2042,14,3.0,30-39,זכר,Contact with confirmed
+2043,14,3.0,20-29,נקבה,Contact with confirmed
+2044,8,3.0,30-39,נקבה,Contact with confirmed
+2045,11,3.0,20-29,נקבה,Abroad
+2046,15,3.0,40-49,נקבה,Abroad
+2047,4,3.0,30-39,זכר,Contact with confirmed
+2048,12,3.0,20-29,נקבה,Abroad
+2049,10,3.0,50-59,נקבה,Contact with confirmed
+2050,8,3.0,60+,זכר,Abroad
+2051,12,3.0,40-49,זכר,Contact with confirmed
+2052,12,3.0,0-19,זכר,NULL
+2053,15,3.0,40-49,זכר,Contact with confirmed
+2054,15,3.0,20-29,נקבה,Contact with confirmed
+2055,12,3.0,40-49,זכר,Abroad
+2056,13,3.0,60+,נקבה,Other
+2057,9,3.0,0-19,זכר,Contact with confirmed
+2058,16,3.0,60+,זכר,Contact with confirmed
+2059,12,3.0,30-39,זכר,Contact with confirmed
+2060,9,3.0,30-39,זכר,Contact with confirmed
+2061,6,3.0,50-59,זכר,Abroad
+2062,17,3.0,40-49,זכר,Contact with confirmed
+2063,12,3.0,50-59,זכר,Contact with confirmed
+2064,7,3.0,50-59,זכר,Abroad
+2065,13,3.0,50-59,נקבה,Contact with confirmed
+2066,8,3.0,60+,זכר,Abroad
+2067,17,3.0,30-39,זכר,Contact with confirmed
+2068,7,3.0,50-59,זכר,Abroad
+2069,13,3.0,0-19,נקבה,Contact with confirmed
+2070,6,3.0,50-59,נקבה,Contact with confirmed
+2071,10,3.0,30-39,זכר,Contact with confirmed
+2072,15,3.0,40-49,זכר,Abroad
+2073,13,3.0,30-39,זכר,Contact with confirmed
+2074,1,3.0,60+,זכר,Other
+2075,10,3.0,20-29,זכר,Abroad
+2076,17,3.0,50-59,זכר,Other
+2077,11,3.0,60+,זכר,Other
+2078,12,3.0,60+,נקבה,Abroad
+2079,20,3.0,20-29,זכר,Other
+2080,9,3.0,60+,זכר,Contact with confirmed
+2081,13,3.0,30-39,זכר,Contact with confirmed
+2082,12,3.0,60+,זכר,Contact with confirmed
+2083,18,3.0,50-59,זכר,Other
+2084,8,3.0,40-49,נקבה,Contact with confirmed
+2085,15,3.0,40-49,זכר,Abroad
+2086,13,3.0,60+,זכר,Abroad
+2087,17,3.0,30-39,זכר,Contact with confirmed
+2088,19,3.0,30-39,נקבה,Contact with confirmed
+2089,14,3.0,30-39,נקבה,Abroad
+2090,9,3.0,60+,נקבה,Abroad
+2091,10,3.0,0-19,נקבה,Contact with confirmed
+2092,6,3.0,30-39,זכר,Contact with confirmed
+2093,7,3.0,50-59,זכר,Abroad
+2094,20,3.0,30-39,נקבה,Other
+2095,12,3.0,50-59,זכר,Contact with confirmed
+2096,15,3.0,30-39,זכר,Contact with confirmed
+2097,8,3.0,20-29,נקבה,Other
+2098,3,3.0,20-29,זכר,Contact with confirmed
+2099,8,3.0,0-19,נקבה,Contact with confirmed
+2100,8,3.0,60+,זכר,Other
+2101,20,3.0,50-59,נקבה,Contact with confirmed
+2102,9,3.0,0-19,זכר,Contact with confirmed
+2103,15,3.0,60+,נקבה,Abroad
+2104,24,3.0,40-49,זכר,Contact with confirmed
+2105,20,3.0,0-19,זכר,Contact with confirmed
+2106,11,3.0,30-39,נקבה,Contact with confirmed
+2107,12,3.0,20-29,נקבה,Contact with confirmed
+2108,13,3.0,20-29,נקבה,Contact with confirmed
+2109,5,3.0,50-59,נקבה,Other
+2110,16,3.0,40-49,זכר,Abroad
+2111,16,3.0,20-29,נקבה,Contact with confirmed
+2112,10,3.0,0-19,זכר,Contact with confirmed
+2113,7,3.0,40-49,נקבה,Other
+2114,15,3.0,60+,זכר,Contact with confirmed
+2115,20,3.0,60+,נקבה,Abroad
+2116,13,3.0,0-19,זכר,Contact with confirmed
+2117,12,3.0,0-19,זכר,Contact with confirmed
+2118,12,3.0,0-19,נקבה,Contact with confirmed
+2119,14,3.0,30-39,זכר,Contact with confirmed
+2120,12,3.0,20-29,נקבה,Contact with confirmed
+2121,9,3.0,60+,זכר,Other
+2122,11,3.0,40-49,נקבה,Contact with confirmed
+2123,8,3.0,40-49,זכר,Contact with confirmed
+2124,15,3.0,40-49,זכר,Contact with confirmed
+2125,8,3.0,20-29,זכר,Abroad
+2126,14,3.0,20-29,זכר,Abroad
+2127,7,3.0,60+,זכר,Contact with confirmed
+2128,10,3.0,20-29,זכר,Abroad
+2129,5,3.0,20-29,זכר,Contact with confirmed
+2130,12,3.0,60+,זכר,Contact with confirmed
+2131,20,3.0,0-19,זכר,Contact with confirmed
+2132,8,3.0,60+,נקבה,Abroad
+2133,11,3.0,20-29,זכר,Abroad
+2134,10,3.0,20-29,זכר,Contact with confirmed
+2135,4,3.0,0-19,זכר,NULL
+2136,13,3.0,40-49,נקבה,Contact with confirmed
+2137,16,3.0,20-29,זכר,Contact with confirmed
+2138,21,3.0,60+,נקבה,Abroad
+2139,17,3.0,0-19,זכר,Contact with confirmed
+2140,14,3.0,40-49,זכר,Abroad
+2141,13,3.0,60+,זכר,Other
+2142,9,3.0,40-49,זכר,Contact with confirmed
+2143,26,3.0,30-39,זכר,Contact with confirmed
+2144,14,3.0,30-39,זכר,Contact with confirmed
+2145,3,3.0,20-29,זכר,Abroad
+2146,12,3.0,60+,נקבה,Contact with confirmed
+2147,7,3.0,30-39,נקבה,Contact with confirmed
+2148,8,3.0,50-59,זכר,Abroad
+2149,10,3.0,30-39,נקבה,Contact with confirmed
+2150,12,3.0,60+,נקבה,Contact with confirmed
+2151,14,3.0,50-59,נקבה,Abroad
+2152,12,3.0,30-39,זכר,Abroad
+2153,19,3.0,60+,נקבה,Contact with confirmed
+2154,11,3.0,30-39,זכר,Abroad
+2155,8,3.0,60+,זכר,Contact with confirmed
+2156,15,3.0,20-29,זכר,Contact with confirmed
+2157,9,3.0,20-29,נקבה,Abroad
+2158,16,3.0,30-39,נקבה,Contact with confirmed
+2159,11,3.0,60+,זכר,Abroad
+2160,10,3.0,40-49,זכר,Other
+2161,17,3.0,50-59,נקבה,Abroad
+2162,7,3.0,0-19,נקבה,NULL
+2163,3,3.0,20-29,זכר,Other
+2166,24,3.0,60+,נקבה,Contact with confirmed
+2167,13,3.0,20-29,זכר,Contact with confirmed
+2168,10,3.0,30-39,זכר,Abroad
+2169,10,3.0,20-29,זכר,Contact with confirmed
+2170,14,3.0,20-29,זכר,Contact with confirmed
+2171,17,3.0,20-29,נקבה,Abroad
+2172,15,3.0,50-59,זכר,Other
+2173,17,3.0,30-39,נקבה,Abroad
+2174,12,3.0,40-49,נקבה,Contact with confirmed
+2175,16,3.0,60+,זכר,Abroad
+2176,17,3.0,60+,נקבה,Abroad
+2177,16,3.0,40-49,נקבה,Other
+2178,10,3.0,20-29,זכר,Contact with confirmed
+2179,10,3.0,0-19,זכר,Contact with confirmed
+2180,13,3.0,50-59,זכר,Other
+2181,11,3.0,50-59,זכר,Other
+2182,10,3.0,60+,נקבה,Contact with confirmed
+2183,14,3.0,20-29,נקבה,Contact with confirmed
+2184,10,3.0,20-29,זכר,Abroad
+2185,11,3.0,60+,זכר,Contact with confirmed
+2186,9,3.0,20-29,נקבה,Abroad
+2187,9,3.0,20-29,נקבה,Abroad
+2188,5,3.0,0-19,נקבה,Contact with confirmed
+2189,11,3.0,20-29,זכר,Contact with confirmed
+2190,6,3.0,0-19,זכר,Contact with confirmed
+2191,9,3.0,20-29,זכר,Contact with confirmed
+2192,18,3.0,30-39,זכר,Abroad
+2193,14,3.0,50-59,זכר,Contact with confirmed
+2194,9,3.0,20-29,נקבה,Contact with confirmed
+2195,12,3.0,30-39,נקבה,Abroad
+2196,6,3.0,60+,נקבה,Other
+2197,24,3.0,30-39,זכר,Contact with confirmed
+2198,12,3.0,40-49,זכר,Abroad
+2199,3,3.0,60+,זכר,Abroad
+2200,21,3.0,20-29,נקבה,Contact with confirmed
+2201,15,3.0,30-39,זכר,Other
+2202,11,3.0,20-29,זכר,Other
+2203,18,3.0,60+,זכר,Contact with confirmed
+2204,13,3.0,60+,נקבה,Other
+2205,13,3.0,50-59,נקבה,Contact with confirmed
+2206,10,3.0,40-49,זכר,Contact with confirmed
+2207,15,3.0,40-49,זכר,Abroad
+2208,10,3.0,40-49,נקבה,Abroad
+2209,10,3.0,20-29,זכר,Contact with confirmed
+2210,6,3.0,20-29,זכר,Other
+2211,10,3.0,20-29,זכר,Abroad
+2212,4,3.0,20-29,זכר,Other
+2213,3,3.0,50-59,נקבה,Other
+2214,11,3.0,30-39,זכר,Abroad
+2215,10,3.0,0-19,זכר,NULL
+2216,9,3.0,20-29,נקבה,Abroad
+2217,17,3.0,30-39,זכר,Abroad
+2218,16,3.0,30-39,זכר,Abroad
+2219,19,3.0,60+,זכר,Other
+2220,12,3.0,30-39,נקבה,Contact with confirmed
+2221,18,3.0,0-19,זכר,Contact with confirmed
+2222,14,3.0,60+,נקבה,Contact with confirmed
+2223,11,3.0,20-29,נקבה,Abroad
+2224,18,3.0,50-59,נקבה,Contact with confirmed
+2225,10,3.0,20-29,נקבה,Contact with confirmed
+2226,26,3.0,50-59,זכר,Abroad
+2227,9,3.0,20-29,זכר,Abroad
+2228,18,3.0,30-39,זכר,Contact with confirmed
+2229,10,3.0,30-39,נקבה,Contact with confirmed
+2230,8,3.0,50-59,זכר,Contact with confirmed
+2231,11,3.0,20-29,זכר,Abroad
+2232,23,3.0,60+,זכר,Abroad
+2233,11,3.0,20-29,נקבה,Other
+2234,12,3.0,30-39,זכר,Contact with confirmed
+2235,9,3.0,20-29,זכר,Abroad
+2236,17,3.0,60+,נקבה,Other
+2237,20,3.0,30-39,נקבה,Abroad
+2238,10,3.0,60+,נקבה,Contact with confirmed
+2239,19,3.0,60+,נקבה,Contact with confirmed
+2240,13,3.0,30-39,נקבה,Contact with confirmed
+2241,12,3.0,60+,נקבה,Abroad
+2242,6,3.0,30-39,נקבה,Contact with confirmed
+2243,12,3.0,0-19,זכר,Contact with confirmed
+2244,12,3.0,50-59,זכר,Contact with confirmed
+2245,5,3.0,60+,נקבה,Abroad
+2246,4,3.0,60+,נקבה,Abroad
+2247,2,3.0,20-29,זכר,Other
+2248,6,3.0,60+,נקבה,Contact with confirmed
+2249,3,3.0,20-29,נקבה,Contact with confirmed
+2250,12,3.0,0-19,זכר,Contact with confirmed
+2251,9,3.0,20-29,נקבה,Abroad
+2252,18,3.0,40-49,נקבה,Contact with confirmed
+2253,9,3.0,50-59,זכר,Abroad
+2254,8,3.0,30-39,נקבה,Contact with confirmed
+2255,13,3.0,20-29,זכר,Contact with confirmed
+2256,8,3.0,20-29,זכר,Contact with confirmed
+2257,14,3.0,20-29,זכר,Contact with confirmed
+2258,8,3.0,60+,זכר,Other
+2259,11,3.0,20-29,זכר,Other
+2260,10,3.0,40-49,נקבה,Other
+2261,6,3.0,40-49,זכר,Other
+2262,10,3.0,20-29,זכר,Contact with confirmed
+2263,3,3.0,0-19,זכר,Contact with confirmed
+2264,7,3.0,40-49,זכר,Other
+2265,11,3.0,30-39,זכר,Abroad
+2266,7,3.0,40-49,זכר,Other
+2267,9,3.0,0-19,נקבה,Contact with confirmed
+2268,10,3.0,30-39,זכר,Other
+2269,11,3.0,0-19,זכר,NULL
+2270,16,3.0,20-29,זכר,Contact with confirmed
+2271,10,3.0,0-19,זכר,Contact with confirmed
+2272,9,3.0,20-29,נקבה,Other
+2273,13,3.0,60+,זכר,Other
+2274,11,3.0,30-39,זכר,Contact with confirmed
+2275,10,3.0,50-59,זכר,Other
+2276,10,3.0,20-29,נקבה,Other
+2277,13,3.0,0-19,נקבה,Contact with confirmed
+2278,13,3.0,0-19,זכר,Contact with confirmed
+2279,11,3.0,60+,נקבה,Other
+2280,10,3.0,0-19,זכר,Contact with confirmed
+2281,14,3.0,20-29,זכר,Contact with confirmed
+2282,11,3.0,0-19,נקבה,Contact with confirmed
+2283,16,3.0,30-39,זכר,Contact with confirmed
+2284,7,3.0,20-29,זכר,Abroad
+2285,12,3.0,20-29,נקבה,Other
+2286,7,3.0,50-59,זכר,Other
+2287,11,3.0,60+,נקבה,Other
+2288,6,3.0,30-39,זכר,Contact with confirmed
+2289,11,3.0,40-49,נקבה,Contact with confirmed
+2290,8,3.0,50-59,זכר,Other
+2291,9,3.0,20-29,זכר,Contact with confirmed
+2292,11,3.0,50-59,נקבה,Contact with confirmed
+2293,8,3.0,20-29,נקבה,Other
+2294,16,3.0,20-29,זכר,Abroad
+2295,14,3.0,40-49,זכר,Contact with confirmed
+2296,9,3.0,50-59,נקבה,Other
+2297,11,3.0,50-59,זכר,Other
+2298,6,3.0,50-59,נקבה,Other
+2299,13,3.0,0-19,זכר,Contact with confirmed
+2300,8,3.0,20-29,נקבה,Contact with confirmed
+2301,13,3.0,50-59,זכר,Other
+2302,4,3.0,20-29,נקבה,Other
+2303,11,3.0,20-29,נקבה,Contact with confirmed
+2304,13,3.0,0-19,זכר,NULL
+2305,11,3.0,0-19,זכר,Contact with confirmed
+2306,13,3.0,20-29,נקבה,Contact with confirmed
+2307,7,3.0,60+,זכר,Other
+2308,6,3.0,60+,זכר,Other
+2309,4,3.0,60+,נקבה,Other
+2310,8,3.0,20-29,נקבה,Contact with confirmed
+2311,10,3.0,50-59,זכר,Contact with confirmed
+2312,8,3.0,0-19,זכר,NULL
+2313,16,3.0,30-39,נקבה,Contact with confirmed
+2314,14,3.0,0-19,נקבה,Contact with confirmed
+2315,9,3.0,20-29,זכר,Other
+2316,12,3.0,0-19,זכר,Contact with confirmed
+2317,9,3.0,20-29,זכר,Contact with confirmed
+2318,11,3.0,0-19,זכר,Contact with confirmed
+2319,11,3.0,0-19,נקבה,Contact with confirmed
+2320,15,3.0,40-49,זכר,Abroad
+2321,14,3.0,20-29,זכר,Contact with confirmed
+2322,10,3.0,20-29,זכר,Contact with confirmed
+2323,4,3.0,60+,זכר,Contact with confirmed
+2324,9,3.0,0-19,נקבה,NULL
+2325,4,3.0,20-29,זכר,Abroad
+2326,9,3.0,20-29,נקבה,Other
+2327,11,3.0,30-39,זכר,Other
+2328,4,3.0,60+,נקבה,Other
+2329,13,3.0,30-39,נקבה,Contact with confirmed
+2330,17,3.0,50-59,זכר,Contact with confirmed
+2331,11,3.0,30-39,נקבה,Other
+2332,10,3.0,0-19,נקבה,Contact with confirmed
+2333,10,3.0,20-29,נקבה,Contact with confirmed
+2334,17,3.0,20-29,זכר,Contact with confirmed
+2335,12,3.0,20-29,נקבה,Contact with confirmed
+2336,13,3.0,30-39,זכר,Other
+2337,13,3.0,30-39,נקבה,Other
+2338,11,3.0,20-29,נקבה,Other
+2339,16,3.0,30-39,נקבה,Contact with confirmed
+2340,16,3.0,60+,זכר,Other
+2341,12,3.0,20-29,זכר,Contact with confirmed
+2342,14,3.0,50-59,זכר,Contact with confirmed
+2343,7,3.0,60+,זכר,Contact with confirmed
+2344,13,3.0,20-29,זכר,Other
+2345,13,3.0,50-59,זכר,Other
+2346,4,3.0,20-29,נקבה,Contact with confirmed
+2347,12,3.0,60+,זכר,Other
+2348,14,3.0,20-29,נקבה,Contact with confirmed
+2349,7,3.0,20-29,זכר,Abroad
+2350,10,3.0,50-59,זכר,Other
+2351,9,3.0,50-59,זכר,Contact with confirmed
+2352,14,3.0,30-39,זכר,Other
+2353,8,3.0,30-39,נקבה,Other
+2354,9,3.0,60+,נקבה,Contact with confirmed
+2355,13,3.0,20-29,נקבה,Contact with confirmed
+2356,15,3.0,50-59,נקבה,Other
+2357,12,3.0,30-39,זכר,Contact with confirmed
+2358,11,3.0,60+,זכר,Other
+2359,10,3.0,30-39,זכר,Other
+2360,7,3.0,40-49,נקבה,Contact with confirmed
+2361,12,3.0,30-39,זכר,Other
+2362,11,3.0,40-49,זכר,Contact with confirmed
+2363,9,3.0,50-59,זכר,Other
+2364,9,3.0,60+,זכר,Contact with confirmed
+2365,10,3.0,30-39,זכר,Other
+2366,9,3.0,40-49,זכר,Other
+2367,16,3.0,30-39,זכר,Other
+2368,9,3.0,50-59,נקבה,Contact with confirmed
+2369,9,3.0,50-59,זכר,Contact with confirmed
+2370,8,3.0,40-49,זכר,Contact with confirmed
+2371,14,3.0,60+,זכר,Contact with confirmed
+2372,12,3.0,50-59,זכר,Contact with confirmed
+2373,16,3.0,20-29,נקבה,Abroad
+2374,10,3.0,50-59,נקבה,Contact with confirmed
+2375,11,3.0,20-29,זכר,Contact with confirmed
+2376,16,3.0,40-49,זכר,Abroad
+2377,9,3.0,40-49,זכר,Contact with confirmed
+2378,19,3.0,20-29,זכר,Abroad
+2379,16,3.0,60+,זכר,Other
+2380,7,3.0,20-29,נקבה,Other
+2381,12,3.0,0-19,זכר,Contact with confirmed
+2382,12,3.0,0-19,זכר,Contact with confirmed
+2383,13,3.0,20-29,זכר,Abroad
+2384,1,3.0,0-19,זכר,NULL
+2385,13,3.0,20-29,זכר,Contact with confirmed
+2386,4,3.0,20-29,נקבה,Contact with confirmed
+2387,10,3.0,40-49,נקבה,Other
+2388,12,3.0,60+,זכר,Other
+2389,17,3.0,40-49,זכר,Contact with confirmed
+2390,8,3.0,20-29,זכר,Contact with confirmed
+2391,7,3.0,20-29,נקבה,Other
+2392,13,3.0,60+,זכר,Other
+2393,18,3.0,0-19,נקבה,NULL
+2394,12,3.0,0-19,נקבה,NULL
+2395,13,3.0,50-59,נקבה,Other
+2396,12,3.0,50-59,זכר,Other
+2397,8,3.0,20-29,זכר,Abroad
+2398,16,3.0,20-29,נקבה,Other
+2399,9,3.0,40-49,זכר,Contact with confirmed
+2400,8,3.0,20-29,נקבה,Contact with confirmed
+2401,12,3.0,60+,זכר,Contact with confirmed
+2402,8,3.0,30-39,נקבה,Contact with confirmed
+2403,16,3.0,30-39,נקבה,Other
+2404,9,3.0,20-29,זכר,Contact with confirmed
+2405,10,3.0,0-19,נקבה,NULL
+2406,15,3.0,50-59,נקבה,Other
+2407,11,3.0,60+,זכר,Other
+2408,12,3.0,0-19,זכר,Contact with confirmed
+2409,5,3.0,40-49,זכר,Other
+2410,3,3.0,60+,נקבה,Other
+2411,11,3.0,20-29,זכר,Abroad
+2412,18,3.0,50-59,נקבה,Contact with confirmed
+2413,14,3.0,20-29,נקבה,Contact with confirmed
+2414,12,3.0,30-39,נקבה,Other
+2415,12,3.0,60+,זכר,Other
+2416,9,3.0,20-29,נקבה,Contact with confirmed
+2417,12,3.0,20-29,נקבה,Contact with confirmed
+2418,11,3.0,40-49,זכר,Other
+2419,8,3.0,0-19,זכר,Contact with confirmed
+2420,12,3.0,30-39,זכר,Contact with confirmed
+2421,13,3.0,30-39,זכר,Other
+2422,11,3.0,0-19,נקבה,Contact with confirmed
+2423,19,3.0,50-59,זכר,Contact with confirmed
+2424,18,3.0,50-59,זכר,Other
+2425,12,3.0,60+,נקבה,Contact with confirmed
+2426,15,3.0,0-19,נקבה,Contact with confirmed
+2427,13,3.0,20-29,זכר,Contact with confirmed
+2428,12,3.0,30-39,נקבה,Contact with confirmed
+2429,11,3.0,60+,נקבה,Contact with confirmed
+2430,14,3.0,40-49,נקבה,Contact with confirmed
+2431,9,3.0,60+,נקבה,Contact with confirmed
+2432,5,3.0,0-19,נקבה,Contact with confirmed
+2433,14,3.0,20-29,נקבה,Abroad
+2434,1,3.0,60+,זכר,Other
+2435,4,3.0,20-29,נקבה,Other
+2436,7,3.0,20-29,נקבה,Abroad
+2437,8,3.0,20-29,נקבה,Abroad
+2438,10,3.0,20-29,נקבה,Other
+2439,4,3.0,0-19,זכר,Contact with confirmed
+2440,15,3.0,60+,זכר,Other
+2441,15,3.0,60+,נקבה,Other
+2442,16,3.0,40-49,זכר,Contact with confirmed
+2443,11,3.0,30-39,נקבה,Contact with confirmed
+2444,11,3.0,0-19,זכר,Contact with confirmed
+2445,15,3.0,50-59,זכר,Contact with confirmed
+2446,11,3.0,30-39,זכר,Contact with confirmed
+2447,4,3.0,50-59,נקבה,Other
+2448,12,3.0,60+,זכר,Other
+2449,10,3.0,0-19,נקבה,Contact with confirmed
+2450,8,3.0,40-49,זכר,Contact with confirmed
+2451,11,3.0,20-29,זכר,Contact with confirmed
+2452,13,3.0,20-29,זכר,Contact with confirmed
+2453,12,3.0,60+,נקבה,Contact with confirmed
+2454,11,3.0,30-39,נקבה,Contact with confirmed
+2455,15,3.0,30-39,זכר,Other
+2456,13,3.0,60+,זכר,Other
+2457,7,3.0,0-19,נקבה,Contact with confirmed
+2458,7,3.0,20-29,זכר,Other
+2459,8,3.0,20-29,זכר,Contact with confirmed
+2460,9,3.0,30-39,זכר,Other
+2461,9,3.0,50-59,זכר,Contact with confirmed
+2462,4,3.0,60+,נקבה,Other
+2463,2,3.0,60+,נקבה,Other
+2464,2,3.0,60+,נקבה,Other
+2465,5,3.0,50-59,נקבה,Contact with confirmed
+2466,5,3.0,0-19,זכר,NULL
+2467,12,3.0,30-39,נקבה,Contact with confirmed
+2468,4,3.0,60+,זכר,Other
+2469,3,3.0,60+,זכר,Other
+2470,2,3.0,60+,זכר,Abroad
+2471,5,3.0,0-19,נקבה,Contact with confirmed
+2472,5,3.0,0-19,זכר,NULL
+2473,7,3.0,60+,זכר,Other
+2474,6,3.0,30-39,זכר,Contact with confirmed
+2475,8,3.0,60+,נקבה,Other
+2476,15,3.0,20-29,זכר,Contact with confirmed
+2477,10,3.0,20-29,זכר,Contact with confirmed
+2478,9,3.0,0-19,זכר,Contact with confirmed
+2479,3,3.0,40-49,נקבה,Contact with confirmed
+2480,7,3.0,20-29,זכר,Contact with confirmed
+2481,3,3.0,60+,נקבה,Other
+2482,6,3.0,40-49,זכר,Contact with confirmed
+2483,7,3.0,20-29,זכר,Contact with confirmed
+2484,4,3.0,20-29,זכר,Contact with confirmed
+2485,5,3.0,50-59,זכר,Other
+2486,10,3.0,0-19,זכר,Contact with confirmed
+2487,5,3.0,20-29,נקבה,Contact with confirmed
+2488,9,3.0,40-49,נקבה,Other
+2489,5,3.0,0-19,נקבה,NULL
+2490,6,3.0,60+,נקבה,Other
+2491,6,3.0,0-19,זכר,NULL
+2492,8,3.0,20-29,זכר,Other
+2493,8,3.0,0-19,זכר,Contact with confirmed
+2494,7,3.0,60+,נקבה,Other
+2495,2,3.0,0-19,נקבה,NULL
+2496,10,3.0,20-29,נקבה,Other
+2497,13,3.0,20-29,זכר,Other
+2498,7,3.0,50-59,נקבה,Contact with confirmed
+2499,8,3.0,60+,נקבה,Other
+2500,7,3.0,20-29,זכר,Contact with confirmed
+2501,13,3.0,20-29,נקבה,Contact with confirmed
+2502,7,3.0,0-19,זכר,Contact with confirmed
+2503,8,3.0,20-29,זכר,Contact with confirmed
+2504,10,3.0,0-19,זכר,NULL
+2505,8,3.0,20-29,זכר,Other
+2506,12,3.0,40-49,זכר,Abroad
+2507,14,3.0,20-29,נקבה,Other
+2508,9,3.0,40-49,זכר,Abroad
+2509,8,3.0,20-29,נקבה,Other
+2510,13,3.0,30-39,זכר,Abroad
+2511,11,3.0,50-59,זכר,Other
+2512,16,3.0,30-39,נקבה,Abroad
+2513,15,3.0,30-39,זכר,Contact with confirmed
+2514,14,3.0,40-49,נקבה,Contact with confirmed
+2515,10,3.0,40-49,נקבה,Abroad
+2516,11,3.0,60+,נקבה,Abroad
+2517,2,3.0,60+,זכר,Other
+2518,17,3.0,30-39,נקבה,Contact with confirmed
+2519,6,3.0,30-39,זכר,Contact with confirmed
+2520,8,3.0,30-39,נקבה,Abroad
+2521,1,3.0,30-39,נקבה,Other
+2522,11,3.0,40-49,נקבה,Contact with confirmed
+2523,13,3.0,50-59,נקבה,Contact with confirmed
+2524,8,3.0,0-19,נקבה,Contact with confirmed
+2525,1,3.0,60+,נקבה,Other
+2526,3,3.0,60+,נקבה,Other
+2527,12,3.0,50-59,נקבה,Other
+2528,14,3.0,20-29,זכר,Other
+2529,16,3.0,30-39,נקבה,Contact with confirmed
+2530,7,3.0,20-29,נקבה,Contact with confirmed
+2531,7,3.0,0-19,נקבה,Contact with confirmed
+2532,7,3.0,0-19,זכר,Contact with confirmed
+2533,7,3.0,40-49,נקבה,Contact with confirmed
+2534,9,3.0,20-29,נקבה,Contact with confirmed
+2535,11,3.0,60+,נקבה,Contact with confirmed
+2536,8,3.0,40-49,זכר,Contact with confirmed
+2537,7,3.0,60+,נקבה,Other
+2538,7,3.0,30-39,נקבה,Abroad
+2539,10,3.0,30-39,נקבה,Other
+2540,8,3.0,0-19,נקבה,Contact with confirmed
+2541,7,3.0,20-29,נקבה,Other
+2542,10,3.0,20-29,נקבה,Contact with confirmed
+2543,10,3.0,20-29,זכר,Other
+2544,8,3.0,30-39,נקבה,Other
+2545,9,3.0,60+,זכר,Other
+2546,8,3.0,20-29,זכר,Contact with confirmed
+2547,6,3.0,60+,נקבה,Contact with confirmed
+2548,9,3.0,50-59,נקבה,Other
+2549,9,3.0,40-49,זכר,Other
+2550,13,3.0,50-59,נקבה,Other
+2551,11,3.0,0-19,זכר,NULL
+2552,9,3.0,20-29,זכר,Other
+2553,8,3.0,30-39,נקבה,Other
+2554,9,3.0,30-39,זכר,Contact with confirmed
+2555,13,3.0,20-29,זכר,Other
+2556,12,3.0,30-39,זכר,Contact with confirmed
+2557,3,3.0,20-29,זכר,Other
+2558,12,3.0,20-29,זכר,Other
+2559,10,3.0,0-19,נקבה,Contact with confirmed
+2560,4,3.0,0-19,נקבה,Contact with confirmed
+2561,3,3.0,20-29,זכר,Other
+2562,6,3.0,30-39,זכר,Other
+2563,11,3.0,20-29,זכר,Other
+2564,11,3.0,50-59,נקבה,Other
+2565,2,3.0,50-59,זכר,Abroad
+2566,8,3.0,30-39,זכר,Other
+2567,12,3.0,60+,נקבה,Other
+2568,6,3.0,30-39,נקבה,Contact with confirmed
+2569,5,3.0,40-49,נקבה,Contact with confirmed
+2570,14,3.0,0-19,נקבה,Contact with confirmed
+2571,10,3.0,60+,נקבה,Contact with confirmed
+2572,9,3.0,30-39,נקבה,Other
+2573,10,3.0,0-19,זכר,NULL
+2574,8,3.0,20-29,זכר,Other
+2575,9,3.0,60+,זכר,Other
+2576,9,3.0,60+,זכר,Other
+2577,12,3.0,60+,זכר,Other
+2578,11,3.0,0-19,נקבה,Contact with confirmed
+2579,11,3.0,40-49,זכר,Contact with confirmed
+2580,7,3.0,0-19,זכר,Contact with confirmed
+2581,13,3.0,0-19,זכר,NULL
+2582,9,3.0,60+,זכר,Other
+2583,8,3.0,20-29,זכר,Contact with confirmed
+2584,4,3.0,30-39,זכר,Contact with confirmed
+2585,10,3.0,60+,נקבה,Contact with confirmed
+2586,8,3.0,0-19,זכר,Contact with confirmed
+2587,4,3.0,30-39,זכר,Contact with confirmed
+2588,8,3.0,40-49,זכר,Other
+2589,7,3.0,50-59,נקבה,Other
+2590,9,3.0,20-29,נקבה,Contact with confirmed
+2591,5,3.0,40-49,נקבה,Contact with confirmed
+2592,11,3.0,0-19,זכר,Contact with confirmed
+2593,7,3.0,50-59,זכר,Contact with confirmed
+2594,10,3.0,40-49,זכר,Other
+2595,9,3.0,20-29,זכר,Contact with confirmed
+2596,7,3.0,40-49,זכר,Contact with confirmed
+2597,9,3.0,20-29,נקבה,Other
+2598,7,3.0,30-39,זכר,Abroad
+2599,6,3.0,20-29,זכר,Abroad
+2600,5,3.0,30-39,נקבה,Contact with confirmed
+2601,7,3.0,40-49,נקבה,Contact with confirmed
+2602,8,3.0,20-29,זכר,Other
+2603,8,3.0,20-29,נקבה,Contact with confirmed
+2604,13,3.0,60+,זכר,Other
+2605,13,3.0,60+,נקבה,Other
+2606,7,3.0,20-29,זכר,Other
+2607,8,3.0,30-39,נקבה,Other
+2608,7,3.0,50-59,נקבה,Other
+2609,8,3.0,40-49,נקבה,Contact with confirmed
+2610,8,3.0,40-49,נקבה,Contact with confirmed
+2611,6,3.0,60+,נקבה,Contact with confirmed
+2612,8,3.0,20-29,זכר,Abroad
+2613,11,3.0,60+,נקבה,Other
+2614,3,3.0,40-49,נקבה,Contact with confirmed
+2615,6,3.0,30-39,נקבה,Other
+2616,5,3.0,20-29,נקבה,Abroad
+2617,5,3.0,0-19,זכר,NULL
+2618,8,3.0,0-19,זכר,Contact with confirmed
+2619,5,3.0,40-49,זכר,Other
+2620,10,3.0,60+,זכר,Other
+2621,12,3.0,30-39,נקבה,Contact with confirmed
+2622,6,3.0,50-59,נקבה,Contact with confirmed
+2623,9,3.0,30-39,זכר,Contact with confirmed
+2624,10,3.0,30-39,זכר,Abroad
+2625,9,3.0,20-29,זכר,Contact with confirmed
+2626,5,3.0,60+,זכר,Other
+2627,7,3.0,0-19,נקבה,Contact with confirmed
+2628,10,3.0,40-49,זכר,Other
+2629,9,3.0,50-59,נקבה,Other
+2630,7,3.0,0-19,נקבה,NULL
+2631,10,3.0,60+,זכר,Abroad
+2632,2,3.0,60+,זכר,Contact with confirmed
+2633,7,3.0,30-39,נקבה,Other
+2634,6,3.0,50-59,זכר,Other
+2635,8,3.0,60+,זכר,Contact with confirmed
+2636,2,3.0,50-59,נקבה,Contact with confirmed
+2637,5,3.0,20-29,נקבה,Contact with confirmed
+2638,7,3.0,20-29,נקבה,Abroad
+2639,5,3.0,50-59,זכר,Other
+2640,8,3.0,20-29,נקבה,Contact with confirmed
+2641,12,3.0,0-19,זכר,Contact with confirmed
+2642,7,3.0,30-39,זכר,Other
+2643,10,3.0,40-49,זכר,Other
+2644,12,3.0,20-29,נקבה,Contact with confirmed
+2645,11,3.0,20-29,זכר,Other
+2646,7,3.0,0-19,נקבה,NULL
+2647,8,3.0,0-19,זכר,Contact with confirmed
+2648,13,3.0,50-59,זכר,Other
+2649,4,3.0,20-29,נקבה,Other
+2650,16,3.0,40-49,זכר,Contact with confirmed
+2651,9,3.0,0-19,זכר,Contact with confirmed
+2652,12,3.0,0-19,זכר,Contact with confirmed
+2653,19,3.0,30-39,נקבה,Contact with confirmed
+2654,14,3.0,50-59,זכר,Abroad
+2655,19,3.0,20-29,נקבה,Contact with confirmed
+2656,14,3.0,60+,זכר,Contact with confirmed
+2657,12,3.0,20-29,נקבה,Contact with confirmed
+2658,11,3.0,50-59,זכר,Abroad
+2659,17,3.0,40-49,זכר,Contact with confirmed
+2660,16,3.0,50-59,נקבה,Contact with confirmed
+2661,12,3.0,50-59,נקבה,Contact with confirmed
+2662,5,3.0,50-59,זכר,Abroad
+2663,6,3.0,60+,נקבה,Contact with confirmed
+2664,17,3.0,20-29,נקבה,Contact with confirmed
+2665,10,3.0,60+,זכר,Abroad
+2666,10,3.0,40-49,זכר,Contact with confirmed
+2667,10,3.0,20-29,נקבה,Contact with confirmed
+2668,14,3.0,40-49,נקבה,Contact with confirmed
+2669,10,3.0,40-49,נקבה,Contact with confirmed
+2670,12,3.0,30-39,נקבה,Abroad
+2671,6,3.0,40-49,זכר,Abroad
+2672,11,3.0,50-59,נקבה,Abroad
+2673,16,3.0,20-29,נקבה,Contact with confirmed
+2674,6,3.0,0-19,זכר,Contact with confirmed
+2675,16,3.0,20-29,זכר,Other
+2676,14,3.0,50-59,זכר,Abroad
+2677,8,3.0,40-49,נקבה,Contact with confirmed
+2678,13,3.0,50-59,נקבה,Abroad
+2679,8,3.0,20-29,נקבה,Other
+2680,7,3.0,60+,נקבה,Abroad
+2681,6,3.0,40-49,נקבה,Contact with confirmed
+2682,20,3.0,60+,נקבה,Abroad
+2683,12,3.0,60+,זכר,Abroad
+2684,15,3.0,30-39,זכר,Contact with confirmed
+2685,9,3.0,30-39,זכר,Contact with confirmed
+2686,24,3.0,30-39,זכר,Abroad
+2687,15,3.0,40-49,נקבה,Contact with confirmed
+2688,14,3.0,0-19,נקבה,Contact with confirmed
+2689,11,3.0,40-49,זכר,Abroad
+2690,11,3.0,40-49,נקבה,Contact with confirmed
+2691,4,3.0,60+,זכר,Contact with confirmed
+2692,11,3.0,20-29,נקבה,Contact with confirmed
+2693,19,3.0,40-49,זכר,Abroad
+2694,20,3.0,50-59,זכר,Contact with confirmed
+2695,16,3.0,30-39,זכר,Other
+2696,14,3.0,60+,זכר,Other
+2697,5,3.0,50-59,נקבה,Contact with confirmed
+2698,6,3.0,30-39,נקבה,Contact with confirmed
+2699,14,3.0,20-29,נקבה,Contact with confirmed
+2700,16,3.0,50-59,זכר,Contact with confirmed
+2701,12,3.0,20-29,זכר,Contact with confirmed
+2702,12,3.0,20-29,זכר,Contact with confirmed
+2703,8,3.0,20-29,זכר,Other
+2704,16,3.0,40-49,זכר,Contact with confirmed
+2705,14,3.0,50-59,נקבה,Contact with confirmed
+2706,9,3.0,30-39,זכר,Contact with confirmed
+2707,20,3.0,60+,זכר,Contact with confirmed
+2708,15,3.0,40-49,נקבה,Contact with confirmed
+2709,20,3.0,30-39,זכר,Contact with confirmed
+2710,10,3.0,30-39,זכר,Contact with confirmed
+2711,2,3.0,30-39,זכר,Contact with confirmed
+2712,6,3.0,40-49,זכר,Other
+2713,13,3.0,0-19,נקבה,Contact with confirmed
+2714,10,3.0,30-39,זכר,Contact with confirmed
+2715,13,3.0,30-39,זכר,Contact with confirmed
+2716,7,3.0,20-29,זכר,Contact with confirmed
+2717,6,3.0,30-39,נקבה,Contact with confirmed
+2718,13,3.0,60+,נקבה,Contact with confirmed
+2719,11,3.0,30-39,זכר,Contact with confirmed
+2720,11,3.0,50-59,זכר,Abroad
+2721,15,3.0,20-29,נקבה,Contact with confirmed
+2722,9,3.0,60+,נקבה,Contact with confirmed
+2723,5,3.0,60+,נקבה,Contact with confirmed
+2724,8,3.0,60+,נקבה,Other
+2725,9,3.0,20-29,זכר,Abroad
+2726,12,3.0,40-49,נקבה,Contact with confirmed
+2727,17,3.0,60+,זכר,Abroad
+2728,10,3.0,40-49,זכר,Abroad
+2729,25,3.0,50-59,זכר,Contact with confirmed
+2730,17,3.0,60+,נקבה,Abroad
+2731,14,3.0,20-29,NULL,Other
+2732,10,3.0,20-29,זכר,Abroad
+2733,15,3.0,50-59,נקבה,Contact with confirmed
+2734,5,3.0,60+,זכר,Contact with confirmed
+2735,13,3.0,30-39,זכר,Contact with confirmed
+2736,15,3.0,60+,זכר,Other
+2737,15,3.0,20-29,זכר,Abroad
+2738,11,3.0,60+,נקבה,Contact with confirmed
+2739,19,3.0,0-19,נקבה,Contact with confirmed
+2740,10,3.0,50-59,נקבה,Contact with confirmed
+2741,16,3.0,30-39,זכר,Contact with confirmed
+2742,19,3.0,30-39,זכר,Contact with confirmed
+2743,21,3.0,30-39,נקבה,Contact with confirmed
+2744,18,3.0,40-49,זכר,Contact with confirmed
+2745,10,3.0,30-39,נקבה,Contact with confirmed
+2746,17,3.0,40-49,נקבה,Contact with confirmed
+2747,1,3.0,40-49,נקבה,Other
+2748,20,3.0,60+,נקבה,Contact with confirmed
+2749,21,3.0,60+,נקבה,Other
+2750,7,3.0,60+,זכר,Abroad
+2751,7,3.0,40-49,נקבה,Other
+2752,22,3.0,30-39,זכר,Abroad
+2753,10,3.0,40-49,זכר,Abroad
+2754,18,3.0,60+,זכר,Contact with confirmed
+2755,9,3.0,0-19,זכר,NULL
+2756,10,3.0,60+,זכר,Contact with confirmed
+2757,15,3.0,0-19,נקבה,Contact with confirmed
+2758,15,3.0,40-49,זכר,Contact with confirmed
+2759,14,3.0,30-39,זכר,Contact with confirmed
+2760,14,3.0,20-29,נקבה,Contact with confirmed
+2761,15,3.0,20-29,זכר,Contact with confirmed
+2762,15,3.0,20-29,נקבה,Contact with confirmed
+2763,13,3.0,30-39,נקבה,Contact with confirmed
+2764,20,3.0,50-59,נקבה,Abroad
+2765,14,3.0,40-49,נקבה,Contact with confirmed
+2766,3,3.0,60+,נקבה,Contact with confirmed
+2767,20,3.0,30-39,זכר,Other
+2768,12,3.0,20-29,זכר,Abroad
+2769,11,3.0,0-19,נקבה,Contact with confirmed
+2770,13,3.0,60+,זכר,Other
+2771,4,3.0,40-49,זכר,Other
+2772,5,3.0,60+,זכר,Contact with confirmed
+2773,2,3.0,30-39,זכר,Contact with confirmed
+2774,17,3.0,20-29,זכר,Abroad
+2775,3,3.0,60+,נקבה,Other
+2776,3,3.0,20-29,נקבה,Other
+2777,9,3.0,60+,נקבה,Abroad
+2778,17,3.0,50-59,נקבה,Other
+2779,8,3.0,60+,זכר,Contact with confirmed
+2780,6,3.0,50-59,נקבה,Contact with confirmed
+2781,22,3.0,60+,נקבה,Other
+2782,13,3.0,60+,זכר,Other
+2783,6,3.0,20-29,זכר,Abroad
+2784,18,3.0,30-39,זכר,Contact with confirmed
+2785,11,3.0,60+,נקבה,Abroad
+2786,15,3.0,30-39,זכר,Other
+2787,4,3.0,50-59,זכר,Other
+2788,9,3.0,60+,זכר,Abroad
+2789,14,3.0,30-39,נקבה,Contact with confirmed
+2790,14,3.0,60+,זכר,Other
+2791,9,3.0,20-29,זכר,Contact with confirmed
+2792,14,3.0,60+,זכר,Abroad
+2793,8,3.0,40-49,זכר,Contact with confirmed
+2794,20,3.0,50-59,זכר,Other
+2795,10,3.0,30-39,נקבה,Contact with confirmed
+2796,17,3.0,60+,נקבה,Abroad
+2797,20,3.0,30-39,זכר,Contact with confirmed
+2798,9,3.0,20-29,זכר,Abroad
+2799,4,3.0,30-39,זכר,Contact with confirmed
+2800,8,3.0,30-39,נקבה,Contact with confirmed
+2801,4,3.0,60+,זכר,Abroad
+2802,14,3.0,0-19,נקבה,NULL
+2803,10,3.0,0-19,נקבה,Contact with confirmed
+2804,10,3.0,20-29,נקבה,Other
+2805,11,3.0,20-29,זכר,Other
+2806,7,3.0,50-59,זכר,Contact with confirmed
+2807,14,3.0,40-49,נקבה,Other
+2808,3,3.0,30-39,זכר,Other
+2809,6,3.0,30-39,זכר,Abroad
+2810,17,3.0,0-19,זכר,Contact with confirmed
+2811,19,3.0,50-59,זכר,Contact with confirmed
+2812,17,3.0,60+,זכר,Contact with confirmed
+2813,15,3.0,60+,זכר,Contact with confirmed
+2814,13,3.0,50-59,זכר,Contact with confirmed
+2815,17,3.0,40-49,נקבה,Other
+2816,8,3.0,40-49,זכר,Contact with confirmed
+2817,13,3.0,20-29,זכר,Contact with confirmed
+2818,11,3.0,40-49,זכר,Other
+2819,10,3.0,20-29,זכר,Abroad
+2820,7,3.0,20-29,זכר,Contact with confirmed
+2821,7,3.0,30-39,זכר,Other
+2822,12,3.0,20-29,זכר,Abroad
+2823,8,3.0,20-29,זכר,Abroad
+2824,14,3.0,20-29,זכר,Abroad
+2825,11,3.0,20-29,זכר,Contact with confirmed
+2826,8,3.0,20-29,זכר,Contact with confirmed
+2827,11,3.0,20-29,זכר,Contact with confirmed
+2828,10,3.0,20-29,נקבה,Contact with confirmed
+2829,11,3.0,60+,זכר,Abroad
+2830,16,3.0,60+,זכר,Abroad
+2831,13,3.0,20-29,זכר,Abroad
+2832,12,3.0,20-29,זכר,Abroad
+2833,13,3.0,20-29,זכר,Other
+2834,7,3.0,20-29,זכר,Abroad
+2835,10,3.0,20-29,נקבה,Contact with confirmed
+2836,10,3.0,20-29,זכר,Abroad
+2837,12,3.0,20-29,זכר,Abroad
+2838,12,3.0,20-29,זכר,Abroad
+2839,10,3.0,20-29,זכר,Abroad
+2840,11,3.0,0-19,נקבה,Contact with confirmed
+2841,8,3.0,30-39,זכר,Abroad
+2842,16,3.0,60+,זכר,Abroad
+2843,12,3.0,40-49,נקבה,Contact with confirmed
+2844,8,3.0,30-39,זכר,Contact with confirmed
+2845,4,3.0,60+,זכר,Other
+2846,9,3.0,30-39,זכר,Contact with confirmed
+2847,12,3.0,50-59,זכר,Abroad
+2848,7,3.0,20-29,נקבה,Abroad
+2849,15,3.0,30-39,זכר,Other
+2850,10,3.0,60+,זכר,Contact with confirmed
+2851,10,3.0,20-29,נקבה,Contact with confirmed
+2852,16,3.0,50-59,נקבה,Contact with confirmed
+2853,16,3.0,60+,נקבה,Abroad
+2854,15,3.0,0-19,זכר,Contact with confirmed
+2855,11,3.0,30-39,זכר,Contact with confirmed
+2856,13,3.0,40-49,זכר,Abroad
+2857,8,3.0,0-19,נקבה,NULL
+2858,10,3.0,0-19,זכר,Contact with confirmed
+2859,18,3.0,60+,זכר,Other
+2860,13,3.0,20-29,נקבה,Contact with confirmed
+2861,7,3.0,30-39,נקבה,Contact with confirmed
+2862,9,3.0,60+,נקבה,Abroad
+2863,10,3.0,30-39,זכר,Abroad
+2864,11,3.0,60+,זכר,Contact with confirmed
+2865,18,3.0,30-39,זכר,Contact with confirmed
+2866,13,3.0,60+,זכר,Other
+2867,16,3.0,0-19,זכר,NULL
+2868,13,3.0,20-29,נקבה,Contact with confirmed
+2869,9,3.0,20-29,זכר,Abroad
+2870,14,3.0,50-59,זכר,Abroad
+2871,21,3.0,60+,נקבה,Other
+2872,17,3.0,50-59,זכר,Contact with confirmed
+2873,13,3.0,50-59,זכר,Abroad
+2874,7,3.0,30-39,נקבה,Contact with confirmed
+2875,11,3.0,30-39,נקבה,Other
+2876,13,3.0,20-29,זכר,Other
+2877,11,3.0,0-19,זכר,Contact with confirmed
+2878,9,3.0,20-29,זכר,Abroad
+2879,10,3.0,50-59,נקבה,Contact with confirmed
+2880,9,3.0,40-49,זכר,Contact with confirmed
+2881,5,3.0,60+,נקבה,Contact with confirmed
+2882,5,3.0,40-49,זכר,Other
+2883,8,3.0,30-39,נקבה,Other
+2884,10,3.0,0-19,נקבה,NULL
+2885,9,3.0,50-59,זכר,Other
+2886,6,3.0,20-29,זכר,Contact with confirmed
+2887,12,3.0,40-49,נקבה,Contact with confirmed
+2888,12,3.0,40-49,זכר,Abroad
+2889,11,3.0,50-59,נקבה,Abroad
+2890,9,3.0,0-19,זכר,Contact with confirmed
+2891,11,3.0,20-29,נקבה,Contact with confirmed
+2892,9,3.0,20-29,זכר,Contact with confirmed
+2893,12,3.0,40-49,נקבה,Contact with confirmed
+2894,8,3.0,0-19,זכר,Contact with confirmed
+2895,7,3.0,40-49,נקבה,Contact with confirmed
+2896,6,3.0,20-29,זכר,Abroad
+2897,14,3.0,50-59,זכר,Other
+2898,5,3.0,50-59,נקבה,Other
+2899,8,3.0,50-59,זכר,Contact with confirmed
+2900,7,3.0,40-49,נקבה,Other
+2901,8,3.0,20-29,נקבה,Contact with confirmed
+2902,9,3.0,0-19,נקבה,Contact with confirmed
+2903,8,3.0,40-49,נקבה,Contact with confirmed
+2904,7,3.0,40-49,זכר,Other
+2905,10,3.0,40-49,זכר,Other
+2906,8,3.0,0-19,נקבה,Contact with confirmed
+2907,8,3.0,0-19,זכר,NULL
+2908,9,3.0,50-59,נקבה,Other
+2909,11,3.0,60+,נקבה,Other
+2910,8,3.0,50-59,נקבה,Contact with confirmed
+2911,9,3.0,30-39,זכר,Other
+2912,6,3.0,0-19,נקבה,Contact with confirmed
+2913,9,3.0,50-59,נקבה,Contact with confirmed
+2914,2,3.0,60+,זכר,Other
+2915,7,3.0,50-59,נקבה,Other
+2916,2,3.0,20-29,זכר,Abroad
+2917,7,3.0,20-29,נקבה,Other
+2918,4,3.0,0-19,נקבה,Contact with confirmed
+2919,11,3.0,0-19,זכר,Contact with confirmed
+2920,10,3.0,20-29,זכר,Contact with confirmed
+2921,7,3.0,40-49,זכר,Other
+2922,8,3.0,20-29,זכר,Contact with confirmed
+2923,7,3.0,20-29,נקבה,Abroad
+2924,7,3.0,50-59,זכר,Other
+2925,6,3.0,40-49,זכר,Other
+2926,7,3.0,60+,זכר,Other
+2927,9,3.0,20-29,נקבה,Other
+2928,9,3.0,50-59,זכר,Other
+2929,12,3.0,20-29,זכר,Contact with confirmed
+2930,14,3.0,30-39,נקבה,Other
+2931,8,3.0,50-59,זכר,Other
+2932,10,3.0,50-59,זכר,Other
+2933,11,3.0,30-39,נקבה,Other
+2934,9,3.0,40-49,נקבה,Contact with confirmed
+2935,6,3.0,20-29,זכר,Abroad
+2936,8,3.0,20-29,נקבה,Other
+2937,9,3.0,0-19,זכר,Contact with confirmed
+2938,14,3.0,0-19,זכר,Contact with confirmed
+2939,10,3.0,0-19,נקבה,Contact with confirmed
+2940,10,3.0,40-49,זכר,Contact with confirmed
+2941,7,3.0,40-49,נקבה,Other
+2942,21,3.0,30-39,נקבה,Other
+2943,13,3.0,30-39,זכר,Contact with confirmed
+2944,5,3.0,30-39,זכר,Abroad
+2945,9,3.0,20-29,נקבה,Contact with confirmed
+2946,9,3.0,40-49,נקבה,Contact with confirmed
+2947,7,3.0,0-19,נקבה,Contact with confirmed
+2948,10,3.0,30-39,זכר,Contact with confirmed
+2949,1,3.0,20-29,זכר,Other
+2950,14,3.0,60+,נקבה,Contact with confirmed
+2951,7,3.0,60+,נקבה,Other
+2952,9,3.0,40-49,נקבה,Other
+2953,8,3.0,20-29,זכר,Contact with confirmed
+2954,6,3.0,50-59,זכר,Other
+2955,7,3.0,50-59,זכר,Other
+2956,2,3.0,0-19,זכר,NULL
+2957,8,3.0,50-59,נקבה,Other
+2958,7,3.0,20-29,זכר,Other
+2959,11,3.0,60+,זכר,Other
+2960,3,3.0,30-39,זכר,Abroad
+2961,5,3.0,0-19,זכר,NULL
+2962,5,3.0,50-59,זכר,Other
+2963,9,3.0,30-39,זכר,Other
+2964,7,3.0,60+,נקבה,Other
+2965,10,3.0,60+,נקבה,Other
+2966,8,3.0,60+,נקבה,Contact with confirmed
+2967,6,3.0,30-39,זכר,Contact with confirmed
+2968,9,3.0,20-29,נקבה,Other
+2969,5,3.0,0-19,נקבה,NULL
+2970,4,3.0,20-29,נקבה,Contact with confirmed
+2971,6,3.0,40-49,נקבה,Contact with confirmed
+2972,11,3.0,60+,זכר,Other
+2973,8,3.0,0-19,זכר,Contact with confirmed
+2974,11,3.0,50-59,נקבה,Abroad
+2975,1,3.0,0-19,זכר,Contact with confirmed
+2976,11,3.0,50-59,נקבה,Contact with confirmed
+2977,16,3.0,60+,נקבה,Contact with confirmed
+2978,3,3.0,60+,נקבה,Other
+2979,6,3.0,60+,נקבה,Other
+2980,2,3.0,20-29,נקבה,Other
+2981,7,3.0,40-49,נקבה,Other
+2982,11,3.0,0-19,זכר,Contact with confirmed
+2983,7,3.0,0-19,זכר,Contact with confirmed
+2984,5,3.0,30-39,נקבה,Other
+2985,5,3.0,50-59,נקבה,Other
+2986,4,3.0,0-19,נקבה,Contact with confirmed
+2987,6,3.0,60+,נקבה,Other
+2988,7,3.0,20-29,נקבה,Contact with confirmed
+2989,2,3.0,60+,זכר,Abroad
+2990,8,3.0,30-39,זכר,Other
+2991,3,3.0,20-29,נקבה,Other
+2992,10,3.0,20-29,נקבה,Abroad
+2993,9,3.0,60+,נקבה,Other
+2994,2,3.0,60+,נקבה,Other
+2995,2,3.0,60+,נקבה,Contact with confirmed
+2996,4,3.0,30-39,נקבה,Other
+2997,7,3.0,60+,נקבה,Other
+2998,7,3.0,50-59,זכר,Other
+2999,7,3.0,60+,נקבה,Contact with confirmed
+3000,2,3.0,20-29,זכר,Other
+3001,10,3.0,60+,זכר,Contact with confirmed
+3002,7,3.0,20-29,זכר,Other
+3003,12,3.0,20-29,זכר,Contact with confirmed
+3004,8,3.0,20-29,נקבה,Other
+3005,8,3.0,50-59,נקבה,Contact with confirmed
+3006,13,3.0,40-49,זכר,Contact with confirmed
+3007,15,3.0,60+,נקבה,Contact with confirmed
+3008,14,3.0,40-49,נקבה,Other
+3009,8,3.0,0-19,זכר,NULL
+3010,9,3.0,0-19,זכר,NULL
+3011,10,3.0,0-19,זכר,Contact with confirmed
+3012,8,3.0,20-29,זכר,Other
+3013,10,3.0,60+,זכר,Other
+3014,10,3.0,20-29,זכר,Contact with confirmed
+3015,4,3.0,60+,זכר,Contact with confirmed
+3016,8,3.0,20-29,זכר,Abroad
+3017,4,3.0,30-39,זכר,Contact with confirmed
+3018,14,3.0,50-59,זכר,Contact with confirmed
+3019,8,3.0,40-49,זכר,Other
+3020,11,3.0,0-19,זכר,NULL
+3021,11,3.0,20-29,נקבה,Contact with confirmed
+3022,13,3.0,40-49,נקבה,Other
+3023,11,3.0,20-29,זכר,Other
+3024,1,3.0,30-39,זכר,Contact with confirmed
+3025,4,3.0,0-19,נקבה,Contact with confirmed
+3026,6,3.0,60+,נקבה,Other
+3027,11,3.0,40-49,זכר,Other
+3028,11,3.0,30-39,זכר,Other
+3029,6,3.0,20-29,נקבה,Contact with confirmed
+3030,9,3.0,20-29,זכר,Other
+3031,11,3.0,20-29,זכר,Other
+3032,6,3.0,20-29,זכר,Contact with confirmed
+3033,7,3.0,30-39,זכר,Other
+3034,8,3.0,30-39,זכר,Contact with confirmed
+3035,11,3.0,40-49,נקבה,Other
+3036,12,3.0,0-19,נקבה,Contact with confirmed
+3037,13,3.0,60+,נקבה,Other
+3038,8,3.0,20-29,נקבה,Abroad
+3039,10,3.0,20-29,זכר,Contact with confirmed
+3040,15,3.0,60+,זכר,Contact with confirmed
+3041,8,3.0,20-29,זכר,Contact with confirmed
+3042,15,3.0,40-49,זכר,Contact with confirmed
+3043,12,3.0,50-59,נקבה,Other
+3044,6,3.0,0-19,זכר,Contact with confirmed
+3045,5,3.0,40-49,זכר,Contact with confirmed
+3046,13,3.0,30-39,זכר,Other
+3047,9,3.0,20-29,זכר,Other
+3048,7,3.0,30-39,זכר,Other
+3049,12,3.0,0-19,זכר,NULL
+3050,9,3.0,0-19,נקבה,Contact with confirmed
+3051,9,3.0,20-29,נקבה,Contact with confirmed
+3052,8,3.0,20-29,זכר,Other
+3053,14,3.0,20-29,זכר,Other
+3054,1,3.0,50-59,זכר,Contact with confirmed
+3055,1,3.0,40-49,זכר,Other
+3056,7,3.0,50-59,זכר,Other
+3057,8,3.0,0-19,נקבה,Contact with confirmed
+3058,10,3.0,40-49,זכר,Other
+3059,11,3.0,40-49,זכר,Other
+3060,12,3.0,0-19,נקבה,Contact with confirmed
+3061,12,3.0,0-19,נקבה,Contact with confirmed
+3062,12,3.0,0-19,נקבה,Contact with confirmed
+3063,14,3.0,20-29,זכר,Other
+3064,11,3.0,30-39,זכר,Contact with confirmed
+3065,12,3.0,50-59,נקבה,Contact with confirmed
+3066,8,3.0,60+,זכר,Other
+3067,11,3.0,50-59,זכר,Contact with confirmed
+3068,10,3.0,40-49,נקבה,Other
+3069,7,3.0,50-59,נקבה,Other
+3070,12,3.0,30-39,זכר,Contact with confirmed
+3071,14,3.0,50-59,זכר,Contact with confirmed
+3072,7,3.0,30-39,זכר,Other
+3073,16,3.0,30-39,נקבה,Contact with confirmed
+3074,9,3.0,30-39,זכר,Contact with confirmed
+3075,16,3.0,60+,נקבה,Other
+3076,10,3.0,20-29,נקבה,Other
+3077,14,3.0,0-19,נקבה,Contact with confirmed
+3078,4,3.0,20-29,נקבה,Contact with confirmed
+3079,3,3.0,60+,זכר,Contact with confirmed
+3080,8,3.0,20-29,נקבה,Abroad
+3081,14,3.0,0-19,זכר,NULL
+3082,10,3.0,20-29,נקבה,Abroad
+3083,13,3.0,40-49,נקבה,Other
+3084,1,3.0,60+,זכר,Contact with confirmed
+3085,12,3.0,20-29,זכר,Abroad
+3086,10,3.0,20-29,זכר,Abroad
+3087,10,3.0,0-19,זכר,Contact with confirmed
+3088,6,3.0,30-39,נקבה,Other
+3089,16,3.0,20-29,נקבה,Contact with confirmed
+3090,15,3.0,20-29,זכר,Contact with confirmed
+3091,8,3.0,20-29,נקבה,Abroad
+3092,6,3.0,20-29,זכר,Abroad
+3093,9,3.0,50-59,נקבה,Contact with confirmed
+3094,4,3.0,60+,זכר,Contact with confirmed
+3095,8,3.0,20-29,נקבה,Abroad
+3096,14,3.0,30-39,נקבה,Other
+3097,18,3.0,60+,נקבה,Contact with confirmed
+3098,17,3.0,60+,זכר,Contact with confirmed
+3099,15,3.0,20-29,זכר,Other
+3100,9,3.0,50-59,נקבה,Contact with confirmed
+3101,10,3.0,20-29,זכר,Contact with confirmed
+3102,4,3.0,60+,נקבה,Contact with confirmed
+3103,14,3.0,20-29,זכר,Contact with confirmed
+3104,10,3.0,20-29,נקבה,Contact with confirmed
+3105,10,3.0,0-19,נקבה,Contact with confirmed
+3106,12,3.0,30-39,זכר,Contact with confirmed
+3107,12,3.0,30-39,זכר,Other
+3108,8,3.0,60+,זכר,Other
+3109,10,3.0,60+,נקבה,Contact with confirmed
+3110,13,3.0,60+,נקבה,Other
+3111,16,3.0,0-19,זכר,Contact with confirmed
+3112,13,3.0,40-49,זכר,Other
+3113,10,3.0,0-19,נקבה,Contact with confirmed
+3114,5,3.0,40-49,זכר,Contact with confirmed
+3115,10,3.0,40-49,זכר,Contact with confirmed
+3116,10,3.0,50-59,זכר,Contact with confirmed
+3117,3,3.0,60+,נקבה,Other
+3118,16,3.0,0-19,נקבה,Contact with confirmed
+3119,5,3.0,60+,נקבה,Other
+3120,7,3.0,30-39,זכר,Other
+3121,7,3.0,0-19,נקבה,NULL
+3122,7,3.0,0-19,זכר,NULL
+3123,11,3.0,0-19,זכר,NULL
+3124,13,3.0,30-39,נקבה,Contact with confirmed
+3125,16,3.0,30-39,זכר,Other
+3126,10,3.0,50-59,נקבה,Contact with confirmed
+3127,13,3.0,60+,זכר,Contact with confirmed
+3128,11,3.0,30-39,זכר,Contact with confirmed
+3129,13,3.0,50-59,זכר,Other
+3130,8,3.0,50-59,זכר,Other
+3131,8,3.0,30-39,נקבה,Other
+3132,13,3.0,30-39,זכר,Other
+3133,10,3.0,30-39,זכר,Contact with confirmed
+3134,9,3.0,30-39,זכר,Other
+3135,6,3.0,0-19,זכר,NULL
+3136,8,3.0,30-39,זכר,Other
+3137,5,3.0,60+,נקבה,Contact with confirmed
+3138,9,3.0,20-29,זכר,Contact with confirmed
+3139,11,3.0,20-29,נקבה,Abroad
+3140,9,3.0,30-39,נקבה,Contact with confirmed
+3141,13,3.0,20-29,נקבה,Other
+3142,13,3.0,40-49,נקבה,Other
+3143,6,3.0,30-39,נקבה,Other
+3144,17,3.0,20-29,זכר,Other
+3145,10,3.0,20-29,זכר,Other
+3146,12,3.0,50-59,נקבה,Contact with confirmed
+3147,16,3.0,0-19,זכר,Contact with confirmed
+3148,14,3.0,20-29,זכר,Contact with confirmed
+3149,10,3.0,40-49,זכר,Other
+3150,17,3.0,20-29,נקבה,Contact with confirmed
+3151,12,3.0,20-29,זכר,Other
+3152,16,3.0,20-29,זכר,Other
+3153,11,3.0,40-49,נקבה,Other
+3154,5,3.0,0-19,זכר,NULL
+3155,12,3.0,50-59,זכר,Contact with confirmed
+3156,10,3.0,20-29,זכר,Contact with confirmed
+3157,5,3.0,50-59,זכר,Contact with confirmed
+3158,8,3.0,20-29,זכר,Abroad
+3159,13,3.0,20-29,זכר,Contact with confirmed
+3160,4,3.0,20-29,נקבה,Other
+3161,13,3.0,60+,נקבה,Contact with confirmed
+3162,10,3.0,40-49,נקבה,Other
+3163,4,3.0,50-59,זכר,Other
+3164,8,3.0,50-59,נקבה,Contact with confirmed
+3165,6,3.0,30-39,נקבה,Contact with confirmed
+3166,11,3.0,40-49,נקבה,Other
+3167,9,3.0,20-29,זכר,Other
+3168,9,3.0,50-59,נקבה,Other
+3169,2,3.0,50-59,נקבה,Contact with confirmed
+3170,15,3.0,0-19,נקבה,NULL
+3171,13,3.0,20-29,נקבה,Contact with confirmed
+3172,8,3.0,20-29,נקבה,Contact with confirmed
+3173,9,3.0,20-29,נקבה,Contact with confirmed
+3174,5,3.0,30-39,נקבה,Other
+3175,10,3.0,40-49,נקבה,Contact with confirmed
+3176,14,3.0,40-49,נקבה,Contact with confirmed
+3177,17,3.0,50-59,זכר,Other
+3178,6,3.0,20-29,זכר,Abroad
+3179,5,3.0,60+,נקבה,Other
+3180,15,3.0,60+,זכר,Other
+3181,13,3.0,20-29,נקבה,Contact with confirmed
+3182,11,3.0,30-39,זכר,Other
+3236,9,3.0,40-49,זכר,Other
+3183,12,3.0,20-29,נקבה,Contact with confirmed
+3184,6,3.0,50-59,נקבה,Contact with confirmed
+3185,8,3.0,0-19,נקבה,Contact with confirmed
+3186,12,3.0,50-59,נקבה,Contact with confirmed
+3187,12,3.0,20-29,זכר,Abroad
+3188,14,3.0,40-49,זכר,Contact with confirmed
+3189,8,3.0,0-19,נקבה,Contact with confirmed
+3190,11,3.0,60+,זכר,Other
+3191,10,3.0,50-59,נקבה,Other
+3192,10,3.0,0-19,נקבה,NULL
+3193,11,3.0,60+,נקבה,Contact with confirmed
+3194,10,3.0,0-19,נקבה,NULL
+3195,15,3.0,30-39,נקבה,Contact with confirmed
+3196,18,3.0,50-59,זכר,Other
+3197,11,3.0,50-59,זכר,Abroad
+3198,13,3.0,30-39,זכר,Contact with confirmed
+3199,9,3.0,30-39,זכר,Other
+3200,10,3.0,30-39,נקבה,Contact with confirmed
+3201,10,3.0,50-59,זכר,Other
+3202,11,3.0,0-19,זכר,Contact with confirmed
+3203,3,3.0,0-19,נקבה,Contact with confirmed
+3204,11,3.0,40-49,זכר,Contact with confirmed
+3205,11,3.0,20-29,זכר,Contact with confirmed
+3206,13,3.0,0-19,זכר,Contact with confirmed
+3207,15,3.0,50-59,זכר,Other
+3208,14,3.0,30-39,זכר,Contact with confirmed
+3209,12,3.0,0-19,נקבה,NULL
+3210,12,3.0,50-59,נקבה,Other
+3211,13,3.0,0-19,נקבה,Contact with confirmed
+3212,14,3.0,20-29,זכר,Other
+3213,10,3.0,20-29,זכר,Other
+3214,8,3.0,60+,זכר,Other
+3215,12,3.0,60+,זכר,Contact with confirmed
+3216,10,3.0,40-49,זכר,Other
+3217,12,3.0,60+,נקבה,Other
+3218,12,3.0,60+,נקבה,Contact with confirmed
+3219,16,3.0,60+,נקבה,Contact with confirmed
+3220,12,3.0,40-49,זכר,Other
+3221,9,3.0,60+,זכר,Other
+3222,14,3.0,0-19,זכר,Contact with confirmed
+3223,14,3.0,50-59,נקבה,Contact with confirmed
+3224,13,3.0,50-59,נקבה,Contact with confirmed
+3225,6,3.0,20-29,זכר,Abroad
+3226,5,3.0,20-29,זכר,Contact with confirmed
+3227,14,3.0,60+,נקבה,Other
+3228,8,3.0,60+,זכר,Contact with confirmed
+3229,7,3.0,20-29,זכר,Contact with confirmed
+3230,14,3.0,20-29,זכר,Other
+3231,16,3.0,50-59,זכר,Other
+3232,7,3.0,20-29,נקבה,Contact with confirmed
+3233,3,3.0,50-59,נקבה,Contact with confirmed
+3234,1,3.0,50-59,נקבה,Contact with confirmed
+3235,1,3.0,0-19,זכר,Contact with confirmed
+3237,10,3.0,0-19,נקבה,Contact with confirmed
+3238,5,3.0,50-59,נקבה,Other
+3239,8,3.0,0-19,נקבה,NULL
+3240,5,3.0,0-19,נקבה,Contact with confirmed
+3241,8,3.0,0-19,נקבה,Contact with confirmed
+3242,8,3.0,0-19,נקבה,NULL
+3243,6,3.0,0-19,זכר,NULL
+3244,8,3.0,20-29,זכר,Contact with confirmed
+3245,4,3.0,60+,זכר,Other
+3246,11,3.0,0-19,נקבה,Contact with confirmed
+3247,2,3.0,60+,נקבה,Abroad
+3248,14,3.0,40-49,זכר,Other
+3249,12,3.0,20-29,זכר,Other
+3250,9,3.0,40-49,זכר,Other
+3251,10,3.0,30-39,זכר,Other
+3252,6,3.0,0-19,נקבה,NULL
+3253,5,3.0,0-19,זכר,Contact with confirmed
+3254,9,3.0,0-19,זכר,NULL
+3255,8,3.0,0-19,זכר,Contact with confirmed
+3256,5,3.0,50-59,נקבה,Other
+3257,7,3.0,30-39,זכר,Contact with confirmed
+3258,7,3.0,60+,נקבה,Contact with confirmed
+3259,8,3.0,0-19,נקבה,Contact with confirmed
+3260,9,3.0,20-29,זכר,Abroad
+3261,11,3.0,40-49,זכר,Contact with confirmed
+3262,11,3.0,40-49,נקבה,Other
+3263,10,3.0,0-19,זכר,Contact with confirmed
+3264,11,3.0,20-29,זכר,Other
+3265,2,3.0,50-59,זכר,Other
+3266,2,3.0,60+,נקבה,Other
+3267,14,3.0,50-59,נקבה,Contact with confirmed
+3268,14,3.0,0-19,נקבה,Contact with confirmed
+3269,5,3.0,20-29,זכר,Abroad
+3270,6,3.0,50-59,זכר,Abroad
+3271,5,3.0,20-29,זכר,Abroad
+3272,8,3.0,0-19,נקבה,Contact with confirmed
+3273,5,3.0,60+,נקבה,Other
+3274,4,3.0,30-39,נקבה,Other
+3275,7,3.0,20-29,זכר,Abroad
+3276,9,3.0,20-29,נקבה,Other
+3277,13,3.0,40-49,זכר,Contact with confirmed
+3278,8,3.0,20-29,נקבה,Contact with confirmed
+3279,11,3.0,0-19,נקבה,Contact with confirmed
+3280,10,3.0,30-39,נקבה,Contact with confirmed
+3281,10,3.0,40-49,זכר,Other
+3282,8,3.0,60+,נקבה,Contact with confirmed
+3283,6,3.0,50-59,נקבה,Other
+3284,5,3.0,60+,זכר,Other
+3285,19,3.0,30-39,זכר,Contact with confirmed
+3286,8,3.0,20-29,נקבה,Contact with confirmed
+3287,7,3.0,30-39,נקבה,Other
+3288,7,3.0,30-39,נקבה,Contact with confirmed
+3289,2,3.0,60+,נקבה,Contact with confirmed
+3344,8,3.0,60+,נקבה,Contact with confirmed
+3290,11,3.0,0-19,נקבה,Contact with confirmed
+3291,2,3.0,0-19,נקבה,Contact with confirmed
+3292,6,3.0,20-29,נקבה,Contact with confirmed
+3293,12,3.0,50-59,נקבה,Contact with confirmed
+3294,11,3.0,20-29,זכר,Contact with confirmed
+3295,6,3.0,20-29,נקבה,Abroad
+3296,9,3.0,20-29,זכר,Abroad
+3297,13,3.0,20-29,נקבה,Abroad
+3298,7,3.0,0-19,נקבה,Contact with confirmed
+3299,9,3.0,0-19,נקבה,NULL
+3300,11,3.0,20-29,נקבה,Other
+3301,17,3.0,0-19,זכר,NULL
+3302,17,3.0,50-59,זכר,Other
+3303,7,3.0,60+,נקבה,Contact with confirmed
+3304,9,3.0,0-19,נקבה,Contact with confirmed
+3305,6,3.0,50-59,זכר,Other
+3306,4,3.0,60+,זכר,Other
+3307,11,3.0,0-19,זכר,NULL
+3308,10,3.0,30-39,זכר,Other
+3309,12,3.0,20-29,זכר,Other
+3310,8,3.0,0-19,זכר,Contact with confirmed
+3311,8,3.0,0-19,זכר,Contact with confirmed
+3312,15,3.0,40-49,זכר,Contact with confirmed
+3313,15,3.0,50-59,נקבה,Other
+3314,18,3.0,20-29,נקבה,Other
+3315,15,3.0,20-29,נקבה,Other
+3316,15,3.0,20-29,זכר,Other
+3317,18,3.0,20-29,נקבה,Contact with confirmed
+3318,11,3.0,50-59,נקבה,Contact with confirmed
+3319,10,3.0,40-49,זכר,Contact with confirmed
+3320,3,3.0,60+,נקבה,Other
+3321,14,3.0,60+,נקבה,Contact with confirmed
+3322,15,3.0,30-39,נקבה,Other
+3323,6,3.0,40-49,זכר,Other
+3324,7,3.0,0-19,זכר,NULL
+3325,15,3.0,20-29,זכר,Other
+3326,7,3.0,0-19,זכר,NULL
+3327,15,3.0,20-29,נקבה,Contact with confirmed
+3328,7,3.0,30-39,זכר,Abroad
+3329,12,3.0,0-19,זכר,Contact with confirmed
+3330,12,3.0,30-39,נקבה,Contact with confirmed
+3331,14,3.0,20-29,נקבה,Contact with confirmed
+3332,14,3.0,40-49,נקבה,Abroad
+3333,6,3.0,20-29,זכר,Abroad
+3334,13,3.0,60+,זכר,Other
+3335,16,3.0,20-29,זכר,Contact with confirmed
+3336,7,3.0,20-29,זכר,Contact with confirmed
+3337,15,3.0,30-39,זכר,Other
+3338,14,3.0,0-19,זכר,NULL
+3339,13,3.0,30-39,זכר,Other
+3340,12,3.0,60+,זכר,Other
+3341,15,3.0,30-39,נקבה,Other
+3342,13,3.0,40-49,זכר,Other
+3343,10,3.0,60+,נקבה,Contact with confirmed
+3345,14,3.0,40-49,נקבה,Other
+3346,9,3.0,50-59,נקבה,Other
+3347,11,3.0,50-59,נקבה,Other
+3348,10,3.0,0-19,זכר,Contact with confirmed
+3349,14,3.0,40-49,נקבה,Other
+3350,7,3.0,20-29,נקבה,Other
+3351,7,3.0,20-29,זכר,Other
+3352,11,3.0,50-59,זכר,Other
+3353,10,3.0,50-59,נקבה,Contact with confirmed
+3354,15,3.0,50-59,זכר,Contact with confirmed
+3355,8,3.0,0-19,נקבה,Contact with confirmed
+3356,11,3.0,0-19,זכר,NULL
+3357,10,3.0,0-19,זכר,NULL
+3358,11,3.0,0-19,זכר,Contact with confirmed
+3359,11,3.0,0-19,זכר,Contact with confirmed
+3360,11,3.0,0-19,נקבה,Contact with confirmed
+3361,12,3.0,0-19,נקבה,Contact with confirmed
+3362,14,3.0,60+,נקבה,Contact with confirmed
+3363,11,3.0,20-29,זכר,Contact with confirmed
+3364,9,3.0,30-39,זכר,Other
+3365,10,3.0,50-59,נקבה,Contact with confirmed
+3366,7,3.0,20-29,זכר,Abroad
+3367,11,3.0,0-19,נקבה,Contact with confirmed
+3368,9,3.0,60+,נקבה,Other
+3369,5,3.0,0-19,נקבה,Contact with confirmed
+3370,10,3.0,30-39,זכר,Other
+3371,10,3.0,50-59,נקבה,Contact with confirmed
+3372,8,3.0,20-29,זכר,Other
+3373,7,3.0,50-59,נקבה,Contact with confirmed
+3374,14,3.0,20-29,נקבה,Contact with confirmed
+3375,9,3.0,30-39,נקבה,Other
+3376,13,3.0,30-39,זכר,Other
+3377,7,3.0,30-39,זכר,Contact with confirmed
+3378,12,3.0,30-39,זכר,Contact with confirmed
+3379,10,3.0,20-29,זכר,Contact with confirmed
+3380,8,3.0,30-39,זכר,Abroad
+3381,11,3.0,20-29,נקבה,Contact with confirmed
+3382,11,3.0,30-39,נקבה,Contact with confirmed
+3383,12,3.0,20-29,נקבה,Contact with confirmed
+3384,7,3.0,50-59,זכר,Other
+3385,10,3.0,20-29,זכר,Other
+3386,12,3.0,30-39,זכר,Other
+3387,6,3.0,20-29,נקבה,Abroad
+3388,6,3.0,20-29,נקבה,Other
+3389,12,3.0,40-49,זכר,Other
+3390,12,3.0,30-39,נקבה,Other
+3391,9,3.0,20-29,זכר,Other
+3392,10,3.0,20-29,נקבה,Other
+3393,10,3.0,30-39,נקבה,Contact with confirmed
+3394,10,3.0,40-49,זכר,Other
+3395,9,3.0,20-29,זכר,Contact with confirmed
+3396,11,3.0,0-19,זכר,Contact with confirmed
+3397,8,3.0,30-39,נקבה,Abroad
+3398,8,3.0,30-39,נקבה,Contact with confirmed
+3399,13,3.0,0-19,זכר,Contact with confirmed
+3400,9,3.0,40-49,נקבה,Other
+3401,12,3.0,0-19,זכר,Contact with confirmed
+3402,8,3.0,20-29,זכר,Contact with confirmed
+3403,8,3.0,20-29,נקבה,Contact with confirmed
+3404,6,3.0,20-29,זכר,Other
+3405,9,3.0,40-49,זכר,Contact with confirmed
+3406,7,3.0,30-39,נקבה,Contact with confirmed
+3407,14,3.0,40-49,זכר,Other
+3408,3,3.0,40-49,נקבה,Other
+3409,11,3.0,50-59,זכר,Contact with confirmed
+3410,9,3.0,40-49,נקבה,Contact with confirmed
+3411,8,3.0,60+,נקבה,Contact with confirmed
+3412,15,3.0,0-19,נקבה,Contact with confirmed
+3413,10,3.0,0-19,זכר,Contact with confirmed
+3414,12,3.0,40-49,נקבה,Contact with confirmed
+3415,16,3.0,20-29,זכר,Contact with confirmed
+3416,11,3.0,20-29,נקבה,Contact with confirmed
+3417,10,3.0,20-29,זכר,Contact with confirmed
+3418,11,3.0,20-29,זכר,Other
+3419,10,3.0,50-59,זכר,Contact with confirmed
+3420,3,3.0,60+,נקבה,Other
+3421,9,3.0,50-59,זכר,Other
+3422,10,3.0,50-59,נקבה,Other
+3423,11,3.0,0-19,נקבה,Contact with confirmed
+3424,12,3.0,20-29,זכר,Other
+3425,11,3.0,30-39,זכר,Other
+3426,8,3.0,40-49,זכר,Other
+3427,12,3.0,0-19,זכר,Contact with confirmed
+3428,10,3.0,20-29,נקבה,Abroad
+3429,16,3.0,40-49,נקבה,Contact with confirmed
+3430,11,3.0,60+,נקבה,Other
+3431,5,3.0,60+,זכר,Other
+3432,5,3.0,20-29,זכר,Abroad
+3433,16,3.0,0-19,נקבה,Contact with confirmed
+3434,13,3.0,60+,זכר,Other
+3435,10,3.0,30-39,נקבה,Contact with confirmed
+3436,10,3.0,60+,נקבה,Contact with confirmed
+3437,15,3.0,50-59,נקבה,Other
+3438,14,3.0,30-39,זכר,Other
+3439,12,3.0,60+,זכר,Other
+3440,6,3.0,40-49,זכר,Contact with confirmed
+3441,9,3.0,60+,נקבה,Contact with confirmed
+3442,9,3.0,50-59,זכר,Other
+3443,19,3.0,60+,נקבה,Other
+3444,12,3.0,20-29,נקבה,Abroad
+3445,11,3.0,40-49,זכר,Other
+3446,7,3.0,50-59,זכר,Other
+3447,14,3.0,50-59,נקבה,Contact with confirmed
+3448,10,3.0,20-29,זכר,Other
+3449,6,3.0,40-49,זכר,Contact with confirmed
+3450,13,3.0,0-19,זכר,Contact with confirmed
+3608,16,3.0,50-59,זכר,Other
+3451,12,3.0,20-29,זכר,Abroad
+3452,3,3.0,30-39,זכר,Contact with confirmed
+3453,13,3.0,0-19,נקבה,Contact with confirmed
+3454,13,3.0,0-19,נקבה,Contact with confirmed
+3455,11,3.0,60+,זכר,Contact with confirmed
+3456,7,3.0,30-39,זכר,Other
+3457,12,3.0,40-49,נקבה,Other
+3458,11,3.0,30-39,זכר,Contact with confirmed
+3459,14,3.0,30-39,זכר,Contact with confirmed
+3460,11,3.0,20-29,נקבה,Contact with confirmed
+3461,10,3.0,30-39,זכר,Contact with confirmed
+3462,11,3.0,40-49,זכר,Other
+3463,8,3.0,0-19,נקבה,Contact with confirmed
+3464,14,3.0,50-59,זכר,Other
+3465,12,3.0,20-29,זכר,Contact with confirmed
+3466,15,3.0,50-59,זכר,Other
+3467,12,3.0,30-39,זכר,Other
+3468,11,3.0,0-19,זכר,Contact with confirmed
+3469,12,3.0,50-59,זכר,Other
+3470,12,3.0,50-59,זכר,Other
+3471,10,3.0,20-29,נקבה,Contact with confirmed
+3472,16,3.0,40-49,זכר,Other
+3473,14,3.0,60+,זכר,Other
+3474,6,3.0,30-39,זכר,Contact with confirmed
+3475,14,3.0,60+,זכר,Contact with confirmed
+3476,4,3.0,30-39,זכר,Abroad
+3477,9,3.0,30-39,נקבה,Contact with confirmed
+3478,15,3.0,60+,זכר,Contact with confirmed
+3479,14,3.0,40-49,זכר,Other
+3480,14,3.0,30-39,זכר,Other
+3481,14,3.0,40-49,נקבה,Other
+3482,12,3.0,0-19,נקבה,NULL
+3483,19,3.0,30-39,זכר,Contact with confirmed
+3484,2,3.0,0-19,זכר,NULL
+3485,12,3.0,20-29,נקבה,Contact with confirmed
+3486,9,3.0,20-29,זכר,Abroad
+3487,13,3.0,0-19,נקבה,Contact with confirmed
+3488,18,3.0,60+,זכר,Contact with confirmed
+3489,10,3.0,20-29,זכר,Other
+3490,1,3.0,0-19,זכר,NULL
+3491,11,3.0,20-29,נקבה,Abroad
+3492,13,3.0,30-39,זכר,Other
+3493,14,3.0,40-49,זכר,Contact with confirmed
+3494,5,3.0,20-29,נקבה,Contact with confirmed
+3495,7,3.0,0-19,זכר,NULL
+3496,19,3.0,50-59,זכר,Other
+3497,8,3.0,0-19,זכר,Contact with confirmed
+3498,12,3.0,60+,זכר,Contact with confirmed
+3499,13,3.0,40-49,נקבה,Other
+3500,8,3.0,0-19,נקבה,Contact with confirmed
+3501,14,3.0,60+,זכר,Other
+3502,9,3.0,30-39,זכר,Contact with confirmed
+3503,8,3.0,20-29,זכר,Other
+3609,16,3.0,60+,נקבה,Contact with confirmed
+3504,11,3.0,20-29,זכר,Contact with confirmed
+3505,11,3.0,60+,זכר,Other
+3506,13,3.0,20-29,זכר,Other
+3507,16,3.0,20-29,זכר,Contact with confirmed
+3508,11,3.0,20-29,זכר,Other
+3509,6,3.0,60+,זכר,Contact with confirmed
+3510,11,3.0,0-19,נקבה,Contact with confirmed
+3511,10,3.0,60+,זכר,Other
+3512,7,3.0,20-29,נקבה,Contact with confirmed
+3513,15,3.0,60+,נקבה,Contact with confirmed
+3514,14,3.0,0-19,זכר,Contact with confirmed
+3515,8,3.0,40-49,נקבה,Contact with confirmed
+3516,8,3.0,30-39,זכר,Contact with confirmed
+3517,12,3.0,60+,נקבה,Other
+3518,13,3.0,20-29,נקבה,Other
+3519,10,3.0,0-19,זכר,Contact with confirmed
+3520,9,3.0,50-59,נקבה,Contact with confirmed
+3521,13,3.0,20-29,זכר,Abroad
+3522,12,3.0,20-29,זכר,Contact with confirmed
+3523,18,3.0,20-29,זכר,Contact with confirmed
+3524,16,3.0,60+,זכר,Contact with confirmed
+3525,10,3.0,50-59,זכר,Contact with confirmed
+3526,13,3.0,20-29,זכר,Contact with confirmed
+3527,11,3.0,30-39,זכר,Other
+3528,17,3.0,20-29,נקבה,Contact with confirmed
+3529,10,3.0,0-19,נקבה,Contact with confirmed
+3530,16,3.0,20-29,נקבה,Abroad
+3531,13,3.0,40-49,זכר,Other
+3532,5,3.0,20-29,זכר,Contact with confirmed
+3533,8,3.0,20-29,נקבה,Contact with confirmed
+3534,12,3.0,0-19,זכר,Contact with confirmed
+3535,15,3.0,30-39,זכר,Contact with confirmed
+3536,11,3.0,20-29,זכר,Other
+3537,1,3.0,40-49,זכר,Contact with confirmed
+3538,15,3.0,0-19,זכר,Contact with confirmed
+3539,12,3.0,30-39,זכר,Other
+3540,14,3.0,20-29,נקבה,Contact with confirmed
+3541,7,3.0,50-59,זכר,Other
+3542,9,3.0,50-59,נקבה,Contact with confirmed
+3543,6,3.0,20-29,נקבה,Abroad
+3544,8,3.0,20-29,זכר,Other
+3545,9,3.0,60+,נקבה,Other
+3546,16,3.0,20-29,נקבה,Contact with confirmed
+3547,14,3.0,0-19,נקבה,Contact with confirmed
+3548,17,3.0,50-59,זכר,Contact with confirmed
+3549,14,3.0,60+,נקבה,Other
+3550,12,3.0,0-19,נקבה,Contact with confirmed
+3551,12,3.0,40-49,נקבה,Other
+3552,21,3.0,60+,זכר,Other
+3553,17,3.0,60+,זכר,Contact with confirmed
+3554,16,3.0,30-39,זכר,Other
+3555,16,3.0,40-49,זכר,Abroad
+3556,15,3.0,20-29,נקבה,Contact with confirmed
+3557,16,3.0,20-29,זכר,Contact with confirmed
+3558,23,3.0,50-59,נקבה,Contact with confirmed
+3559,16,3.0,60+,זכר,Contact with confirmed
+3560,14,3.0,40-49,זכר,Contact with confirmed
+3561,16,3.0,40-49,זכר,Abroad
+3562,20,3.0,40-49,זכר,Contact with confirmed
+3563,18,3.0,30-39,זכר,Abroad
+3564,14,3.0,30-39,זכר,Contact with confirmed
+3565,9,3.0,20-29,נקבה,Contact with confirmed
+3566,13,3.0,20-29,זכר,Contact with confirmed
+3567,13,3.0,60+,זכר,Contact with confirmed
+3568,6,3.0,0-19,נקבה,Contact with confirmed
+3569,7,3.0,60+,זכר,Other
+3570,14,3.0,50-59,זכר,Abroad
+3571,3,3.0,60+,זכר,Abroad
+3572,10,3.0,60+,נקבה,Other
+3573,12,3.0,40-49,זכר,Other
+3574,15,3.0,0-19,זכר,Contact with confirmed
+3575,13,3.0,20-29,נקבה,Contact with confirmed
+3576,6,3.0,60+,זכר,Other
+3577,6,3.0,60+,זכר,Other
+3578,14,3.0,60+,זכר,Other
+3579,16,3.0,30-39,זכר,Other
+3580,13,3.0,20-29,זכר,Contact with confirmed
+3581,17,3.0,20-29,זכר,Contact with confirmed
+3582,15,3.0,0-19,זכר,Contact with confirmed
+3583,18,3.0,40-49,זכר,Other
+3584,14,3.0,50-59,נקבה,Other
+3585,18,3.0,30-39,נקבה,Contact with confirmed
+3586,9,3.0,20-29,נקבה,Contact with confirmed
+3587,14,3.0,0-19,זכר,Contact with confirmed
+3588,16,3.0,20-29,נקבה,Other
+3589,5,3.0,30-39,זכר,Contact with confirmed
+3590,17,3.0,60+,זכר,Other
+3591,9,3.0,0-19,נקבה,Contact with confirmed
+3592,4,3.0,60+,נקבה,Contact with confirmed
+3593,17,3.0,60+,נקבה,Contact with confirmed
+3594,11,3.0,0-19,נקבה,Contact with confirmed
+3595,16,3.0,40-49,זכר,Contact with confirmed
+3596,11,3.0,30-39,זכר,Contact with confirmed
+3597,12,3.0,0-19,נקבה,Contact with confirmed
+3598,15,3.0,20-29,נקבה,Contact with confirmed
+3599,10,3.0,60+,זכר,Other
+3600,10,3.0,30-39,זכר,Other
+3601,14,3.0,30-39,נקבה,Contact with confirmed
+3602,8,3.0,30-39,זכר,Other
+3603,10,3.0,20-29,זכר,Other
+3604,14,3.0,60+,נקבה,Contact with confirmed
+3605,9,3.0,0-19,זכר,Contact with confirmed
+3606,14,3.0,30-39,זכר,Contact with confirmed
+3607,8,3.0,30-39,זכר,Other
+3610,9,3.0,40-49,זכר,Other
+3611,11,3.0,20-29,זכר,Contact with confirmed
+3612,12,3.0,60+,זכר,Contact with confirmed
+3613,14,3.0,40-49,זכר,Contact with confirmed
+3614,16,3.0,50-59,נקבה,Contact with confirmed
+3615,17,3.0,40-49,נקבה,Other
+3616,15,3.0,20-29,נקבה,Other
+3617,17,3.0,20-29,נקבה,Other
+3618,16,3.0,50-59,זכר,Other
+3619,8,3.0,60+,זכר,Other
+3620,12,3.0,20-29,נקבה,Contact with confirmed
+3621,12,3.0,50-59,נקבה,Contact with confirmed
+3622,15,3.0,30-39,נקבה,Abroad
+3623,11,3.0,30-39,נקבה,Other
+3624,12,3.0,60+,נקבה,Contact with confirmed
+3625,10,3.0,30-39,נקבה,Other
+3626,7,3.0,30-39,זכר,Contact with confirmed
+3627,7,3.0,60+,זכר,Other
+3628,8,3.0,30-39,זכר,Contact with confirmed
+3629,16,3.0,20-29,זכר,Contact with confirmed
+3630,8,3.0,30-39,נקבה,Other
+3631,12,3.0,20-29,זכר,Abroad
+3632,13,3.0,0-19,נקבה,Contact with confirmed
+3633,12,3.0,40-49,נקבה,Contact with confirmed
+3634,17,3.0,60+,זכר,Other
+3635,10,3.0,40-49,נקבה,Contact with confirmed
+3636,9,3.0,20-29,נקבה,Abroad
+3637,14,3.0,40-49,זכר,Other
+3638,4,3.0,40-49,זכר,Other
+3639,13,3.0,20-29,נקבה,Contact with confirmed
+3640,14,3.0,60+,זכר,Other
+3641,9,3.0,60+,זכר,Other
+3642,14,3.0,50-59,נקבה,Other
+3643,2,3.0,40-49,נקבה,Other
+3644,12,3.0,60+,נקבה,Contact with confirmed
+3645,12,3.0,50-59,זכר,Contact with confirmed
+3646,19,3.0,50-59,זכר,Contact with confirmed
+3647,12,3.0,40-49,נקבה,Abroad
+3648,16,3.0,40-49,נקבה,Other
+3649,8,3.0,0-19,זכר,Contact with confirmed
+3650,14,3.0,0-19,נקבה,Contact with confirmed
+3651,11,3.0,30-39,זכר,Contact with confirmed
+3652,15,3.0,60+,נקבה,Other
+3653,14,3.0,30-39,זכר,Contact with confirmed
+3654,17,3.0,60+,זכר,Other
+3655,11,3.0,50-59,זכר,Contact with confirmed
+3656,14,3.0,0-19,זכר,Contact with confirmed
+3657,11,3.0,30-39,נקבה,Other
+3658,13,3.0,50-59,נקבה,Abroad
+3659,10,3.0,30-39,זכר,Other
+3660,11,3.0,60+,זכר,Other
+3661,6,3.0,30-39,נקבה,Contact with confirmed
+3662,22,3.0,40-49,נקבה,Other
+3663,22,3.0,50-59,זכר,Other
+3769,15,3.0,40-49,זכר,Other
+3664,2,3.0,50-59,זכר,Contact with confirmed
+3665,21,3.0,60+,זכר,Contact with confirmed
+3666,14,3.0,50-59,זכר,Other
+3667,17,3.0,0-19,זכר,Contact with confirmed
+3668,14,3.0,30-39,זכר,Contact with confirmed
+3669,12,3.0,20-29,זכר,Contact with confirmed
+3670,13,3.0,60+,זכר,Other
+3671,5,3.0,20-29,נקבה,Abroad
+3672,8,3.0,0-19,נקבה,Contact with confirmed
+3673,7,3.0,60+,זכר,Other
+3674,8,3.0,30-39,זכר,Other
+3675,11,3.0,40-49,נקבה,Other
+3676,12,3.0,20-29,זכר,Abroad
+3677,12,3.0,50-59,זכר,Other
+3678,13,3.0,60+,נקבה,Contact with confirmed
+3679,13,3.0,60+,זכר,Contact with confirmed
+3680,13,3.0,60+,זכר,Abroad
+3681,10,3.0,50-59,זכר,Contact with confirmed
+3682,3,3.0,20-29,זכר,Contact with confirmed
+3683,20,3.0,40-49,נקבה,Contact with confirmed
+3684,12,3.0,50-59,נקבה,Other
+3685,8,3.0,0-19,נקבה,Contact with confirmed
+3686,7,3.0,20-29,נקבה,Contact with confirmed
+3687,11,3.0,20-29,זכר,Other
+3688,13,3.0,20-29,זכר,Other
+3689,21,3.0,60+,זכר,Contact with confirmed
+3690,8,3.0,50-59,זכר,Other
+3691,14,3.0,30-39,זכר,Abroad
+3692,17,3.0,0-19,זכר,Contact with confirmed
+3693,4,3.0,60+,זכר,Other
+3694,3,3.0,20-29,נקבה,Other
+3695,6,3.0,30-39,זכר,Contact with confirmed
+3696,17,3.0,40-49,נקבה,Contact with confirmed
+3697,10,3.0,20-29,נקבה,Contact with confirmed
+3698,15,3.0,40-49,זכר,Contact with confirmed
+3699,15,3.0,30-39,נקבה,Contact with confirmed
+3700,21,3.0,60+,זכר,Abroad
+3701,13,3.0,40-49,זכר,Contact with confirmed
+3702,13,3.0,60+,נקבה,Contact with confirmed
+3703,9,3.0,30-39,נקבה,Abroad
+3704,5,3.0,30-39,זכר,Contact with confirmed
+3705,3,3.0,30-39,זכר,Contact with confirmed
+3706,19,3.0,60+,זכר,Abroad
+3707,14,3.0,0-19,זכר,Contact with confirmed
+3708,8,3.0,50-59,זכר,Contact with confirmed
+3709,13,3.0,50-59,נקבה,Contact with confirmed
+3710,13,3.0,60+,זכר,Contact with confirmed
+3711,10,3.0,50-59,זכר,Abroad
+3712,11,3.0,60+,זכר,Abroad
+3713,9,3.0,40-49,זכר,Other
+3714,18,3.0,20-29,נקבה,Contact with confirmed
+3715,8,3.0,20-29,זכר,Abroad
+3716,14,3.0,60+,נקבה,Abroad
+3717,14,3.0,40-49,נקבה,Contact with confirmed
+3718,18,3.0,60+,זכר,Other
+3719,11,3.0,0-19,זכר,Contact with confirmed
+3720,9,3.0,50-59,זכר,Other
+3721,13,3.0,40-49,נקבה,Other
+3722,14,3.0,0-19,נקבה,Contact with confirmed
+3723,9,3.0,60+,נקבה,Contact with confirmed
+3724,10,3.0,60+,זכר,Other
+3725,15,3.0,20-29,זכר,Abroad
+3726,13,3.0,40-49,זכר,Contact with confirmed
+3727,1,3.0,60+,זכר,Other
+3728,12,3.0,0-19,זכר,NULL
+3729,12,3.0,0-19,נקבה,Contact with confirmed
+3730,12,3.0,40-49,זכר,Other
+3731,15,3.0,20-29,זכר,Contact with confirmed
+3732,17,3.0,60+,זכר,Abroad
+3733,7,3.0,50-59,זכר,Contact with confirmed
+3734,11,3.0,30-39,זכר,Abroad
+3735,11,3.0,40-49,נקבה,Contact with confirmed
+3736,11,3.0,0-19,זכר,Contact with confirmed
+3737,11,3.0,20-29,זכר,Abroad
+3738,13,3.0,60+,זכר,Abroad
+3739,10,3.0,40-49,נקבה,Contact with confirmed
+3740,11,3.0,30-39,נקבה,Contact with confirmed
+3741,16,3.0,20-29,נקבה,Other
+3742,14,3.0,0-19,נקבה,Contact with confirmed
+3743,16,3.0,50-59,זכר,Other
+3744,13,3.0,30-39,נקבה,Contact with confirmed
+3745,10,3.0,40-49,נקבה,Contact with confirmed
+3746,14,3.0,50-59,נקבה,Abroad
+3747,9,3.0,50-59,נקבה,Other
+3748,9,3.0,0-19,זכר,Contact with confirmed
+3749,8,3.0,40-49,נקבה,Other
+3750,6,3.0,20-29,זכר,Abroad
+3751,14,3.0,20-29,זכר,Other
+3752,18,3.0,60+,זכר,Contact with confirmed
+3753,15,3.0,30-39,זכר,Other
+3754,13,3.0,30-39,זכר,Contact with confirmed
+3755,7,3.0,0-19,זכר,Contact with confirmed
+3756,17,3.0,40-49,נקבה,Contact with confirmed
+3757,13,3.0,50-59,נקבה,Other
+3758,15,3.0,20-29,זכר,Contact with confirmed
+3759,4,3.0,20-29,נקבה,Contact with confirmed
+3760,9,3.0,60+,נקבה,Contact with confirmed
+3761,13,3.0,60+,זכר,Contact with confirmed
+3762,1,3.0,40-49,נקבה,Abroad
+3763,19,3.0,20-29,נקבה,Contact with confirmed
+3764,16,3.0,0-19,נקבה,Contact with confirmed
+3765,14,3.0,20-29,נקבה,Contact with confirmed
+3766,8,3.0,20-29,זכר,Contact with confirmed
+3767,20,3.0,40-49,נקבה,Contact with confirmed
+3768,14,3.0,20-29,זכר,Contact with confirmed
+3770,20,3.0,20-29,נקבה,Other
+3771,13,3.0,30-39,זכר,Contact with confirmed
+3772,18,3.0,20-29,זכר,Contact with confirmed
+3773,9,3.0,40-49,נקבה,Contact with confirmed
+3774,9,3.0,40-49,נקבה,Other
+3775,18,3.0,60+,זכר,Other
+3776,18,3.0,20-29,נקבה,Contact with confirmed
+3777,13,3.0,20-29,נקבה,Other
+3778,13,3.0,0-19,זכר,Contact with confirmed
+3779,19,3.0,60+,נקבה,Other
+3780,3,3.0,50-59,זכר,Other
+3781,24,10+,20-29,זכר,Abroad
+3782,29,10+,60+,זכר,Other
+3783,26,10+,60+,נקבה,Abroad
+3784,19,10+,40-49,נקבה,Abroad
+3785,25,10+,30-39,זכר,Abroad
+3786,32,10+,60+,זכר,Abroad
+3787,19,10+,20-29,נקבה,Abroad
+3788,25,10+,20-29,זכר,Contact with confirmed
+3789,25,10+,20-29,זכר,Abroad
+3790,24,10+,30-39,זכר,Other
+3791,29,10+,20-29,זכר,Abroad
+3792,16,10+,0-19,זכר,Contact with confirmed
+3793,26,10+,60+,נקבה,Abroad
+3794,15,10+,30-39,זכר,Contact with confirmed
+3795,19,10+,40-49,זכר,Contact with confirmed
+3796,22,10+,50-59,נקבה,Abroad
+3797,30,10+,30-39,זכר,Abroad
+3798,18,10+,30-39,זכר,Abroad
+3799,16,10+,50-59,נקבה,Abroad
+3800,26,10+,60+,זכר,Abroad
+3801,21,10+,0-19,זכר,NULL
+3802,19,10+,40-49,זכר,Abroad
+3803,19,10+,50-59,זכר,Abroad
+3804,37,10+,30-39,זכר,Abroad
+3805,25,10+,60+,נקבה,Contact with confirmed
+3806,20,10+,60+,זכר,Abroad
+3807,19,10+,60+,זכר,Abroad
+3808,27,10+,30-39,זכר,Abroad
+3809,28,10+,60+,זכר,Other
+3810,27,10+,20-29,זכר,Contact with confirmed
+3811,32,10+,60+,זכר,Other
+3812,27,10+,60+,נקבה,Contact with confirmed
+3813,21,10+,20-29,נקבה,Abroad
+3814,15,10+,30-39,נקבה,Contact with confirmed
+3815,20,10+,20-29,זכר,Abroad
+3816,28,10+,30-39,זכר,Contact with confirmed
+3817,13,10+,30-39,נקבה,Contact with confirmed
+3818,19,10+,30-39,זכר,Contact with confirmed
+3819,16,10+,40-49,זכר,Contact with confirmed
+3820,20,10+,40-49,זכר,Abroad
+3821,16,10+,40-49,זכר,Abroad
+3822,14,10+,40-49,נקבה,Contact with confirmed
+3823,18,10+,40-49,זכר,Abroad
+3824,27,10+,60+,נקבה,Other
+3825,16,10+,40-49,זכר,Abroad
+3826,16,10+,60+,זכר,Other
+3827,23,10+,60+,זכר,Other

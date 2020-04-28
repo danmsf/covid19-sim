@@ -30,7 +30,7 @@ def main(outdir:IO)->None:
         dfs = download_async(new_urls, outdir)
         with open(EXLUDED_URLS_PATH, 'a') as fd:
             for read_url in new_urls:
-                fd.write(read_url)
+                fd.write(read_url + "\n")
     else:
         logger.info('>>No new links')
 

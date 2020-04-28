@@ -70,18 +70,18 @@ def write():
 
     st.markdown("""*Source: Worldmeter, Oxford University*""")
     # total_cases_criteria
-    st.subheader("Johns Hopkins Data")
-    # jh_confirmed_df = countrydata.jh_confirmed_df.copy()
-    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
-    jh_confirmed_df.loc[:, 'min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
-    jh_confirmed_df.loc[:, 'date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
-    jh_confirmed_df.loc[:, 'country'] = jh_confirmed_df['Country'] + " - " + jh_confirmed_df['Province'].str.lower()
-    province = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()), "Israel - all")
-    #
-    jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['country'].isin(province), :]
-    st.altair_chart(
-        jhopkins_level_chart(alt, jh_confirmed_df), use_container_width=True,
-    )
+    # st.subheader("Johns Hopkins Data")
+    # # jh_confirmed_df = countrydata.jh_confirmed_df.copy()
+    # jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['value'] >= total_cases_criteria, :]
+    # jh_confirmed_df.loc[:, 'min_date'] = jh_confirmed_df.groupby(['Country', 'Province'])['variable'].transform('min')
+    # jh_confirmed_df.loc[:, 'date'] = (jh_confirmed_df['variable'] - jh_confirmed_df['min_date']).dt.days
+    # jh_confirmed_df.loc[:, 'country'] = jh_confirmed_df['Country'] + " - " + jh_confirmed_df['Province'].str.lower()
+    # province = st.multiselect("Select Country - Province", list(jh_confirmed_df.country.unique()), "Israel - all")
+    # #
+    # jh_confirmed_df = jh_confirmed_df.loc[jh_confirmed_df['country'].isin(province), :]
+    # st.altair_chart(
+    #     jhopkins_level_chart(alt, jh_confirmed_df), use_container_width=True,
+    # )
     st.markdown("--------------------------------------------------------------------")
     st.subheader('Our World in Data Graphs')
     st.subheader('Total Deaths')
