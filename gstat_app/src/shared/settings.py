@@ -24,7 +24,7 @@ with open(defaults_file) as file:
 user_session_id = get_session_id()
 print(user_session_id)
 
-@st.cache(ttl=2, show_spinner=False , persist=True, max_entries=1)
+# @st.cache(ttl=2, show_spinner=False , persist=True, max_entries=1)
 def load_data(DEFAULTS,user_session_id):
     print(user_session_id, datetime.datetime.now())
     with open('./logs/session_ids.csv', 'a') as fd:
