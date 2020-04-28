@@ -29,7 +29,7 @@ def load_data(DEFAULTS,user_session_id):
     print(user_session_id, datetime.datetime.now())
     with open('./logs/session_ids.csv', 'a') as fd:
         fd.write(str(user_session_id) + ",")
-        fd.write(str(datetime.datetime.now()))
+        fd.write(str(datetime.datetime.now())+"\n")
     israel_data = IsraelData(DEFAULTS['FILES']['israel_files'])
 
     # Load data
