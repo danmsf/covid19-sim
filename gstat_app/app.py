@@ -2,9 +2,9 @@
 # streamlit run ./gstat_app/src/app.py
 
 import src.pages.israel_data
+import src.pages.external_dashboards
 import src.pages.country_data
 import src.pages.projections
-
 
 import streamlit as st  # type: ignore
 from src.shared.components import components
@@ -42,6 +42,7 @@ st.markdown(
 
 PAGES = {
     "Compare Countries Data": src.pages.country_data,
+    "World Dashboards": src.pages.external_dashboards,
     "Show Israel Data": src.pages.israel_data,
     "Show Israel Projections": src.pages.projections,
 }
