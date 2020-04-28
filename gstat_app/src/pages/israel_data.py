@@ -86,7 +86,9 @@ def write():
                 ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time", False),
             use_container_width=True,
         )
-    st.markdown("*מפת יישובים*")
+
+    st.markdown("""*Source: Self collection & Ministry of Health*""")
+    st.markdown("**מפת יישובים**")
     st.markdown(
         """
         <iframe src="https://www.govmap.gov.il/sites/coronamap.html" style="width: 100%; height: 600px; border: 0px none;"></iframe>
@@ -94,7 +96,7 @@ def write():
         unsafe_allow_html=True
     )
         # st.markdown("*Note: Minimum 25 Cases for start out of outbreak*")
-    st.markdown("""*Source: Self collection*""")
+
     st.markdown("-----------------------------")
     st.subheader('Ministry of Health Data')
     # Isolation chart
