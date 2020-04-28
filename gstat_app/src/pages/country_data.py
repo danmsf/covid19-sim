@@ -82,6 +82,15 @@ def write():
     # st.altair_chart(
     #     jhopkins_level_chart(alt, jh_confirmed_df), use_container_width=True,
     # )
+    st.markdown("-----------------------------------------------------------------------------------------------")
+    st.subheader("Johns Hopkins Dashboard")
+    st.markdown(
+        """
+        <iframe src="https://coronavirus.jhu.edu/map.html" style="width: 120%; height: 600px; border: 0px none;"></iframe>
+        """,
+        unsafe_allow_html=True
+    )
+
     st.markdown("--------------------------------------------------------------------")
     st.subheader('Our World in Data Graphs')
     st.subheader('Total Deaths')
