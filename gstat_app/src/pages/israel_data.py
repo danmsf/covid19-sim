@@ -10,12 +10,7 @@ import altair as alt
 def write():
     country_df, _, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df = load_data(DEFAULTS, user_session_id)
     st.subheader('Israeli Data')
-    st.markdown(
-        """
-        <iframe src="https://www.govmap.gov.il/sites/coronamap.html" style="width: 100%; height: 600px; border: 0px none;"></iframe>
-        """,
-        unsafe_allow_html=True
-    )
+
 
     # Patients graph
     # patient_cols = ['New Patients Amount', 'Total Patients',
@@ -91,6 +86,13 @@ def write():
                 ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time", False),
             use_container_width=True,
         )
+    st.markdown("*מפת יישובים*")
+    st.markdown(
+        """
+        <iframe src="https://www.govmap.gov.il/sites/coronamap.html" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+        """,
+        unsafe_allow_html=True
+    )
         # st.markdown("*Note: Minimum 25 Cases for start out of outbreak*")
     st.markdown("""*Source: Self collection*""")
     st.markdown("-----------------------------")
