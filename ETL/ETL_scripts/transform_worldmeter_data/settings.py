@@ -16,7 +16,9 @@ POPULATION_MAPPER_PATH = os.path.join(current_dir, 'resources/population_data_ma
 with open(POPULATION_MAPPER_PATH, 'r') as f:
     population_data_mapper = json.loads(f.read())
 
-GOVERNMENT_RESPONSE_URL = 'https://ocgptweb.azurewebsites.net/CSVDownload'
+# GOVERNMENT_RESPONSE_URL = 'https://ocgptweb.azurewebsites.net/CSVDownload'
+GOVERNMENT_RESPONSE_URL = 'https://oxcgrtportal.azurewebsites.net/api/CSVDownload'
+
 GOVERNMENT_RESPONSE_CSV = r'../../../Resources/Datasets/CountryData/OxCGRT_Download_190420_125856_Full.csv'
 GOVERNMENT_RESPONSE_CSV = os.path.join(current_dir, GOVERNMENT_RESPONSE_CSV)
 # GOVERNMENT_RESPONSE_CSV = os.path.normpath(os.path.join(current_dir, GOVERNMENT_RESPONSE_CSV))

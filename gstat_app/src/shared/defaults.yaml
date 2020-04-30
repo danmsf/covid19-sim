@@ -85,4 +85,4 @@ FILES:
     isolations_file: "Resources/Datasets/IsraelData/isolations.csv"
     tested_file: "Resources/Datasets/IsraelData/symptoms.csv"
     patients_file: "Resources/Datasets/IsraelData/Israel Corona Network Data - Patients_sum.csv"
-    patients_path: "https://govextra.gov.il/media/16972/covid19-data-israel-20042020.xlsx"
+    patients_path: "Resources/Datasets/IsraelData/covid19-data-israel-23042020.xlsx"

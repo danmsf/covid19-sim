@@ -16,7 +16,7 @@ def main(outdir:IO)->None:
     browser.get(WAYBACK_FULLPATH)
 
     # Handle a timeout
-    timeout_get_request(browser, 50)
+    timeout_get_request(browser, 120)
 
     # Get only new raw_data
     logger.info('>>Checking for new links in URL')
