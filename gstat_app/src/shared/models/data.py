@@ -56,7 +56,7 @@ class CountryData:
     # @st.cache
     def get_jhopkins_confirmed(self):
         df = pd.read_csv(self.country_files['jhopkins_confirmed'])
-        # df = df.drop(columns="Unnamed: 0")
+        df = df.drop(columns="Unnamed: 0")
         colnames = df.columns
         df = df.melt(id_vars=['Province/State', 'Country/Region'], value_vars=colnames[2:])
         df['variable'] = pd.to_datetime(df['variable'], format="%m/%d/%y", errors='coerce')
@@ -107,7 +107,7 @@ class IsraelData:
     # @st.cache
     def get_lab_results_df(self):
         df = pd.read_csv(self.filepath['lab_results_file'])
-        df['result_date'] = pd.to_datetime(df['result_date'])
+        df['result_date'] = pd.to_datetime(df['result_date'], format="%d/%m/%Y")
         return df
 
     # @st.cache

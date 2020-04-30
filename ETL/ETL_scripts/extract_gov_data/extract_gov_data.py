@@ -5,7 +5,10 @@ import json
 import os
 from typing import IO, Union, Optional
 from collections import namedtuple
+import datetime
 
+dtxl = (datetime.date.today() - datetime.timedelta(days=7)).strftime('%d%m%Y')
+xlpath ="https://govextra.gov.il/media/17295/covid19-data-israel-" + dtxl + ".xlsx"
 
 def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
 
@@ -25,14 +28,16 @@ def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
         records = s["result"]["records"]
         data = pd.DataFrame(records).set_index("_id")
         df_names.append([data,entry['name']])
-
+    df_xls = pd.read_excel(xlpath)
     if outdir:
         for df_name in df_names:
             df = df_name[0]
             filename = df_name[1]+'.csv'
             fullpath = os.path.join(outdir, filename)
             df.to_csv(fullpath)
+        df_xls.to_excel(outdir, 'IsraelStatus.xlsx', index=False)
         retval = None
+
 
     else:
         dfs = ([df_name[0] for df_name in df_names])
