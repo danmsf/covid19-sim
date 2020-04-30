@@ -241,3 +241,8 @@ def fancy_cache(func=None, ttl=None, unique_to_session=False, **cache_kwargs):
 #         st.write("This string shouldn't change, but should differ by session: `%s` (iter: `%i`)" %
 #             (random_string(10), i))
 #
+
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
+
