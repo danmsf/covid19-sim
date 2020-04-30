@@ -74,7 +74,7 @@ FILES:
   country_file2: "Resources/all_dates_n.csv"
   country_files:
     country_file: "Resources/Datasets/CountryData/all_dates.csv"
-    stringency_file: "Resources/Datasets/CountryData/OxCGRT_Download_latest_data.xlsx"
+    stringency_file: "Resources/Datasets/CountryData/OxCGRT_Download_300420_093110_Full.csv"
     sir_file: "Resources/Datasets/CountryData/all_dates.csv"
     jhopkins_confirmed: "Resources/Datasets/CountryData/time_series_covid19_confirmed_global.csv"
 

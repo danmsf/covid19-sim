@@ -1,129 +1,14 @@
 import streamlit as st
-
+from src.shared.models.model_olg import OLGParameters, naiveModel
+from src.pages.models.olg_model import display_sidebar as display_olg_params
+from src.shared.charts.charts_olg import *
+import altair as alt
+from src.shared.utils import get_table_download_link
 import pandas as pd
+from src.shared.settings import DEFAULTS, load_stringency, user_session_id
 import numpy as np
-import numpy as np
-import statsmodels.api as sm
-
-from datetime import timedelta
-
-# from src.shared.models.model_olg import *
 # from src.shared.models.data import CountryData
-# from src.shared.charts.charts_olg import *
-# from src.shared.utils import get_table_download_link
-# import altair as alt
 # from src.shared.settings import DEFAULTS, load_data, user_session_id
-class NaiveParameters:
-    """Parameters."""
-
-    def __init__(self, *, tau: int, init_infected: int):
-        self.tau = tau
-        self.init_infected = init_infected
-
-
-class naiveModel:
-    def __init__(self, df, p):
-        self.stringency_df = df
-        self.tau = p.tau
-        self.init_infected = p.init_infected
-        self.df, self.israel_day = self.calc_df()
-
-    #     # st.cache
-    #     def get_file(self):
-    #         return pd.read_csv(pathfile, parse_dates=['Date'])
-
-    def calc_r(self, detected):
-        epsilon = 1e-06
-        init_infected = self.init_infected
-        tau = self.tau
-        r_values = np.array([(detected[0] / (init_infected + epsilon) - 1) * tau])
-        for t in range(1, len(detected)):
-            if t <= tau:
-                r_value = (detected[t] / (detected[t - 1] + epsilon) - 1) * tau
-            elif t > tau:
-                r_value = (detected[t] / (
-                            detected[t - 1] - detected[t - tau] + detected[t - tau - 1] + epsilon) - 1) * tau
-            r_values = np.append(r_values, max(r_value, 0))
-            r_adj = np.convolve(r_values, np.ones(int(tau, )) / int(tau), mode='full')[:len(detected)]
-            r_adj = np.clip(r_adj, 0, 100)
-        # self.r_values, self.r_adj, self.r0d = r_values, r_adj, r_adj
-        print(len(detected), len(r_adj))
-        return r_adj
-
-    def norm_r(self, df):
-        # calculate corona days and cutoff
-        df = df[df['ConfirmedCases'] >= self.init_infected]
-        df['day0'] = df.groupby('CountryName')['Date'].transform(min)
-        df['corona_days'] = (df['Date'] - df['day0']).dt.days
-
-        # get todays Israel day - and current R and S
-        israel_day = df[df['CountryName'] == 'Israel']['corona_days'].max()
-        israel_stringency = df[(df['CountryName'] == 'Israel') & (df['corona_days'] == israel_day)][
-            'StringencyIndexForDisplay'].max()
-        israel_r = df[(df['CountryName'] == 'Israel') & (df['corona_days'] == israel_day)]['r_adj'].max()
-
-        # Normalize countries Rs to today's Israels R
-        countryd_r = df[(df['corona_days'] == israel_day)][['CountryName', 'r_adj']]
-        countryd_r['norm_r'] = israel_r - countryd_r['r_adj']
-        df = pd.merge(df, countryd_r[['CountryName', 'norm_r']])
-        df['r_adjn'] = df['r_adj'] + df['norm_r']
-        return df, israel_day
-
-    def calc_df(self):
-        df = self.stringency_df
-        df = df[df['ConfirmedCases'] > self.init_infected]
-        df.sort_values(['CountryName', 'Date'], inplace=True)
-        df['r_adj'] = df.groupby('CountryName')['ConfirmedCases'].transform(lambda x: self.calc_r(x.values))
-        return self.norm_r(df)
-
-    # logic for choosing countries is external
-    # expecting input of type: df[df.CountryName.isin(countryList)]
-    # @staticmethod
-    def avgCountries(self, df):
-        countries_avg = df[df['r_adjn'] > 0].groupby('corona_days', as_index=False)['r_adjn'].mean()
-        lowess = sm.nonparametric.lowess
-        countries_avg['r_adjn'] = lowess(countries_avg['r_adjn'], countries_avg['corona_days'], frac=1. / 10, it=0)[:, 1]
-        countries_avg['prediction_ind'] = 1
-        return countries_avg[countries_avg['corona_days'] > self.israel_day]
-
-    def predict(self, countryList):
-        pred = self.avgCountries(self.df[self.df.CountryName.isin(countryList)])
-        df_israel = self.df.loc[self.df.CountryName == 'Israel', ['Date', 'corona_days', 'r_adjn', 'day0']]
-        df_israel['prediction_ind'] = 0
-        df_israel = pd.concat([df_israel, pred])
-        df_israel['day0'] = df_israel['day0'].ffill()
-        df_israel.loc[df_israel.prediction_ind == 1, 'Date'] = df_israel['day0'] + pd.to_timedelta(df_israel['corona_days'], unit='D')
-        return df_israel
-
-    # TODO: Add Predictions for Counts:
-
-    #     self.predict_next_gen(tau=p.tau)
-    #
-    # self.calc_asymptomatic(fi=p.fi, theta=p.theta, init_infected=p.init_infected)
-    # self.write(stringency, tau=p.tau, critical_condition_rate=p.critical_condition_rate,
-    #            recovery_rate=p.recovery_rate, critical_condition_time=p.critical_condition_time,
-    #            recovery_time=p.recovery_time)
-
-# TODO: Control Model Parameters
-def display_sidebar(naive_params):
-    st.sidebar.subheader("GSTAT Naive Model parameters")
-    naive_params['tau'] = st.sidebar.number_input(
-        "Tau rate (number of days infectious)",
-        min_value=2,
-        value=naive_params['tau'],
-        step=1,
-        format="%i",
-    )
-
-    naive_params['init_infected'] = st.sidebar.number_input(
-        "Minimum cases for calculation",
-        min_value=0,
-        value=naive_params['init_infected'],
-        step=10,
-        format="%i",
-    )
-    return naive_params
-
 
 def display_filtes(filters_dict):
     filters_dict['days_range'] = st.sidebar.slider("Choose Corona Days Forward Range for Policy Value", 1, 20, (5, 10))
@@ -132,11 +17,21 @@ def display_filtes(filters_dict):
 
 
 def write():
-    pathfile = "C:\\Users\\User\\Downloads\\OxCGRT_Download_280420_162625_Full.csv"
-    data = pd.read_csv(pathfile, parse_dates=['Date'])
-    naive_params = {'tau': 14, 'init_infected': 100, }
-    naive_params = display_sidebar(naive_params)
-    p = NaiveParameters(**naive_params)
+    # pathfile = "C:\\Users\\User\\Downloads\\OxCGRT_Download_280420_162625_Full.csv"
+    # data = pd.read_csv(pathfile, parse_dates=['Date'])
+    data = load_stringency(DEFAULTS, user_session_id)
+    olg_params = DEFAULTS['MODELS']['olg_params']
+    if st.sidebar.checkbox("Change Model Parameters", False):
+        olg_params = display_olg_params(olg_params)
+    # -------------------Main Logic -----------------------------
+    st.subheader("GSTAT Covid-19 Predictions for Israel")
+
+    st.info("Models are based on *Natural and Unnatural Histories of Covid-19 Contagion * "
+            "by Professor Michael Beenstock and Dai Xieer "
+            "[download paper](https://github.com/gstat-gcloud/covid19-sim/raw/master/Resources/Natural_and_Unnatural_Histories_of_Covid19.pdf)")
+
+    # naive_params = display_sidebar(naive_params)
+    p = OLGParameters(**olg_params)
     model = naiveModel(data, p)
     filters_dict = {'days_range': (1, 10), 'stringency_range': (45., 90.)}
     filters_dict = display_filtes(filters_dict)
@@ -147,11 +42,45 @@ def write():
     allCountries = list(df_r.loc[df_r['corona_days'] > model.israel_day]['CountryName'].unique())
     countryList = list(df_r.loc[cond]['CountryName'].unique())
     countryList = st.multiselect("Select Countries for prediction", allCountries, countryList)
+    if st.checkbox("Plot Countries R", False):
+        # st.write(df_r[df_r.CountryName.isin(countryList)])
+        st.altair_chart(
+            countries_rchart(alt, df_r[df_r.CountryName.isin(countryList)],
+                                  "Rate of Infection"),
+            use_container_width=True,
+        )
+
     pred = model.predict(countryList)
-    # st.write(pred)
-    st.line_chart(pred.set_index('corona_days')['r_adjn'])
-    print(naive_params)
+    dd = model.write(pred, olg_params['critical_condition_rate'], olg_params['recovery_rate'],  olg_params['critical_condition_time'], olg_params['recovery_time'])
+    # critical_condition_rate, recovery_rate, critical_condition_time, recovery_time
+    dd = dd.rename(columns={'Date': 'date', 'CountryName': 'country'})
+    olg_cols = dd.columns
+    olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_adjn', 'prediction_ind']]
+    olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted'])
 
+    st.altair_chart(
+        olg_projections_chart(alt,
+                              dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select],
+                              "GSTAT Model Projections", False),
+        use_container_width=True,
+    )
+    if st.checkbox("Show Projection Data", False):
+        st.write(dd)
+        st.markdown(get_table_download_link(dd, "gstat_prediciton"), unsafe_allow_html=True)
 
-if __name__ == "__main__":
-    write()
+    st.altair_chart(
+        olg_projections_chart(alt, dd[['date', 'corona_days', 'country', 'prediction_ind', 'R']],
+                              "Rate of Infection"),
+        use_container_width=True,
+    )
+
+    st.altair_chart(
+        olg_projections_chart(alt, dd.loc[
+            dd['corona_days'] > 2, ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']],
+                              "Doubling Time"),
+        use_container_width=True,
+    )
+    st.sidebar.markdown(get_table_download_link(data, "OxfordStringency"), unsafe_allow_html=True)
+
+# if __name__ == "__main__":
+#     write()

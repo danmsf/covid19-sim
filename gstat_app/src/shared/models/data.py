@@ -6,9 +6,9 @@ class CountryData:
     def __init__(self, country_files):
         self.country_files = country_files
         self.country_df = self.get_country_data()
-        self.stringency_df = self.get_country_stringency()
-        self.df = self.get_data()
-        self.sir_df = self.get_sir()
+        self.stringency_df = self.get_stringency()
+        # self.df = self.get_data()
+        # self.sir_df = self.get_sir()
         self.jh_confirmed_df = self.get_jhopkins_confirmed()
 
     # @st.cache
@@ -27,14 +27,18 @@ class CountryData:
         return country_df
 
     # @st.cache
-    def get_country_stringency(self):
-        country_st_df = pd.read_excel(self.country_files['stringency_file'])
-        country_st_df['date'] = pd.to_datetime(country_st_df['Date'], format="%Y%m%d")
-        return country_st_df
+    # def get_country_stringency(self):
+    #     country_st_df = pd.read_excel(self.country_files['stringency_file'])
+    #     country_st_df['date'] = pd.to_datetime(country_st_df['Date'], format="%Y%m%d")
+    #     return country_st_df
+
+    def get_stringency(self):
+        df = pd.read_csv(self.country_files['stringency_file'], parse_dates=['Date'])
+        return df
 
     # @st.cache
     def get_data(self):
-        df = self.country_df.merge(self.stringency_df, left_on=["Country", "date"], right_on=["CountryName", "date"])
+        df = self.country_df.merge(self.stringency_df, left_on=["Country", "date"], right_on=["CountryName", "Date"])
         return df
 
     # @st.cache

@@ -1,3 +1,4 @@
 url,urlname
 https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv,confirmed_global
-https://ocgptweb.azurewebsites.net/CSVDownload,gov_response
+https://oxcgrtportal.azurewebsites.net/api/CSVDownload, gov_response
+https://ocgptweb.azurewebsites.net/CSVDownload,gov_response_old

@@ -45,4 +45,10 @@ def load_data(DEFAULTS,user_session_id):
     jh_confirmed_df = countrydata.jh_confirmed_df
     return country_df, jh_confirmed_df, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df
 
+@st.cache(ttl=20, show_spinner=False , persist=True, max_entries=3)
+def load_stringency(DEFAULTS,user_session_id):
+    countrydata = CountryData(DEFAULTS['FILES']['country_files'])
+    stringency_df = countrydata.get_stringency()
+    return stringency_df
+
 # datasets = load_data(DEFAULTS)

@@ -5,6 +5,8 @@ import datetime
 from statsmodels.tsa.api import SimpleExpSmoothing, Holt
 import os
 import streamlit as st
+import statsmodels.api as sm
+from datetime import timedelta
 
 class OLGParameters:
     """Parameters."""
@@ -434,3 +436,142 @@ class StringencyIndex:
         # temp = pd.merge(temp, self.oxford_df.loc[:, ["StringencyIndex", "date"]], "outer")
         self.output_df = temp
         return temp
+
+class naiveModel:
+    def __init__(self, df, p):
+        self.stringency_df = df
+        self.tau = p.tau
+        self.init_infected = p.init_infected
+        self.df, self.israel_day = self.calc_df()
+
+    #     # st.cache
+    #     def get_file(self):
+    #         return pd.read_csv(pathfile, parse_dates=['Date'])
+
+    def calc_r(self, detected):
+        epsilon = 1e-06
+        init_infected = self.init_infected
+        tau = self.tau
+        r_values = np.array([(detected[0] / (init_infected + epsilon) - 1) * tau])
+        r_adj = None
+        for t in range(1, len(detected)):
+            if t <= tau:
+                r_value = (detected[t] / (detected[t - 1] + epsilon) - 1) * tau
+            elif t > tau:
+                r_value = (detected[t] / (
+                        detected[t - 1] - detected[t - tau] + detected[t - tau - 1] + epsilon) - 1) * tau
+            r_values = np.append(r_values, max(r_value, 0))
+            r_adj = np.convolve(r_values, np.ones(int(tau, )) / int(tau), mode='full')[:len(detected)]
+            r_adj = np.clip(r_adj, 0, 100)
+        # self.r_values, self.r_adj, self.r0d = r_values, r_adj, r_adj
+        # print(len(detected), len(r_adj))
+        return r_adj
+
+    def norm_r(self, df):
+        # calculate corona days and cutoff
+        df = df[df['ConfirmedCases'] >= self.init_infected]
+        df['day0'] = df.groupby('CountryName')['Date'].transform(min)
+        df['corona_days'] = (df['Date'] - df['day0']).dt.days
+
+        # get todays Israel day - and current R and S
+        israel_day = df[df['CountryName'] == 'Israel']['corona_days'].max()
+        israel_stringency = df[(df['CountryName'] == 'Israel') & (df['corona_days'] == israel_day)][
+            'StringencyIndexForDisplay'].max()
+        israel_r = df[(df['CountryName'] == 'Israel') & (df['corona_days'] == israel_day)]['r_adj'].max()
+
+        # Normalize countries Rs to today's Israels R
+        countryd_r = df[(df['corona_days'] == israel_day)][['CountryName', 'r_adj']]
+        countryd_r['norm_r'] = israel_r - countryd_r['r_adj']
+        df = pd.merge(df, countryd_r[['CountryName', 'norm_r']])
+        df['r_adjn'] = df['r_adj'] + df['norm_r']
+        return df, israel_day
+
+    def calc_df(self):
+        df = self.stringency_df
+        df = df[df['ConfirmedCases'] > self.init_infected]
+        df.sort_values(['CountryName', 'Date'], inplace=True)
+        df['r_adj'] = df.groupby('CountryName')['ConfirmedCases'].transform(lambda x: self.calc_r(x.values))
+        return self.norm_r(df)
+
+    # logic for choosing countries is external
+    # expecting input of type: df[df.CountryName.isin(countryList)]
+    # @staticmethod
+    def avgCountries(self, df):
+        countries_avg = df[df['r_adjn'] > 0].groupby('corona_days', as_index=False)['r_adjn'].mean()
+        lowess = sm.nonparametric.lowess
+        countries_avg['r_adjn'] = lowess(countries_avg['r_adjn'], countries_avg['corona_days'], frac=1. / 10, it=0)[:,
+                                  1]
+        countries_avg['prediction_ind'] = 1
+        return countries_avg[countries_avg['corona_days'] > self.israel_day]
+
+    def predict(self, countryList):
+        pred = self.avgCountries(self.df[self.df.CountryName.isin(countryList)])
+        # df_israel = self.df.loc[self.df.CountryName == 'Israel', ['Date', 'corona_days', 'r_adjn', 'day0','ConfirmedCases']]
+        df_israel = self.df.loc[self.df.CountryName == 'Israel', :]
+        df_israel['prediction_ind'] = 0
+        df_israel = pd.concat([df_israel, pred])
+        df_israel['day0'] = df_israel['day0'].ffill()
+        df_israel.loc[df_israel.prediction_ind == 1, 'Date'] = df_israel['day0'] + pd.to_timedelta(
+            df_israel['corona_days'], unit='D')
+        df_israel.loc[:, 'ConfirmedCasesPred'] = self.predict_next_gen(df_israel['ConfirmedCases'].dropna().values,
+                                                                       df_israel['r_adjn'].values)
+        return df_israel
+
+    def predict_next_gen(self, detected, r0d):
+        t = len(detected)
+        next_gen = detected[-1]
+        c0 = detected[t - self.tau] if t - self.tau >= 0 else 0
+        pred = []
+        while t <= len(r0d) - 1:
+            next_gen = self.next_gen(r0=r0d[t], tau=self.tau, c0=c0, ct=next_gen)
+            pred.append(int(next_gen))
+            t += 1
+        return np.concatenate([detected, np.array(pred)])
+
+    @staticmethod
+    def next_gen(r0, tau, c0, ct):
+        r0d = r0 / tau
+        return r0d * (ct - c0) + ct
+
+    # TODO: Add Predictions for Counts:
+
+    def write(self, df, critical_condition_rate, recovery_rate, critical_condition_time, recovery_time):
+        df['total_cases'] = df['ConfirmedCasesPred']
+        df['R'] = df['r_adjn']
+        # df['infected'] = self.asymptomatic_infected
+        # df['exposed'] = df['infected'].shift(periods=-tau)
+        df['CountryName'].fillna(method='ffill', inplace=True)
+        df['Currently Infected'] = np.where(df['corona_days'] <= (critical_condition_time + recovery_time),
+                                            df['total_cases'],
+                                            df['total_cases'] - df['total_cases'].shift(
+                                                periods=(critical_condition_time + 6 + recovery_time)))
+
+        df['Doubling Time'] = np.log(2) / np.log(1 + df['R'] / self.tau)
+
+        df['dI'] = df['total_cases'] - df['total_cases'].shift(1)
+        # df['dA'] = df['infected'] - df['infected'].shift(1)
+        # df['dE'] = df['exposed'] - df['exposed'].shift(1)
+        # critical condition - currently using parameter
+        df['Critical_condition'] = (
+                                    (df['total_cases'].shift(critical_condition_time)
+                                     - df['total_cases'].shift(critical_condition_time + recovery_time + 1))
+                                    * critical_condition_rate
+                                   ).fillna(0).astype(int)
+
+        df['Recovery_Critical'] = (df['dI'].shift(recovery_time + critical_condition_time)
+                                   * critical_condition_rate * recovery_rate
+                                   ).fillna(0).astype(int).cumsum()
+
+        df['Mortality_Critical'] = (df['dI'].shift(recovery_time + critical_condition_time)
+                                    * critical_condition_rate * (1 - recovery_rate)
+                                    ).fillna(0).astype(int).cumsum()
+        df = df.rename(columns={'total_cases': 'Total Detected',
+                                'dI': 'New Detected Predicted',
+                                'Mortality_Critical': 'Daily Deaths Predicted',
+                                'Critical_condition': 'Daily Critical Predicted',
+                                'Recovery_Critical': 'Daily Recovery Predicted',
+                                'Currently Infected': 'Currently Active Detected Predicted',
+                                })
+
+        return df
+

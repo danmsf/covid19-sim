@@ -107,7 +107,7 @@ def get_table_download_link(df, name):
     """
     csv = df.to_csv(index=False)
     b64 = b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-    href = f'<a href="data:file/csv;base64,{b64}" download="{name}.docx">Download file</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="{name}.csv">Download {name}</a>'
     return href
 
 def get_repo_download_link(filename, desc):
