@@ -17,3 +17,11 @@
 
 /stringencyExample.csv
 /logs/
+/gstat_app/src/assets/multiselect-master/
+/ModelsCode/OLGModel/.ipynb_checkpoints/
+/Resources/Datasets/IsraelData/yishuv_20200420.csv
+/Resources/Datasets/IsraelData/yishuv_20200424.csv
+/Resources/Datasets/IsraelData/yishuv_20200429.csv
+/Resources/Datasets/IsraelData/yishuv_20200430.csv
+/ETL/DW/raw_data/gov_data/covid19-data-israel-23042020.xlsx
+/gstat_app/src/assets/multiselect-master/styles/mselect.css

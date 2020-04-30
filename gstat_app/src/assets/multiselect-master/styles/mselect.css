@@ -1,0 +1,15 @@
+.stMultiSelect {
+	width: 180px;
+	display: inline-block;
+	white-space: nowrap;
+	font-size: 12px;
+	font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+}
+
+#st-el[aria-selectd="false"]{
+   background-color: #0f0;
+}
+
+.stMultiSelect[aria-selectd="false"]{
+   background-color: #0f0;
+}
