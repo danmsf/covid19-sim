@@ -5,7 +5,8 @@ dt = '20200420'
 
 dt = '20200430'
 dt = '20200429'
-
+dt = '20200501'
+dt = '20200502'
 path_in = "C:\\Users\\User\\PycharmProjects\\covad19-sim\\ETL\\DW\\raw_data\\gov_yishuv\\"
 path_out = "C:\\Users\\User\\PycharmProjects\\covad19-sim\\Resources\\Datasets\\IsraelData\\"
 file = "כלל הארץ לשליחה 26.04.20 שעה 09.00.xlsx"
@@ -15,7 +16,10 @@ file = "20.04 כלל הארץ לשליחה.xlsx"
 file = "כלל הארץ לפרסום 30.04.20 שעה 08.00.xlsx"
 # file = "כלל הארץ לשליחה 29.04.20 שעה 08.00.xlsx"
 
+file = "כלל_הארץ_ומועצות_אזוריות_01_05_לפרסום.xlsx"
+file = "כלל_הארץ_ומועצות_אזוריות_02_05_שעה_08_00_לפרסום.xlsx"
 t = pd.read_excel(path_in + file, skiprows=4)
+# t = t.drop(columns=['Unnamed: 9','Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12'])
 colnames = t.columns
 new_names = \
 [
@@ -35,7 +39,7 @@ t = t[~t['variable'].isin(['pct_growth_3', 'junk', 'new_last_3', 'per_100k'])]
 t['value'] = pd.to_numeric(t['value'], errors='coerce').fillna(0).astype(int)
 t = t.rename(columns={'variable': 'סוג מידע'})
 t['date'] = pd.to_datetime(dt)
-t.loc[:, 'StringencyIndex'] = 1.
+t.loc[:, 'StringencyIndex'] = None
 t.to_csv(path_out + 'yishuv_' + dt + ".csv", index=False)
 
 #-----------------------------Join files------------------------
@@ -48,6 +52,11 @@ p28['date'] = pd.to_datetime('20200428')
 p29 = pd.read_csv(path_out + 'yishuv_' + '20200429' + ".csv")
 p30 = pd.read_csv(path_out + 'yishuv_' + '20200430' + ".csv")
 joined = pd.concat([p27,p28,p29,p30])
+joined = joined.dropna(subset=['יישוב', 'pop2018'])
+
+p01 = pd.read_csv(path_out + 'yishuv_' + '20200501' + ".csv")
+p02 = pd.read_csv(path_out + 'yishuv_' + '20200502' + ".csv")
+joined = pd.concat([p01,p02])
 joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
 yishuv_file = pd.read_csv(path_out + 'yishuv_file.csv')
