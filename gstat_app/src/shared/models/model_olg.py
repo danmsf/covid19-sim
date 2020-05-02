@@ -659,9 +659,9 @@ class naiveModel:
                                     ).fillna(0).astype(int).cumsum()
         df = df.rename(columns={'total_cases': 'Total Detected',
                                 'dI': 'New Detected Predicted',
-                                'Mortality_Critical': 'Daily Deaths Predicted',
+                                'Mortality_Critical': 'Total Deaths Predicted',
                                 'Critical_condition': 'Daily Critical Predicted',
-                                'Recovery_Critical': 'Daily Recovery Predicted',
+                                'Recovery_Critical': 'Total Recovery Predicted',
                                 'Currently Infected': 'Currently Active Detected Predicted',
                                 })
 

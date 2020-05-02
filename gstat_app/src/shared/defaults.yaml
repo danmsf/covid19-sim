@@ -13,7 +13,7 @@ MODELS:
       R0D:
         0: 0
     critical_condition_rate: 0.05
-    recovery_rate: 0.5
+    recovery_rate: 0.575
     critical_condition_time: 10
     recovery_time: 6
     countries_list:
