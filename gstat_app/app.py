@@ -42,7 +42,8 @@ PAGES = {
 
 def main():
     """Main function of the App"""
-    st.sidebar.title("Navigation")
+    # st.sidebar.title("Navigation")
+    st.sidebar.markdown("<h1 style='text-indent:0;margin-bottom:-0.5in;color:#2F5496;'>Navigation<h1>", unsafe_allow_html=True)
     selection = st.sidebar.radio("", list(PAGES.keys()), 0)
     if selection!='Home':
         st.markdown(
@@ -62,7 +63,7 @@ def main():
         components.write_page(page)
 
     st.sidebar.markdown("----------------")
-    st.sidebar.markdown("<h2 style='text-align:center'>About</h2>", unsafe_allow_html=True)
+    st.sidebar.markdown("<h2 style='text-indent:0in;color:#2F5496;'>About</h2>", unsafe_allow_html=True)
     display_about(st)
 
 

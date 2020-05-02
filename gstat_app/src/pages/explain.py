@@ -58,7 +58,7 @@ def write():
         text-indent:-.3in;
         page-break-after:avoid;
         font-size:16.0pt;
-        font-family:"Calibri Light",sans-serif;
+        font-family:"IBM Plex Sans",sans-serif;
         color:#2F5496;
         font-weight:normal;}
     h2
@@ -71,7 +71,7 @@ def write():
         text-indent:-.4in;
         page-break-after:avoid;
         font-size:13.0pt;
-        font-family:"Calibri Light",sans-serif;
+        font-family:"IBM Plex Sans" ,sans-serif;
         color:#2F5496;
         font-weight:normal;}
     h3
@@ -509,8 +509,8 @@ def write():
     ההדבקה במדינות שונות בעולם ולהשוות בינהן. </span></p>
     
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span dir=LTR><img width=400 height=187 id="Picture 2"
-    src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image001.jpg"
+    embed'><span dir=LTR><img width=700 height=300 id="Picture 2"
+    src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image002.jpg"
     alt="A screenshot of a cell phone&#10;&#10;Description automatically generated"></span></p>
     
     <p class=MsoNormal dir=RTL style='text-align:justify;direction:rtl;unicode-bidi:
@@ -551,7 +551,7 @@ def write():
     המתקרב  לערך הקרוב לחצי עד קרוב ל-0 בין הימים 55 ל-65.</span></p>
     
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span dir=LTR><img width=400 height=187 id="Picture 3"
+    embed'><span dir=LTR><img width=700 height=300 id="Picture 3"
     src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image003.jpg"
     alt="A screenshot of a cell phone&#10;&#10;Description automatically generated"></span></p>
     
@@ -575,8 +575,8 @@ def write():
     ינואר לאמצע אפריל 2020.</span></p>
     
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span dir=LTR><img width=400 height=187 id="Picture 4"
-    src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image005.png"
+    embed'><span dir=LTR><img width=700 height=300 id="Picture 4"
+    src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image005.jpg"
     alt="A screenshot of a cell phone&#10;&#10;Description automatically generated"></span></p>
     
     
@@ -631,12 +631,15 @@ def write():
     העיקרי למדיניות. </span></p>
     
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span dir=LTR><img width=400 height=187 id="Picture 3"
-    src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image007.jpg"
-    alt="A screenshot of a cell phone&#10;&#10;Description automatically generated"></span></p>
+    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
     
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span dir=LTR><img width=400 height=187 id="Picture 3"
+    embed'><span dir=LTR><img width=700 height=300 id="Picture 3"
+    src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image007.jpg"
+    alt="A screenshot of a cell phone&#10;&#10;Description automatically generated"></span></p>
+
+    <p class=MsoNormal dir=RTL style='margin-top:-0.65in;text-align:right;direction:rtl;unicode-bidi:
+    embed'><span dir=LTR><img width=700 height=300 id="Picture 3"
     src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image009.jpg"
     alt="A screenshot of a cell phone&#10;&#10;Description automatically generated"></span></p>
     
@@ -673,51 +676,7 @@ def write():
     <p class=MsoNormal dir=RTL style='text-align:justify;direction:rtl;unicode-bidi:
     embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
     
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>&nbsp;</span></p>
-    
+
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
     embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>תרחיש
     אופטימי: תחזיות מדדי קורונה בישראל על בסיס מהלך המגפה בסין</span><span dir=LTR></span><span
@@ -726,7 +685,7 @@ def write():
     dir=RTL></span> דרום קוריאה ושווצריה.</span></p>
     
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span dir=LTR><img width=400 height=187 id="Picture 3"
+    embed'><span dir=LTR><img width=700 height=300 id="Picture 3"
     src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image011.jpg"
     alt="A screenshot of a cell phone&#10;&#10;Description automatically generated"></span></p>
     
@@ -757,7 +716,7 @@ def write():
     קוראה ושווצריה) ומדינות שבהן היה גל שני (הונג קונג וסינגפור).</span></p>
     
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span dir=LTR><img width=400 height=187 id="Picture 3"
+    embed'><span dir=LTR><img width=700 height=300 id="Picture 3"
     src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image014.jpg"
     alt="A screenshot of a cell phone&#10;&#10;Description automatically generated"></span></p>
     
@@ -774,43 +733,13 @@ def write():
     
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
     embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
-    <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
-    
+        
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
     embed'><span lang=HE style='font-family:"Arial",sans-serif;color:#5B9BD5'>תרחיש
     פסימי: תחזית מבוססת רק על מדינות שחוו גל שני – הונג קונג וסינגפור</span></p>
     
     <p class=MsoNormal dir=RTL style='text-align:right;direction:rtl;unicode-bidi:
-    embed'><span dir=LTR><img width=400 height=187 id="Picture 3"
+    embed'><span dir=LTR><img width=700 height=300 id="Picture 3"
     src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/image016.jpg"
     alt="A screenshot of a cell phone&#10;&#10;Description automatically generated"></span></p>
     
