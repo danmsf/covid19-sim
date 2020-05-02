@@ -322,7 +322,7 @@ def write():
     direction:rtl;unicode-bidi:embed'><span lang=HE style='font-family:"Arial",sans-serif'>מדד
     להתפתחות חומרת הצעדים, המוצג במערכת, הינו </span><span dir=LTR>Oxford
     stringency Index</span><span dir=RTL></span><span lang=HE style='font-family:
-    "Arial",sans-serif'><span dir=RTL></span> (). המדד משקלל את צעדי המדיניות בכל
+    "Arial",sans-serif'><span dir=RTL></span>. המדד משקלל את צעדי המדיניות בכל
     מדינה ובכל יום במספר שבין 0 ל-100, כאשר 0 הוא מצב של אי נקיטת צעדים כלל ו-100
     הינו מצב של סגר מלא. המדד מאפשר לחקור את הקשרים בין מועדי הצעדים ועוצמתם
     במדינות שונות בעולם לבין ההצלחה בבלימת התפשטות המגפה.</span></p>
