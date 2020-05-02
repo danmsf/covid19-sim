@@ -437,6 +437,98 @@ class StringencyIndex:
         self.output_df = temp
         return temp
 
+
+class StringencyIndexNaive:
+    def __init__(self, countryname):
+        OXDF = "gov_response.csv"
+        self.filepath = os.path.join(os.getcwd(), "Resources", "Datasets", "CountryData", OXDF)
+        self.oxford_df = pd.read_csv(os.path.join(os.getcwd(), "Resources", "Datasets", "CountryData", OXDF))
+        self.countryname = countryname
+        self.input_df = pd.DataFrame()
+        self.output_df = pd.DataFrame()
+        # self.max_val = {'S1': 2., 'S2': 2., 'S3': 2., 'S4': 2., 'S5': 1., 'S6': 2., 'S7': 3.}
+        self.max_val = {'C1': 5., 'C2': 5., 'C3': 5., 'C4': 5., 'C5': 5., 'C6': 5., 'C7': 5., 'C8': 5.}
+        self.project_til = None
+
+    @st.cache
+    def get_latest(self):
+
+        self.oxford_df = self.oxford_df.loc[self.oxford_df["CountryName"] == self.countryname, :]
+        self.oxford_df["date"] = pd.to_datetime(self.oxford_df["Date"], format="%Y%m%d")
+        # s1_7 = tuple("S" + str(i) + "_" for i in range(1, 8, 1))
+        s1_8 = tuple("C" + str(i) + "_" for i in range(1, 9, 1))
+        keep_cols = [c for c in self.oxford_df.columns if c.startswith(s1_8)]
+        keep_cols = [c for c in keep_cols if c.find('Notes') == -1]
+        # keep_cols = [c for c in keep_cols if c.find('Flag') == -1]
+        oxford_df = self.oxford_df.dropna(subset=['StringencyIndex'])
+        oxford_df = oxford_df.fillna('ffill')
+        oxford_df = oxford_df[keep_cols]
+        # print(oxford_df)
+        oxford_dict = oxford_df[-1:].to_dict('records')[0]
+        return oxford_dict
+
+    def display_st(self, st, key=1):
+        oxford_dict = self.get_latest()
+        st.sidebar.subheader("Oxford Index")
+        output = {}
+        oxford_start = oxford_dict.copy()
+        max_val = self.max_val
+        for k, v in oxford_dict.items():
+            if k.find('Flag') > -1:
+                output[k] = st.sidebar.checkbox(k, oxford_dict[k] * True, key=key) * 1.
+            else:
+                output[k] = st.sidebar.number_input(k.split("_")[1], value=oxford_dict[k], min_value=0.,
+                                                    max_value=max_val[k[:2]], step=1., key=key)
+                # add original date
+                # oxford_start[k + '_date'] = datetime.date.today()
+            key += 1
+        self.input_df = pd.DataFrame([output])
+
+    def calculate_stringency(self):
+        max_val = self.max_val
+        temp = self.input_df.copy()
+        cols = temp.columns
+        date_cols = [c for c in cols if c.find('_date') > -1]
+        temp[date_cols] = temp[date_cols].apply(lambda x: pd.to_datetime(x))
+        # dts = temp[date_cols].apply(lambda x: max(x), axis=1).values
+        # dts_range = pd.date_range(dts[0], dts[1])
+        dts_range = pd.date_range(datetime.date.today(),  self.project_til)
+        temp['times'] = None
+        temp['times'] = [1, len(dts_range) - 1]
+
+        temp = temp.loc[temp.index.repeat(temp.times)]
+        temp.drop(columns='times', inplace=True)
+        temp['date'] = dts_range
+        cols = temp.columns
+        cols = [c for c in cols if c.find('IsGeneral') == -1]
+        cols = [c for c in cols if c.find('date') == -1]
+        temp = temp.reset_index(drop=True)
+        for k in cols:
+            for i in temp.index:
+                if temp.loc[i, k + "_date"] != temp.loc[i, 'date']:
+                    temp.at[i, k] = temp.loc[i - 1, k]
+                    try:
+                        temp.at[i, k[:2] + "_IsGeneral"] = temp.loc[i - 1, k + "_IsGeneral"]
+                    except:
+                        pass
+
+        for k in cols:
+            if k[:2] != 'S7':
+                temp[k[:2] + '_score'] = (temp[k] + temp[k[:2] + "_IsGeneral"]) / (max_val[k[:2]] + 1)
+            else:
+                temp[k[:2] + '_score'] = temp[k] / (max_val[k[:2]])
+
+        cols = temp.columns
+        score_cols = [c for c in cols if c.find("score") > -1]
+        temp['StringencyIndex'] = temp[score_cols].apply(lambda x: np.average(x)*100, axis=1)
+        cols = list(temp.columns)
+        cols.insert(0, cols.pop(cols.index('StringencyIndex')))
+        cols.insert(0, cols.pop(cols.index('date')))
+        temp = temp.loc[:, cols]
+        # temp = pd.merge(temp, self.oxford_df.loc[:, ["StringencyIndex", "date"]], "outer")
+        self.output_df = temp
+        return temp
+
 class naiveModel:
     def __init__(self, df, p):
         self.stringency_df = df
@@ -489,8 +581,8 @@ class naiveModel:
     def calc_df(self):
         df = self.stringency_df
         df = df[df['ConfirmedCases'] > self.init_infected]
-        df.sort_values(['CountryName', 'Date'], inplace=True)
-        df['r_adj'] = df.groupby('CountryName')['ConfirmedCases'].transform(lambda x: self.calc_r(x.values))
+        df = df.sort_values(['CountryName', 'Date'])
+        df.loc[:, 'r_adj'] = df.groupby('CountryName')['ConfirmedCases'].transform(lambda x: self.calc_r(x.values))
         return self.norm_r(df)
 
     # logic for choosing countries is external
@@ -508,7 +600,7 @@ class naiveModel:
         pred = self.avgCountries(self.df[self.df.CountryName.isin(countryList)])
         # df_israel = self.df.loc[self.df.CountryName == 'Israel', ['Date', 'corona_days', 'r_adjn', 'day0','ConfirmedCases']]
         df_israel = self.df.loc[self.df.CountryName == 'Israel', :]
-        df_israel['prediction_ind'] = 0
+        df_israel.loc[:, 'prediction_ind'] = 0
         df_israel = pd.concat([df_israel, pred])
         df_israel['day0'] = df_israel['day0'].ffill()
         df_israel.loc[df_israel.prediction_ind == 1, 'Date'] = df_israel['day0'] + pd.to_timedelta(

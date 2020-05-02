@@ -11,7 +11,6 @@ import numpy as np
 # from src.shared.settings import DEFAULTS, load_data, user_session_id
 
 def display_filtes(filters_dict):
-    filters_dict['days_range'] = st.sidebar.slider("Choose Corona Days Forward Range for Policy Value", 1, 20, (5, 10))
     filters_dict['stringency_range'] = st.sidebar.slider("Choose Stringency Range", 20., 100., (45., 90.))
     return filters_dict
 
@@ -23,6 +22,8 @@ def write():
     olg_params = DEFAULTS['MODELS']['olg_params']
     if st.sidebar.checkbox("Change Model Parameters", False):
         olg_params = display_olg_params(olg_params)
+
+
     # -------------------Main Logic -----------------------------
     st.subheader("GSTAT Covid-19 Predictions for Israel")
 
@@ -33,15 +34,37 @@ def write():
     # naive_params = display_sidebar(naive_params)
     p = OLGParameters(**olg_params)
     model = naiveModel(data, p)
-    filters_dict = {'days_range': (1, 10), 'stringency_range': (45., 90.)}
-    filters_dict = display_filtes(filters_dict)
     df_r = model.df.copy()
-    cond = ((df_r['corona_days'] - model.israel_day).between(*filters_dict['days_range'])) & \
-           (df_r['StringencyIndexForDisplay'].between(*filters_dict['stringency_range']))
+    # sgidx = StringencyIndexNaive("Israel")
 
-    allCountries = list(df_r.loc[df_r['corona_days'] > model.israel_day]['CountryName'].unique())
-    countryList = list(df_r.loc[cond]['CountryName'].unique())
+    filters_dict = {'days_range': (1, 10),'stringency_range': (45., 90.)}
+    filters_dict['days_range'] = st.sidebar.slider("Choose Corona Days Forward for Policy Value", 1, 50, (1, 10))
+    indices_dict = {'C1_School closing':None, 'C2_Workplace closing':None, 'C3_Cancel public events':None, 'C4_Restrictions on gatherings':None,
+            'C5_Close public transport':None, 'C6_Stay at home requirements':None, 'C7_Restrictions on internal movement':None,
+            'C8_International travel controls':None}
+    indices_max = {'C1_School closing':3., 'C2_Workplace closing':3., 'C3_Cancel public events':2., 'C4_Restrictions on gatherings':4.,
+            'C5_Close public transport':2., 'C6_Stay at home requirements':3., 'C7_Restrictions on internal movement':2.,
+            'C8_International travel controls':4.}
+    if st.sidebar.checkbox("Choose by SringencyIndex Range", False):
+        filters_dict = display_filtes(filters_dict)
+        cond = ((df_r['corona_days'] - model.israel_day).between(*filters_dict['days_range'])) & \
+               (df_r['StringencyIndexForDisplay'].between(*filters_dict['stringency_range']))
+        countryList = list(df_r.loc[cond]['CountryName'].unique())
+    else:
+        all_masks = []
+        condition = (df_r['corona_days'] - model.israel_day).between(*filters_dict['days_range'])
+        all_masks.append(condition)
+        indices = st.sidebar.multiselect("Choose Index", list(indices_dict.keys()), ['C1_School closing'])
+        for ix in indices:
+            indices_dict[ix] = st.sidebar.number_input(ix, value=2.0, min_value=0.0, max_value=indices_max[ix], step=1.0)
+            condition = (df_r[ix] == indices_dict[ix])
+            all_masks.append(condition)
+        mask = np.array(all_masks).all(axis=0)
+        countryList = list(df_r.loc[mask]['CountryName'].unique())
+
+    allCountries = list(df_r.loc[df_r['corona_days'] >= model.israel_day]['CountryName'].unique())
     countryList = st.multiselect("Select Countries for prediction", allCountries, countryList)
+
     if st.checkbox("Plot Countries R", False):
         # st.write(df_r[df_r.CountryName.isin(countryList)])
         st.altair_chart(
@@ -49,6 +72,8 @@ def write():
                                   "Rate of Infection"),
             use_container_width=True,
         )
+        if st.checkbox("Show Countries Data", False):
+            st.write((df_r[df_r.CountryName.isin(countryList)]))
 
     pred = model.predict(countryList)
     dd = model.write(pred, olg_params['critical_condition_rate'], olg_params['recovery_rate'],  olg_params['critical_condition_time'], olg_params['recovery_time'])

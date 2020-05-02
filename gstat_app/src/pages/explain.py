@@ -4,15 +4,15 @@ def print_bdi(text):
     return f"""<div><bdi>{text}</bdi><div>"""
 
 def write():
-    st.markdown("<style> div {text-align: right} h1{text-align: center} h2{text-align: right}</style>",
+    st.markdown("<style> div {text-align: left} h2{text-align: left}</style>",
         unsafe_allow_html=True)
 
 
     st.markdown(
         """
-        <h1>הערכת הסבירות לגל שני והיקפו, במגפת הקורונה בישראל, באמצעות מערכת GstatCOVID</h1>
-    <h1>אפרים גולדין </h1>
-    <h1>אפריל 2020</h1>
+        <h1 style='text-align: center'>הערכת הסבירות לגל שני והיקפו, במגפת הקורונה בישראל, באמצעות מערכת GstatCOVID</h1>
+    <h1 style='text-align: center'>אפרים גולדין </h1>
+    <h1 style='text-align: center'>אפריל 2020</h1>
         """,
         unsafe_allow_html=True
     )
@@ -536,7 +536,7 @@ def write():
     dir=RTL></span><b><span lang=HE style='font-family:"Times New Roman",serif'><span
     dir=RTL></span> &amp; </span></b><b><span dir=LTR style='font-family:"Times New Roman",serif'>Xieer
     Dai</span></b><span dir=RTL></span><span lang=HE style='font-family:"Arial",sans-serif'><span
-    dir=RTL></span>). <span style='color:#ED7D31'>גם כאן להוסיף לינק</span></span></p>
+    dir=RTL></span>). </p>
     
     <p class=MsoNormal dir=RTL style='text-align:justify;direction:rtl;unicode-bidi:
     embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
@@ -621,7 +621,7 @@ def write():
     מסויים של מדד אוקספורד נעשית באמצעות הסליידר והמערכת מציגה באופן אוטומטי בגרף
     את ערכי </span><span dir=LTR>R</span><span dir=RTL></span><span lang=HE
     style='font-family:"Arial",sans-serif'><span dir=RTL></span> למדינות העונות לערכים
-    אלו. <span style='color:#ED7D31'>דן לא ברור לי מה עושה הסליידר השני אנא הוסף </span>במקביל
+    אלו. במקביל
     נעשה חישוב נוסף. לכל יום קורונה עתידי מחושב הממוצע של מקדם ההדבקה במדינות
     שנבחרו ומונח שזה יהיה ערכו בעתיד בכל יום קורונה עתידי בישראל. בדרך זו אנו חוזים
     את </span><span dir=LTR>R</span><span dir=RTL></span><span lang=HE

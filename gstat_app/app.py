@@ -62,7 +62,7 @@ def main():
         components.write_page(page)
 
     st.sidebar.markdown("----------------")
-    st.sidebar.subheader("About")
+    st.sidebar.markdown("<h2 style='text-align:center'>About</h2>", unsafe_allow_html=True)
     display_about(st)
 
 
