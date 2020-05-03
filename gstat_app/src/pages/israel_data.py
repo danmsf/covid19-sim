@@ -53,8 +53,12 @@ def write():
     st.markdown("-----------------------------")
     # Yishuvim charts
     st.subheader("Cases by City")
-    israel_yishuv_df = israel_yishuv_df.merge(
-        country_df.loc[country_df['country'] == 'israel', ['date', 'StringencyIndex']], how='left')
+    # israel_yishuv_df = israel_yishuv_df.merge(
+    #     country_df.loc[country_df['country'] == 'israel', ['date', 'StringencyIndex']], how='left')
+
+    st.altair_chart(
+        yishuv_bar_chart(alt, israel_yishuv_df.loc[israel_yishuv_df['last3days'] > 3, ['Yishuv', 'last3days']].dropna())
+        , use_container_width=True)
 
     yishuvim = st.multiselect("Select City:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
     colvars = list(israel_yishuv_df['סוג מידע'].unique())
@@ -62,6 +66,8 @@ def write():
     israel_yishuv_olg_df = israel_yishuv_df.loc[israel_yishuv_df['סוג מידע'] == 'מספר חולים מאומתים', :].copy()
     israel_yishuv_df_plot = israel_yishuv_df.loc[(israel_yishuv_df['Yishuv'].isin(yishuvim) &
                                              israel_yishuv_df['סוג מידע'].isin([sel_vars])), :].copy()
+
+
     if st.checkbox("Show per 1,000 inhabitants", True):
         st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df_plot), use_container_width=True)
     else:
@@ -90,7 +96,7 @@ def write():
                 ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time", False),
             use_container_width=True,
         )
-
+    df = pd.read_excel
     st.markdown("""*Source: Self collection & Ministry of Health*""")
     # st.markdown("**מפת יישובים**")
     # st.markdown(

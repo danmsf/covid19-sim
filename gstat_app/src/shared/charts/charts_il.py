@@ -135,7 +135,7 @@ def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
     line = alt.Chart(source).mark_line(interpolate='basis').encode(
         x=alt.X('date:T', title=""),
         y=alt.Y('value',title=""),
-        color=alt.Color('Yishuv', title='Yishuv', legend=alt.Legend(orient="top", title=''))
+        color=alt.Color('Yishuv', title='City', legend=alt.Legend(orient="top", title=''))
     )
 
 
@@ -174,7 +174,19 @@ def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
     return (alt.layer(
         line, selectors, rules, text
     ).properties(
-        width=600, height=300, title="Cases by Yishuv"
+        width=600, height=300, title="Cases by City"
     ).resolve_scale(y='independent').interactive()
             )
 
+def yishuv_bar_chart(alt, source):
+    sorted_city = list(source.sort_values('last3days')['Yishuv'].values)
+    hbar = alt.Chart(source).mark_bar(tooltip=True).encode(
+        x=alt.X('max(last3days):Q',title=""),
+        y=alt.Y('Yishuv:O', sort=sorted_city[::-1] , title=""),
+    )
+    return  (alt.layer(
+        hbar
+    ).properties(
+        width=600, height=300, title="New cases in last 3 days (at least 3)"
+    ).resolve_scale(y='independent').interactive()
+            )
