@@ -39,8 +39,7 @@ PAGES = {
     "Comparative Analytics by Countries": src.pages.country_data,
     "External World Dashboards": src.pages.external_dashboards,
     "Users Guide":src.pages.users_guide,
-    "Blog":None
-}
+ }
 
 
 def main():
