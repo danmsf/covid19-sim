@@ -53,7 +53,7 @@ def main():
       visibility: visible;
       display: block;
       position: absolute;
-      background-color: #4A4344;
+      background-color: #2B3856;
       padding: 5px;
       top: 2px;
       width: 110px;
