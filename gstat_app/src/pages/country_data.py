@@ -5,6 +5,8 @@ from src.shared.charts.charts_olg import *
 from src.shared.utils import get_table_download_link
 from src.shared.models.model_olg import OLG, init_olg_params
 from src.shared.settings import DEFAULTS, load_data, user_session_id
+import src.pages.external_dashboards
+from src.shared.components import components
 import altair as alt
 
 def write():
@@ -21,7 +23,8 @@ def write():
                 'population', 'StringencyIndexForDisplay', 'StringencyIndex']
     temp = country_df.loc[country_df.Country.isin(countryname), keepcols]
     temp = temp.set_index("date", drop=False)
-    total_cases_criteria = st.number_input(label='Minimum Infected for Start', value=10)
+    # total_cases_criteria = st.number_input(label='Minimum Infected for Start', value=10)
+    total_cases_criteria = 50
     temp = temp.loc[temp['total_cases'] >= total_cases_criteria, :]
     cols = temp.columns
     cols = [c for c in cols if c not in ['Country', 'country', 'date']]
@@ -103,3 +106,6 @@ def write():
     #                          "Rate of Infection", caronadays),
     #     use_container_width=True,
     #  )
+    if st.checkbox("Show External Dashboards and Figures", False):
+        page = src.pages.external_dashboards
+        components.write_page(page)

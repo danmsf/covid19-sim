@@ -140,8 +140,6 @@ def display_about(st):
             "Laura Lerner, and anyone else I missed :) ")
 
 
-
-
 # Copied from tvst's great gist:
 # https://gist.github.com/tvst/6ef6287b2f3363265d51531c62a84f51
 def get_session_id():

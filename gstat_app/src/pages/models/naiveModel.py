@@ -37,7 +37,7 @@ def write():
     df_r = model.df.copy()
     # sgidx = StringencyIndexNaive("Israel")
 
-    filters_dict = {'days_range': (1, 40),'stringency_range': (45., 90.)}
+    filters_dict = {'days_range': (1, 90),'stringency_range': (45., 90.)}
     # filters_dict['days_range'] = st.sidebar.slider("Choose Corona Days Forward for Policy Value", 1, 50, (1, 10))
     indices_dict = {'C1_School closing':None, 'C2_Workplace closing':None, 'C3_Cancel public events':None, 'C4_Restrictions on gatherings':None,
             'C5_Close public transport':None, 'C6_Stay at home requirements':None, 'C7_Restrictions on internal movement':None,
@@ -66,25 +66,34 @@ def write():
         mask = np.array(all_masks).all(axis=0)
         countryList = list(df_r.loc[mask]['CountryName'].unique())
     elif chosen=="Gstat Scenarios":
-        st.sidebar.subheader("Choose scenario")
-        scenario = st.sidebar.selectbox("", ["Pessimistic", "Normal", "Optimistic"], 0)
-        scenario_dict = {"Pessimistic": ["Hong Kong", "Singapore"],
-                         "Normal": ["Hong Kong", "Singapore", "China", "South Korea", "Switzerland"],
-                         "Optimistic": ["China", "South Korea", "Switzerland"]}
+        st.subheader("Choose scenario")
+        scenario = st.selectbox("", ["Pessimistic (Countries with second wave)", "Average", "Optimistic (Countries without second wave)"], 0)
+        if scenario == "Pessimistic (Countries with second wave)":
+            st.markdown("**Note:** Development of rate of infection in Israel will continue like in countries that "
+                        "experienced a second wave (Hong Kong and Singapore).")
+        if scenario == "Optimistic (Countries without second wave)":
+            st.markdown("**Note:** Development of rate of infection in Israel will continue like in countries that did not "
+                        "experienced a second wave (China, South Korea and Switzerland).")
+        if scenario == "Average":
+            st.markdown("**Note:** Development of rate of infection in Israel will continue as an average of multiple countries.")
+        scenario_dict = {"Pessimistic (Countries with second wave)": ["Hong Kong", "Singapore"],
+                         "Average": ["Hong Kong", "Singapore", "China", "South Korea", "Switzerland"],
+                         "Optimistic (Countries without second wave)": ["China", "South Korea", "Switzerland"]}
+
         countryList = scenario_dict[scenario]
 
     allCountries = list(df_r.loc[df_r['corona_days'] >= model.israel_day]['CountryName'].unique())
     countryList = st.multiselect("Select Countries for prediction", allCountries, countryList)
 
-    if st.checkbox("Plot Countries R", False):
+    # if st.checkbox("Plot Countries R", False):
         # st.write(df_r[df_r.CountryName.isin(countryList)])
-        st.altair_chart(
-            countries_rchart(alt, df_r[df_r.CountryName.isin(countryList)],
-                                  "Rate of Infection"),
-            use_container_width=True,
-        )
-        if st.checkbox("Show Countries Data", False):
-            st.write((df_r[df_r.CountryName.isin(countryList)]))
+    st.altair_chart(
+        countries_rchart(alt, df_r[df_r.CountryName.isin(countryList)],
+                              "Rate of Infection"),
+        use_container_width=True,
+    )
+    if st.checkbox("Show Countries Data", False):
+        st.write((df_r[df_r.CountryName.isin(countryList)]))
 
     pred = model.predict(countryList)
     dd = model.write(pred, olg_params['critical_condition_rate'], olg_params['recovery_rate'],  olg_params['critical_condition_time'], olg_params['recovery_time'])

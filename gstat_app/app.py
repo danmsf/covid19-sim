@@ -7,6 +7,7 @@ import src.pages.country_data
 import src.pages.projections
 import src.pages.explain
 import src.pages.users_guide
+import src.pages.second_wave
 
 import streamlit as st  # type: ignore
 from src.shared.components import components
@@ -37,8 +38,6 @@ PAGES = {
     "Israel Predictive Models": src.pages.projections,
     "Israel Data Analytics": src.pages.israel_data,
     "Comparative Analytics by Countries": src.pages.country_data,
-    "External World Dashboards": src.pages.external_dashboards,
-    "Users Guide":src.pages.users_guide,
  }
 
 
@@ -61,11 +60,22 @@ def main():
         )
     page = PAGES[selection]
 
-    with st.spinner(f"Loading {selection} ..."):
-        components.write_page(page)
-    st.sidebar.markdown("----------------")
-    st.sidebar.info("Blog")
 
+    st.sidebar.markdown("----------------")
+    if selection != "Israel Predictive Models":
+        st.sidebar.markdown("<h2 style='text-indent:0in;color:#2F5496;'>Blog</h2>", unsafe_allow_html=True)
+        blog1 = st.sidebar.button("הוראות שימוש במערכת - אפרים גולדין  מאי 2020", False)
+        blog2 = st.sidebar.button("בעיית חיזוי הגל שני בישראל - אפרים גולדין   מאי 2020", False)
+        if blog1:
+            components.write_page(src.pages.users_guide)
+        elif blog2:
+           components.write_page(src.pages.second_wave)
+        else:
+            with st.spinner(f"Loading {selection} ..."):
+                components.write_page(page)
+    else:
+        with st.spinner(f"Loading {selection} ..."):
+            components.write_page(page)
     st.sidebar.markdown("<h2 style='text-indent:0in;color:#2F5496;'>About</h2>", unsafe_allow_html=True)
     display_about(st)
 

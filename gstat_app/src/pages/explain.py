@@ -52,7 +52,7 @@ def write():
      p.MsoNormal, li.MsoNormal, div.MsoNormal
         {margin:0in;
         margin-bottom:.0001pt;
-        font-size:12.0pt;
+        font-size:15.0pt;
         font-family:"Calibri",sans-serif;}
     h1
         {mso-style-link:"Heading 1 Char";
@@ -224,6 +224,9 @@ def write():
     תומך החלטות למשרדי הממשלה האמורים להתמודד עם הלחימה במגפה ובתכנון צעדי היציאה ממנה.
     כמו כן גם לאפשר לציבור הרחב חשיפה למתודולוגיות המידול המתקדמות שבאמצעותן ניתן
     לחזות את התפתחות המגפה. </span></p>
+    
+    <p class=MsoNormal dir=RTL style='margin-right:10.0pt;text-align:right;
+    direction:rtl;unicode-bidi:embed'><b><span dir=LTR>&nbsp;</span></b></p>
     
     <p class=MsoNormal dir=RTL style='margin-right:10.0pt;text-align:justify;
     direction:rtl;unicode-bidi:embed'><span lang=HE style='font-family:"Arial",sans-serif'>מערכת

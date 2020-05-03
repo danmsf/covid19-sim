@@ -106,7 +106,7 @@ def write():
     p.countries = ['israel']
     olg = OLG(country_df, p, have_serious_data=True)
     dd = olg.df.copy()
-    # dd
+    # ddd
 
     st.altair_chart(
         olg_projections_chart(alt, dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind',

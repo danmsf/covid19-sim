@@ -22,7 +22,11 @@ def write():
     patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols,['מספר חולים במצב קשה'])
     st.altair_chart(patients_status_chart(alt, israel_patients.loc[:, ['Date'] + patient_cols_selected]),
                     use_container_width=True)
-    st.markdown("*הערה: הנתונים מעודכנים שבוע אחורה בהתאם למדיניות הפרסום של משרד הבריאות*")
+    st.markdown(
+        """
+        <p style='text-align:right;'><i>הערה: הנתונים מעודכנים שבוע אחורה בהתאם למדיניות הפרסום של משרד הבריאות</i></p>
+        """, unsafe_allow_html=True
+    )
 
     pil = init_olg_params(DEFAULTS['MODELS']['olg_params'])
     pil.countries = ['israel']
@@ -48,11 +52,11 @@ def write():
     st.markdown("""*Source: Self collection*""")
     st.markdown("-----------------------------")
     # Yishuvim charts
-    st.subheader("Cases by Yishuv")
+    st.subheader("Cases by City")
     israel_yishuv_df = israel_yishuv_df.merge(
         country_df.loc[country_df['country'] == 'israel', ['date', 'StringencyIndex']], how='left')
 
-    yishuvim = st.multiselect("Select Yishuv:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
+    yishuvim = st.multiselect("Select City:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
     colvars = list(israel_yishuv_df['סוג מידע'].unique())
     sel_vars = st.selectbox("Select Variable: ", colvars, 0)
     israel_yishuv_olg_df = israel_yishuv_df.loc[israel_yishuv_df['סוג מידע'] == 'מספר חולים מאומתים', :].copy()
@@ -88,34 +92,34 @@ def write():
         )
 
     st.markdown("""*Source: Self collection & Ministry of Health*""")
-    st.markdown("**מפת יישובים**")
-    st.markdown(
-        """
-        <iframe src="https://www.govmap.gov.il/sites/coronamap.html" style="width: 100%; height: 600px; border: 0px none;"></iframe>
-        """,
-        unsafe_allow_html=True
-    )
+    # st.markdown("**מפת יישובים**")
+    # st.markdown(
+    #     """
+    #     <iframe src="https://www.govmap.gov.il/sites/coronamap.html" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+    #     """,
+    #     unsafe_allow_html=True
+    # )
         # st.markdown("*Note: Minimum 25 Cases for start out of outbreak*")
-
     st.markdown("-----------------------------")
-    st.subheader('Ministry of Health Data')
-    # Isolation chart
-    st.altair_chart(isolations_chart(alt, isolation_df), use_container_width=True)
-    st.markdown("""*Source: Israel Ministry of Health*""")
-    st.markdown("-----------------------------")
-    # Test charts
-    if st.checkbox("Show as percentage", False, key=1):
-        st.altair_chart(test_results_chart(alt, lab_tests, 'normalize'), use_container_width=True)
-    else:
-        st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
-    st.markdown("""*Source: Israel Ministry of Health*""")
-    st.markdown("-----------------------------")
-    # st.altair_chart(test_indication_chart(alt, israel_data.tested_df), use_container_width=False)
-    if st.checkbox("Show as percentage", True, key=2):
-        st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=False), use_container_width=False)
-    else:
-        st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=False, stacked='zero'), use_container_width=False)
-    if st.checkbox("Drill down symptoms by date", value=False):
-        st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=True), use_container_width=False)
-    st.markdown("""*Source: Israel Ministry of Health*""")
+    if st.checkbox("Show Additional Data", False):
+        st.subheader('Ministry of Health Data')
+        # Isolation chart
+        st.altair_chart(isolations_chart(alt, isolation_df), use_container_width=True)
+        st.markdown("""*Source: Israel Ministry of Health*""")
+        st.markdown("-----------------------------")
+        # Test charts
+        if st.checkbox("Show as percentage", False, key=1):
+            st.altair_chart(test_results_chart(alt, lab_tests, 'normalize'), use_container_width=True)
+        else:
+            st.altair_chart(test_results_chart(alt, lab_tests), use_container_width=True)
+        st.markdown("""*Source: Israel Ministry of Health*""")
+        st.markdown("-----------------------------")
+        # st.altair_chart(test_indication_chart(alt, israel_data.tested_df), use_container_width=False)
+        if st.checkbox("Show as percentage", True, key=2):
+            st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=False), use_container_width=False)
+        else:
+            st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=False, stacked='zero'), use_container_width=False)
+        if st.checkbox("Drill down symptoms by date", value=False):
+            st.altair_chart(test_symptoms_chart(alt, tested_df, drill_down=True), use_container_width=False)
+        st.markdown("""*Source: Israel Ministry of Health*""")
 
