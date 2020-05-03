@@ -26,7 +26,7 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
 st.sidebar.markdown(
-    "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/SimCode/src/gstat_logo.png)]"
+    "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/gstat_logo.png)]"
     "(https://g-stat.com)"
 )
 
@@ -49,14 +49,14 @@ def main():
       visibility: hidden;
     }
     button[type="button"].sidebar-collapse-control.btn.btn-outline-secondary:after {
-      content:'לחצו כאן'; 
+      content:'לתפריט הראשי'; 
       visibility: visible;
       display: block;
       position: absolute;
-      background-color: green;
+      background-color: #4A4344;
       padding: 5px;
       top: 2px;
-      width: 90px
+      width: 110px;
     }
     </style>
     """, unsafe_allow_html=True
