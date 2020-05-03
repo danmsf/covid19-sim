@@ -6,6 +6,7 @@ import src.pages.external_dashboards
 import src.pages.country_data
 import src.pages.projections
 import src.pages.explain
+import src.pages.users_guide
 
 import streamlit as st  # type: ignore
 from src.shared.components import components
@@ -33,10 +34,11 @@ st.sidebar.markdown(
 
 PAGES = {
     "Home": src.pages.explain,
-    "Compare Countries Data": src.pages.country_data,
-    "World Dashboards": src.pages.external_dashboards,
-    "Show Israel Data": src.pages.israel_data,
-    "Show Israel Projections": src.pages.projections,
+    "Israel Predictive Models": src.pages.projections,
+    "Israel Data Analytics": src.pages.israel_data,
+    "Comparative Analytics by Countries": src.pages.country_data,
+    "External World Dashboards": src.pages.external_dashboards,
+    "Users Guide":src.pages.users_guide
 }
 
 
