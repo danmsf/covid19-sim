@@ -38,7 +38,8 @@ PAGES = {
     "Israel Data Analytics": src.pages.israel_data,
     "Comparative Analytics by Countries": src.pages.country_data,
     "External World Dashboards": src.pages.external_dashboards,
-    "Users Guide":src.pages.users_guide
+    "Users Guide":src.pages.users_guide,
+    "Blog":None
 }
 
 
@@ -63,8 +64,9 @@ def main():
 
     with st.spinner(f"Loading {selection} ..."):
         components.write_page(page)
-
     st.sidebar.markdown("----------------")
+    st.sidebar.info("Blog")
+
     st.sidebar.markdown("<h2 style='text-indent:0in;color:#2F5496;'>About</h2>", unsafe_allow_html=True)
     display_about(st)
 

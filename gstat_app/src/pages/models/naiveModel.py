@@ -37,20 +37,24 @@ def write():
     df_r = model.df.copy()
     # sgidx = StringencyIndexNaive("Israel")
 
-    filters_dict = {'days_range': (1, 10),'stringency_range': (45., 90.)}
-    filters_dict['days_range'] = st.sidebar.slider("Choose Corona Days Forward for Policy Value", 1, 50, (1, 10))
+    filters_dict = {'days_range': (1, 40),'stringency_range': (45., 90.)}
+    # filters_dict['days_range'] = st.sidebar.slider("Choose Corona Days Forward for Policy Value", 1, 50, (1, 10))
     indices_dict = {'C1_School closing':None, 'C2_Workplace closing':None, 'C3_Cancel public events':None, 'C4_Restrictions on gatherings':None,
             'C5_Close public transport':None, 'C6_Stay at home requirements':None, 'C7_Restrictions on internal movement':None,
             'C8_International travel controls':None}
     indices_max = {'C1_School closing':3., 'C2_Workplace closing':3., 'C3_Cancel public events':2., 'C4_Restrictions on gatherings':4.,
             'C5_Close public transport':2., 'C6_Stay at home requirements':3., 'C7_Restrictions on internal movement':2.,
             'C8_International travel controls':4.}
-    if st.sidebar.checkbox("Choose by SringencyIndex Range", False):
+
+    chose_options = ["Gstat Scenarios", "Choose by SringencyIndex Range", "Choose by SringencyIndex Values"]
+    st.sidebar.subheader("Choose Comparison Method")
+    chosen = st.sidebar.radio("", chose_options, 0)
+    if chosen=="Choose by SringencyIndex Range":
         filters_dict = display_filtes(filters_dict)
         cond = ((df_r['corona_days'] - model.israel_day).between(*filters_dict['days_range'])) & \
                (df_r['StringencyIndexForDisplay'].between(*filters_dict['stringency_range']))
         countryList = list(df_r.loc[cond]['CountryName'].unique())
-    else:
+    elif chosen=="Choose by SringencyIndex Values":
         all_masks = []
         condition = (df_r['corona_days'] - model.israel_day).between(*filters_dict['days_range'])
         all_masks.append(condition)
@@ -61,6 +65,13 @@ def write():
             all_masks.append(condition)
         mask = np.array(all_masks).all(axis=0)
         countryList = list(df_r.loc[mask]['CountryName'].unique())
+    elif chosen=="Gstat Scenarios":
+        st.sidebar.subheader("Choose scenario")
+        scenario = st.sidebar.selectbox("", ["Pessimistic", "Normal", "Optimistic"], 0)
+        scenario_dict = {"Pessimistic": ["Hong Kong", "Singapore"],
+                         "Normal": ["Hong Kong", "Singapore", "China", "South Korea", "Switzerland"],
+                         "Optimistic": ["China", "South Korea", "Switzerland"]}
+        countryList = scenario_dict[scenario]
 
     allCountries = list(df_r.loc[df_r['corona_days'] >= model.israel_day]['CountryName'].unique())
     countryList = st.multiselect("Select Countries for prediction", allCountries, countryList)

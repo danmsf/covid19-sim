@@ -12,6 +12,8 @@ MODELS = {
 
 
 def write():
+    st.markdown("--------------------------------------------------------")
+    st.sidebar.markdown("--------------------------------------------------------")
     selection = st.sidebar.selectbox("Go to model", list(MODELS.keys()), 0)
 
     page = MODELS[selection]

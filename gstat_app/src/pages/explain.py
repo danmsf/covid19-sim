@@ -19,7 +19,7 @@ def write():
 
     st.markdown(
         """
-        <h1 style='text-align: center'> מערכת GstatCOVID</h1>
+        <h1 style='text-align: center'><bdi> מערכת GstatCOVID</bdi></h1>
         """,
         unsafe_allow_html=True
     )
@@ -267,12 +267,12 @@ def write():
     מיכאל בינסטוק מהאוניברסיטה העברית חבר לצוות ופתח מודל חדשני וייחודי לכימות
     ההשפעה של צעדי המדיניות על היקף התפתחות המגפה. עבודתו שחלקים ממנה מיושמים
     במערכת ושבמסגרתה הוא השתמש להדגמת המתודולוגיה בנתוני ישראל, התפרסמה בימים אלו
-    בעיתונות המקצועית (ראה (</span><b><span dir=LTR style='font-family:"Times New Roman",serif'>Michael
+    בעיתונות המקצועית (ראה </span><b><a href="https://github.com/gstat-gcloud/covid19-sim/raw/master/Resources/Natural_and_Unnatural_Histories_of_Covid19.pdf"><span dir=LTR style='font-family:"Times New Roman",serif'>Michael
     Beenstock</span></b><span dir=RTL></span><b><span lang=HE style='font-family:
     "Times New Roman",serif'><span dir=RTL></span> &amp; </span></b><b><span
     dir=LTR style='font-family:"Times New Roman",serif'>Xieer Dai</span></b><span
     dir=RTL></span><span lang=HE style='font-family:"Arial",sans-serif'><span
-    dir=RTL></span>)).</span></p>
+    dir=RTL></span>).</a></span></p>
     
     <p class=MsoNormal dir=RTL style='margin-right:10.0pt;text-align:justify;
     direction:rtl;unicode-bidi:embed'><span lang=HE style='font-family:"Arial",sans-serif'>&nbsp;</span></p>
