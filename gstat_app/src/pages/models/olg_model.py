@@ -95,7 +95,7 @@ def write():
 
     st.info("Models are based on *Natural and Unnatural Histories of Covid-19 Contagion * "
             "by Professor Michael Beenstock and Dai Xieer "
-            "[download paper](https://github.com/gstat-gcloud/covid19-sim/raw/master/Resources/Natural_and_Unnatural_Histories_of_Covid19.pdf)")
+            "[download paper](https://cepr.org/sites/default/files/news/CovidEconomics10.pdf)")
 
     # Calculate Stringency
     sgidx.calculate_stringency()
