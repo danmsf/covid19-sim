@@ -64,12 +64,12 @@ def main():
     st.sidebar.markdown("----------------")
     if selection != "Israel Predictive Models":
         st.sidebar.markdown("<h2 style='text-indent:0in;color:#2F5496;'>Blog</h2>", unsafe_allow_html=True)
-        blog1 = st.sidebar.button("הוראות שימוש במערכת - אפרים גולדין  מאי 2020", False)
-        blog2 = st.sidebar.button("בעיית חיזוי הגל שני בישראל - אפרים גולדין   מאי 2020", False)
+        blog1 = st.sidebar.button("הוראות שימוש במערכת וחיזוי הגל שני בישראל - אפרים גולדין  מאי 2020", False)
+        # blog2 = st.sidebar.button("בעיית חיזוי הגל שני בישראל - אפרים גולדין   מאי 2020", False)
         if blog1:
-            components.write_page(src.pages.users_guide)
-        elif blog2:
-           components.write_page(src.pages.second_wave)
+            components.write_page(src.pages.second_wave)
+        # elif blog2:
+        #    components.write_page(src.pages.second_wave)
         else:
             with st.spinner(f"Loading {selection} ..."):
                 components.write_page(page)
