@@ -40,9 +40,14 @@ PAGES = {
     "Comparative Analytics by Countries": src.pages.country_data,
  }
 
-
+# < button type = "button" class ="sidebar-collapse-control btn btn-outline-secondary" > < span class ="open-iconic" data-glyph="chevron-right" title="chevron-right" aria-hidden="true" > < / span > < / button >
 def main():
-    """Main function of the App"""
+    st.markdown(
+    """
+    <style> button[type="button"].sidebar-collapse-control.btn.btn-outline-secondary{color: white; background-color: green;width: 90px; height: 60px;}</style>
+    """, unsafe_allow_html=True
+    )
+    # """Main function of the App"""
     # st.sidebar.title("Navigation")
     st.sidebar.markdown("<h1 style='text-indent:0;margin-bottom:-0.5in;color:#2F5496;'>Navigation<h1>", unsafe_allow_html=True)
     selection = st.sidebar.radio("", list(PAGES.keys()), 0)
