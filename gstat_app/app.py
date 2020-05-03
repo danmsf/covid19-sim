@@ -44,7 +44,7 @@ PAGES = {
 def main():
     st.markdown(
     """
-    <style> button[type="button"].sidebar-collapse-control.btn.btn-outline-secondary{color: white; background-color: green;width: 90px; height: 60px;}</style>
+    <style> button[type="button"].sidebar-collapse-control.btn.btn-outline-secondary{color: white; background-color: green;}</style>
     """, unsafe_allow_html=True
     )
     # """Main function of the App"""
