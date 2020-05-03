@@ -28,7 +28,7 @@ def write():
     temp = temp.loc[temp['total_cases'] >= total_cases_criteria, :]
     cols = temp.columns
     cols = [c for c in cols if c not in ['Country', 'country', 'date']]
-    col_measure = st.selectbox("Chose comparison column", cols, 0)
+    col_measure = st.selectbox("Chose comparison column", cols, 1)
     caronadays = st.checkbox("Normalize x axis to start of Epidemic time", True)
 
     st.altair_chart(
