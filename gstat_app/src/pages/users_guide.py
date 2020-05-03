@@ -67,12 +67,12 @@ def write():
         dir=RTL></span> הינה מאתגרת שכן אנו יודעים כיום שרבים מבין המדבקים הינם חסרי
         סימפטומים ולא מדווחים כחולים. בנוסף ישנן בעיות של דיווחים לא מדויקים, ועוד. רוב
         הגישות המקובלות לאמידה מבוססות לכן על הנחות לגבי הגדלים הבלתי נצפים ומתבססות על
-        המודלים האפידמיולוגיים ממשפח </span><span dir=LTR>SIR</span><span dir=RTL></span><span
-        lang=HE style='font-family:"Arial",sans-serif'><span dir=RTL></span> (),
+        המודלים האפידמיולוגיים ממשפח </span><span dir=LTR><a href="https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology" target="_blank">SIR</a></span><span dir=RTL></span><span
+        lang=HE style='font-family:"Arial",sans-serif'><span dir=RTL></span> ,
         הנאמדים בדרך כלל באמצעות מודל </span><span dir=LTR>MCMC</span><span dir=RTL></span><span
         style='font-family:"Arial",sans-serif'><span dir=RTL></span> <span lang=HE>שכולל
-        בתוכו הנחות אפריוריות על הגדלים הלא ידועים (</span></span><span dir=LTR>Monte
-        Carlo Markov Chains models,()</span><span dir=RTL></span><span lang=HE
+        בתוכו הנחות אפריוריות על הגדלים הלא ידועים (</span></span><span dir=LTR><a href="https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo" target="_blank">Monte
+        Carlo Markov Chains models</a></span><span dir=RTL></span><span lang=HE
         style='font-family:"Arial",sans-serif'><span dir=RTL></span>). </span></p>
         
         <p class=MsoNormal dir=RTL style='margin-right:10.0pt;text-align:justify;
@@ -88,10 +88,10 @@ def write():
         
         <p class=MsoNormal dir=RTL style='margin-right:10.0pt;text-align:justify;
         direction:rtl;unicode-bidi:embed'><span lang=HE style='font-family:"Arial",sans-serif'>במאמר
-        שהתפרסם על ידי (</span><b><span dir=LTR style='font-family:"Times New Roman",serif'>Michael
+        שהתפרסם על ידי (</span><a href="https://cepr.org/sites/default/files/news/CovidEconomics10.pdf" target="_blank"><b><span dir=LTR style='font-family:"Times New Roman",serif'>Michael
         Beenstock</span></b><span dir=RTL></span><b><span lang=HE style='font-family:
         "Times New Roman",serif'><span dir=RTL></span> &amp; </span></b><b><span
-        dir=LTR style='font-family:"Times New Roman",serif'>Xieer Dai</span></b><span
+        dir=LTR style='font-family:"Times New Roman",serif'>Xieer Dai</span></b></a><span
         dir=RTL></span><span lang=HE style='font-family:"Arial",sans-serif'><span
         dir=RTL></span>) מוצגת הדרך שבה אנו אמדנו את </span><span dir=LTR>R</span><span
         dir=RTL></span><span lang=HE style='font-family:"Arial",sans-serif'><span
@@ -100,7 +100,7 @@ def write():
         dir=RTL></span> (</span><span dir=LTR>Over Lapping Generations</span><span
         dir=RTL></span><span lang=HE style='font-family:"Arial",sans-serif'><span
         dir=RTL></span>). במאמר </span><span dir=LTR></span><span dir=LTR><span
-        dir=LTR></span>(https://cepr.org/content/covid-economics-vetted-and-real-time-papers-0)</span><span
+        dir=LTR></span></span><span
         dir=RTL></span><span style='font-family:"Arial",sans-serif'><span dir=RTL></span>
         <span lang=HE> דיון ביתרונות והחסרונות של גישת </span></span><span dir=LTR>OLG</span><span
         dir=RTL></span><span lang=HE style='font-family:"Arial",sans-serif'><span
@@ -129,8 +129,8 @@ def write():
         <p class=MsoNormal><span style='font-family:"Times New Roman",serif'>Xiaohui
         Chen<span dir=RTL></span><span dir=RTL><span dir=RTL></span> </span><span
         dir=LTR></span><span dir=LTR></span> and Ziyi Qiu<span dir=RTL></span><span
-        lang=HE dir=RTL><span dir=RTL></span>&quot; </span><i>Scenario analysis of non&#8209;pharmaceutical
-        interventions on global Covid-19 transmissions</i><span dir=RTL></span><span
+        lang=HE dir=RTL><span dir=RTL></span>&quot; </span><i><a href="https://cepr.org/sites/default/files/news/CovidEconomics7.pdf" target="_blank">Scenario analysis of non&#8209;pharmaceutical
+        interventions on global Covid-19 transmissions</a></i><span dir=RTL></span><span
         lang=HE dir=RTL><span dir=RTL></span> &quot;  </span></span><span
         style='font-size:9.0pt;font-family:"Times New Roman",serif'>COVID ECONOMICS</span><span
         style='font-size:9.0pt;font-family:"Times New Roman",serif'>, </span><span
