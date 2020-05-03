@@ -100,7 +100,11 @@ def write():
     # critical_condition_rate, recovery_rate, critical_condition_time, recovery_time
     dd = dd.rename(columns={'Date': 'date', 'CountryName': 'country'})
     olg_cols = dd.columns
+    print(olg_cols)
     olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_adjn', 'prediction_ind']]
+    olg_cols = ['ConfirmedCases',  'ConfirmedCasesPred', 'ConfirmedDeaths', 'Total Deaths Predicted', 'StringencyIndex',
+       'Total Detected', 'Currently Active Detected Predicted', 'New Detected Predicted', 'Daily Critical Predicted',
+       'Total Recovery Predicted']
     olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted'])
 
     st.altair_chart(
