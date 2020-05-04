@@ -130,6 +130,8 @@ def write():
         use_container_width=True,
     )
     st.sidebar.markdown(get_table_download_link(data, "OxfordStringency"), unsafe_allow_html=True)
-
+    last_updated = data['Date'].dt.date.max()
+    st.markdown("*Source: Oxford University - Stringency Index Dataset*")
+    st.markdown(f"*Last updated: {last_updated}*")
 # if __name__ == "__main__":
 #     write()

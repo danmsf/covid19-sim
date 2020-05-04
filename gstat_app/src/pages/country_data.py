@@ -13,6 +13,7 @@ def write():
     st.subheader('Country Comparison Graphs')
 
     country_df, jh_confirmed_df, _, _, _, _, _ = load_data(DEFAULTS, user_session_id)
+    last_updated = country_df['date'].dt.date.max()
     countryname = st.multiselect("Select Countries", list(country_df['Country'].sort_values().unique()),
                                  ['israel'])
 
@@ -58,6 +59,7 @@ def write():
                 ['date', 'corona_days', 'country', 'prediction_ind', 'Doubling Time']], "Doubling Time", caronadays),
             use_container_width=True,
         )
+    st.markdown(f"*Last updated : {last_updated}*")
     st.markdown("-------------------------------------------------")
     st.subheader('Country Oxford Stringency Level vs Corona Data')
     col_measures = st.multiselect("Chose columns", [c for c in cols if c not in ['StringencyIndex']], ['total_cases'],
@@ -72,6 +74,7 @@ def write():
         """*Note: Oxford Stringency Index is a score from 0-100 rating the government restrictions due to Corona*""")
 
     st.markdown("""*Source: Worldmeter, Oxford University*""")
+    st.markdown(f"*Last updated : {last_updated}*")
     # total_cases_criteria
     # st.subheader("Johns Hopkins Data")
     # # jh_confirmed_df = countrydata.jh_confirmed_df.copy()

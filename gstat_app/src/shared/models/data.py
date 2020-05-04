@@ -115,13 +115,16 @@ class IsraelData:
     # @st.cache
     def get_lab_results_df(self):
         df = pd.read_csv(self.filepath['lab_results_file'])
-        df['result_date'] = pd.to_datetime(df['result_date'], format="%d/%m/%Y")
+        # df['result_date'] = pd.to_datetime(df['result_date'], format="%d/%m/%Y")
+        df['result_date'] = pd.to_datetime(df['result_date'], format="%Y-%m-%d")
         return df
 
     # @st.cache
     def get_tested_df(self):
         df = pd.read_csv(self.filepath['tested_file'])
-        df['None'] = df[df.columns[2:]].sum(axis=1)
+        symps = ['cough','fever','sore_throat', 'shortness_of_breath','head_ache']
+        df[symps] = df[symps].apply(lambda x: pd.to_numeric(x, errors='coerce'))
+        df['None'] = df[symps].sum(axis=1)
         df['None'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
         df['At Least One'] = df['None'].apply(lambda x: 0 if x > 0 else 1)
         df['test_date'] = pd.to_datetime(df['test_date'])

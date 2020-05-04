@@ -21,6 +21,7 @@ def test_symptoms_chart(alt, df: pd.DataFrame, drill_down=True, stacked='normali
     sym_cols = symptoms.columns
     sym_cols = [c for c in sym_cols if c not in ['test_date', 'corona_result', 'test_indication']]
     symptoms = symptoms.melt(id_vars=['test_date', 'test_indication', 'corona_result'], value_vars=sym_cols).dropna()
+    # symptoms['value'] = pd.to_numeric(symptoms['value'], errors='coerce')
     if drill_down:
         agg_data = symptoms.groupby(['test_date', 'corona_result', 'test_indication', 'variable'], as_index=False).sum()
         return alt.Chart(agg_data).mark_area(tooltip=True, line=True).\

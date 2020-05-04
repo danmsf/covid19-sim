@@ -22,9 +22,11 @@ def write():
     patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols,['מספר חולים במצב קשה'])
     st.altair_chart(patients_status_chart(alt, israel_patients.loc[:, ['Date'] + patient_cols_selected]),
                     use_container_width=True)
+    last_updated = israel_patients['Date'].dt.date.max()
     st.markdown(
-        """
+        f"""
         <p style='text-align:right;'><i>הערה: הנתונים מעודכנים שבוע אחורה בהתאם למדיניות הפרסום של משרד הבריאות</i></p>
+        <p style='text-align:right;'><i>תאריך נתונים אחרון: {last_updated}</i></p>
         """, unsafe_allow_html=True
     )
 
@@ -50,6 +52,8 @@ def write():
     )
 
     st.markdown("""*Source: Self collection*""")
+    last_updated = country_df['date'].dt.date.max()
+    st.markdown(f"*Last updated : {last_updated}*")
     st.markdown("-----------------------------")
     # Yishuvim charts
     st.subheader("Cases by City")
@@ -63,7 +67,7 @@ def write():
                                                    ['Yishuv', 'value']].dropna())
         , use_container_width=True)
     st.markdown(f"*Last updated : {israel_yishuv_df['last_updated'].dt.date.values[-1]}*")
-
+    st.markdown("-----------------------------")
     yishuvim = st.multiselect("Select City:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
     colvars = list(israel_yishuv_df['סוג מידע'].unique())
     sel_vars = st.selectbox("Select Variable: ", colvars, 0)
@@ -102,6 +106,7 @@ def write():
         )
     df = pd.read_excel
     st.markdown("""*Source: Self collection & Ministry of Health*""")
+    st.markdown(f"*Last updated : {israel_yishuv_df['last_updated'].dt.date.values[-1]}*")
     # st.markdown("**מפת יישובים**")
     # st.markdown(
     #     """
