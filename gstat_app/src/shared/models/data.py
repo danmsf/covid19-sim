@@ -93,14 +93,15 @@ class IsraelData:
     def get_yishuv2(self):
         df = pd.read_csv(self.filepath['yishuv_file2'])
         df['date'] = pd.to_datetime(df['date'])
+        df['last_updated'] = pd.to_datetime(df['last_updated'])
         today = df['date'].max()
         df = df.rename(columns={'יישוב': 'Yishuv'})
         df = df.sort_values(['Yishuv', 'date'])
-        df2 = df.loc[df['סוג מידע'] == 'מספר חולים מאומתים', ['Yishuv','date','value']]
-        df2['last3days'] = df2.groupby('Yishuv', as_index=False)['value'].transform(lambda x: x - x.shift(3))
-        df2 = df2.drop(columns='value')
-        df2 = df2[df2['date'] == today]
-        df = df.merge(df2, left_on=['Yishuv', 'date'], right_on=['Yishuv','date'], how='left')
+        # df2 = df.loc[df['סוג מידע'] == 'מספר חולים מאומתים', ['Yishuv','date','value']]
+        # df2['last3days'] = df2.groupby('Yishuv', as_index=False)['value'].transform(lambda x: x - x.shift(3))
+        # df2 = df2.drop(columns='value')
+        # df2 = df2[df2['date'] == today]
+        # df = df.merge(df2, left_on=['Yishuv', 'date'], right_on=['Yishuv','date'], how='left')
         return df
 
     # @st.cache

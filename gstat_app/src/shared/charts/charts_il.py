@@ -179,14 +179,15 @@ def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
             )
 
 def yishuv_bar_chart(alt, source):
-    sorted_city = list(source.sort_values('last3days')['Yishuv'].values)
+    sorted_city = list(source.sort_values('value')['Yishuv'].values)
     hbar = alt.Chart(source).mark_bar(tooltip=True).encode(
-        x=alt.X('max(last3days):Q',title=""),
-        y=alt.Y('Yishuv:O', sort=sorted_city[::-1] , title=""),
+        x=alt.X('max(value):Q', title=""),
+        y=alt.Y('Yishuv:O', sort=sorted_city[::-1], title=""),
     )
-    return  (alt.layer(
+
+    return (alt.layer(
         hbar
     ).properties(
-        width=600, height=300, title="New cases in last 3 days (at least 3)"
+        width=600, height=500, title="New cases in last 3 days"
     ).resolve_scale(y='independent').interactive()
             )

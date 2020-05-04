@@ -57,8 +57,12 @@ def write():
     #     country_df.loc[country_df['country'] == 'israel', ['date', 'StringencyIndex']], how='left')
 
     st.altair_chart(
-        yishuv_bar_chart(alt, israel_yishuv_df.loc[israel_yishuv_df['last3days'] > 3, ['Yishuv', 'last3days']].dropna())
+        yishuv_bar_chart(alt, israel_yishuv_df.loc[(israel_yishuv_df['סוג מידע'] == 'last3days') &
+                                                   (israel_yishuv_df['date'] == israel_yishuv_df['last_updated']) &
+                                                    (israel_yishuv_df['value']>0),
+                                                   ['Yishuv', 'value']].dropna())
         , use_container_width=True)
+    st.markdown(f"*Last updated : {israel_yishuv_df['last_updated'].dt.date.values[-1]}*")
 
     yishuvim = st.multiselect("Select City:", list(israel_yishuv_df['Yishuv'].unique()), 'בני ברק')
     colvars = list(israel_yishuv_df['סוג מידע'].unique())

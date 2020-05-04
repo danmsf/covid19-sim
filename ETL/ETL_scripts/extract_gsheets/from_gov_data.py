@@ -7,6 +7,7 @@ dt = '20200430'
 dt = '20200429'
 dt = '20200501'
 dt = '20200502'
+dt = '20200504'
 path_in = "C:\\Users\\User\\PycharmProjects\\covad19-sim\\ETL\\DW\\raw_data\\gov_yishuv\\"
 path_out = "C:\\Users\\User\\PycharmProjects\\covad19-sim\\Resources\\Datasets\\IsraelData\\"
 file = "כלל הארץ לשליחה 26.04.20 שעה 09.00.xlsx"
@@ -18,6 +19,7 @@ file = "כלל הארץ לפרסום 30.04.20 שעה 08.00.xlsx"
 
 file = "כלל_הארץ_ומועצות_אזוריות_01_05_לפרסום.xlsx"
 file = "כלל_הארץ_ומועצות_אזוריות_02_05_שעה_08_00_לפרסום.xlsx"
+file = "דוח_חדש_כלל_הארץ_כולל_מועצות_אזוריות_04_05_20_שעה_20_30.xlsx"
 t = pd.read_excel(path_in + file, skiprows=4)
 # t = t.drop(columns=['Unnamed: 9','Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12'])
 colnames = t.columns
@@ -29,13 +31,13 @@ new_names = \
 "מספר חולים מאומתים",
 "מספר מחלימים",
 "pct_growth_3",
-"new_last_3",
+"last3days",
 "per_100k",
 "junk",
 ]
 t.columns = new_names
 t = t.melt(id_vars=new_names[0:2], value_vars=new_names[2:])
-t = t[~t['variable'].isin(['pct_growth_3', 'junk', 'new_last_3', 'per_100k'])]
+t = t[~t['variable'].isin(['pct_growth_3', 'junk', 'per_100k'])]
 t['value'] = pd.to_numeric(t['value'], errors='coerce').fillna(0).astype(int)
 t = t.rename(columns={'variable': 'סוג מידע'})
 t['date'] = pd.to_datetime(dt)
@@ -59,9 +61,17 @@ p02 = pd.read_csv(path_out + 'yishuv_' + '20200502' + ".csv")
 joined = pd.concat([p01,p02])
 joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
+p03 = pd.read_csv(path_out + 'yishuv_' + '20200502' + ".csv")
+p03['date'] = pd.to_datetime('20200503')
+p04 = t
+joined = pd.concat([p03,p04])
+joined = joined.dropna(subset=['יישוב', 'pop2018'])
+
 yishuv_file = pd.read_csv(path_out + 'yishuv_file.csv')
 yishuv_file = pd.concat([yishuv_file, joined])
 yishuv_file['date'] = pd.to_datetime(yishuv_file['date'])
+
+yishuv_file['last_updated'] = pd.to_datetime('20200504')
 
 yishuv_file.to_csv(path_out + 'yishuv_file.csv', index=False)
 
