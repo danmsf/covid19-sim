@@ -26,10 +26,14 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
 st.sidebar.markdown(
-    "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/gstat_logo.png)]"
-    "(https://g-stat.com)"
+    """
+    <a href="https://g-stat.com" target="_blank"><img src="https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/G-stat_LogoHQ_Full%20BLUE.jpg" width="150" /></a>
+    """
+, unsafe_allow_html=True
 )
 
+# "[![GSTAT](https://github.com/gstat-gcloud/covid19-sim/raw/master/gstat_app/src/assets/images/G-stat_LogoHQ_Full%20BLUE.jpg)]"
+# "(https://g-stat.com)"
 
 # ast.core.services.other.set_logging_format()
 
