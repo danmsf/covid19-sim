@@ -8,7 +8,7 @@ from collections import namedtuple
 import datetime
 
 dtxl = (datetime.date.today() - datetime.timedelta(days=7)).strftime('%d%m%Y')
-xlpath ="https://govextra.gov.il/media/17699/covid19-data-israel-" + dtxl + ".xlsx"
+xlpath ="https://govextra.gov.il/media/18101/covid19-data-israel-" + dtxl + ".xlsx"
 
 def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
 

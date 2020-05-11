@@ -1,0 +1,68 @@
+% plot multiple confirmed cases
+
+plot(S2{:,{'CountryRegion'}},S2{:,{'Canada7'}});
+hold on
+plot(S2{:,{'CountryRegion'}},S2{:,{'Italy'}});
+hold on
+plot(S2{:,{'CountryRegion'}},S2{:,{'Germany'}}); 
+
+
+
+% Grab the time series from S2, for example Netherlands
+
+a=S2{:,{'Netherlands3'}};
+[T,n]=size(a);
+
+% T is the whole recorded time period 
+
+
+% Generate strictly ascending observations b from the sample a
+for t=1:T-1
+b(1)=a(1);
+if a(t+1)>a(t)
+b(t+1)=a(t+1);
+else
+b(t+1)=a(t);
+end
+end
+
+% Calculate R0 for series b for tau=8
+
+tau=8;
+
+% t0 is the date of the first case
+t=1;
+while b(t)==0
+t0=t+1;
+t=t+1;
+end
+
+% option: t0 is first date of cases>100
+t=1;
+while b(t)<100
+t0=t+1;
+t=t+1;
+end
+
+% R is the daily reproduction number  
+for t=1:t0
+R(t)=0;
+end
+
+for t=t0+1:t0+tau
+R(t)=(b(t)/b(t-1)-1)*tau;
+end
+
+for t=t0+tau+1:T
+R(t)=(b(t)/(b(t-1)-b(t-tau)+b(t-tau-1))-1)*tau;
+end
+
+% RMA is the tau days moving average daily reproduction number  
+for t=tau:T
+RMA(t)=sum(R(t-tau+1:t))/tau;
+end
+
+
+% plot R0 moving average across time
+plot(S2{:,{'CountryRegion'}},RMA);
+

@@ -1,0 +1,59 @@
+import pymc3 as pm
+from pymc3.ode import DifferentialEquation
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+import arviz as az
+import theano
+import requests
+import pandas as pd
+
+# Choose location
+print('Input the location you want analyze.')
+place = input('Location: ')
+
+DownloadData = True
+makePlots = True
+
+
+found = False
+if place == 'Italy':
+    if DownloadData:
+        url = 'https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv'
+        r = requests.get(url, allow_redirects=True)
+        open('covid19-data.csv', 'wb').write(r.content)
+    data = pd.read_csv("covid19-data.csv")
+    #data = pd.read_json('dpc-covid19-ita-andamento-nazionale.json')
+    y=data[['data','totale_casi','dimessi_guariti','terapia_intensiva','deceduti']]
+    y.columns = ['date', 'Total Cases','R','T','D']
+    y=y.fillna(0)
+    y['I']=y['Total Cases']-y['R']-y['D']
+    yobs= ['date', 'I','R','T','D']
+    yobs['E']= yobs['I'].shift(4)
+    if y.size > 0:
+        found = True
+
+if not found:
+    if DownloadData:
+      url = 'https://raw.githubusercontent.com/gstat-gcloud/covid19-sim/master/Resources/all_dates_n.csv'
+      r = requests.get(url, allow_redirects=True)
+      open('all_dates_n.csv', 'wb').write(r.content)
+    data = pd.read_csv("all_dates_n.csv")
+    data_temp = data[data['Country'] == place] 
+    y=data_temp[['date','ActiveCases','Total Recovered','Serious_Critical','Total Deaths']]
+    y.columns = ['date', 'I','R','T','D']
+    yobs=y.fillna(0)
+    yobs['E']= yobs['I'].shift(4)
+    if y.size > 0:
+        found = True
+if not found:
+    sys.exit('Cannot find data for "%s"' % place)
+
+
+minObs=10
+N0=8621153
+
+yobs=yobs[yobs['I']>=minObs]
+nobs=len(yobs)
+N=np.repeat(N0,nobs)
+yobs['S']=N-yobs['I']

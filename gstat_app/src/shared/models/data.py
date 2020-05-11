@@ -15,7 +15,7 @@ class CountryData:
     def get_country_data(self):
         country_df = pd.read_csv(self.country_files['country_file'])
         # country_df = country_df.set_index('Country')
-        country_df = country_df.drop(columns="Unnamed: 0")
+        # country_df = country_df.drop(columns="Unnamed: 0")
         # country_df['date'] = country_df['date'].apply(lambda x: x if x.month<4 else x - relativedelta(years=1))
         # country_df['date'] = pd.to_datetime(country_df['date'],format="%d/%m/%Y")
         country_df['date'] = pd.to_datetime(country_df['date'], format="%Y-%m-%d")

@@ -26,8 +26,19 @@ file = "כלל_הארץ_ומועצות_אזוריות_02_05_שעה_08_00_לפר�
 file = "דוח_חדש_כלל_הארץ_כולל_מועצות_אזוריות_04_05_20_שעה_20_30.xlsx"
 file ="דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_06_05_20_שעה_11_00.xlsx"
 file  = "כלל_הארץ_כולל_מועצות_אזוריות_לפרסום_05_05_שעה_11_00.xlsx"
+
+
+dt = '20200508'
+file = "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_08_05_20_שעה_11_00.xlsx"
+# dt = '20200509'
+# file = "1589011501844_דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_09_05_20_שעה.xlsx"
+# dt = '20200510'
+# file = "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_10_05_20_שעה_11_00.xlsx"
+# dt = '20200511'
+# file = "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_11_05_20_שעה_11_00.xlsx"
+
 t = pd.read_excel(path_in + file, skiprows=4)
-# t = t.drop(columns=['Unnamed: 9','Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12'])
+t = t.drop(columns=['Unnamed: 9','Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12','Unnamed: 13','Unnamed: 14'])
 colnames = t.columns
 new_names = \
 [
@@ -78,12 +89,22 @@ p06 = pd.read_csv(path_out + 'yishuv_' + '20200506' + ".csv")
 joined = pd.concat([p05, p06])
 joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
+p07 = pd.read_csv(path_out + 'yishuv_' + '20200506' + ".csv")
+p07['date'] = pd.to_datetime('20200507')
+p08 = pd.read_csv(path_out + 'yishuv_' + '20200508' + ".csv")
+p09 = pd.read_csv(path_out + 'yishuv_' + '20200509' + ".csv")
+p10 = pd.read_csv(path_out + 'yishuv_' + '20200510' + ".csv")
+p11 = pd.read_csv(path_out + 'yishuv_' + '20200511' + ".csv")
+joined = pd.concat([p07, p08, p09, p10, p11])
+joined = joined.dropna(subset=['יישוב', 'pop2018'])
+
+
 yishuv_file = pd.read_csv(path_out + 'yishuv_file.csv')
 yishuv_file = pd.concat([yishuv_file, joined])
 
 yishuv_file['date'] = pd.to_datetime(yishuv_file['date'])
 
-yishuv_file['last_updated'] = pd.to_datetime('20200506')
+yishuv_file['last_updated'] = pd.to_datetime('20200511')
 
 yishuv_file.to_csv(path_out + 'yishuv_file.csv', index=False)
 

@@ -112,7 +112,7 @@ def main(indir: IO,
     if outdir:
         all_data_c = pd.read_csv(os.path.join(outdir, 'all_dates.csv'))
         all_data = pd.concat([all_data_c, all_data])
-        all_data.to_csv(os.path.join(outdir, 'all_dates.csv'), header=True)
+        all_data.to_csv(os.path.join(outdir, 'all_dates.csv'), header=True, index=False)
         # all_data.to_csv(os.path.join(outdir, 'all_dates.csv'), mode='a', header=False)
         # all_data_seir.to_csv(os.path.join(outdir, 'all_dates_seir.csv'), mode='a', header=False)
         retval = None
