@@ -68,7 +68,7 @@ def main():
     # """Main function of the App"""
     # st.sidebar.title("Navigation")
     st.sidebar.markdown("<h1 style='text-indent:0;margin-bottom:-0.5in;color:#2F5496;'>Navigation<h1>", unsafe_allow_html=True)
-    selection = st.sidebar.radio("", list(PAGES.keys()), 0)
+    selection = st.sidebar.radio("", list(PAGES.keys()), 1)
     if selection!='Home':
         st.markdown(
             """

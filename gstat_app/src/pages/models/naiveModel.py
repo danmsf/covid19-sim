@@ -82,6 +82,26 @@ def write():
 
         countryList = scenario_dict[scenario]
 
+
+    pred = model.predict(countryList)
+    dd = model.write(pred, olg_params['critical_condition_rate'], olg_params['recovery_rate'],  olg_params['critical_condition_time'], olg_params['recovery_time'])
+    # critical_condition_rate, recovery_rate, critical_condition_time, recovery_time
+    dd = dd.rename(columns={'Date': 'date', 'CountryName': 'country'})
+    olg_cols = dd.columns
+    print(olg_cols)
+    olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_adjn', 'prediction_ind']]
+    olg_cols = ['ConfirmedCases',  'ConfirmedCasesPred', 'ConfirmedDeaths', 'Total Deaths Predicted', 'StringencyIndex',
+       'Total Detected', 'Currently Active Detected Predicted', 'New Detected Predicted', 'Daily Critical Predicted',
+       'Total Recovery Predicted']
+    olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted', 'New Detected Predicted'])
+
+    st.altair_chart(
+        olg_projections_chart(alt,
+                              dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select],
+                              "GSTAT Model Projections", False),
+        use_container_width=True,
+    )
+
     allCountries = list(df_r.loc[df_r['corona_days'] >= model.israel_day]['CountryName'].unique())
     countryList = st.multiselect("Select Countries for prediction", allCountries, countryList)
 
@@ -95,24 +115,7 @@ def write():
     if st.checkbox("Show Countries Data", False):
         st.write((df_r[df_r.CountryName.isin(countryList)]))
 
-    pred = model.predict(countryList)
-    dd = model.write(pred, olg_params['critical_condition_rate'], olg_params['recovery_rate'],  olg_params['critical_condition_time'], olg_params['recovery_time'])
-    # critical_condition_rate, recovery_rate, critical_condition_time, recovery_time
-    dd = dd.rename(columns={'Date': 'date', 'CountryName': 'country'})
-    olg_cols = dd.columns
-    print(olg_cols)
-    olg_cols = [c for c in olg_cols if c not in ['date', 'corona_days', 'country', 'r_adjn', 'prediction_ind']]
-    olg_cols = ['ConfirmedCases',  'ConfirmedCasesPred', 'ConfirmedDeaths', 'Total Deaths Predicted', 'StringencyIndex',
-       'Total Detected', 'Currently Active Detected Predicted', 'New Detected Predicted', 'Daily Critical Predicted',
-       'Total Recovery Predicted']
-    olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted'])
 
-    st.altair_chart(
-        olg_projections_chart(alt,
-                              dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select],
-                              "GSTAT Model Projections", False),
-        use_container_width=True,
-    )
     if st.checkbox("Show Projection Data", False):
         st.write(dd)
         st.markdown(get_table_download_link(dd, "gstat_prediciton"), unsafe_allow_html=True)
