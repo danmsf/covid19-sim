@@ -108,6 +108,8 @@ class IsraelData:
     def get_isolation_df(self):
         df = pd.read_csv(self.filepath['isolations_file'])
         df['date'] = pd.to_datetime(df['date'])
+        df['new_contact_with_confirmed'] = pd.to_numeric(df['new_contact_with_confirmed'], errors='coerce')
+        df['new_from_abroad'] = pd.to_numeric(df['new_from_abroad'], errors='coerce')
         df = df.set_index("date", drop=False)
         df = df.drop(columns="_id")
         return df

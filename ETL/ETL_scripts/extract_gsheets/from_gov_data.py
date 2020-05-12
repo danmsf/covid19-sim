@@ -36,7 +36,8 @@ file = "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_08_
 # file = "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_10_05_20_שעה_11_00.xlsx"
 # dt = '20200511'
 # file = "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_11_05_20_שעה_11_00.xlsx"
-
+dt = '20200512'
+file = "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_12_05_20_שעה_11_00.xlsx"
 t = pd.read_excel(path_in + file, skiprows=4)
 t = t.drop(columns=['Unnamed: 9','Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12','Unnamed: 13','Unnamed: 14'])
 colnames = t.columns
@@ -98,13 +99,15 @@ p11 = pd.read_csv(path_out + 'yishuv_' + '20200511' + ".csv")
 joined = pd.concat([p07, p08, p09, p10, p11])
 joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
+joined = pd.read_csv(path_out + 'yishuv_' + '20200512' + ".csv")
+joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
 yishuv_file = pd.read_csv(path_out + 'yishuv_file.csv')
 yishuv_file = pd.concat([yishuv_file, joined])
 
 yishuv_file['date'] = pd.to_datetime(yishuv_file['date'])
 
-yishuv_file['last_updated'] = pd.to_datetime('20200511')
+yishuv_file['last_updated'] = pd.to_datetime('20200512')
 
 yishuv_file.to_csv(path_out + 'yishuv_file.csv', index=False)
 
