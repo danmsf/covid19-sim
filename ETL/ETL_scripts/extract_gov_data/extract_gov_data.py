@@ -6,9 +6,10 @@ import os
 from typing import IO, Union, Optional
 from collections import namedtuple
 import datetime
+from .getCoronaCases import CovidIsraelUpdate
 
-dtxl = (datetime.date.today() - datetime.timedelta(days=7)).strftime('%d%m%Y')
-xlpath ="https://govextra.gov.il/media/18101/covid19-data-israel-" + dtxl + ".xlsx"
+# dtxl = (datetime.date.today() - datetime.timedelta(days=7)).strftime('%d%m%Y')
+# xlpath ="https://govextra.gov.il/media/18101/covid19-data-israel-" + dtxl + ".xlsx"
 
 def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
 
@@ -28,9 +29,16 @@ def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
         records = s["result"]["records"]
         data = pd.DataFrame(records).set_index("_id")
         df_names.append([data,entry['name']])
-    df_xls = pd.read_excel(xlpath)
+
+    gov_url = "https://govextra.gov.il/ministry-of-health/corona/corona-virus/"
+    covidIsrael = CovidIsraelUpdate(gov_url)
+    covidIsrael.get_df()
+
+    df_xls = pd.read_excel(os.path.join(outdir, 'IsraelStatus.xlsx'), header=0)
+    df_out = pd.concat([df_xls, covidIsrael.df])
+    df_out['תאריך'] = pd.to_datetime(df_out['תאריך'])
     if outdir:
-        df_xls.to_excel(os.path.join(outdir, 'IsraelStatus.xlsx'), index=False)
+        df_out.to_csv(os.path.join(outdir, 'IsraelStatus.csv'), index=False)
         for df_name in df_names:
             df = df_name[0]
             filename = df_name[1]+'.csv'

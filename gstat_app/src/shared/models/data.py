@@ -142,7 +142,8 @@ class IsraelData:
     #     return df
 
     def get_patients_df(self):
-        df = pd.read_excel(self.filepath['patients_path'])
+        # df = pd.read_excel(self.filepath['patients_path'])
+        df = pd.read_csv(self.filepath['patients_path'], parse_dates=['תאריך'])
         # df = df.dropna(subset=['New Patients Amount'])
         df['Date'] = df['תאריך']
         # df = df.drop(columns="_id")
