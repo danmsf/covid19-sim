@@ -34,7 +34,7 @@ def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
     covidIsrael = CovidIsraelUpdate(gov_url)
     covidIsrael.get_df()
 
-    df_xls = pd.read_excel(os.path.join(outdir, 'IsraelStatus.xlsx'), header=0)
+    df_xls = pd.read_csv(os.path.join(outdir, 'IsraelStatus.csv'))
     df_out = pd.concat([df_xls, covidIsrael.df])
     df_out['תאריך'] = pd.to_datetime(df_out['תאריך'])
     if outdir:
