@@ -36,14 +36,15 @@ class CovidIsraelUpdate:
         stats['total_recovered'] = doc.select('.corona-deadcontainer .corona-bold')[1].text
         stats['hospitalized_cases'] = doc.select('.corona-inhospital .corona-bold')[0].text
         stats['home_cases'] = doc.select('.corona-inhospital .corona-bold')[1].text
-
-        stats2 = {k: int(v.replace(",", "")) for k, v in stats.items()}
-        stats2['date'] = datetime.today().date()
+        stats2 = {k: v.replace(",", "") for k, v in stats.items()}
         return stats2
 
     def get_df(self):
         parsed = self._parse_doc()
         t = pd.DataFrame(parsed, index=[0])
+        t = t.apply(lambda x: pd.to_numeric(x, errors="coerce"))
+        t = t.fillna(0)
+        t['date'] = datetime.today().date()
         t = t[['date', 'tests_total', 'total_cases', 'hospitalized_cases', 'serious_cases', 'respiratory_cases', 'total_deaths',
                'tests_today', 'tests_first_positive', 'new_cases', 'easy_cases', 'mild_cases', 'total_recovered', 'home_cases']]
         cols_new = [
