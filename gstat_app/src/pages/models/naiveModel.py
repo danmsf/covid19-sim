@@ -67,7 +67,7 @@ def write():
         countryList = list(df_r.loc[mask]['CountryName'].unique())
     elif chosen=="Gstat Scenarios":
         st.subheader("Choose scenario")
-        scenario = st.selectbox("", ["Pessimistic (Countries with second wave)", "Average", "Optimistic (Countries without second wave)"], 0)
+        scenario = st.selectbox("", ["Pessimistic (Countries with second wave)", "Average", "Optimistic (Countries without second wave)"], 1)
         if scenario == "Pessimistic (Countries with second wave)":
             st.markdown("**Note:** Development of rate of infection in Israel will continue like in countries that "
                         "experienced a second wave (Hong Kong and Singapore).")
