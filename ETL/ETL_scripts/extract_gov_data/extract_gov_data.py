@@ -37,6 +37,8 @@ def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
     df_xls = pd.read_csv(os.path.join(outdir, 'IsraelStatus.csv'))
     df_out = pd.concat([df_xls, covidIsrael.df])
     df_out['תאריך'] = pd.to_datetime(df_out['תאריך'])
+    df_out['מספר מאומתים שהתווספו היום'] = ((df_out['מספר מאומתים'] - df_out['מספר מאומתים'].shift(periods=1)) / (
+                df_out['תאריך'] - df_out['תאריך'].shift(periods=1)).dt.days).fillna(0).astype(int)
     if outdir:
         df_out.to_csv(os.path.join(outdir, 'IsraelStatus.csv'), index=False)
         for df_name in df_names:
