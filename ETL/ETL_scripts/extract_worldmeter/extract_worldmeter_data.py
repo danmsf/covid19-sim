@@ -1,14 +1,16 @@
 from .utils.functions import *
 from .utils.nonsync import main as download_async
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 
+# driver = webdriver.Chrome(ChromeDriverManager().install())
 def main(outdir:IO)->None:
     # Validate
     handle_first_time()
 
     # create a new instance of Chrome
     logger.info('>>Opening chromium in background')
-    browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=options)
+    browser = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=options)
 
     # send a get request to the appropiate webpage
     # (in this case the download_dfs archive page from "The Wayback Machine" for "https://www.worldometers.info/coronavirus/")

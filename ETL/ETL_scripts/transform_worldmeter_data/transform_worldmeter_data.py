@@ -111,6 +111,11 @@ def main(indir: IO,
     # --------------------
     if outdir:
         all_data_c = pd.read_csv(os.path.join(outdir, 'all_dates.csv'))
+        # col = list(all_data.columns)
+        # col[16] = 't2'
+        # all_data.columns = col
+        # all_data['tests/_1m_pop'] = all_data[['tests/_1m_pop', 't2']].max(axis=1)
+        # all_data = all_data.drop(columns=['t2'])
         all_data = pd.concat([all_data_c, all_data])
         all_data.to_csv(os.path.join(outdir, 'all_dates.csv'), header=True, index=False)
         # all_data.to_csv(os.path.join(outdir, 'all_dates.csv'), mode='a', header=False)
