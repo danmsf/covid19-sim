@@ -34,7 +34,8 @@ files = ["כלל הארץ לשליחה 26.04.20 שעה 09.00.xlsx",
          "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_20_05_20_שעה_19_30.xlsx",
          "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_21_05_20_שעה_19_30.xlsx",
          "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_24_05_20_שעה_19_30.xlsx",
-         "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_25_05_20_שעה_19_30.xlsx"
+         "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_25_05_20_שעה_19_30.xlsx",
+         'דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_29_05_20_שעה_19_30.xlsx'
          ]
 
 dates = ['20200508',
@@ -47,13 +48,14 @@ dates = ['20200508',
          '20200519',
          '20200521',
          '20200524',
-         '20200525'
+         '20200525',
+         '20200529'
          ]
 
 file = files[-1]
 dt = dates[-1]
 
-t = pd.read_excel(path_in + file, skiprows=4)
+t = pd.read_excel(path_in + file, skiprows=4, sheet_name="כלל הארץ לפרסום")
 t = t.drop(columns=['Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12', 'Unnamed: 13', 'Unnamed: 14'])
 colnames = t.columns
 new_names = \
@@ -85,12 +87,20 @@ p23 = pd.read_csv(path_out + 'yishuv_' + '20200521' + ".csv")
 p23['date'] = pd.to_datetime('20200523')
 p24 = pd.read_csv(path_out + 'yishuv_' + '20200524' + ".csv")
 p25 = pd.read_csv(path_out + 'yishuv_' + '20200525' + ".csv")
-joined = pd.concat([p22, p23, p24, p25])
+
+p26 = pd.read_csv(path_out + 'yishuv_' + '20200525' + ".csv")
+p27 = pd.read_csv(path_out + 'yishuv_' + '20200525' + ".csv")
+p28 = pd.read_csv(path_out + 'yishuv_' + '20200525' + ".csv")
+p26['date'] = pd.to_datetime('20200526')
+p27['date'] = pd.to_datetime('20200527')
+p28['date'] = pd.to_datetime('20200528')
+
+joined = pd.concat([p26, p27, p28, t])
 joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
 yishuv_file = pd.read_csv(path_out + 'yishuv_file.csv')
 yishuv_file = pd.concat([yishuv_file, joined])
-yishuv_file['last_updated'] = pd.to_datetime('20200525')
+yishuv_file['last_updated'] = pd.to_datetime('20200529')
 yishuv_file['date'] = pd.to_datetime(yishuv_file['date']).dt.date
 yishuv_file.to_csv(path_out + 'yishuv_file.csv', index=False)
 
