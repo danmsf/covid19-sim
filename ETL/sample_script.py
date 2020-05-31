@@ -13,3 +13,5 @@ ETL_scripts.transform_worldmeter_data(indir=worldmeter_data_dir1,
 ETL_scripts.extract_gov_data(outdir=israel_data_dir)
 # ETL_scripts.extract_sheet_data(outdir=israel_data_dir)
 ETL_scripts.extract_regular_csvs(outdir=country_data_dir)
+
+# streamlit run ./gstat_app/app.py
