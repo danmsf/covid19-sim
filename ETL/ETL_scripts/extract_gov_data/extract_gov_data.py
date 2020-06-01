@@ -24,11 +24,16 @@ def main(outdir:Optional[IO]=None)->Union[namedtuple,None]:
 
     df_names = []
     for _, entry in df.iterrows():
-        response  = urllib.request.urlopen(entry["url"], entry['datastore_structure'])
-        s = json.loads(response.read())
-        records = s["result"]["records"]
-        data = pd.DataFrame(records).set_index("_id")
-        df_names.append([data,entry['name']])
+        try:
+            response = urllib.request.urlopen(entry["url"], entry['datastore_structure'])
+            s = json.loads(response.read())
+            records = s["result"]["records"]
+            data = pd.DataFrame(records).set_index("_id")
+            df_names.append([data,entry['name']])
+        except:
+            print('Failed on:')
+            print(entry)
+            pass
 
     gov_url = "https://govextra.gov.il/ministry-of-health/corona/corona-virus/"
     covidIsrael = CovidIsraelUpdate(gov_url)
