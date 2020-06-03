@@ -11,6 +11,12 @@ def write():
     country_df, _, lab_tests, israel_yishuv_df, israel_patients, isolation_df, tested_df = load_data(DEFAULTS, user_session_id)
     st.subheader('Israeli Data')
 
+    st.subheader('Health Ministry Dashboard')
+    st.markdown(
+        """
+        <iframe src="https://datadashboard.health.gov.il/COVID-19/" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+        """, unsafe_allow_html=True
+    )
 
     # Patients graph
     # patient_cols = ['New Patients Amount', 'Total Patients',
