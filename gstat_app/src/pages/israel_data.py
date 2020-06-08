@@ -14,7 +14,7 @@ def write():
     st.subheader('Health Ministry Dashboard')
     st.markdown(
         """
-        <iframe src="https://datadashboard.health.gov.il/COVID-19/" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+        <iframe src="https://datadashboard.health.gov.il/COVID-19/" style="width: 100%; height: 1200px; border: 0px none;"></iframe>
         """, unsafe_allow_html=True
     )
 
@@ -24,17 +24,18 @@ def write():
     #                 'Total Serious Condition Patients', 'New Dead Patients Amount',
     #                 'Total Dead Patients', 'Total Serious + Dead Patients',
     #                 'Lab Test Amount']
-    patient_cols = [c for c in list(israel_patients.columns) if c not in ['Date', 'תאריך']]
-    patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols,['מספר חולים במצב קשה'])
-    st.altair_chart(patients_status_chart(alt, israel_patients.loc[:, ['Date'] + patient_cols_selected]),
-                    use_container_width=True)
-    last_updated = israel_patients['Date'].dt.date.max()
-    st.markdown(
-        f"""
-        <p style='text-align:right;'><i>הערה: הנתונים מעודכנים שבוע אחורה בהתאם למדיניות הפרסום של משרד הבריאות</i></p>
-        <p style='text-align:right;'><i>תאריך נתונים אחרון: {last_updated}</i></p>
-        """, unsafe_allow_html=True
-    )
+    # Not updated anymore
+    # patient_cols = [c for c in list(israel_patients.columns) if c not in ['Date', 'תאריך']]
+    # patient_cols_selected = st.multiselect("Select Patients Columns:", patient_cols,['מספר חולים במצב קשה'])
+    # st.altair_chart(patients_status_chart(alt, israel_patients.loc[:, ['Date'] + patient_cols_selected]),
+    #                 use_container_width=True)
+    # last_updated = israel_patients['Date'].dt.date.max()
+    # st.markdown(
+    #     f"""
+    #     <p style='text-align:right;'><i>הערה: הנתונים מעודכנים שבוע אחורה בהתאם למדיניות הפרסום של משרד הבריאות</i></p>
+    #     <p style='text-align:right;'><i>תאריך נתונים אחרון: {last_updated}</i></p>
+    #     """, unsafe_allow_html=True
+    # )
 
     pil = init_olg_params(DEFAULTS['MODELS']['olg_params'])
     pil.countries = ['israel']

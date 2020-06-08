@@ -32,7 +32,7 @@ def main(indir: IO,
 
         # Discard first column due to it contains id information
         df = pd.read_csv(filename, index_col=[0], header=0)
-        df = df.iloc[:, 0:]
+        df = df.iloc[:, 1:]
 
         # Iterate over column mapper and rename columns names to desired names
         for pat, str in conversion_dict.items():
@@ -59,9 +59,24 @@ def main(indir: IO,
         print("No + sign found in New Cases")
         pass
     try:
+        disease_data['NewRecovered'] = disease_data['NewRecovered'].str.replace('[^\d]', '')
+    except:
+        print("No + sign found in NewRecovered")
+        pass
+    try:
+        disease_data['New Recovered'] = disease_data['New Recovered'].str.replace('[^\d]', '')
+    except:
+        print("No + sign found in NewRecovered")
+        pass
+    try:
         disease_data['New Deaths'] = disease_data['New Deaths'].str.replace('[^\d]', '')
     except:
         print("No + sign found in New Deaths")
+        pass
+    try:
+        disease_data['Total Recovered'] = disease_data['Total Recovered'].str.replace('[^\d]', '')
+    except:
+        print("No + sign found in NewRecovered")
         pass
     # disease_data['Deaths/1M pop'] = disease_data['Deaths/1M pop'].astype(str)
     # Sort df by date
@@ -89,13 +104,19 @@ def main(indir: IO,
     # --------------------
     # Read population raw_data
     # --------------------
-    population = pd.read_csv(POPULATION_CSV_PATH, index_col='id')
+    # population = pd.read_csv(POPULATION_CSV_PATH, index_col='id')
 
     # --------------------
     # Join raw_data
     # --------------------
-    all_data = disease_data.merge(population, how='left').fillna(0)
-
+    cols = ['total_cases', 'new_cases', 'total_deaths', 'new_deaths',
+       'total_recovered', 'new_recovered', 'activecases', 'serious_critical',
+       'tot_cases/1m_pop', 'tot_deaths/1m_pop', 'totaltests', 'tests/1m_pop',
+       'population']
+    for c in cols:
+        disease_data[c] = pd.to_numeric(disease_data[c].str.replace(",", "").replace(" ", ""))
+    # all_data = disease_data.merge(population, how='left').fillna(0)
+    all_data = disease_data.fillna(0)
     all_data['S'] = all_data['population']
     all_data['E'] = all_data.groupby('country')['activecases'].shift(4).fillna(0)
     all_data['I'] = all_data['activecases']

@@ -111,7 +111,7 @@ def patients_status_chart(alt, df: pd.DataFrame,):
 
 # @st.cache(allow_output_mutation=True)
 def test_results_chart(alt, df: pd.DataFrame, stacked='zero'):
-    cond = (df['is_first_test'] == "Yes")
+    cond = (df['is_first_Test'] == "Yes")
     lab_tests = df.loc[cond, ['result_date', 'corona_result']]
     agg_data = lab_tests.groupby(['result_date', 'corona_result']).size().reset_index(name='counts')
     return alt.Chart(agg_data).mark_area(tooltip=True, line=True).encode(

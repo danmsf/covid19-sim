@@ -11,7 +11,7 @@ class WorldMeterData:
 
     def parse_url(self, url):
         r = requests.get(url)
-        soup = BeautifulSoup(r)
+        soup = BeautifulSoup(r.content, "lxml")
         table = soup.select_one('#main_table_countries_today')
         headers = self._parse_headers(table)
         body = self._parse_body(table)

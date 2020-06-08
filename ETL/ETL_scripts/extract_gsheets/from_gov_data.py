@@ -37,7 +37,10 @@ files = ["כלל הארץ לשליחה 26.04.20 שעה 09.00.xlsx",
          "דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_25_05_20_שעה_19_30.xlsx",
          'דוח_אקסל_כלל_הארץ_כולל_מועצות_אזוריות_29_05_20_שעה_19_30.xlsx',
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_31_05_20_שעה_19_30.xlsx",
-         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_02_06_20_שעה_19_30.xlsx"
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_02_06_20_שעה_19_30.xlsx",
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_04_06_20_שעה_19_00.xlsx",
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_07_06_20_שעה_19_00.xlsx",
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_08_06_20_שעה_19_30.xlsx"
          ]
 
 dates = ['20200508',
@@ -53,7 +56,10 @@ dates = ['20200508',
          '20200525',
          '20200529',
          '20200531',
-         '20200602'
+         '20200602',
+         '20200604',
+         '20200607',
+         '20200608'
          ]
 
 file = files[-1]
@@ -85,16 +91,22 @@ t.to_csv(path_out + 'yishuv_' + dt + ".csv", index=False)
 
 # -----------------------------Join files------------------------
 
-p1 = pd.read_csv(path_out + 'yishuv_' + '20200531' + ".csv")
-p1['date'] = pd.to_datetime('20200601')
+p3 = pd.read_csv(path_out + 'yishuv_' + '20200602' + ".csv")
+p3['date'] = pd.to_datetime('20200603')
+p4 = pd.read_csv(path_out + 'yishuv_' + '20200604' + ".csv")
+p5 = pd.read_csv(path_out + 'yishuv_' + '20200604' + ".csv")
+p5['date'] = pd.to_datetime('20200605')
+p6 = pd.read_csv(path_out + 'yishuv_' + '20200604' + ".csv")
+p6['date'] = pd.to_datetime('20200606')
+p7 = pd.read_csv(path_out + 'yishuv_' + '20200607' + ".csv")
 
-
-joined = pd.concat([p1, t])
+joined = pd.concat([p3, p4, p5, p6, p7])
+joined = t
 joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
 yishuv_file = pd.read_csv(path_out + 'yishuv_file.csv')
 yishuv_file = pd.concat([yishuv_file, joined])
-yishuv_file['last_updated'] = pd.to_datetime('20200602')
+yishuv_file['last_updated'] = pd.to_datetime('20200608')
 yishuv_file['date'] = pd.to_datetime(yishuv_file['date']).dt.date
 yishuv_file.to_csv(path_out + 'yishuv_file.csv', index=False)
 

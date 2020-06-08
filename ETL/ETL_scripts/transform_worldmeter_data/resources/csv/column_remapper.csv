@@ -20,8 +20,8 @@ id,key,value
 19,^Country.*Territory,Country
 20,^Total Cured$,Total Recovered
 21,^1stcase$,Reported1st case
-22,'^Tot Deaths/1M pop$','Deaths/1M pop'
+22,'^Tot Deaths/1M pop$',Deaths/1M pop
 23,^NewRecovered$,New Recovered
-24,'^Deaths_1M_pop$','Tot Deaths/1M pop'
-25,'^Tot_Cases_1M_pop$','Tot Cases/1M pop'
-26,'^Tests__1M_pop_$','Tests/1M pop'
+24,^Deaths_1M_pop$,Tot Deaths/1M pop
+25,^Tot_Cases_1M_pop$,Tot Cases/1M pop
+26,^Tests__1M_pop_$,Tests/1M pop
