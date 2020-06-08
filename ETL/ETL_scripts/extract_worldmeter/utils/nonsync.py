@@ -7,7 +7,7 @@ from ..settings import  *
 import time
 import aiohttp
 from typing import IO
-
+from .parse_table import WorldMeterData
 
 async def fetch_html(url: str, session: ClientSession, **kwargs) -> str:
     resp = await session.request(method="GET", url=url, **kwargs)
@@ -42,8 +42,11 @@ async def to_file(url,session,outdir) -> None:
         return df
 
 async def to_pd(html,url,outdir ):
-    container = pd.read_html(html, match=READ_HTML_MATCH_PARAM)
-    df = container[0]
+    wmd = WorldMeterData()
+    # container = pd.read_html(html, match=READ_HTML_MATCH_PARAM)
+    # container = pd.read_html(html,attrs={"id": "main_table_countries_today"})
+    # df = container[0]
+    df = wmd.parse_url(url)
     df['ref'] = url
     date_str = re.search('\d{8}', url).group()
     date_obj = datetime.strptime(date_str, '%Y%m%d')
