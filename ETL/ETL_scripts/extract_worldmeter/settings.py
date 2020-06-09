@@ -17,7 +17,8 @@ WAYBACK_FULLPATH = WAYBACK_URL_BASE + "/*/" + SITE_URL
 URL_REGEX_PATTERN = WAYBACK_URL_BASE + "/\d{8}/" + SITE_URL
 
 # Selenium options
-CHROMEDRIVER_PATH= os.path.join(RESOURCE_DIR, 'chromedriver.exe')
+CHROMEDRIVER_PATH = os.path.join(RESOURCE_DIR, 'chromedriver.exe')
+CHROMEDRIVER_PATH = 'C:\\Users\\User\\.wdm\\drivers\\chromedriver\\83.0.4103.39\\win32\\chromedriver.exe'
 prefs = {"profile.managed_default_content_settings.images": 2}
 options = webdriver.ChromeOptions()
 options.add_argument('— incognito')

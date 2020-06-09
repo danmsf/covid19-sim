@@ -109,12 +109,17 @@ def main(indir: IO,
     # --------------------
     # Join raw_data
     # --------------------
+    #
     cols = ['total_cases', 'new_cases', 'total_deaths', 'new_deaths',
        'total_recovered', 'new_recovered', 'activecases', 'serious_critical',
-       'tot_cases/1m_pop', 'tot_deaths/1m_pop', 'totaltests', 'tests/1m_pop',
+       'tot_cases/1m_pop', 'tot_deaths/1m_pop', 'tests/1m_pop', 'totaltests',
        'population']
     for c in cols:
-        disease_data[c] = pd.to_numeric(disease_data[c].str.replace(",", "").replace(" ", ""))
+        try:
+            print(c)
+            disease_data[c] = pd.to_numeric(disease_data[c].str.replace(",", "").replace(" ", ""))
+        except:
+            pass
     # all_data = disease_data.merge(population, how='left').fillna(0)
     all_data = disease_data.fillna(0)
     all_data['S'] = all_data['population']

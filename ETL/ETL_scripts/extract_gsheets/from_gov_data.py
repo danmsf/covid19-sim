@@ -1,17 +1,6 @@
 import pandas as pd
 
-dt = '20200426'
-dt = '20200424'
-dt = '20200420'
 
-dt = '20200430'
-dt = '20200429'
-dt = '20200501'
-dt = '20200502'
-dt = '20200504'
-
-dt = '20200506'
-dt = '20200505'
 path_in = "C:\\Users\\User\\PycharmProjects\\covad19-sim\\ETL\\DW\\raw_data\\gov_yishuv\\"
 path_out = "C:\\Users\\User\\PycharmProjects\\covad19-sim\\Resources\\Datasets\\IsraelData\\"
 files = ["כלל הארץ לשליחה 26.04.20 שעה 09.00.xlsx",
@@ -40,7 +29,8 @@ files = ["כלל הארץ לשליחה 26.04.20 שעה 09.00.xlsx",
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_02_06_20_שעה_19_30.xlsx",
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_04_06_20_שעה_19_00.xlsx",
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_07_06_20_שעה_19_00.xlsx",
-         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_08_06_20_שעה_19_30.xlsx"
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_08_06_20_שעה_19_30.xlsx",
+         "1591719654425_דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_09_06_20.xlsx"
          ]
 
 dates = ['20200508',
@@ -59,7 +49,8 @@ dates = ['20200508',
          '20200602',
          '20200604',
          '20200607',
-         '20200608'
+         '20200608',
+         '20200609'
          ]
 
 file = files[-1]
@@ -106,7 +97,7 @@ joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
 yishuv_file = pd.read_csv(path_out + 'yishuv_file.csv')
 yishuv_file = pd.concat([yishuv_file, joined])
-yishuv_file['last_updated'] = pd.to_datetime('20200608')
+yishuv_file['last_updated'] = pd.to_datetime('20200609')
 yishuv_file['date'] = pd.to_datetime(yishuv_file['date']).dt.date
 yishuv_file.to_csv(path_out + 'yishuv_file.csv', index=False)
 
