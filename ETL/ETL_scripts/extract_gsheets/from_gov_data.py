@@ -30,7 +30,8 @@ files = ["כלל הארץ לשליחה 26.04.20 שעה 09.00.xlsx",
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_04_06_20_שעה_19_00.xlsx",
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_07_06_20_שעה_19_00.xlsx",
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_08_06_20_שעה_19_30.xlsx",
-         "1591719654425_דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_09_06_20.xlsx"
+         "1591719654425_דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_09_06_20.xlsx",
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_11_06_20_שעה_19_20.xlsx",
          ]
 
 dates = ['20200508',
@@ -50,7 +51,8 @@ dates = ['20200508',
          '20200604',
          '20200607',
          '20200608',
-         '20200609'
+         '20200609',
+         '20200611'
          ]
 
 file = files[-1]
@@ -82,22 +84,16 @@ t.to_csv(path_out + 'yishuv_' + dt + ".csv", index=False)
 
 # -----------------------------Join files------------------------
 
-p3 = pd.read_csv(path_out + 'yishuv_' + '20200602' + ".csv")
-p3['date'] = pd.to_datetime('20200603')
-p4 = pd.read_csv(path_out + 'yishuv_' + '20200604' + ".csv")
-p5 = pd.read_csv(path_out + 'yishuv_' + '20200604' + ".csv")
-p5['date'] = pd.to_datetime('20200605')
-p6 = pd.read_csv(path_out + 'yishuv_' + '20200604' + ".csv")
-p6['date'] = pd.to_datetime('20200606')
-p7 = pd.read_csv(path_out + 'yishuv_' + '20200607' + ".csv")
 
-joined = pd.concat([p3, p4, p5, p6, p7])
-joined = t
+p10 = pd.read_csv(path_out + 'yishuv_' + '20200609' + ".csv")
+p10['date'] = pd.to_datetime('20200610')
+
+joined = pd.concat([p10, t])
 joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
 yishuv_file = pd.read_csv(path_out + 'yishuv_file.csv')
 yishuv_file = pd.concat([yishuv_file, joined])
-yishuv_file['last_updated'] = pd.to_datetime('20200609')
+yishuv_file['last_updated'] = pd.to_datetime('20200611')
 yishuv_file['date'] = pd.to_datetime(yishuv_file['date']).dt.date
 yishuv_file.to_csv(path_out + 'yishuv_file.csv', index=False)
 

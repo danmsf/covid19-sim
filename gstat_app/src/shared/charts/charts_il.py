@@ -157,7 +157,7 @@ def yishuv_level_chart(alt, df: pd.DataFrame, by_pop=True):
     )
 
     # Draw text labels near the points, and highlight based on selection
-    text = line.mark_text(align='left', dx=5, dy=-5).encode(
+    text = line.mark_text(align='left', dx=5, dy=-1).encode(
         text=alt.condition(nearest, 'value', alt.value(' ')),
         y=alt.Y('value', axis=alt.Axis(labels=False, title='', tickOpacity=0)),
     )
