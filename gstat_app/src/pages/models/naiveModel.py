@@ -93,7 +93,7 @@ def write():
     olg_cols = ['ConfirmedCases',  'ConfirmedCasesPred', 'ConfirmedDeaths', 'Total Deaths Predicted', 'StringencyIndex',
        'Total Detected', 'Currently Active Detected Predicted', 'New Detected Predicted', 'Daily Critical Predicted',
        'Total Recovery Predicted']
-    olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted', 'New Detected Predicted'])
+    olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted'])
 
     st.altair_chart(
         olg_projections_chart(alt,

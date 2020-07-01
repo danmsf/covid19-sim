@@ -3,6 +3,35 @@ import pandas as pd
 
 path_in = "C:\\Users\\User\\PycharmProjects\\covad19-sim\\ETL\\DW\\raw_data\\gov_yishuv\\"
 path_out = "C:\\Users\\User\\PycharmProjects\\covad19-sim\\Resources\\Datasets\\IsraelData\\"
+
+
+def make_file(file, dt):
+    t = pd.read_excel(path_in + file, skiprows=4, sheet_name="כלל הארץ לפרסום")
+    t = t.drop(columns=['Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12', 'Unnamed: 13', 'Unnamed: 14'])
+    colnames = t.columns
+    new_names = \
+        [
+            "יישוב",
+            "pop2018",
+            "מספר נבדקים",
+            "מספר חולים מאומתים",
+            "מספר מחלימים",
+            "pct_growth_3",
+            "last3days",
+            "per_100k",
+            "junk",
+        ]
+    t.columns = new_names
+    t = t.melt(id_vars=new_names[0:2], value_vars=new_names[2:])
+    t = t[~t['variable'].isin(['pct_growth_3', 'junk', 'per_100k'])]
+    t['value'] = pd.to_numeric(t['value'], errors='coerce').fillna(0).astype(int)
+    t = t.rename(columns={'variable': 'סוג מידע'})
+    t['date'] = pd.to_datetime(dt)
+    t.loc[:, 'StringencyIndex'] = None
+    t.to_csv(path_out + 'yishuv_' + dt + ".csv", index=False)
+    return t
+
+
 files = ["כלל הארץ לשליחה 26.04.20 שעה 09.00.xlsx",
          "כלל הארץ 24.04.20 לשליחה.xlsx",
          "20.04 כלל הארץ לשליחה.xlsx",
@@ -42,7 +71,10 @@ files = ["כלל הארץ לשליחה 26.04.20 שעה 09.00.xlsx",
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_25_06_20_שעה_10_30.xlsx",
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_26_06_20_שעה_18_00.xlsx",
          "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_27_06_20_שעה_21_30.xlsx",
-         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_28_06_20_שעה_10_30.xlsx"
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_28_06_20_שעה_10_30.xlsx",
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_29_06_20_שעה_11_30.xlsx",
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_30_06_20_שעה_19_00.xlsx",
+         "דוח_אקסל_חדש_כלל_הארץ_כולל_מועצות_אזוריות_01_07_20_שעה_10_30.xlsx",
          ]
 
 dates = ['20200508',
@@ -75,46 +107,26 @@ dates = ['20200508',
          '20200626',
          '20200627',
          '20200628',
+         '20200629',
+         '20200630',
+         '20200701',
          ]
 
 file = files[-1]
 dt = dates[-1]
-
-t = pd.read_excel(path_in + file, skiprows=4, sheet_name="כלל הארץ לפרסום")
-t = t.drop(columns=['Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12', 'Unnamed: 13', 'Unnamed: 14'])
-colnames = t.columns
-new_names = \
-    [
-        "יישוב",
-        "pop2018",
-        "מספר נבדקים",
-        "מספר חולים מאומתים",
-        "מספר מחלימים",
-        "pct_growth_3",
-        "last3days",
-        "per_100k",
-        "junk",
-    ]
-t.columns = new_names
-t = t.melt(id_vars=new_names[0:2], value_vars=new_names[2:])
-t = t[~t['variable'].isin(['pct_growth_3', 'junk', 'per_100k'])]
-t['value'] = pd.to_numeric(t['value'], errors='coerce').fillna(0).astype(int)
-t = t.rename(columns={'variable': 'סוג מידע'})
-t['date'] = pd.to_datetime(dt)
-t.loc[:, 'StringencyIndex'] = None
-t.to_csv(path_out + 'yishuv_' + dt + ".csv", index=False)
+make_file(file, dt)
 
 # -----------------------------Join files------------------------
 
-p26 = pd.read_csv(path_out + 'yishuv_' + '20200626' + ".csv")
-p28 = pd.read_csv(path_out + 'yishuv_' + '20200627' + ".csv")
-joined = pd.concat([p26, p27])
-joined = t
+p29 = pd.read_csv(path_out + 'yishuv_' + '20200629' + ".csv")
+p30 = pd.read_csv(path_out + 'yishuv_' + '20200630' + ".csv")
+p01 = pd.read_csv(path_out + 'yishuv_' + '20200701' + ".csv")
+joined = pd.concat([p29, p30, p01])
 joined = joined.dropna(subset=['יישוב', 'pop2018'])
 
 yishuv_file = pd.read_csv(path_out + 'yishuv_file.csv')
 yishuv_file = pd.concat([yishuv_file, joined])
-yishuv_file['last_updated'] = pd.to_datetime('20200628')
+yishuv_file['last_updated'] = pd.to_datetime('20200701')
 yishuv_file['date'] = pd.to_datetime(yishuv_file['date']).dt.date
 yishuv_file.to_csv(path_out + 'yishuv_file.csv', index=False)
 
