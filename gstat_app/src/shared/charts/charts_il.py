@@ -189,6 +189,6 @@ def yishuv_bar_chart(alt, source):
     return (alt.layer(
         hbar
     ).properties(
-        width=600, height=1400, title="New cases in last 3 days"
+        width=600, height=1500, title="New cases in last 3 days"
     ).resolve_scale(y='independent').interactive()
             )
