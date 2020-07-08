@@ -184,6 +184,10 @@ def yishuv_bar_chart(alt, source):
     hbar = alt.Chart(source).mark_bar(tooltip=True).encode(
         x=alt.X('max(value):Q', title=""),
         y=alt.Y('Yishuv:O', sort=sorted_city[::-1], title=""),
+        tooltip=[
+            alt.Tooltip("Yishuv:O", title="City"),
+            alt.Tooltip("max(value):Q", title="Cases"),
+        ]
     )
 
     return (alt.layer(
