@@ -14,7 +14,7 @@ def write():
     st.subheader('Health Ministry Dashboard')
     st.markdown(
         """
-        <iframe src="https://datadashboard.health.gov.il/COVID-19/" style="width: 100%; height: 1200px; border: 0px none;"></iframe>
+        <iframe src="https://go.gov.il/dashwebcovi19" style="width: 100%; height: 1200px; border: 0px none;"></iframe>
         """, unsafe_allow_html=True
     )
 
