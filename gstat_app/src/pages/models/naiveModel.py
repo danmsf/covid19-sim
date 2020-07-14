@@ -70,14 +70,14 @@ def write():
         scenario = st.selectbox("", ["Pessimistic (Countries with second wave)", "Average", "Optimistic (Countries without second wave)"], 1)
         if scenario == "Pessimistic (Countries with second wave)":
             st.markdown("**Note:** Development of rate of infection in Israel will continue like in countries that "
-                        "experienced a second wave (Hong Kong and Singapore).")
+                        "experienced a second wave (Iran Germany and Australia).")
         if scenario == "Optimistic (Countries without second wave)":
             st.markdown("**Note:** Development of rate of infection in Israel will continue like in countries that did not "
                         "experienced a second wave (China, South Korea and Switzerland).")
         if scenario == "Average":
             st.markdown("**Note:** Development of rate of infection in Israel will continue as an average of multiple countries.")
-        scenario_dict = {"Pessimistic (Countries with second wave)": ["Hong Kong", "Singapore"],
-                         "Average": ["Hong Kong", "Singapore", "China", "South Korea", "Switzerland"],
+        scenario_dict = {"Pessimistic (Countries with second wave)": ["Iran", "Germany", "Australia"],
+                         "Average": ["Hong Kong", "Singapore", "China", "South Korea", "Switzerland", "Iran", "Germany", "Australia"],
                          "Optimistic (Countries without second wave)": ["China", "South Korea", "Switzerland"]}
 
         countryList = scenario_dict[scenario]
