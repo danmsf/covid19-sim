@@ -94,10 +94,10 @@ def write():
        'Total Detected', 'Currently Active Detected Predicted', 'New Detected Predicted', 'Daily Critical Predicted',
        'Total Recovery Predicted']
     olg_cols_select = st.multiselect('Select Prediction Columns', olg_cols, ['Daily Critical Predicted'])
-
+    days_proj = pd.to_datetime('today') + pd.to_timedelta(20, "day")
     st.altair_chart(
         olg_projections_chart(alt,
-                              dd.loc[:, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select],
+                              dd.loc[dd['date']<days_proj, ['date', 'corona_days', 'country', 'prediction_ind'] + olg_cols_select],
                               "GSTAT Model Projections", False),
         use_container_width=True,
     )
