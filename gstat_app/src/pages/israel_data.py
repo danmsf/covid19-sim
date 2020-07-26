@@ -77,7 +77,7 @@ def write():
     israel_yishuv_df_plot = israel_yishuv_df.loc[(israel_yishuv_df['Yishuv'].isin(yishuvim) &
                                              israel_yishuv_df['סוג מידע'].isin([sel_vars])), :].copy()
 
-
+    st.warning("Data by City is not published consistently by the Government. For this application missing days were filled with previous days data")
     if st.checkbox("Show per 1,000 inhabitants", True):
         st.altair_chart(yishuv_level_chart(alt, israel_yishuv_df_plot), use_container_width=True)
     else:

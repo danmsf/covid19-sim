@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 import os
 
-# import json
+import json
 
 url = "https://datadashboardapi.health.gov.il/api/queries/_batch"
 
@@ -63,6 +63,9 @@ general = ["updatedPatientsOverallStatus", "infectedByAgeAndGenderPublic", "isol
 data_path = os.path.join(os.getcwd(), "Resources", "Datasets", "IsraelData")
 tables = {}
 data = r2.json()
+with open(os.path.join(os.getcwd(), "Resources", "Datasets", "IsraelData",'data.json'), 'w', encoding='utf-8') as f:
+    json.dump(data, f, ensure_ascii=False, indent=4)
+
 for i, query in enumerate(payload['requests']):
     queryName = query['queryName']
     if queryName == 'lastUpdate':
